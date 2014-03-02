@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Ceph All-in-one Scripts"
-tagline : "Ceph All-in-one Scripts"
+tagline : "Single node ceph build and installation scripts"
 description: "Ceph All-in-one Scripts"
 category: "ceph"
 tags: [cloud, storage, filesystem, ceph]
@@ -12,8 +12,10 @@ While learning manual deployment of ceph on single node, I wrote these scripts t
 
 Currently I've been using it on Ubuntu Server 12.04. To use it on redhat based systems you need to modifiy `inst-ceph-dep.ubuntu.sh`, which installs ceph dependencies. Hope it has some use for you :-)
 
-[ceph-allinone](https://github.com/AIcarus/ceph-allinone)
+ceph-all-in-one
 ===================
+
+Link [https://github.com/AIcarus/ceph-allinone](https://github.com/AIcarus/ceph-allinone)
 
 Shell scripts to build ceph from source and install monitor & OSD services on single node (i.e. ceph storage cluster). Made easy to do quick and fresh-clean re-install. 
 
