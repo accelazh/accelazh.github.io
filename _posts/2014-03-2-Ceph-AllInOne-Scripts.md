@@ -12,7 +12,7 @@ While learning manual deployment of ceph on single node, I wrote these scripts t
 
 Currently I've been using it on Ubuntu Server 12.04. To use it on redhat based systems you need to modifiy `inst-ceph-dep.ubuntu.sh`, which installs ceph dependencies. Hope it has some use for you :-)
 
-ceph-all-in-one
+[Ceph-all-in-one](https://github.com/AIcarus/ceph-allinone)
 ===================
 
 Link [https://github.com/AIcarus/ceph-allinone](https://github.com/AIcarus/ceph-allinone)
