@@ -14,7 +14,7 @@ Currently I've been using it on Ubuntu Server 12.04. To use it on redhat based s
 
 ## [Ceph-all-in-one](https://github.com/AIcarus/ceph-allinone)
 
-Link [https://github.com/AIcarus/ceph-allinone](https://github.com/AIcarus/ceph-allinone)
+Link: [https://github.com/AIcarus/ceph-allinone](https://github.com/AIcarus/ceph-allinone)
 
 Shell scripts to build ceph from source and install monitor & OSD services on single node (i.e. ceph storage cluster). Made easy to do quick and fresh-clean re-install. 
 
