@@ -12,8 +12,7 @@ While learning manual deployment of ceph on single node, I wrote these scripts t
 
 Currently I've been using it on Ubuntu Server 12.04. To use it on redhat based systems you need to modifiy `inst-ceph-dep.ubuntu.sh`, which installs ceph dependencies. Hope it has some use for you :-)
 
-[Ceph-all-in-one](https://github.com/AIcarus/ceph-allinone)
-===================
+## [Ceph-all-in-one](https://github.com/AIcarus/ceph-allinone)
 
 Link [https://github.com/AIcarus/ceph-allinone](https://github.com/AIcarus/ceph-allinone)
 
@@ -23,8 +22,7 @@ Although these scripts help you quickly build a single node ceph storage cluster
 
 Installation process follows [Ceph Manual Deploy](http://ceph.com/docs/master/install/manual-deployment/). `ceph-deploy` tool is not used. Because it is inconvenient to install from your own modified copy of source code using ceph-deploy. 
 
-Usage
----------------------------------------
+## Usage
 
 Prepare Ubuntu Server 12.04 system. It is recommended to use a clean system and not to login as root account. ssh to the host and clone [ceph-allinone](https://github.com/AIcarus/ceph-allinone).
 
@@ -57,8 +55,7 @@ If `config-all.sh` says success in the end and printed out how-to-use, it means 
 
 Note that no service are installed into /etc/init.d or system service. You will have to use start-*/stop-* scripts to manage them.
 
-Optional Usage
----------------------------------------
+## Optional Usage
 
 Use connect.sh to enter ceph command line and check status and health.
 
@@ -125,8 +122,7 @@ Like `purge-all.sh`, `config-all.sh` won't touch git download source code, make 
 
 If you have modified ceph code, of course before `config.sh` you need to make and make install.
 
-Limitations
----------------------------------------
+## Limitations
 
 Thess scripts have only been tested on Ubuntu Server 12.04. 
 
