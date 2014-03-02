@@ -1,7 +1,7 @@
 ---
 layout: page
-title: Tech Rest
-tagline: Tie Wei's blog
+title: Solar Wings
+tagline: Accela Zhao's blog
 ---
 
 {% include JB/setup %}
