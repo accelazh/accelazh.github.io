@@ -22,6 +22,7 @@ During stack.sh installation:
   2. Devstack/clean.sh can be use to clean all and re-install. But it won't remove git repos under /opt/stack/*.
   3. Devstack has havana branch. You must use it if you install openstack in havana branch.
   4. Ceilometer-dbsync raises "_init_\_() got an unexpected keyword argument 'match'" while stack.sh installing. This is because alembic has incorrect version (use pip list to see). alembic should >=0.4.1 and <= 0.6.3, even though ceilometer's requirements.txt only specifies >=0.4.1.
+  5. /etc/nova/nova.conf logging_XXX_suffix/prefix, log_XXX_format_string options contain "%(color)s". It writes control characters into nova log, making reading hard.
 
 After stack.sh completes:
 
