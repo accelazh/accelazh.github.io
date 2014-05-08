@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Accela Zhao's Blog
+title: Accela's Blog
 tagline: Have Fun!
 ---
 

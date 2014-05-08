@@ -1,7 +1,7 @@
 ---
 layout: page
 title : About
-header : About Accela Zhao's Blog 
+header : About Accela's Blog 
 group: navigation
 ---
 

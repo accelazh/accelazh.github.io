@@ -2,4 +2,4 @@
 
 他很懒，什么都没留下……
 
-This is Accela Zhao's personal blog.
+This is Accela's personal blog.
