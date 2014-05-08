@@ -12,7 +12,7 @@ Using devstack to install openstack all-in-one on ubuntu should be simple and qu
 
 ##Environment
 
-I'm installaing openstack stable/havana branch on ubuntu server 12.04. Ceilometer is also installed.
+I'm installaing openstack stable/havana branch on ubuntu server 12.04. Ceilometer is also installed. I'm using devstack stable/havana branch.
 
 ##Pitfalls
 
