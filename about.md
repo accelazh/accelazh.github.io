@@ -1,7 +1,7 @@
 ---
 layout: page
 title : About
-header : About Solar Wings Blog 
+header : About Accela Zhao's Blog 
 group: navigation
 ---
 
@@ -9,7 +9,7 @@ group: navigation
 
 ## About This Blog | 关于这个博客
 
-这里是Accela Zhao的个人博客。他的故事埋藏于此。
+他很懒，什么都没留下……
 
 This is Accela Zhao's personal blog.
 

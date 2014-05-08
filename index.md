@@ -1,7 +1,7 @@
 ---
 layout: page
-title: Solar Wings
-tagline: Accela Zhao's blog
+title: Accela Zhao's Blog
+tagline: Have Fun!
 ---
 
 {% include JB/setup %}
