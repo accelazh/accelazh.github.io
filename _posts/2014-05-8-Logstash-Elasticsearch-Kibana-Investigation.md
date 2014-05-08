@@ -38,24 +38,24 @@ LEK are lightweight and relatively free to architect. Various materials provide 
 * Basic Architectures
     * Shipper -> (Logstash Receiver ->) Redis -> Logstash Indexer -> Elasticsearch (cluster)
         * Shipper: run on production server. Read local log, send to remote. Can use Logstash, Lumberjack, beaver and so on.
-            [\[http://cookbook.logstash.net/recipes/log-shippers/\]](http://cookbook.logstash.net/recipes/log-shippers/)
+          [\[http://cookbook.logstash.net/recipes/log-shippers/\]](http://cookbook.logstash.net/recipes/log-shippers/)
         * Logstash Receiver: receive log from shipper and put into Redis. Most shipper can send directly to Redis, except Lumberjack.
         * Redis: acts as the queue. This role is also called broker. You can also use AMPQ.
         * Logstash Indexer: transform log format. Called 'indexer' but actually elasticsearch is who does indexing.
         * How Logstash transform log - grok - structure decompositable regex
-            [\[http://semicomplete.com/presentations/logstash-puppetconf-2012/#/38\]](http://semicomplete.com/presentations/logstash-puppetconf-2012/#/38)
+          [\[http://semicomplete.com/presentations/logstash-puppetconf-2012/#/38\]](http://semicomplete.com/presentations/logstash-puppetconf-2012/#/38)
         * ElasticSearch: indexing and search. Mature for HA and scaling cluster.
     * Offical's very basic guide
        [\[http://logstash.net/docs/1.1.0/tutorials/getting-started-centralized\]](http://logstash.net/docs/1.1.0/tutorials/getting-started-centralized)
         * Logstash supports all kinds of input/filter/output.
         * Logstash support input from rsyslog/collectd/log4j. You can use server's default logging.
-            [\[http://logstash.net/docs/1.4.1/\]](http://logstash.net/docs/1.4.1/)
+          [\[http://logstash.net/docs/1.4.1/\]](http://logstash.net/docs/1.4.1/)
     * Collect & visualize your logs with Logstash, Elasticsearch & Redis
-       [\[http://michael.bouvy.net/blog/en/2013/11/19/collect-visualize-your-logs-logstash-elasticsearch-redis-kibana/\]](http://michael.bouvy.net/blog/en/2013/11/19/collect-visualize-your-logs-logstash-elasticsearch-redis-kibana/)
+      [\[http://michael.bouvy.net/blog/en/2013/11/19/collect-visualize-your-logs-logstash-elasticsearch-redis-kibana/\]](http://michael.bouvy.net/blog/en/2013/11/19/collect-visualize-your-logs-logstash-elasticsearch-redis-kibana/)
         * Nice architecture picture
         * Suggested to use Lumberjack shipper
     * Centralizing Logs with Lumberjack, Logstash, and Elasticsearch
-       [\[http://www.vmdoh.com/blog/centralizing-logs-lumberjack-logstash-and-elasticsearch\]](http://www.vmdoh.com/blog/centralizing-logs-lumberjack-logstash-and-elasticsearch)
+      [\[http://www.vmdoh.com/blog/centralizing-logs-lumberjack-logstash-and-elasticsearch\]](http://www.vmdoh.com/blog/centralizing-logs-lumberjack-logstash-and-elasticsearch)
         * Shipping with Lumberjack (logstash-forwarder)
         * Another shipper option Rsyslog
     * Centralized logging system based on Logstash-forwarder+Logstash+RabbitMQ+ElasticSearch+Kibana
