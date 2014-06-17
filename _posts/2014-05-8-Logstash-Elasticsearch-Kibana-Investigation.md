@@ -2,7 +2,7 @@
 layout: post
 title: "Logstash Elasticsearch Kibana Investigation"
 tagline : " Get to know LEK"
-description: "Openstack allinone on Ubuntu with Ceilometer"
+description: "Investigation on Elasticsearch stack"
 category: "elasticsearch"
 tags: [cloud, openstack, search, logging]
 ---
