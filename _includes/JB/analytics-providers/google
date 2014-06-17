@@ -11,6 +11,6 @@
         m.parentNode.insertBefore(a, m)
     })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
 
-    ga('create', '{{ site.JB.analytics.google.tracking_id }}', 'AIcarus.github.io');
+    ga('create', '{{ site.JB.analytics.google.tracking_id }}', 'accelazh.github.io');
     ga('send', 'pageview');
 </script>

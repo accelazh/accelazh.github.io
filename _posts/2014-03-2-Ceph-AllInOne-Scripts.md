@@ -12,9 +12,9 @@ While learning manual deployment of ceph on single node, I wrote these scripts t
 
 Currently I've been using it on Ubuntu Server 12.04. To use it on redhat based systems you need to modifiy `inst-ceph-dep.ubuntu.sh`, which installs ceph dependencies. Hope it has some use for you :-)
 
-## [Ceph-all-in-one](https://github.com/AIcarus/ceph-allinone)
+## [Ceph-all-in-one](https://github.com/accelazh/ceph-allinone)
 
-Link: [https://github.com/AIcarus/ceph-allinone](https://github.com/AIcarus/ceph-allinone)
+Link: [https://github.com/accelazh/ceph-allinone](https://github.com/accelazh/ceph-allinone)
 
 Shell scripts to build ceph from source and install monitor & OSD services on single node (i.e. ceph storage cluster). Made easy to do quick and fresh-clean re-install. 
 
@@ -24,10 +24,10 @@ Installation process follows [Ceph Manual Deploy](http://ceph.com/docs/master/in
 
 ## Usage
 
-Prepare Ubuntu Server 12.04 system. It is recommended to use a clean system and not to login as root account. ssh to the host and clone [ceph-allinone](https://github.com/AIcarus/ceph-allinone).
+Prepare Ubuntu Server 12.04 system. It is recommended to use a clean system and not to login as root account. ssh to the host and clone [ceph-allinone](https://github.com/accelazh/ceph-allinone).
 
 ```bash
-git clone https://github.com/AIcarus/ceph-allinone.git
+git clone https://github.com/accelazh/ceph-allinone.git
 cd ceph-allinone
 ```
 
