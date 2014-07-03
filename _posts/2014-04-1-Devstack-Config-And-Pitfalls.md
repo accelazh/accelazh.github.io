@@ -8,6 +8,8 @@ tags: [cloud, openstack, devstack]
 ---
 {% include JB/setup %}
 
+*[The blog screwed up markdown format. See better formatted version here.](https://github.com/accelazh/accelazh.github.io/blob/master/_posts/2014-04-1-Devstack-Config-And-Pitfalls.md)*
+
 Using devstack to install openstack all-in-one on ubuntu should be simple and quick. But there are quite a few pitfalls while using this tool.
 
 Versions
