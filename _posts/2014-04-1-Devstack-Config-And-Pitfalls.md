@@ -20,21 +20,21 @@ Installation Pitfalls
 
 During stack.sh installation:
 
-    Rabbitmq requires hostname, /etc/hosts and /etc/hostname in consist. Otherwise stack.sh complains on "rabbitmqctl status" command.
+  * Rabbitmq requires hostname, /etc/hosts and /etc/hostname in consist. Otherwise stack.sh complains on "rabbitmqctl status" command.
 
-    Devstack/clean.sh can be use to clean all and re-install. But it won't remove git repos under /opt/stack/*.
+  * Devstack/clean.sh can be use to clean all and re-install. But it won't remove git repos under /opt/stack/*.
 
-    Devstack has havana branch. You must use it if you install openstack in havana branch.
+  * Devstack has havana branch. You must use it if you install openstack in havana branch.
 
-    Ceilometer-dbsync raises "_init_\_() got an unexpected keyword argument 'match'" while stack.sh installing. This is because alembic has incorrect version (use pip list to see). alembic should >=0.4.1 and <= 0.6.3, even though ceilometer's requirements.txt only specifies >=0.4.1.
+  * Ceilometer-dbsync raises "_init_\_() got an unexpected keyword argument 'match'" while stack.sh installing. This is because alembic has incorrect version (use pip list to see). alembic should >=0.4.1 and <= 0.6.3, even though ceilometer's requirements.txt only specifies >=0.4.1.
 
-    Ceilometer should use mongodb rather than mysql. Otherwise horizon /admin/metering raises HTTPInternalServerError. Devstack defaults to use mysql, so you have to add CEILOMETER_BACKEND=mongodb in local.conf.
+  * Ceilometer should use mongodb rather than mysql. Otherwise horizon /admin/metering raises HTTPInternalServerError. Devstack defaults to use mysql, so you have to add CEILOMETER_BACKEND=mongodb in local.conf.
 
-    Devstack may install mongodb with lower version than required (>=2.2). Recommend you install 2.2.3.
+  * Devstack may install mongodb with lower version than required (>=2.2). Recommend you install 2.2.3.
 
 After stack.sh completes:
 
-    /etc/nova/nova.conf logging_XXX_suffix/prefix, log_XXX_format_string options contain "%(color)s". It writes control characters into nova log, making reading hard.  
+  * /etc/nova/nova.conf logging_XXX_suffix/prefix, log_XXX_format_string options contain "%(color)s". It writes control characters into nova log, making reading hard.  
     ```
     logging_exception_prefix = %(asctime)s.%(msecs)03d TRACE %(name)s %(instance)s
     logging_debug_format_suffix = (pid=%(process)d) %(funcName)s %(pathname)s:%(lineno)d
@@ -42,14 +42,14 @@ After stack.sh completes:
     logging_context_format_string = %(asctime)s.%(msecs)03d %(levelname)s %(name)s %(request_id)s %(user_name)s %(project_name)s %(instance)s%(message)s
     ```
 
-    Horizon logging, horizon/openstack_dashboard/local/local_settigns.py, set log level to INFO. Change it to DEBUG.
+  * Horizon logging, horizon/openstack_dashboard/local/local_settigns.py, set log level to INFO. Change it to DEBUG.
 
-    Change timezone, so that log has correct timestamp.  
+  * Change timezone, so that log has correct timestamp.  
     ```
     sudo dpkg-reconfigure tzdata
     ```
 
-    Since our developing has added new mysql tables to nova, we need db sync.  
+  * Since our developing has added new mysql tables to nova, we need db sync.  
     ```
     source ~/workspace/devstack/accrc/admin/admin
     nova-manage db sync
@@ -58,21 +58,21 @@ After stack.sh completes:
     sudo ~/startnova.sh
     ```
 
-    Install **brctl** command if missing. It is needed for set up vm networking. See  
+  * Install **brctl** command if missing. It is needed for set up vm networking. See  
     [http://openstack.redhat.com/forum/discussion/952/problem-creating-instances-no-valid-host/p1]
 
-    Devstack rejoin-stack.sh will enter "screen" shell. To exit, use ctrl-a-d. See  
+  * Devstack rejoin-stack.sh will enter "screen" shell. To exit, use ctrl-a-d. See  
     [http://www.ibm.com/developerworks/cn/linux/l-cn-screen/]
 
-    VM Fusion's VM, after restart, may change IP address. This corrupts Openstack installed on it. To set static IP for VM Fusion's VM, see  
+  * VM Fusion's VM, after restart, may change IP address. This corrupts Openstack installed on it. To set static IP for VM Fusion's VM, see  
     [http://andrewelkins.com/linux/vmware-fusion-5-set-static-ip-address/]
 
-    KVMQoS needs CGroup running. How to launch:  
+  * KVMQoS needs CGroup running. How to launch:  
     ```
     /etc/init.d/cgroup-lite start   # ubuntu only
     ```
 
-    KVMQoS needs libvirt version 0.9.13, you may need upgrade. Also upgrade python-libvirt to the same version.  
+  * KVMQoS needs libvirt version 0.9.13, you may need upgrade. Also upgrade python-libvirt to the same version.  
     ```
     # first add "deb http://cn.archive.ubuntu.com/ubuntu/ quantal main restricted" to /etc/apt/source.list
     sudo apt-get update
@@ -80,7 +80,7 @@ After stack.sh completes:
     sudo apt-get install -y python-libvirt # libvirt-bin, libvirt0 will also be installed
     ```
 
-    KVMQoS has modified nova's policy.json, need to update it.
+  * KVMQoS has modified nova's policy.json, need to update it.
 
 local.conf
 ===
@@ -139,7 +139,7 @@ Scripts to Start/Stop Nova
 
 On default, openstack services (by devstack) log to screen. Devstack write screen log down to /opt/stack/logs/screen/*. But, by using these scripts, nova log is written to /var/log/nova/* (**you have to create the folder permission**).
 
-    Start nova - startnova.sh  
+  * Start nova - startnova.sh  
     ```
     #!/bin/bash
 
@@ -161,7 +161,7 @@ On default, openstack services (by devstack) log to screen. Devstack write scree
     swift-init --run-dir=/opt/stack/data/swift/run all start
     ```
 
-    Stop nova - stopnova.sh  
+  * Stop nova - stopnova.sh  
     ```
     #!/bin/bash
 
@@ -181,11 +181,11 @@ On default, openstack services (by devstack) log to screen. Devstack write scree
 
 h2. Others Issues
 
-    Horizon, which is django, runs on Apache. After editing code, if without restarting Apache, the code won't be reloaded.
+  * Horizon, which is django, runs on Apache. After editing code, if without restarting Apache, the code won't be reloaded.
 
-    Horizon log is at /opt/stack/logs/screen/screen-horizon*.log and /var/log/apache/horizon*.log
+  * Horizon log is at /opt/stack/logs/screen/screen-horizon*.log and /var/log/apache/horizon*.log
 
-    Openstack services log in specific format. Log type is written as "2014-05-16 10:10:30.259 **ERROR** ...". So to grep for errors, you only need to "grep **ERROR**"  
+  * Openstack services log in specific format. Log type is written as "2014-05-16 10:10:30.259 **ERROR** ...". So to grep for errors, you only need to "grep **ERROR**"  
     ```
     2014-05-16 10:10:30.259 ERROR nova.openstack.common.rpc.amqp req-2ccfcdc7-540c-4550-8e67-e4f175ceb865 admin demo Exception during message handling
     2014-05-16 10:10:30.259 TRACE nova.openstack.common.rpc.amqp Traceback (most recent call last):
@@ -194,20 +194,20 @@ h2. Others Issues
     ...
     ```
 
-    If host doesn't have enough memory (free \-m), launch instance can raise ERROR. See  
+  * If host doesn't have enough memory (free \-m), launch instance can raise ERROR. See  
     [http://openstack.redhat.com/forum/discussion/952/problem-creating-instances-no-valid-host/p1]
 
-    When VM launch failed in Horizon, few error info is given. However, using nova cli to launch VM usually show more hints.  
+  * When VM launch failed in Horizon, few error info is given. However, using nova cli to launch VM usually show more hints.  
     [http://docs.openstack.org/grizzly/basic-install/yum/content/basic-install_operate.html]  
     ```
     nova boot --flavor 1 --image <image_id> --key-name default_key my_instance
     ```
 
-    Even though my startnova.sh and devstack/rejoin-stack.sh both can launch openstack services. If you run both of them, some services such as nova-scheduler will be started twice, causing trouble.
+  * Even though my startnova.sh and devstack/rejoin-stack.sh both can launch openstack services. If you run both of them, some services such as nova-scheduler will be started twice, causing trouble.
 
-    When using startnova.sh, if you first ./startnova.sh, then rm \-rf /var/log/nova/*. Then nova won't output any logs. So don't remove log files, while nova running.
+  * When using startnova.sh, if you first ./startnova.sh, then rm \-rf /var/log/nova/*. Then nova won't output any logs. So don't remove log files, while nova running.
 
-    A convenient code snap to restart service for debugging.  
+  * A convenient code snap to restart service for debugging.  
     ```
     sudo ~/stopnova.sh
     rm -rf /var/log/nova/*
@@ -217,7 +217,7 @@ h2. Others Issues
     grep -r ERROR /var/log/nova/*
     ```
 
-    Swift on defaut log to /dev/log, i.e. /var/log/syslog
-    
-    All right, so after all the correct setup, log is the best place to find "ERROR".
+  * Swift on defaut log to /dev/log, i.e. /var/log/syslog
+
+  * All right, so after all the correct setup, log is the best place to find "ERROR".
 
