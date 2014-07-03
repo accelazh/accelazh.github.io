@@ -26,7 +26,7 @@ During stack.sh installation:
 
   * Devstack has havana branch. You must use it if you install openstack in havana branch.
 
-  * Ceilometer-dbsync raises "_init_\_() got an unexpected keyword argument 'match'" while stack.sh installing. This is because alembic has incorrect version (use pip list to see). alembic should >=0.4.1 and <= 0.6.3, even though ceilometer's requirements.txt only specifies >=0.4.1.
+  * Ceilometer-dbsync raises "\_\_init\_\_() got an unexpected keyword argument 'match'" while stack.sh installing. This is because alembic has incorrect version (use pip list to see). alembic should >=0.4.1 and <= 0.6.3, even though ceilometer's requirements.txt only specifies >=0.4.1.
 
   * Ceilometer should use mongodb rather than mysql. Otherwise horizon /admin/metering raises HTTPInternalServerError. Devstack defaults to use mysql, so you have to add CEILOMETER_BACKEND=mongodb in local.conf.
 
@@ -137,7 +137,7 @@ CEILOMETER_BACKEND=mongodb
 Scripts to Start/Stop Nova
 ===
 
-On default, openstack services (by devstack) log to screen. Devstack write screen log down to /opt/stack/logs/screen/*. But, by using these scripts, nova log is written to /var/log/nova/* (**you have to create the folder permission**).
+On default, openstack services (by devstack) log to screen. Devstack write screen log down to /opt/stack/logs/screen/\*. But, by using these scripts, nova log is written to /var/log/nova/\* (**you have to create the folder permission**).
 
   * Start nova - startnova.sh  
     ```
@@ -183,7 +183,7 @@ h2. Others Issues
 
   * Horizon, which is django, runs on Apache. After editing code, if without restarting Apache, the code won't be reloaded.
 
-  * Horizon log is at /opt/stack/logs/screen/screen-horizon*.log and /var/log/apache/horizon*.log
+  * Horizon log is at /opt/stack/logs/screen/screen-horizon\*.log and /var/log/apache/horizon\*.log
 
   * Openstack services log in specific format. Log type is written as "2014-05-16 10:10:30.259 **ERROR** ...". So to grep for errors, you only need to "grep **ERROR**"  
     ```
@@ -205,7 +205,7 @@ h2. Others Issues
 
   * Even though my startnova.sh and devstack/rejoin-stack.sh both can launch openstack services. If you run both of them, some services such as nova-scheduler will be started twice, causing trouble.
 
-  * When using startnova.sh, if you first ./startnova.sh, then rm \-rf /var/log/nova/*. Then nova won't output any logs. So don't remove log files, while nova running.
+  * When using startnova.sh, if you first ./startnova.sh, then rm \-rf /var/log/nova/\*. Then nova won't output any logs. So don't remove log files, while nova running.
 
   * A convenient code snap to restart service for debugging.  
     ```
@@ -219,5 +219,5 @@ h2. Others Issues
 
   * Swift on defaut log to /dev/log, i.e. /var/log/syslog
 
-  * All right, so after all the correct setup, log is the best place to find "ERROR".
+  * All right, so after all the correct setup, log is the best place to find ERROR.
 
