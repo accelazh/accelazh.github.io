@@ -35,7 +35,7 @@ During stack.sh installation:
 After stack.sh completes:
 
   * /etc/nova/nova.conf logging_XXX_suffix/prefix, log_XXX_format_string options contain "%(color)s". It writes control characters into nova log, making reading hard.  
-    ```
+    ```bash
     logging_exception_prefix = %(asctime)s.%(msecs)03d TRACE %(name)s %(instance)s
     logging_debug_format_suffix = (pid=%(process)d) %(funcName)s %(pathname)s:%(lineno)d
     logging_default_format_string = %(asctime)s.%(msecs)03d %(levelname)s %(name)s %(instance)s%(message)s
@@ -45,12 +45,12 @@ After stack.sh completes:
   * Horizon logging, horizon/openstack_dashboard/local/local_settigns.py, set log level to INFO. Change it to DEBUG.
 
   * Change timezone, so that log has correct timestamp.  
-    ```
+    ```bash
     sudo dpkg-reconfigure tzdata
     ```
 
   * Since our developing has added new mysql tables to nova, we need db sync.  
-    ```
+    ```bash
     source ~/workspace/devstack/accrc/admin/admin
     nova-manage db sync
     sudo ~/stopnova.sh
@@ -72,7 +72,7 @@ local.conf
 
 This is the local.conf I have been using for devstack:
 
-```
+```bash
 [[local|localrc]]
 ADMIN_PASSWORD=secrete
 DATABASE_PASSWORD=$ADMIN_PASSWORD
@@ -125,7 +125,7 @@ Scripts to Start/Stop Nova
 On default, openstack services (by devstack) log to screen. Devstack write screen log down to /opt/stack/logs/screen/\*. But, by using these scripts, nova log is written to /var/log/nova/\* (**you have to assign right permission**).
 
   * Start nova - startnova.sh  
-    ```
+    ```bash
     #!/bin/bash
 
     service rabbitmq-server start
@@ -147,7 +147,7 @@ On default, openstack services (by devstack) log to screen. Devstack write scree
     ```
 
   * Stop nova - stopnova.sh  
-    ```
+    ```bash
     #!/bin/bash
 
     swift-init --run-dir=/opt/stack/data/swift/run all stop
@@ -172,7 +172,7 @@ Others Issues
   * Horizon log is at /opt/stack/logs/screen/screen-horizon\*.log and /var/log/apache/horizon\*.log
 
   * Openstack services log in specific format. Log type is written as "2014-05-16 10:10:30.259 **ERROR** ...". So to grep for errors, you only need to "grep **ERROR**"  
-    ```
+    ```bash
     2014-05-16 10:10:30.259 ERROR nova.openstack.common.rpc.amqp req-2ccfcdc7-540c-4550-8e67-e4f175ceb865 admin demo Exception during message handling
     2014-05-16 10:10:30.259 TRACE nova.openstack.common.rpc.amqp Traceback (most recent call last):
     2014-05-16 10:10:30.259 TRACE nova.openstack.common.rpc.amqp   File "/opt/stack/nova/nova/openstack/common/rpc/amqp.py", line 461, in _process_data
@@ -185,7 +185,7 @@ Others Issues
 
   * When VM launch failed in Horizon, few error info is given. However, using nova cli to launch VM usually show more hints.  
     [http://docs.openstack.org/grizzly/basic-install/yum/content/basic-install_operate.html]  
-    ```
+    ```bash
     nova boot --flavor 1 --image <image_id> --key-name default_key my_instance
     ```
 
@@ -194,7 +194,7 @@ Others Issues
   * When using startnova.sh, if you first ./startnova.sh, then rm \-rf /var/log/nova/\*. Then nova won't output any logs. So don't remove log files, while nova running.
 
   * A convenient code snap to restart service for debugging.  
-    ```
+    ```bash
     sudo ~/stopnova.sh
     rm -rf /var/log/nova/*
     sleep 3
