@@ -35,28 +35,28 @@ During stack.sh installation:
 After stack.sh completes:
 
   * /etc/nova/nova.conf logging_XXX_suffix/prefix, log_XXX_format_string options contain "%(color)s". It writes control characters into nova log, making reading hard.  
-    ```bash
-    logging_exception_prefix = %(asctime)s.%(msecs)03d TRACE %(name)s %(instance)s  
-    logging_debug_format_suffix = (pid=%(process)d) %(funcName)s %(pathname)s:%(lineno)d  
-    logging_default_format_string = %(asctime)s.%(msecs)03d %(levelname)s %(name)s %(instance)s%(message)s      
-    logging_context_format_string = %(asctime)s.%(msecs)03d %(levelname)s %(name)s %(request_id)s %(user_name)s %(project_name)s %(instance)s%(message)s  
-    ```
+```bash
+logging_exception_prefix = %(asctime)s.%(msecs)03d TRACE %(name)s %(instance)s  
+logging_debug_format_suffix = (pid=%(process)d) %(funcName)s %(pathname)s:%(lineno)d  
+logging_default_format_string = %(asctime)s.%(msecs)03d %(levelname)s %(name)s %(instance)s%(message)s      
+logging_context_format_string = %(asctime)s.%(msecs)03d %(levelname)s %(name)s %(request_id)s %(user_name)s %(project_name)s %(instance)s%(message)s  
+```
 
   * Horizon logging, horizon/openstack_dashboard/local/local_settigns.py, set log level to INFO. Change it to DEBUG.
 
   * Change timezone, so that log has correct timestamp.  
-    ```bash
-    sudo dpkg-reconfigure tzdata
-    ```
+```bash
+sudo dpkg-reconfigure tzdata
+```
 
   * Since our developing has added new mysql tables to nova, we need db sync.  
-    ```bash
-    source ~/workspace/devstack/accrc/admin/admin
-    nova-manage db sync
-    sudo ~/stopnova.sh
-    sleep 2
-    sudo ~/startnova.sh
-    ```
+```bash
+source ~/workspace/devstack/accrc/admin/admin
+nova-manage db sync
+sudo ~/stopnova.sh
+sleep 2
+sudo ~/startnova.sh
+```
 
   * Install **brctl** command if missing. It is needed for set up vm networking. See  
     [http://openstack.redhat.com/forum/discussion/952/problem-creating-instances-no-valid-host/p1]
@@ -125,44 +125,44 @@ Scripts to Start/Stop Nova
 On default, openstack services (by devstack) log to screen. Devstack write screen log down to /opt/stack/logs/screen/\*. But, by using these scripts, nova log is written to /var/log/nova/\* (**you have to assign right permission**).
 
   * Start nova - startnova.sh  
-    ```bash
-    #!/bin/bash
+```bash
+#!/bin/bash
 
-    service rabbitmq-server start
-    sleep 5
+service rabbitmq-server start
+sleep 5
 
-    glance-registry >> /var/log/nova/glance-registry.log 2>&1 &
-    glance-api >> /var/log/nova/glance-api.log 2>&1 &
-    keystone-all >> /var/log/keystone/keystone-all.log 2>&1 &
-    nova-api >> /var/log/nova/nova-api.log 2>&1 &
-    nova-scheduler >> /var/log/nova/nova-scheduler.log 2>&1 &
-    nova-wsproxy >> /var/log/nova/nova-wsproxy.log 2>&1 &
-    nova-network >> /var/log/nova/nova-network.log 2>&1 &
-    nova-volume >> /var/log/nova/nova-volume.log 2>&1 &
-    nova-compute >> /var/log/nova/nova-compute.log 2>&1 &
-    nova-conductor >> /var/log/nova/nova-conductor.log 2>&1 &
-    sleep 2
+glance-registry >> /var/log/nova/glance-registry.log 2>&1 &
+glance-api >> /var/log/nova/glance-api.log 2>&1 &
+keystone-all >> /var/log/keystone/keystone-all.log 2>&1 &
+nova-api >> /var/log/nova/nova-api.log 2>&1 &
+nova-scheduler >> /var/log/nova/nova-scheduler.log 2>&1 &
+nova-wsproxy >> /var/log/nova/nova-wsproxy.log 2>&1 &
+nova-network >> /var/log/nova/nova-network.log 2>&1 &
+nova-volume >> /var/log/nova/nova-volume.log 2>&1 &
+nova-compute >> /var/log/nova/nova-compute.log 2>&1 &
+nova-conductor >> /var/log/nova/nova-conductor.log 2>&1 &
+sleep 2
 
-    swift-init --run-dir=/opt/stack/data/swift/run all start
-    ```
+swift-init --run-dir=/opt/stack/data/swift/run all start
+```
 
   * Stop nova - stopnova.sh  
-    ```bash
-    #!/bin/bash
+```bash
+#!/bin/bash
 
-    swift-init --run-dir=/opt/stack/data/swift/run all stop
-    sleep 2
-    kill -9 `ps aux | grep swift | awk '{print $2}'`
+swift-init --run-dir=/opt/stack/data/swift/run all stop
+sleep 2
+kill -9 `ps aux | grep swift | awk '{print $2}'`
 
-    kill -9 `ps aux | grep nova-api | awk '{print $2}'`
-    kill -9 `ps aux | grep nova-scheduler | awk '{print $2}'`
-    kill -9 `ps aux | grep nova-wsproxy.py | awk '{print $2}'`
-    kill -9 `ps aux | grep 'nova-' | awk '{print $2}'`
-    kill -9 `ps aux | grep glance | awk '{print $2}'`
-    kill -9 `ps aux | grep keystone | awk '{print $2}'`
+kill -9 `ps aux | grep nova-api | awk '{print $2}'`
+kill -9 `ps aux | grep nova-scheduler | awk '{print $2}'`
+kill -9 `ps aux | grep nova-wsproxy.py | awk '{print $2}'`
+kill -9 `ps aux | grep 'nova-' | awk '{print $2}'`
+kill -9 `ps aux | grep glance | awk '{print $2}'`
+kill -9 `ps aux | grep keystone | awk '{print $2}'`
 
-    service rabbitmq-server stop
-    ```
+service rabbitmq-server stop
+```
 
 Others Issues
 ===
@@ -172,36 +172,36 @@ Others Issues
   * Horizon log is at /opt/stack/logs/screen/screen-horizon\*.log and /var/log/apache/horizon\*.log
 
   * Openstack services log in specific format. Log type is written as "2014-05-16 10:10:30.259 **ERROR** ...". So to grep for errors, you only need to "grep **ERROR**"  
-    ```bash
-    2014-05-16 10:10:30.259 ERROR nova.openstack.common.rpc.amqp req-2ccfcdc7-540c-4550-8e67-e4f175ceb865 admin demo Exception during message handling
-    2014-05-16 10:10:30.259 TRACE nova.openstack.common.rpc.amqp Traceback (most recent call last):
-    2014-05-16 10:10:30.259 TRACE nova.openstack.common.rpc.amqp   File "/opt/stack/nova/nova/openstack/common/rpc/amqp.py", line 461, in _process_data
-    2014-05-16 10:10:30.259 TRACE nova.openstack.common.rpc.amqp     **args)
-    ...
-    ```
+```bash
+2014-05-16 10:10:30.259 ERROR nova.openstack.common.rpc.amqp req-2ccfcdc7-540c-4550-8e67-e4f175ceb865 admin demo Exception during message handling
+2014-05-16 10:10:30.259 TRACE nova.openstack.common.rpc.amqp Traceback (most recent call last):
+2014-05-16 10:10:30.259 TRACE nova.openstack.common.rpc.amqp   File "/opt/stack/nova/nova/openstack/common/rpc/amqp.py", line 461, in _process_data
+2014-05-16 10:10:30.259 TRACE nova.openstack.common.rpc.amqp     **args)
+...
+```
 
   * If host doesn't have enough memory (free \-m), launch instance can raise ERROR. See  
     [http://openstack.redhat.com/forum/discussion/952/problem-creating-instances-no-valid-host/p1]
 
   * When VM launch failed in Horizon, few error info is given. However, using nova cli to launch VM usually show more hints.  
     [http://docs.openstack.org/grizzly/basic-install/yum/content/basic-install_operate.html]  
-    ```bash
-    nova boot --flavor 1 --image <image_id> --key-name default_key my_instance
-    ```
+```bash
+nova boot --flavor 1 --image <image_id> --key-name default_key my_instance
+```
 
   * Even though my startnova.sh and devstack/rejoin-stack.sh both can launch openstack services. If you run both of them, some services such as nova-scheduler will be started twice, causing trouble.
 
   * When using startnova.sh, if you first ./startnova.sh, then rm \-rf /var/log/nova/\*. Then nova won't output any logs. So don't remove log files, while nova running.
 
   * A convenient code snap to restart service for debugging.  
-    ```bash
-    sudo ~/stopnova.sh
-    rm -rf /var/log/nova/*
-    sleep 3
-    sudo ~/startnova.sh
-    sleep 5
-    grep -r ERROR /var/log/nova/*
-    ```
+```bash
+sudo ~/stopnova.sh
+rm -rf /var/log/nova/*
+sleep 3
+sudo ~/startnova.sh
+sleep 5
+grep -r ERROR /var/log/nova/*
+```
 
   * Swift on defaut log to /dev/log, i.e. /var/log/syslog
 
