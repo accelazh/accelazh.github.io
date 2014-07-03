@@ -36,10 +36,10 @@ After stack.sh completes:
 
   * /etc/nova/nova.conf logging_XXX_suffix/prefix, log_XXX_format_string options contain "%(color)s". It writes control characters into nova log, making reading hard.  
     ```bash
-    logging_exception_prefix = %(asctime)s.%(msecs)03d TRACE %(name)s %(instance)s
-    logging_debug_format_suffix = (pid=%(process)d) %(funcName)s %(pathname)s:%(lineno)d
-    logging_default_format_string = %(asctime)s.%(msecs)03d %(levelname)s %(name)s %(instance)s%(message)s
-    logging_context_format_string = %(asctime)s.%(msecs)03d %(levelname)s %(name)s %(request_id)s %(user_name)s %(project_name)s %(instance)s%(message)s
+    logging_exception_prefix = %(asctime)s.%(msecs)03d TRACE %(name)s %(instance)s  
+    logging_debug_format_suffix = (pid=%(process)d) %(funcName)s %(pathname)s:%(lineno)d  
+    logging_default_format_string = %(asctime)s.%(msecs)03d %(levelname)s %(name)s %(instance)s%(message)s      
+    logging_context_format_string = %(asctime)s.%(msecs)03d %(levelname)s %(name)s %(request_id)s %(user_name)s %(project_name)s %(instance)s%(message)s  
     ```
 
   * Horizon logging, horizon/openstack_dashboard/local/local_settigns.py, set log level to INFO. Change it to DEBUG.
