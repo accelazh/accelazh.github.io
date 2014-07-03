@@ -67,21 +67,6 @@ After stack.sh completes:
   * VM Fusion's VM, after restart, may change IP address. This corrupts Openstack installed on it. To set static IP for VM Fusion's VM, see  
     [http://andrewelkins.com/linux/vmware-fusion-5-set-static-ip-address/]
 
-  * KVMQoS needs CGroup running. How to launch:  
-    ```
-    /etc/init.d/cgroup-lite start   # ubuntu only
-    ```
-
-  * KVMQoS needs libvirt version 0.9.13, you may need upgrade. Also upgrade python-libvirt to the same version.  
-    ```
-    # first add "deb http://cn.archive.ubuntu.com/ubuntu/ quantal main restricted" to /etc/apt/source.list
-    sudo apt-get update
-    apt-cache policy python-libvirt  # to see libvirt version
-    sudo apt-get install -y python-libvirt # libvirt-bin, libvirt0 will also be installed
-    ```
-
-  * KVMQoS has modified nova's policy.json, need to update it.
-
 local.conf
 ===
 
@@ -94,7 +79,7 @@ DATABASE_PASSWORD=$ADMIN_PASSWORD
 RABBIT_PASSWORD=$ADMIN_PASSWORD
 SERVICE_PASSWORD=$ADMIN_PASSWORD
 
-SERVICE_TOKEN=a682f596-76f3-11e3-b3b2-e716f9080d50
+SERVICE_TOKEN=b75ca15c-9c83-a2e5-c5d8-ff20ed193d41
 
 FIXED_RANGE=172.31.1.0/24
 FLOATING_RANGE=192.168.20.0/25
@@ -122,7 +107,7 @@ disable_service cinder c-sch c-api c-vol tempest
 
 # Enable swift
 enable_service s-proxy s-object s-container s-account
-SWIFT_HASH=66a3d6b56c1f479c8b4e70ab5c2000f5
+SWIFT_HASH=1234567890abcdef723fac6eddc809327
 
 # Enable the ceilometer metering services
 enable_service ceilometer-acompute ceilometer-acentral ceilometer-anotification ceilometer-collector
@@ -137,7 +122,7 @@ CEILOMETER_BACKEND=mongodb
 Scripts to Start/Stop Nova
 ===
 
-On default, openstack services (by devstack) log to screen. Devstack write screen log down to /opt/stack/logs/screen/\*. But, by using these scripts, nova log is written to /var/log/nova/\* (**you have to create the folder permission**).
+On default, openstack services (by devstack) log to screen. Devstack write screen log down to /opt/stack/logs/screen/\*. But, by using these scripts, nova log is written to /var/log/nova/\* (**you have to assign right permission**).
 
   * Start nova - startnova.sh  
     ```
@@ -179,7 +164,8 @@ On default, openstack services (by devstack) log to screen. Devstack write scree
     service rabbitmq-server stop
     ```
 
-h2. Others Issues
+Others Issues
+===
 
   * Horizon, which is django, runs on Apache. After editing code, if without restarting Apache, the code won't be reloaded.
 
@@ -219,5 +205,5 @@ h2. Others Issues
 
   * Swift on defaut log to /dev/log, i.e. /var/log/syslog
 
-  * All right, so after all the correct setup, log is the best place to find ERROR.
+  * All right, so after all the correct steps, log is the best place to find ERROR.
 
