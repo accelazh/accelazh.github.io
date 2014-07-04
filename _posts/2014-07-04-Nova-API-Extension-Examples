@@ -1,0 +1,20 @@
+---
+layout: post
+title: "Nova API Extension Examples"
+tagline : " Easy for beginning nova extending"
+description: "Rich documented examples of nova api extension"
+category: "openstack"
+tags: [cloud, openstack, nova, api]
+---
+{% include JB/setup %}
+
+I have writen some examples for 3 kinds of nova api extension:
+  * Resource extension: which creates a new resource, actually a collection of object.
+  * Controller extension: which extends existing resource.
+  * Child resource extension: which create a new resource. The resource is child of another parent resource.
+
+These examples contain rich document for learning.
+
+Also how to curl these extension APIs are documented. These are very useful.
+
+Link: (https://github.com/accelazh/example-nova-exensions)[https://github.com/accelazh/example-nova-exensions]
