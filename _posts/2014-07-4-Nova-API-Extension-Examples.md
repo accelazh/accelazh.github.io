@@ -17,4 +17,4 @@ These examples contain rich document for learning.
 
 Also how to curl these extension APIs are documented. These are very useful.
 
-Link: (https://github.com/accelazh/example-nova-exensions)[https://github.com/accelazh/example-nova-exensions]
+Link: https://github.com/accelazh/example-nova-exensions
