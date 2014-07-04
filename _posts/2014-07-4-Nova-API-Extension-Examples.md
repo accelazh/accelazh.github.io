@@ -12,7 +12,7 @@ I have written some examples for 3 kinds of nova api extension and cover most fe
   
 * **Resource extension**: which creates a new resource, actually a collection of object.
 * **Controller extension**: which extends existing resource.
-* **Child resource extension**: which create a new resource. The resource is child of another parent resource.
+* **Child resource extension**: which creates a new resource. The resource is child of another parent resource.
 
 These examples contain rich document for learning.
 
