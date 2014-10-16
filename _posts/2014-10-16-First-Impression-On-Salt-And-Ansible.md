@@ -30,6 +30,6 @@ tags: [cloud, deploy, orechestration]
 
 ## References
 
-    * Saltstack walkthrough: (http://docs.saltstack.com/en/latest/topics/tutorials/walkthrough.html)
-    * Salt vs Ansible vs Puppet: (http://ryandlane.com/blog/2014/08/04/moving-away-from-puppet-saltstack-or-ansible/)
+    * Saltstack walkthrough: <http://docs.saltstack.com/en/latest/topics/tutorials/walkthrough.html>
+    * Salt vs Ansible vs Puppet: <http://ryandlane.com/blog/2014/08/04/moving-away-from-puppet-saltstack-or-ansible/>
         * This is definitely a very good and complete compare between them.
