@@ -15,7 +15,7 @@ Versions
 
 I'm installaing openstack stable/havana branch on ubuntu server 12.04. Ceilometer is also installed.
 
-Installation Pitfalls
+Installation Troubleshooting
 ===
 
 During stack.sh installation:
