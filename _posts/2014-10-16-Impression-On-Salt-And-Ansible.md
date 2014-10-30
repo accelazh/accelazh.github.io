@@ -32,6 +32,7 @@ tags: [cloud, deploy, orechestration]
 
     * Salt provides "[salt-ssh](http://docs.saltstack.com/en/latest/topics/ssh/)", which is the agentless solution. However, salt-ssh does lack certain supports to salt functions, refer to [issue-9851](https://github.com/saltstack/salt/issues/9851). It is said to be still alpha. 
 
+
 * Salt is definitely more complex than ansible. Ansible uses very straight forward approach, ssh, while salt has many more components.
 
 * Ansible stream outputs while executing, while Salt prints them out only after all finished. The command results are printed in random order from when they are executed. Here is a [discussion](https://groups.google.com/forum/#!topic/salt-users/ikAVtZnuB30).
@@ -40,4 +41,3 @@ tags: [cloud, deploy, orechestration]
 
 * Saltstack walkthrough: <http://docs.saltstack.com/en/latest/topics/tutorials/walkthrough.html>
 * Salt vs Ansible vs Puppet: <http://ryandlane.com/blog/2014/08/04/moving-away-from-puppet-saltstack-or-ansible/>
-    * This is a very good and complete compare between them.
