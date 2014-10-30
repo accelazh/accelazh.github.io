@@ -1,12 +1,14 @@
 ---
 layout: post
-title: "Haproxy HA by Keepalived VRRP"
-tagline : " Haproxy HA by Keepalived VRRP"
+title: "HA of Haproxy - Using Keepalived VRRP"
+tagline : " HA of Haproxy - Using Keepalived VRRP"
 description: "Make Haproxy HA by using keepalived VRRP"
 category: "Loadbalance"
 tags: [haproxy, HA, keepalived, VRRP]
 ---
 {% include JB/setup %}
+
+Haproxy can be used to create HA of backend servers. But how to HA for Haproxy itself?
 
 Keepalived can be used to achieve Haproxy HA using VRRP (Virtual Router Redundancy Protocol) protocol. Two Haproxies play master and backup and share a vip.
 
