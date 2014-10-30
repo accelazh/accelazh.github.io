@@ -210,7 +210,7 @@ Since we use fixed-ip to access public network. Enter http://10.224.147.208:5000
 
 ## Further More
 
-Not only haproxy, you can just boot several VM and use keepalived VRRP to create a redundant HA group.
+Not only haproxy, you can just boot several VM and use keepalived VRRP to create a redundant HA group. See [this](http://blog.aaronorosen.com/implementing-high-availability-instances-with-neutron-using-vrrp/).
 
 Further, [conntrackd](http://conntrack-tools.netfilter.org/conntrackd.html) can be used to transfer tcp states between master and backup, so that connections are not interrupted. This is used in [Neutron L3 HA VRRP](https://wiki.openstack.org/wiki/Neutron/
 L3_High_Availability_VRRP).
