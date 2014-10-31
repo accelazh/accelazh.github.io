@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "HA of Haproxy - Using Keepalived VRRP"
-tagline : " HA of Haproxy - Using Keepalived VRRP"
+tagline : "HA of Haproxy - Using Keepalived VRRP"
 description: "Make Haproxy HA by using keepalived VRRP"
 category: "Loadbalance"
 tags: [haproxy, HA, keepalived, VRRP]
