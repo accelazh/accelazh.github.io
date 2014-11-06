@@ -67,6 +67,10 @@ There are many diagrams illustrate how a TCP/IP packet traverses the kernel. One
 
 ![iptables packet traverse map 1](/images/iptables-packet-traverse-map-1.jpg "iptables packet traverse map 1")
 
+---
+
 ![iptables packet traverse map 2](/images/iptables-packet-traverse-map-2.png "iptables packet traverse map 1")
+
+---
 
 ![iptables packet traverse map 3](/images/iptables-packet-traverse-map-3.png "iptables packet traverse map 1")
