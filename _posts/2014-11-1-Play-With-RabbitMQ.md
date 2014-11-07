@@ -81,5 +81,5 @@ Overall, RabbitMQ and the AMQP protocol is easy to understand and config. Rabbit
         "work queues"
         "publish/subscribe"
         "topics"
-        After, `bind` and `routing_key` is the key
+        After all, `bind` and `routing_key` is the key
 ```
