@@ -57,3 +57,20 @@ ssh-keygen
 ssh-copy-id user@password
 ```
 
+## Optional
+
+Some hardened image use umask 077 rather than 022. This mess up many software installation. Change it back to 022
+
+```
+for i in /root/.bashrc /root/.bash_profile /root/.cshrc /root/.tcshrc /etc/bashrc /etc/profile /etc/csh.cshrc; do
+    sed -i 's/^\([ \t]*\)umask\([ \t]\+\)077\([ \t]*\)$/\1umask\2022\3/' $i;
+done
+```
+
+Sometime SFTP is disabled (on defualt it shoud already be enabled). Sublime SFTP will be blocked. Enable it here
+
+```
+echo "Subsystem sftp /usr/libexec/openssh/sftp-server" >> /etc/ssh/sshd_config
+/etc/init.d/sshd reload
+```
+
