@@ -50,14 +50,21 @@ set number
 ' >> /etc/vimrc
 ```
 
-Generate ssh key pair
+Install pip
+
+```
+wget https://bootstrap.pypa.io/get-pip.py
+python get-pip.py
+```
+
+Generate ssh key pair, then each host contains each one's ssh public key.
 
 ```
 ssh-keygen
 ssh-copy-id user@password
 ```
 
-## Optional
+## Just For Reference But No Need Now
 
 Some hardened image use umask 077 rather than 022. This mess up many software installation. Change it back to 022
 

@@ -83,3 +83,16 @@ Overall, RabbitMQ and the AMQP protocol is easy to understand and config. Rabbit
         "topics"
         After all, `bind` and `routing_key` is the key
 ```
+
+Also, when configuring cluster, don't forget the [`.erlang.cookie`](https://www.rabbitmq.com/clustering.html) file.
+
+## Rabbit in Openstack
+
+In all service using RabbitMQ HA Cluster, config like below (following [Openstack HA Manual](http://docs.openstack.org/high-availability-guide/content/_configure_openstack_services_to_use_rabbitmq.html))
+
+```
+rabbit_hosts=rabbit1:5672,rabbit2:5672
+``` 
+
+You can see that we don't need haproxy here, because openstack service will select rabbitmq node to connect upon failure.
+

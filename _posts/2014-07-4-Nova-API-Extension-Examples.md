@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Nova API Extension Examples"
-tagline : " Easy for beginning nova extending"
+tagline : "Easy for beginning nova extending"
 description: "Rich documented examples of nova api extension"
 category: "openstack"
 tags: [cloud, openstack, nova, api]

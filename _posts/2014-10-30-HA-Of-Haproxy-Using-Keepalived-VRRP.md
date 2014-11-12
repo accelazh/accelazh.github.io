@@ -217,6 +217,231 @@ L3_High_Availability_VRRP).
 
 I'm thinking that keepalived VRRP only use one haproxy each time, wasting the others' capacity. Is there a way for both HA and share capacity between haproxies?
 
+## Haproxy in Openstack
+
+Share-nothing services in Openstasck can use Haproxy for HA, including swift-proxy, glance, nova-api, keystone and other controller services. Check [Openstack HA Manual](http://docs.openstack.org/high-availability-guide/content/ha-aa-haproxy.html). Different services can share one Haproxy node/pair.
+
+Example config for openstack.
+
+```
+global
+    log         127.0.0.1 local2
+
+    chroot      /var/lib/haproxy
+    pidfile     /var/run/haproxy.pid
+    maxconn     4000
+    user        haproxy
+    group       haproxy
+    daemon
+
+    stats socket /var/lib/haproxy/stats
+
+defaults
+        log             global
+        mode            http
+        option          httplog
+        option          dontlognull
+        retries         3
+        option          redispatch
+        maxconn         20000
+        contimeout      5000
+        clitimeout      50000
+        srvtimeout      50000
+
+# haproxy web
+listen stats 0.0.0.0:9000       #Listen on all IP's on port 9000
+    mode http
+    balance
+    timeout client 5000
+    timeout connect 4000
+    timeout server 30000
+
+    stats uri /haproxy
+    stats realm HAProxy\ Statistics
+    stats auth admin:password
+    stats admin if TRUE
+
+# horizon
+frontend horizon_frontend
+    bind horizon.app.com:443 ssl crt /home/app/cert/appcert/app.crt
+    mode http
+    option httpclose
+    option forwardfor
+    reqadd X-Forwarded-Protocol:\ https
+    default_backend horizon_server
+ 
+backend horizon_server
+    mode http
+    balance roundrobin
+    cookie SERVERID insert indirect nocache
+    server horizon1 10.224.155.xx:8088 check cookie horizon1
+    server horizon2 10.224.155.xx:8088 check cookie horizon2
+
+# keystone api
+frontend keystone_frontend
+    bind 10.224.155.xx:443 ssl crt /home/app/cert/appcert/app.crt 
+    mode http
+    option httpclose
+    option forwardfor
+    reqadd X-Forwarded-Protocol:\ https
+    default_backend keystone_server
+
+backend keystone_server
+    mode http
+    balance roundrobin
+    cookie SERVERID insert indirect nocache
+    server keystone1 10.224.155.xx:5000 check cookie keystone1
+    server keystone2 10.224.155.xx:5000 check cookie keystone2
+
+# keystone admin
+frontend keystone_admin_frontend
+    bind 10.224.155.xx:443 ssl crt /home/app/cert/appcert/app.crt
+    mode http
+    option httpclose
+    option forwardfor
+    reqadd X-Forwarded-Protocol:\ https
+    default_backend keystone_admin_server
+
+backend keystone_admin_server
+    mode http
+    balance roundrobin
+    cookie SERVERID insert indirect nocache
+    server keystoneadmin1 10.224.155.xx:35357 check cookie keystoneadmin1
+    server keystoneadmin2 10.224.155.xx:35357 check cookie keystoneadmin2
+
+# nova api
+frontend novaapi_frontend
+        bind 10.224.155.xx:443 ssl crt /home/app/cert/appcert/app.crt
+        mode http
+        option httpclose
+        option forwardfor
+        reqadd X-Forwarded-Protocol:\ https
+        default_backend novaapi_server
+
+backend novaapi_server
+        mode http
+        balance roundrobin
+        cookie SERVERID insert indirect nocache
+        server novaapi1 10.224.155.xx:8774 check cookie novaapi1
+        server novaapi2 10.224.155.xx:8774 check cookie novaapi2
+
+# nova novnc
+frontend novanovnc_frontend
+        bind 10.224.155.xx:444 ssl crt /home/app/cert/appcert/app.crt
+        mode http
+        option httpclose
+        option forwardfor
+        reqadd X-Forwarded-Protocol:\ https
+        default_backend novanovnc_server
+
+backend novanovnc_server
+        mode http
+        balance roundrobin
+        cookie SERVERID insert indirect nocache
+        server novanovnc1 10.224.155.xx:6080 check cookie novanovnc1
+        server novanovnc2 10.224.155.xx:6080 check cookie novanovnc2
+
+# glance api
+frontend glanceapi_frontend
+    bind 10.224.155.xx:443 ssl crt /home/app/cert/appcert/app.crt
+    mode http
+    option httpclose
+    option forwardfor
+    reqadd X-Forwarded-Protocol:\ https
+    default_backend glanceapi_server
+
+backend glanceapi_server
+    mode http
+    balance roundrobin
+    cookie SERVERID insert indirect nocache
+    server glanceapi1 10.224.155.xx:9292 check cookie glanceapi1
+    server glanceapi2 10.224.155.xx:9292 check cookie glanceapi2
+
+# glance registry
+frontend glanceregistry_frontend
+    bind 10.224.155.xx:443 ssl crt /home/app/cert/appcert/app.crt
+    mode http
+    option httpclose
+    option forwardfor
+    reqadd X-Forwarded-Protocol:\ https
+    default_backend glanceregistry_server
+
+backend glanceregistry_server
+    mode http
+    balance roundrobin
+    cookie SERVERID insert indirect nocache
+    server glanceregistry1 10.224.155.xx:9191 check cookie glanceregistry1
+    server glanceregistry2 10.224.155.xx:9191 check cookie glanceregistry2
+
+# swift api
+frontend swift_frontend
+    bind 10.224.155.xx:443 ssl crt /home/app/cert/appcert/app.crt
+    mode http
+    option httpclose
+    option forwardfor
+    reqadd X-Forwarded-Protocol:\ https
+    default_backend swift_server
+
+backend swift_server
+    mode http
+    balance roundrobin
+    cookie SERVERID insert indirect nocache
+    server swift1 10.224.155.xx:8080 check cookie swift1
+    server swift2 10.224.155.xx:8080 check cookie swift2
+
+# neutron
+frontend neutron_frontend
+        bind 10.224.155.xx:443 ssl crt /home/app/cert/appcert/app.crt
+        mode http
+        option httpclose
+        option forwardfor
+        reqadd X-Forwarded-Protocol:\ https
+        default_backend neutron_server
+
+backend neutron_server
+        mode http
+        balance roundrobin
+        cookie SERVERID insert indirect nocache
+        server neutron1 10.224.155.xx:9696 check cookie neutron1
+        server neutron2 10.224.155.xx:9696 check cookie neutron2
+
+# heat api 
+frontend heat_api_frontend
+        bind 10.224.155.xx:443 ssl crt /home/app/cert/appcert/app.crt
+        mode http
+        option httpclose
+        option forwardfor
+        reqadd X-Forwarded-Proto:\ https
+        default_backend heat_api_server
+
+backend heat_api_server
+        mode http
+        balance roundrobin
+        cookie SERVERID insert indirect nocache
+        server heat_api_1 10.224.155.xx:8004 check cookie heat_api_1
+        server heat_api_2 10.224.155.xx:8004 check cookie heat_api_2
+
+# heat api cfn
+frontend heat_api_cfn_frontend
+        bind 10.224.155.xx:443 ssl crt /home/app/cert/appcert/app.crt
+        mode http
+        option httpclose
+        option forwardfor
+        reqadd X-Forwarded-Proto:\ https
+        default_backend heat_api_cfn_server
+
+backend heat_api_cfn_server
+        mode http
+        balance roundrobin
+        cookie SERVERID insert indirect nocache
+        server heat_api_cfn_1 10.224.155.xx:8000 check cookie heat_api_cfn_1
+        server heat_api_cfn_2 10.224.155.xx:8000 check cookie heat_api_cfn_2
+```
+
+In config line `server web01 127.0.0.1:9000 check cookie xxxxxx`, `check` enables healthcheck. `cookie` enables sticky-session. The `xxxxxx` specifies cooked value -- `SERVERID = xxxxxx`. Refer to [here](https://serversforhackers.com/editions/2014/07/15/haproxy/).
+
+The Haproxy node only has one IP for himself. The frontend has been bind to many different IPs, i.e. VIPs.
+
 ## References
 
 * Install HAProxy and Keepalived (Virtual IP): <http://support.severalnines.com/entries/23612682-Install-HAProxy-and-Keepalived-Virtual-IP->
