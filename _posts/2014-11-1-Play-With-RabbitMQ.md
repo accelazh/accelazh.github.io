@@ -3,8 +3,8 @@ layout: post
 title: "Play with RabbitMQ"
 tagline : "Config Postfix Mail Server"
 description: "Config Postfix Mail Server"
-category: "mail"
-tags: [mail, postfix]
+category: "messaging"
+tags: [messaging, rabbitmq]
 ---
 {% include JB/setup %}
 
