@@ -18,6 +18,7 @@ Swift is used in Openstack for
 A good swift architecture doc [here](https://www.swiftstack.com/openstack-swift/architecture/).
 
 ### Different Services
+
 The four Swift server processes are proxy, account, container and object. 
 
 * Proxy processes: User restful http request entry, distribute request to storage nodes. Share nothing.

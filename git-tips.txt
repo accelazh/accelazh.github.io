@@ -1,0 +1,2 @@
+1. a "* xxxx" indented with 4 spaces, will be treated as code
+2. code block "```" must have an empty line to its prior and later paragraphs.
