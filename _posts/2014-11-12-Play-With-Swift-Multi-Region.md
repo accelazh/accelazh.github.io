@@ -619,6 +619,8 @@ chmod 640 /etc/swift/swift.conf
 
 You need to replace `<storage-replication-network-ip>` and `<storage-local-network-ip>` placeholders in config files. Since I only have 1 ip addresses on each node, so I can replace them all as the host ip. Also, don't forget to replace memcached ip and port addresses, since we have 2 regions so 2 memcached clusters. Also the affinity settings in each region. Here is a quick script
 
+For rsync
+
 ```
 # for rsync config. run below on each host
 export IP_ADDR=$(ifconfig eth0 | grep -E "inet\s" | awk '{print $2}')
@@ -626,6 +628,8 @@ export IP_ADDR=$(ifconfig eth0 | grep -E "inet\s" | awk '{print $2}')
 sed -i "s/<storage-replication-network-ip>/$IP_ADDR/" /etc/rsyncd.conf
 sed -i "s/<storage-replication-network-ip>/$IP_ADDR/" /etc/xinetd.d/rsync
 ```
+
+For swift config
 
 ```
 # for swift config. run below on each host

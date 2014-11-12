@@ -65,6 +65,15 @@
   color: #FFF; }
 
 /* added by me */
+
+body {
+  font-size: 16px;
+}
+
+.container-narrow {
+  max-width: 800px;
+}
+
 pre {
   word-wrap: normal;
   overflow: auto;
@@ -74,4 +83,8 @@ pre {
 
 pre code {
   white-space: pre;
+}
+
+ol {
+  padding-left: 20px
 }
