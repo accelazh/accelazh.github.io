@@ -1,4 +1,3 @@
-
 ---
 layout: post
 title: "Play with Openstack Swift"
