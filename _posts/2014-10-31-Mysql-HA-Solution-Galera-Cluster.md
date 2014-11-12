@@ -41,6 +41,7 @@ mysqld --wsrep_cluster_address=gcomm://10.224.147.166 --user=mysql --wsrep_provi
 ```
 
 The error output is
+
 ```
 141031  7:12:13 [ERROR] WSREP: Failed to read output of: '/sbin/ifconfig | grep -E '^[[:space:]]+inet addr:' | grep -m1 -v 'inet addr:127' | sed 's/:/ /' | awk '{ print $3 }''
 ```
@@ -54,11 +55,13 @@ mysqld --wsrep_cluster_address=gcomm://10.224.147.166 --wsrep_sst_receive_addres
 __2. Full restart of the cluster__
 
 If one node is down and you want to restart it (cluster is still alive), connect it to any other node. E.g host 1
+
 ```
 mysqld --wsrep_cluster_address=gcomm://10.224.147.167 --user=mysql --wsrep_provider=/usr/lib64/galera/libgalera_smm.so --wsrep_sst_auth=root:password
 ```
 
 Actually you can write config in /etc/my.cnf.
+
 ```
 [mariadb]
 wsrep_cluster_address=gcomm://10.224.147.167
@@ -67,10 +70,13 @@ wsrep_sst_auth=root:password
 wsrep_node_address=10.224.147.166
 log-error=/var/log/mysql.log
 ```
+
 And use `service mysql restart`.
 
 If the whole cluster is down, given you have the above /etc/my.cnf, restart by
+
 ```
 mysqld --wsrep_cluster_address=gcomm:// --user=mysql
 ```
+
 This will create a new cluster.

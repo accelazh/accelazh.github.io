@@ -161,6 +161,7 @@ service keepalived start
 ## To Verify
 
 On host 1, to check who holds vip
+
 ```
 $ ip a | grep -e inet.*eth0
 inet 10.224.147.166/24 brd 10.224.147.255 scope global dynamic eth0
@@ -168,6 +169,7 @@ inet 10.224.147.208/32 scope global eth0
 ```
 
 On host 2, 
+
 ```
 $ ip a | grep -e inet.*eth0
 inet 10.224.147.167/24 brd 10.224.147.255 scope global dynamic eth0
@@ -192,12 +194,14 @@ Oct 29 13:53:41 host1 Keepalived_vrrp[2256]: VRRP_Instance(VI_1) Entering MASTER
 Neutron on default will drop all traffic who comes from a port, but has a different IP from the port's VM. By adding allowed-address-pair, we allow that kind of traffic from the port. In this way, a VM can use virtual ip.
 
 On neutron controller
+
 ```
 $ neutron port-update <port-id-of-host-1> --allowed-address-pairs type=dict list=true ip_address=10.224.147.208
 $ neutron port-update <port-id-of-host-2> --allowed-address-pairs type=dict list=true ip_address=10.224.147.208
 ```
 
 On host 3, ping vip will pass because of the allowed address pair.
+
 ```
 $ ping 10.224.147.208
 PING 10.224.147.208 (10.224.147.208) 56(84) bytes of data.

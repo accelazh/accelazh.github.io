@@ -10,13 +10,11 @@ tags: [cloud, openstack, devstack]
 
 Using devstack to install openstack all-in-one on ubuntu should be simple and quick. But there are quite a few pitfalls while using this tool.
 
-Versions
-===
+## Versions
 
 I'm installaing openstack stable/havana branch on ubuntu server 12.04. Ceilometer is also installed.
 
-Installation Troubleshooting
-===
+## Installation Troubleshooting
 
 During stack.sh installation:
 
@@ -70,8 +68,7 @@ sudo ~/startnova.sh
   * VM Fusion's VM, after restart, may change IP address. This corrupts Openstack installed on it. To set static IP for VM Fusion's VM, see  
     [http://andrewelkins.com/linux/vmware-fusion-5-set-static-ip-address/]
 
-local.conf
-===
+## local.conf
 
 This is the local.conf I have been using for devstack:
 
@@ -122,8 +119,7 @@ enable_service ceilometer-api
 CEILOMETER_BACKEND=mongodb
 ```
 
-Scripts to Start/Stop Nova
-===
+## Scripts to Start/Stop Nova
 
 On default, openstack services (by devstack) log to screen. Devstack write screen log down to /opt/stack/logs/screen/\*. But, by using these scripts, nova log is written to /var/log/nova/\* (**you have to assign the right permission**).
 
@@ -169,8 +165,7 @@ kill -9 `ps aux | grep keystone | awk '{print $2}'`
 service rabbitmq-server stop
 ```
 
-Others Issues
-===
+## Others Issues
 
   * Horizon, which is django, runs on Apache. After editing code, if without restarting Apache, the code won't be reloaded.
 
