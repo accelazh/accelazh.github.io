@@ -68,6 +68,11 @@
 
 body {
   font-size: 16px;
+  line-height: 24px;
+}
+
+p {
+  margin-bottom: 16px;
 }
 
 .container-narrow {
@@ -86,5 +91,18 @@ pre code {
 }
 
 ol {
-  padding-left: 20px
+  padding-left: 20px;
+}
+
+li {
+  line-height: 24px;
+}
+
+ul, ol {
+  margin-bottom: 16px;
+}
+
+h2, h3 {
+  margin-top: 16px;
+  margin-bottom: 16px;
 }

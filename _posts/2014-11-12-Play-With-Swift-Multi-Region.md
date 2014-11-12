@@ -74,7 +74,9 @@ rm -rf /etc/swift/*
 rm -rf /srv/node/sdb1/*
 ```
 
-## Installtion and Configuration
+## Installation and Configuration
+
+Mainly configuration, actually. Swift requires a bunch of config files to work. 
 
 ### Config Rsync
 
