@@ -20,12 +20,12 @@ A good swift architecture doc [here](https://www.swiftstack.com/openstack-swift/
 ### Different Services
 The four Swift server processes are proxy, account, container and object. 
 
-    * Proxy processes: User restful http request entry, distribute request to storage nodes. Share nothing.
-    * Account processes: Handle metadata for accounts: account info and list containers in a account. Stored as sqlite on disk.
-    * Container processes: Handle metadata for containers: list objects. Stored as sqllite on disk.
-    * Object processes: Store object data.
-        * Auditors: run on storage node, scan & repair bit-rot.
-        * Replicators: maintain object copies. Only push to other nodes.
+* Proxy processes: User restful http request entry, distribute request to storage nodes. Share nothing.
+* Account processes: Handle metadata for accounts: account info and list containers in a account. Stored as sqlite on disk.
+* Container processes: Handle metadata for containers: list objects. Stored as sqllite on disk.
+* Object processes: Store object data.
+    * Auditors: run on storage node, scan & repair bit-rot.
+    * Replicators: maintain object copies. Only push to other nodes.
 
 Swift `container` is the corresponding concept to AWS S3 `bucket` and Ceph `pool`. It is a group, where you put objects and apply config.
 
@@ -35,9 +35,9 @@ Storage structure can be seen as `/account/container/object`.
 
 Swift cluster concepts below.
     
-    * Nodes: a machine.
-    * Zones: also called avaibility zones. One zone corresponds (usually) a rack in a datacenter.
-    * Regions: (usually) refer to different datacenters in different geographical sites.    
+* Nodes: a machine.
+* Zones: also called avaibility zones. One zone corresponds (usually) a rack in a datacenter.
+* Regions: (usually) refer to different datacenters in different geographical sites.    
 
 There can have other layouts for region and zone but above is easier. Region and zone seperate __failure domains__. AWS has same [concept](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html). Ceph use CRUSH map to address them.
 
@@ -81,25 +81,25 @@ Proxy services are more CPU & network intensive. If you are terminating SSL traf
 
 One deployment layout example is: 
 
-    * Proxy services alone on one node: 
-        * swift-proxy-server, swift-object-expirer, swiftstats-server.
-        * memcached
-    * Object services, container services, account services on anther node: 
-        * swift-object-server, swift-container-server, swift-account-server, 
-        * swift-object-updater, swift-container-updater, 
-        * swift-object-auditor, swift-container-auditor, swift-account-auditor, 
-        * swift-object-replicator, swift-container-replicator, swift-account-replicator, 
-        * swift-account-reaper, swift-container-sync, rsync
+* Proxy services alone on one node: 
+    * swift-proxy-server, swift-object-expirer, swiftstats-server.
+    * memcached
+* Object services, container services, account services on anther node: 
+    * swift-object-server, swift-container-server, swift-account-server, 
+    * swift-object-updater, swift-container-updater, 
+    * swift-object-auditor, swift-container-auditor, swift-account-auditor, 
+    * swift-object-replicator, swift-container-replicator, swift-account-replicator, 
+    * swift-account-reaper, swift-container-sync, rsync
 
 Another example is:
     
-    * Put proxy and storage all in one node.
-    * When add machines in, both proxy and storage horizontally grows.
+* Put proxy and storage all in one node.
+* When add machines in, both proxy and storage horizontally grows.
 
 The official [doc](http://docs.openstack.org/juno/install-guide/install/yum/content/example-object-storage-installation-architecture.html) example is:
 
-    * One proxy node in the front.
-    * A set of storage nodes.
+* One proxy node in the front.
+* A set of storage nodes.
 
 The [`swift-objet-expirer`](http://docs.openstack.org/developer/swift/overview_expiring_objects.html) can be anywhere. The [`rsync`](http://docs.openstack.org/developer/swift/overview_replication.html) is used to replicate objects and whole db file in swift. Rsync runs on storage nodes.
 
@@ -131,10 +131,10 @@ It is called **global cluster** now, first released in Swift [1.9.0](https://git
 
 Current implementation of global cluster summarizes as follows:
 
-    1. Add region tier above zones.
-    2. Add read/wrtie affinity. proxy node is region awareness.
-    3. Separated data and replication network.
-    4. Refactored replicator. There is foreign replicator and local replicator.
+1. Add region tier above zones.
+2. Add read/wrtie affinity. proxy node is region awareness.
+3. Separated data and replication network.
+4. Refactored replicator. There is foreign replicator and local replicator.
 
 Regions should be connected via VPN. Note the inconsistency window of foreign replicators, which replicates between regions, is much larger than local replicators, which replicates in one region. All regions share the same ring file, but proxy nodes in different region has different read/write affinity to region/zone.
 

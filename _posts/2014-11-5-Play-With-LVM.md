@@ -237,7 +237,7 @@ chkconfig lvm2-lvmetad on
 Following this [tutorial](http://www.linuxdevcenter.com/pub/a/linux/2006/04/27/managing-disk-space-with-lvm.html?page=1). First step, create physical volume. Either a partition or a disk can be added.
 
 ```
-pvcreate /dev/loop12 /dev/loop2
+$ pvcreate /dev/loop12 /dev/loop2
 WARNING: ext4 signature detected on /dev/loop12 at offset 1080. Wipe it? [y/n] y
   Wiping ext4 signature on /dev/loop12.
   Physical volume "/dev/loop12" successfully created

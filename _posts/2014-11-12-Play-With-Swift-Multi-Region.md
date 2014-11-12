@@ -51,21 +51,21 @@ They looks like but different from what I need.
 
 I will install Swift under multi-region, or called global cluster mode here. In real world each region corresponds to a seperated datacenter. Each zone corresponds to a rack.
 
-    * Region 1
-        * Zone 1: node 10.224.147.166
-        * Zone 2: node 10.224.147.167
-        * Zone 3: node 10.224.147.168
-    * Region 2
-        * Zone 1: node 10.224.147.173
-        * Zone 2: node 10.224.147.174
+* Region 1
+    * Zone 1: node 10.224.147.166
+    * Zone 2: node 10.224.147.167
+    * Zone 3: node 10.224.147.168
+* Region 2
+    * Zone 1: node 10.224.147.173
+    * Zone 2: node 10.224.147.174
 
 A zone can include multiple nodes (or called machines), but I will use only 1 here. All nodes is VM with CentOS 7. Continuing from my last post "Play with Openstack Keystone". All machines should have already passed through
 
-    1. "CentOS 7 Preparation" in my prior post
-    2. Install and Configuration -> Prerequisites
-    3. Install and Configuration -> Installation
-    4. Install and Configuration -> Configuration -> Rsync for Swift
-    5. Install and Configuration -> Configuration -> Memcached for Swift
+1. "CentOS 7 Preparation" in my prior post
+2. Install and Configuration -> Prerequisites
+3. Install and Configuration -> Installation
+4. Install and Configuration -> Configuration -> Rsync for Swift
+5. Install and Configuration -> Configuration -> Memcached for Swift
 
 Leave behind Swift config and ring files. Delete all original existing config file, ring file and original data file
 

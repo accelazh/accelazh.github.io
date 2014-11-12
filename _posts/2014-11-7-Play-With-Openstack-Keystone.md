@@ -417,9 +417,9 @@ $ keystone --os-token 123abcdef --os-endpoint http://10.224.147.166:35357/v2.0/ 
 
 So the points here are
 
-    * Openstack compute, volume, swift, glance is called `service` in keystone.
-    * The url is carried by `endpoint`, which has an associated `service` id. About endpoint config, see [here](http://lin-blog-1.blogspot.com/2013/12/keystone.html).
-    * Keystone has `roles`, but they are just names to it. What they mean depends on each services' own policy.json.
+* Openstack compute, volume, swift, glance is called `service` in keystone.
+* The url is carried by `endpoint`, which has an associated `service` id. About endpoint config, see [here](http://lin-blog-1.blogspot.com/2013/12/keystone.html).
+* Keystone has `roles`, but they are just names to it. What they mean depends on each services' own policy.json.
 
 Let's play with user authentication. Refer to [here](http://bodenr.blogspot.com/2014/03/openstack-keystone-workflow-token.html)
 
