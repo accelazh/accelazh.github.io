@@ -66,10 +66,12 @@
 
 /* added by me */
 pre {
-  word-wrap: normal
+  word-wrap: normal;
   overflow: auto;
+  background-color: #f8f8f8;
+  padding: 6.5px;
 }
 
 pre code {
-  white-space: pre
+  white-space: pre;
 }
