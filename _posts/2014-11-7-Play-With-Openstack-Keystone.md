@@ -241,7 +241,8 @@ Now let's config it. Write the config file `/etc/keystone/`
 ```
 [DEFAULT]  # must uppercase
 # this is the default "--os-token". need to remove in production: remove AdminTokenAuthMiddleware in keystone-paste.ini
-admin_token = 123abcdef 
+admin_token = 123abcdef
+debug = true
 
 [identity]
 driver = keystone.identity.backends.sql.Identity
