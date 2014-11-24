@@ -74,3 +74,6 @@ There are many diagrams illustrate how a TCP/IP packet traverses the kernel. One
 ---
 
 ![iptables packet traverse map 3](/images/iptables-packet-traverse-map-3.png "iptables packet traverse map 1")
+
+Also, there is an `ebtables` filtering on layer 2, compared with `iptables` working on layer 3.
+

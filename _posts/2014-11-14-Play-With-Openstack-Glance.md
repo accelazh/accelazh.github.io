@@ -29,7 +29,7 @@ Glance does have a queuing system, also tasks and status. See [here](http://docs
 
 P.S. Best ways to gather information for installation & deployment of Openstack components
 
-  * How to install: check Openstack official manuals.
+  * How to install: check Openstack official manuals. This is the __BEST__ reference.
   * Config options: github source /etc/*.conf
   * Search config option name in source code.
   * Search in source code test cases for how to use example.

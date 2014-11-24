@@ -21,7 +21,7 @@ A good swift architecture doc [here](https://www.swiftstack.com/openstack-swift/
 
 The four Swift server processes are proxy, account, container and object. 
 
-* Proxy processes: User restful http request entry, distribute request to storage nodes. Share nothing.
+* Proxy processes: User restful http request entry, distribute request to storage nodes. Share nothing, stateless.
 * Account processes: Handle metadata for accounts: account info and list containers in a account. Stored as sqlite on disk.
 * Container processes: Handle metadata for containers: list objects. Stored as sqllite on disk.
 * Object processes: Store object data.

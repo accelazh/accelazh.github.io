@@ -20,10 +20,10 @@ grep -E 'vmx|svm' /proc/cpuinfo
 uname -a # see '2.6.18-164.el5Xen' means Xen kernel is running
 
 # install packages
-yum install -y kvm virt-manager libvirt libvirt-python python-virtinst virt-install
+yum install -y kvm virt-manager libvirt libvirt-python python-virtinst virt-install qemu-kvm
 
 # start libvirt
-service libvirtd status
+service libvirtd start
 chkconfig libvirtd on
 ```
 
@@ -449,7 +449,7 @@ In Openstack you can inject a file to VM's file system prior to boot. This featu
 
 [Libguestfs](http://libguestfs.org/guestfs.3.html) is a library for accessing and modifying VM's disk image. You can mount VM's virtual filesystem onto host's VFS, where you access it as a common filesystem. This is where we can "inject a file".
 
-There are several ways to bring user data into VM. Here I copied from (Liping's blog)[http://blog.csdn.net/matt_mao/article/details/11600115]:
+There are several ways to bring user data into VM. Here I copied from [Liping's blog](http://blog.csdn.net/matt_mao/article/details/11600115):
 
 1) File injection prior to VM boost
 

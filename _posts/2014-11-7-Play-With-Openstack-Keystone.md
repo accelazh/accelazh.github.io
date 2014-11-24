@@ -146,9 +146,7 @@ yum install -y mariadb-devel
 
 Fu*k still got 'Transaction check error'. OK, I give up. It seems that
 
-```
-Don't install MariaDB-Galera-server and python application who use mysql on one machine!
-```
+> Don't install MariaDB-Galera-server and python application who use mysql on one machine!
 
 I will remove MariaDB-Galera-server and install a plain mariadb. Then install MySQL-python
 
@@ -156,12 +154,20 @@ I will remove MariaDB-Galera-server and install a plain mariadb. Then install My
 yum remove -y MariaDB-Galera-server MariaDB-client galera MariaDB-common MariaDB-compat
 yum install -y mariadb-server mariadb mariadb-devel
 systemctl daemon-reload
+
+# remove the old log file, which will prevent mysql from start
+rm -rf /var/lib/mysql/ib_logfile*
+
 service mariadb start
 mysql_secure_installation
 pip install MySQL-python
 
 cd ../keystone
 ```
+
+If you encounter below error in `pip install MySQL-python`, try [comment these lines out](https://mariadb.atlassian.net/browse/MDEV-6862)
+
+> /usr/include/mysql/my_config_x86_64.h:654:2: error: #error <my_config.h> MUST be included first!
 
 Finally, insall keystone.
 
@@ -188,6 +194,24 @@ su -s /bin/bash keystone -c '/bin/keystone-all >> /var/log/keystone/keystone.log
 
 # to stop
 pkill keystone
+```
+
+To make keystone a `serivce openstack-keystone start/stop/status`, either add service script to `/etc/init.d/` (centos 6), or `/usr/lib/systemd/system/` (centos 7). How the `/etc/init.d/openstack-keystone` starts keystone as another user is as follows
+
+```
+...
+start() {
+    [ -x $exec ] || exit 5
+    [ -f $config ] || exit 6
+    echo -n $"Starting $prog: "
+    daemon --user keystone --pidfile $pidfile "$exec --config-file $distconfig --config-file $config &>/dev/null & echo \$! > $pidfile"
+    retval=$?
+    echo
+    [ $retval -eq 0 ] && touch $lockfile
+    [ $retval -eq 0 ] && wait_until_keystone_available
+    return $retval
+}
+...
 ```
 
 ## Install Memcached
@@ -239,6 +263,7 @@ Next, keystone is able to use a caching layer. Refer to [here](http://docs.opens
 Now let's config it. Write the config file `/etc/keystone/`
 
 ```
+echo '
 [DEFAULT]  # must uppercase
 # this is the default "--os-token". need to remove in production: remove AdminTokenAuthMiddleware in keystone-paste.ini
 admin_token = 123abcdef
@@ -249,11 +274,8 @@ driver = keystone.identity.backends.sql.Identity
 
 [database]
 # db connection string refer to http://docs.sqlalchemy.org/en/rel_0_9/core/engines.html#database-urls
-connection = mysql+mysqldb://root:123work@localhost/keystone 
+connection = mysql://root:123work@localhost/keystone 
 idle_timeout = 200
-
-[memcache]
-servers=localhost:11211
 
 [token]
 provider = keystone.token.providers.uuid.Provider
@@ -262,10 +284,12 @@ driver = keystone.token.persistence.backends.memcache_pool.Token
 [cache]
 enabled = true
 backend = dogpile.cache.memcached
+memcache_servers=localhost:11211
 
 [catalog]
 driver = keystone.catalog.backends.templated.Catalog
 template_file = /etc/keystone/default_catalog.templates
+' > /etc/keystone/keystone.conf
 ```
 
 Restart keystone each time config file is changed

@@ -326,7 +326,7 @@ $ lvdisplay
   VG Name                test1
   LV UUID                elD2Ua-UAOm-6aIu-9zSd-FUQH-dhmu-0l72jj
   LV Write Access        read/write
-  LV Creation host, time bigzhao-openstack-01.novalocal, 2014-11-04 15:32:28 +0000
+  LV Creation host, time openstack-01.novalocal, 2014-11-04 15:32:28 +0000
   LV Status              available
   # open                 0
   LV Size                256.00 MiB
@@ -343,7 +343,7 @@ $ lvdisplay
   VG Name                test1
   LV UUID                FhBVnx-Mooc-WW46-biCP-eJu7-XmyM-0Sgdoy
   LV Write Access        read/write
-  LV Creation host, time bigzhao-openstack-01.novalocal, 2014-11-04 15:32:31 +0000
+  LV Creation host, time openstack-01.novalocal, 2014-11-04 15:32:31 +0000
   LV Status              available
   # open                 0
   LV Size                256.00 MiB
@@ -360,7 +360,7 @@ $ lvdisplay
   VG Name                test1
   LV UUID                LDz7ih-pKlp-1Fb3-e8dH-lEkI-lzQM-tZT7oM
   LV Write Access        read/write
-  LV Creation host, time bigzhao-openstack-01.novalocal, 2014-11-04 15:32:34 +0000
+  LV Creation host, time openstack-01.novalocal, 2014-11-04 15:32:34 +0000
   LV Status              available
   # open                 0
   LV Size                256.00 MiB

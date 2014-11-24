@@ -33,7 +33,7 @@ service sshd restart
 Install common tools
 
 ```
-yum install -y vim yum-utils git curl wget
+yum install -y vim yum-utils git curl yum-utils
 ```
 
 Config vim
@@ -64,7 +64,7 @@ ssh-keygen
 ssh-copy-id user@password
 ```
 
-## Just For Reference But No Need Now
+## Optional
 
 Some hardened image use umask 077 rather than 022. This mess up many software installation. Change it back to 022
 
