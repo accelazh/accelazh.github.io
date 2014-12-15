@@ -20,6 +20,7 @@ Command tips
 * `where` / `w`: show where you are in call stack.
 * `dir()` / `locals()` / `globals()`: show all varibales.
 * `continue`: continue running.
+* Use `time.sleep(N)` to switch processes in PDB. Refer to [here](http://stackoverflow.com/questions/12219231/how-to-switch-between-processes-in-pdb)
 
 Other References
 

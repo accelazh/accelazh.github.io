@@ -33,7 +33,7 @@ service sshd restart
 Install common tools
 
 ```
-yum install -y vim yum-utils git curl yum-utils
+yum install -y vim yum-utils git curl wget
 ```
 
 Config vim
@@ -41,7 +41,7 @@ Config vim
 ```
 echo '
 set background=dark
-set smartindent
+"set smartindent
 set tabstop=4
 set shiftwidth=4
 set expandtab
@@ -55,6 +55,14 @@ Install pip
 ```
 wget https://bootstrap.pypa.io/get-pip.py
 python get-pip.py
+```
+
+Install EPEL repo
+
+```
+cd /tmp
+wget https://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-2.noarch.rpm
+yum install -y epel-release-7-2.noarch.rpm
 ```
 
 Generate ssh key pair, then each host contains each one's ssh public key.

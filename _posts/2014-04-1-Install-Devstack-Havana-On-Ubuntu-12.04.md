@@ -1,8 +1,8 @@
 ---
 layout: post
-title: "Devstack Config & Troubleshooting"
-tagline : "Openstack allinone on Ubuntu with Ceilometer"
-description: "Openstack allinone on Ubuntu with Ceilometer"
+title: "Install Devstack Havana on Ubuntu 12.04"
+tagline : "Install Devstack Havana on Ubuntu 12.04"
+description: "Install Devstack Havana on Ubuntu 12.04"
 category: "openstack"
 tags: [cloud, openstack, devstack]
 ---
