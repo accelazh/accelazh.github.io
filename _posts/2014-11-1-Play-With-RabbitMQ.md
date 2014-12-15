@@ -28,10 +28,10 @@ Overall, RabbitMQ and the AMQP protocol is easy to understand and config. Rabbit
         1. when joining a cluster, must use hostname
 
             $ rabbitmqctl join_cluster rabbit@10.224.147.166
-            Clustering node 'rabbit@bigzhao-openstack-03' with 'rabbit@10.224.147.166' ...
+            Clustering node 'rabbit@openstack-03' with 'rabbit@10.224.147.166' ...
             Error: {cannot_discover_cluster,"The nodes provided are either offline or not running"}
-            $ rabbitmqctl join_cluster rabbit@bigzhao-openstack-01
-            Clustering node 'rabbit@bigzhao-openstack-03' with 'rabbit@bigzhao-openstack-01' ...
+            $ rabbitmqctl join_cluster rabbit@openstack-01
+            Clustering node 'rabbit@openstack-03' with 'rabbit@openstack-01' ...
             ...done.
             $ 
 
