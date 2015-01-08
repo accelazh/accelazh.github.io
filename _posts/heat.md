@@ -13,6 +13,8 @@ https://wiki.openstack.org/w/images/a/a1/TOSCA_in_Heat_-_20130415.pdf
 Resource plugin guide
 http://docs.openstack.org/developer/heat/pluginguide.html
 
+http://docs.openstack.org/developer/heat/template_guide/openstack.html
+
 cloudify: why orchestration and heat
 http://www.slideshare.net/uri1803/deployment-automation-on-openstack-with-tosca-and-cloudify-30914199
 heat template (hot) vs tosca
@@ -78,7 +80,7 @@ description: HOT template to deploy two servers to an existing Neutron network.
 parameters:
   image:
     default: 148b4d44-e56d-4be1-86ed-e5005ae48c0d
-    type: string
+    type: strin
     description: Name of image to use for servers
   flavor:
     default: m1.tiny

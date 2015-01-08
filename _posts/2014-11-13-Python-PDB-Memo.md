@@ -22,6 +22,8 @@ Command tips
 * `continue`: continue running.
 * Use `time.sleep(N)` to switch processes in PDB. Refer to [here](http://stackoverflow.com/questions/12219231/how-to-switch-between-processes-in-pdb)
 
+Currently, using PDB to debug multi-process program is pain point.
+
 Other References
 
 * [How to execute multi-line statements within PDB?](http://stackoverflow.com/questions/5967241/how-to-execute-multi-line-statements-within-pythons-own-debugger-pdb)
