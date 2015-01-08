@@ -1,8 +1,8 @@
 ---
 layout: post
-title: "Time-series Learning Algorithms Collected"
-tagline : "Time-series Learning Algorithms Collected"
-description: "Time-series Learning Algorithms Collected"
+title: "Time-series Learning Algorithms Candidates"
+tagline : "Time-series Learning Algorithms Candidates"
+description: "Time-series Learning Algorithms Candidates"
 category: "datamining"
 tags: [datamining, time-series, stream]
 ---
@@ -341,9 +341,9 @@ Step 3: Select from outliers, who is larger/smaller than its neighbor on both si
 
 Step 4: Merge two S points A & B, if
 
-# A & B are both above/below mean, and
-# points between A & B are all outliers of same side to mean, but not S point, and
-# NOT (at least one point X between A & B, min(\|A.value-X.value\|, \|B.value-X.value\|) is larger than threshold k). k is a changeable parameter. i.e. a gap exists between A & B.
+  * A & B are both above/below mean, and
+  * points between A & B are all outliers of same side to mean, but not S point, and
+  * NOT (at least one point X between A & B, min(\|A.value-X.value\|, \|B.value-X.value\|) is larger than threshold k). k is a changeable parameter. i.e. a gap exists between A & B.
 
 A, B is merged to whom is farther from mean.
 
@@ -658,7 +658,7 @@ Draw a straight line from NA point's left and right neighbor. NA point's y value
 R implementation seems to be cumbersome and fragile. I prefer to user Python to do it.
 
 ```
-mdf=read.csv('/Users/bigzhao/Desktop/workspace/WLAP-cloud-intelligence/study/ceilometer_dump/2014-8-5/cpu_util.csv')
+mdf=read.csv('~/Desktop/workspace/WLAP-cloud-intelligence/study/ceilometer_dump/2014-8-5/cpu_util.csv')
 #mdf$time2 = as.POSIXct(mdf$time, origin="1970-01-01")  # get the time string from timestamp, the mdf$time is lost somehow
 #x1=xts(mdf$value, mdf$time2)  # xts requires using Date for time, but zoo is enough
 
