@@ -1,13 +1,24 @@
-heat stable/juno
-centos 7
+---
+layout: post
+title: "Install Heat Standalone"
+tagline : "Install Heat Standalone"
+description: "Install Heat Standalone"
+category: "orchestration"
+tags: [openstack, orchestration, heat]
+---
+{% include JB/setup %}
 
-post "CentOS 7 preparation". for simplicity we just run heat under root
+Installing heat stable/juno on centos 7. I want to run heat in standalone mode, i.e., has least dependent Openstack components. AFAIK keystone is needed. Looking forward to make heat a fully independent orchestration engine which can be used even without Openstack.
 
 ## Preparation
+
+First I use "CentOS 7 preparation" to prepare the centos 7.
 
 ```
 yum install -y python-devel openssl-devel python-pip git gcc mysql-devel postgresql-devel libffi-devel libvirt-devel graphviz sqlite-devel libxslt-devel libxslt libxml2 libxml2-devel
 ```
+
+For simplicity we just run heat under root.
 
 ```
 yum install -y mariadb mariadb-server mariadb-devel
@@ -175,7 +186,9 @@ Synchronized heat database
 pkill -f 'python.+heat'; ps -ef|grep heat
 ```
 
-http://docs.openstack.org/developer/heat/getting_started/standalone.html
-https://github.com/sushilkm/heat-standalone/blob/master/install-heat
+## References
+
+* [Heat Standalone Getting Started](http://docs.openstack.org/developer/heat/getting_started/standalone.html)
+* [Install Heat Standalone](https://github.com/sushilkm/heat-standalone/blob/master/install-heat)
 
 
