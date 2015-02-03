@@ -7,9 +7,7 @@ group: navigation
 
 {% include JB/setup %}
 
-## About This Blog | 关于这个博客
+## About Accela Zhao
 
-他很懒，什么都没留下……
-
-This is Accela Zhao's personal blog.
-
+[English Resume](assets/resume/resume-en.pdf)
+[中文简历](assets/resume/resume-cn.pdf)
