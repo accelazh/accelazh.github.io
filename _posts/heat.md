@@ -139,3 +139,13 @@ outputs:
 --
 
 let's experiment with autoscaling + lb example
+
+--
+
+1. heat dive
+    1. how heat implement relationship
+        1. no relationship
+        2. no way to relation between HOTs
+    2. heat ha lbaas
+       http://www.hastexo.com/blogs/syed/2014/08/05/orchestrating-highly-available-load-balancers-openstack-heat
+

@@ -24,7 +24,7 @@ However, opensource cinder drivers are not that much. Refer to [here](http://www
 > Cinder has 27 storage drivers, and only 4 of them are open source, the rest are proprietary solutions: Ceph RBD, GlusterFS,
 NFS, LVM(reference implementation).
 
-Overall, Ceph is basically the best choice of Cinder backend. Not counting the "storage convergence" to unify image backend and block backend, and provide boot from volume and fast boot.
+Overall, Ceph is basically the best choice of Cinder backend. Not counting the "storage convergence" to unify image backend and block backend, and provide boot from volume and fast boot. Cinder, on the other side, can be separated from Openstack and be used as an independent unified enterprise storage management platform.
 
 Cinder architecture references
 
@@ -159,7 +159,7 @@ keystone endpoint-create --service-id $(keystone service-list | awk '/ volumev2 
 
 First, ensure each node can ping each other with hostname. This requires you to modify /etc/hosts to add each node's host name.
 
-Create the config file on each host
+Create the config file on each host. I enable multi-backend following [tutorial](http://openstack-in-production.blogspot.com/2014/03/enable-cinder-multi-backend-with.html).
 
 ```
 echo '
@@ -181,14 +181,20 @@ my_ip=10.224.147.166
 host=openstack-01.novalocal
 
 glance_host=10.224.147.166
-auth_strategy = keystone
+auth_strategy=keystone
+
+enabled_backends=lvm
+scheduler_driver=cinder.scheduler.filter_scheduler.FilterScheduler
+default_volume_type=lvm
 
 iscsi_helper=lioadm
+
+[lvm]
 volume_group=cinder-volumes
+volume_backend_name=lvm
 volume_driver=cinder.volume.drivers.lvm.LVMISCSIDriver
 
 [database]
-
 connection=mysql://root:123work@10.224.147.166/cinder
 
 [keystone_authtoken]
@@ -235,7 +241,7 @@ devices {
 service lvm2-lvmetad restart
 ```
 
-### Start Cinder
+## Start Cinder
 
 Let's start cinder services
 
@@ -248,12 +254,22 @@ su -s /bin/bash cinder -c '/usr/bin/cinder-scheduler >> /var/log/cinder/schedule
 service lvm2-lvmetad restart
 service target restart
 su -s /bin/bash cinder -c '/usr/bin/cinder-volume >> /var/log/cinder/volume.log 2>&1' &
+
+# to stop cinder
+#ps -ef|grep cinder|awk '{print $2}'|xargs kill
 ```
 
 ### To Verify
 
+Acquire admin access and list services
+
 ```
 $ source ~/openstack-admin.rc
+```
+
+List connected Cinder services
+
+```
 $ cinder service-list
 +------------------+--------------------------------+------+---------+-------+----------------------------+-----------------+
 |      Binary      |              Host              | Zone |  Status | State |         Updated_at         | Disabled Reason |
@@ -263,39 +279,287 @@ $ cinder service-list
 |  cinder-volume   | openstack-03.novalocal | nova | enabled |   up  | 2014-12-23T16:31:58.000000 |       None      |
 |  cinder-volume   | openstack-04.novalocal | nova | enabled |   up  | 2014-12-23T16:31:54.000000 |       None      |
 +------------------+--------------------------------+------+---------+-------+----------------------------+-----------------+
-$ cinder create --display-name demo-volume1 1
-+---------------------+--------------------------------------+
-|       Property      |                Value                 |
-+---------------------+--------------------------------------+
-|     attachments     |                  []                  |
-|  availability_zone  |                 nova                 |
-|       bootable      |                false                 |
-|      created_at     |      2014-12-23T16:33:22.538902      |
-| display_description |                 None                 |
-|     display_name    |             demo-volume1             |
-|      encrypted      |                False                 |
-|          id         | 11fbce0b-c124-4a4d-a4b3-56564f614c19 |
-|       metadata      |                  {}                  |
-|         size        |                  1                   |
-|     snapshot_id     |                 None                 |
-|     source_volid    |                 None                 |
-|        status       |               creating               |
-|     volume_type     |                 None                 |
-+---------------------+--------------------------------------+
-$ cinder create --display-name demo-volume2 2
-$ cinder create --display-name demo-volume3 3
+```
+
+The above config already enabled Cinder [multi-backend](https://wiki.openstack.org/wiki/Cinder-multi-backend#Volume_Type). Now create the default backend. Following [tutorial](http://openstack-in-production.blogspot.com/2014/03/enable-cinder-multi-backend-with.html)
+
+```
+$ cinder type-create lvm
++--------------------------------------+------+
+|                  ID                  | Name |
++--------------------------------------+------+
+| 70e42295-8b2c-42b3-a0a3-f337136730f4 | lvm  |
++--------------------------------------+------+
+$ cinder type-key lvm set volume_backend_name=lvm
+$ cinder extra-specs-list
++--------------------------------------+------+----------------------------------+
+|                  ID                  | Name |           extra_specs            |
++--------------------------------------+------+----------------------------------+
+| 70e42295-8b2c-42b3-a0a3-f337136730f4 | lvm  | {u'volume_backend_name': u'lvm'} |
++--------------------------------------+------+----------------------------------+
+```
+
+Cinder provides QoS. See tutorials [1](http://openstack-in-production.blogspot.com/2014/03/enable-cinder-multi-backend-with.html), [2](http://www.wzxue.com/openstack-cinder%E7%9A%84qos%E7%89%B9%E6%80%A7%E9%A2%84%E8%A7%88/). QoS needs multi-backend enabled. The consumer can be "frontend", "backend" or "both", which means QoS can be done by frontend nova & libvirt, cinder driver & backend storage, or both sides.
+
+```
+$ cinder qos-create standard-iops consumer="both"
+$ cinder qos-key dcaec566-9ef3-410c-bc88-8feef29ed685 set read_iops_sec=400 write_iops_sec=200
+$ cinder qos-key dcaec566-9ef3-410c-bc88-8feef29ed685 set read_bytes_sec=80000000 write_bytes_sec=40000000
+$ cinder qos-list
++--------------------------------------+---------------+----------+------------------------------------------------------------------------------------------------------------------------+
+|                  ID                  |      Name     | Consumer |                                                         specs                                                          |
++--------------------------------------+---------------+----------+------------------------------------------------------------------------------------------------------------------------+
+| dcaec566-9ef3-410c-bc88-8feef29ed685 | standard-iops |   both   | {u'read_bytes_sec': u'80000000', u'write_iops_sec': u'200', u'write_bytes_sec': u'40000000', u'read_iops_sec': u'400'} |
++--------------------------------------+---------------+----------+------------------------------------------------------------------------------------------------------------------------+
+```
+
+Associate Cinder QoS with backend type
+
+```
+$ cinder qos-associate dcaec566-9ef3-410c-bc88-8feef29ed685 70e42295-8b2c-42b3-a0a3-f337136730f4
+```
+
+Create the Cinder volumes. The volume created from image is bootable
+
+```
+# create a plain volume
+$ cinder create --display-name demo-vol1 --volume-type lvm 1
+# create volume from image, which is bootable
+$ cinder create --display-name demo-vol2 --volume-type lvm --image-id 383de0c9-420d-4a03-b1c9-499bd8e681c7 1
+# list the volumes
 $ cinder list
 +--------------------------------------+-----------+--------------+------+-------------+----------+-------------+
 |                  ID                  |   Status  | Display Name | Size | Volume Type | Bootable | Attached to |
 +--------------------------------------+-----------+--------------+------+-------------+----------+-------------+
-| 11fbce0b-c124-4a4d-a4b3-56564f614c19 | available | demo-volume1 |  1   |     None    |  false   |             |
-| 7c4e578a-690b-47d3-a6da-66d976b1f823 | available | demo-volume3 |  3   |     None    |  false   |             |
-| ae5ee8a6-fa12-4314-9f1c-438c773c5d58 | available | demo-volume2 |  2   |     None    |  false   |             |
+| 6ea7cd9d-a8fb-4345-9e28-9c3a8b7653f1 | available |  demo-vol2   |  1   |     lvm     |   true   |             |
+| 97f0cbb0-b661-4fbe-92ea-9ff15dab777e | available |  demo-vol1   |  1   |     lvm     |  false   |             |
 +--------------------------------------+-----------+--------------+------+-------------+----------+-------------+
+```
+
+Attach the volume to an VM instance. I have some previously created VMs demo-instance1 to 3.
+
+```
+$ nova list
++--------------------------------------+----------------+---------+------------+-------------+----------------------------------------+
+| ID                                   | Name           | Status  | Task State | Power State | Networks                               |
++--------------------------------------+----------------+---------+------------+-------------+----------------------------------------+
+| 66c94a8d-e56d-447b-8c4e-692c296d7550 | demo-instance1 | ACTIVE  | -          | Running     | demo-net=192.168.124.2, 10.224.147.234 |
+| 718bad9d-0fe1-4939-8b40-76756bf7f074 | demo-instance2 | ACTIVE  | -          | Running     | demo-net=192.168.124.4, 10.224.147.235 |
+| 871d21ce-f4ca-4242-bf63-f1659b42e60d | demo-instance3 | ACTIVE  | -          | Running     | demo-net=192.168.124.8                 |
++--------------------------------------+----------------+---------+------------+-------------+----------------------------------------+
+$ nova volume-attach demo-instance1 97f0cbb0-b661-4fbe-92ea-9ff15dab777e
++----------+--------------------------------------+
+| Property | Value                                |
++----------+--------------------------------------+
+| device   | /dev/vdb                             |
+| id       | 97f0cbb0-b661-4fbe-92ea-9ff15dab777e |
+| serverId | 66c94a8d-e56d-447b-8c4e-692c296d7550 |
+| volumeId | 97f0cbb0-b661-4fbe-92ea-9ff15dab777e |
++----------+--------------------------------------+
+$ cinder show 97f0cbb0-b661-4fbe-92ea-9ff15dab777e
++---------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|                Property               |                                                                                                    Value                                                                                                     |
++---------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|              attachments              | [{u'device': u'/dev/vdb', u'server_id': u'66c94a8d-e56d-447b-8c4e-692c296d7550', u'id': u'97f0cbb0-b661-4fbe-92ea-9ff15dab777e', u'host_name': None, u'volume_id': u'97f0cbb0-b661-4fbe-92ea-9ff15dab777e'}] |
+|           availability_zone           |                                                                                                     nova                                                                                                     |
+|                bootable               |                                                                                                    false                                                                                                     |
+|               created_at              |                                                                                          2015-01-27T14:12:15.000000                                                                                          |
+|          display_description          |                                                                                                     None                                                                                                     |
+|              display_name             |                                                                                                  demo-vol1                                                                                                   |
+|               encrypted               |                                                                                                    False                                                                                                     |
+|                   id                  |                                                                                     97f0cbb0-b661-4fbe-92ea-9ff15dab777e                                                                                     |
+|                metadata               |                                                                               {u'readonly': u'False', u'attached_mode': u'rw'}                                                                               |
+|         os-vol-host-attr:host         |                                                                                        openstack-04.novalocal@lvm#lvm                                                                                        |
+|     os-vol-mig-status-attr:migstat    |                                                                                                     None                                                                                                     |
+|     os-vol-mig-status-attr:name_id    |                                                                                                     None                                                                                                     |
+|      os-vol-tenant-attr:tenant_id     |                                                                                       c48611d23b754e909753d7ec2428819a                                                                                       |
+|   os-volume-replication:driver_data   |                                                                                                     None                                                                                                     |
+| os-volume-replication:extended_status |                                                                                                     None                                                                                                     |
+|                  size                 |                                                                                                      1                                                                                                       |
+|              snapshot_id              |                                                                                                     None                                                                                                     |
+|              source_volid             |                                                                                                     None                                                                                                     |
+|                 status                |                                                                                                    in-use                                                                                                    |
+|              volume_type              |                                                                                                     lvm                                                                                                      |
++---------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+```
+
+On storage node, use `lvdisplay` to see created logic volumes
+
+```
+# on host openstsack-04
+$ lvdisplay
+  --- Logical volume ---
+  LV Path                /dev/cinder-volumes/volume-97f0cbb0-b661-4fbe-92ea-9ff15dab777e
+  LV Name                volume-97f0cbb0-b661-4fbe-92ea-9ff15dab777e
+  VG Name                cinder-volumes
+  LV UUID                Xq95Mb-0kXp-wUKG-AjQ6-5bal-g8cC-wcSdma
+  LV Write Access        read/write
+  LV Creation host, time openstack-04.novalocal, 2015-01-27 14:12:19 +0000
+  LV Status              available
+  # open                 1
+  LV Size                1.00 GiB
+  Current LE             256
+  Segments               1
+  Allocation             inherit
+  Read ahead sectors     auto
+  - currently set to     8192
+  Block device           252:0
+$ ll /dev/cinder-volumes/
+total 0
+lrwxrwxrwx 1 root root 7 Jan 27 14:12 volume-97f0cbb0-b661-4fbe-92ea-9ff15dab777e -> ../dm-0
+```
+
+On the attacher VM instance, list the attached device `/dev/vdb`
+
+```
+# on demo-instance1
+ls /dev/vd*
+/dev/vda    /dev/vda1   /dev/vdb   
+```
+
+Let's see how the VM's libvirt domain changes in response to the attached volume
+
+```
+# on host openstack-03, instance-00000037 is demo-instance1's id in libvirt
+$ virsh edit instance-00000037
+...
+  <devices>
+    ...
+    <disk type='block' device='disk'>
+      <driver name='qemu' type='raw' cache='none'/>
+      <source dev='/dev/disk/by-path/ip-10.224.147.173:3260-iscsi-iqn.2010-10.org.openstack:volume-97f0cbb0-b661-4fbe-92ea-9ff15dab777e-lun-0'/>
+      <target dev='vdb' bus='virtio'/>
+      <iotune>
+        <read_bytes_sec>80000000</read_bytes_sec>
+        <write_bytes_sec>40000000</write_bytes_sec>
+        <read_iops_sec>400</read_iops_sec>
+        <write_iops_sec>200</write_iops_sec>
+      </iotune>
+      <serial>97f0cbb0-b661-4fbe-92ea-9ff15dab777e</serial>
+      <address type='pci' domain='0x0000' bus='0x00' slot='0x06' function='0x0'/>
+    </disk>
+    ...
+  </devices>
+...
+```
+
+Note that the `<iotune>` part provides qos by libvirt side (frontend QoS). Current Cinder LVM driver doesn't support QoS itself (backend QoS). Another example can be found [here](http://www.sebastien-han.fr/blog/2013/12/23/openstack-ceph-rbd-and-qos/).
+
+To see how iscsi targets are setup on the volume node. About [lioadm](http://linux-iscsi.org/wiki/LIO). CentOS 7 use lioadm (targetcli) instead of tgtadm, see [1](https://bugzilla.redhat.com/show_bug.cgi?id=1071423), [2](https://www.centos.org/forums/viewtopic.php?f=47&t=48591). About set up tgtadm iscsi volumes and provision with libvirt pool, see article [1](https://www.berrange.com/posts/2010/05/05/provisioning-kvm-virtual-machines-on-iscsi-the-hard-way-part-1-of-2/), [2](https://www.berrange.com/posts/2010/05/05/provisioning-kvm-virtual-machines-on-iscsi-the-hard-way-part-2-of-2/).
+
+```
+# on host openstack-04
+$ targetcli ls
+o- / ......................................................................................................................... [...]
+  o- backstores .............................................................................................................. [...]
+  | o- block .................................................................................................. [Storage Objects: 1]
+  | | o- iqn.2010-10.org.openstack:volume-97f0cbb0-b661-4fbe-92ea-9ff15dab777e  [/dev/cinder-volumes/volume-97f0cbb0-b661-4fbe-92ea-9ff15dab777e (1.0GiB) write-thru activated]
+  | o- fileio ................................................................................................. [Storage Objects: 0]
+  | o- pscsi .................................................................................................. [Storage Objects: 0]
+  | o- ramdisk ................................................................................................ [Storage Objects: 0]
+  o- iscsi ............................................................................................................ [Targets: 1]
+  | o- iqn.2010-10.org.openstack:volume-97f0cbb0-b661-4fbe-92ea-9ff15dab777e ............................................. [TPGs: 1]
+  |   o- tpg1 .......................................................................................... [no-gen-acls, auth per-acl]
+  |     o- acls .......................................................................................................... [ACLs: 1]
+  |     | o- iqn.1994-05.com.redhat:d1c48d5dbb6 ....................................................... [1-way auth, Mapped LUNs: 1]
+  |     |   o- mapped_lun0 ................. [lun0 block/iqn.2010-10.org.openstack:volume-97f0cbb0-b661-4fbe-92ea-9ff15dab777e (rw)]
+  |     o- luns .......................................................................................................... [LUNs: 1]
+  |     | o- lun0  [block/iqn.2010-10.org.openstack:volume-97f0cbb0-b661-4fbe-92ea-9ff15dab777e (/dev/cinder-volumes/volume-97f0cbb0-b661-4fbe-92ea-9ff15dab777e)]
+  |     o- portals .................................................................................................... [Portals: 1]
+  |       o- 0.0.0.0:3260 ..................................................................................................... [OK]
+  o- loopback ......................................................................................................... [Targets: 0]
 
 ```
 
-### Troubleshooting
+Next Let's try boot from volume. Here I boot from Cinder volume. Another way is for nova to generate a bootable volume from you sepcified image, then boot from it, see [manual](http://docs.openstack.org/user-guide/content/create_volume_from_image_and_boot.html). About how to [create bootable volume](https://openstack.redhat.com/forum/discussion/197/booting-from-volume-or-snapshot).
+
+```
+$ nova boot --flavor m1.tiny --block-device source=volume,id=6ea7cd9d-a8fb-4345-9e28-9c3a8b7653f1,dest=volume,shutdown=preserve,bootindex=0 --nic net-id=02320589-b038-493a-9106-c9c2c3ebdb42 --security-group default demo-boot-vol
+$ nova show 784a31c5-ac36-4bdf-af42-9c7b668d3868
++--------------------------------------+----------------------------------------------------------+
+| Property                             | Value                                                    |
++--------------------------------------+----------------------------------------------------------+
+| OS-DCF:diskConfig                    | MANUAL                                                   |
+| OS-EXT-AZ:availability_zone          | nova                                                     |
+| OS-EXT-SRV-ATTR:host                 | openstack-02.novalocal                                   |
+| OS-EXT-SRV-ATTR:hypervisor_hostname  | openstack-02.novalocal                                   |
+| OS-EXT-SRV-ATTR:instance_name        | instance-0000003e                                        |
+| OS-EXT-STS:power_state               | 1                                                        |
+| OS-EXT-STS:task_state                | -                                                        |
+| OS-EXT-STS:vm_state                  | active                                                   |
+| OS-SRV-USG:launched_at               | 2015-01-28T13:20:57.000000                               |
+| OS-SRV-USG:terminated_at             | -                                                        |
+| accessIPv4                           |                                                          |
+| accessIPv6                           |                                                          |
+| config_drive                         |                                                          |
+| created                              | 2015-01-28T13:20:44Z                                     |
+| demo-net network                     | 192.168.124.11                                           |
+| flavor                               | m1.tiny (1)                                              |
+| hostId                               | f679e241961b677f2a7ef572fc56bff74e1a8370c43448ae107dd0d5 |
+| id                                   | 784a31c5-ac36-4bdf-af42-9c7b668d3868                     |
+| image                                | Attempt to boot from volume - no image supplied          |
+| key_name                             | -                                                        |
+| metadata                             | {}                                                       |
+| name                                 | demo-boot-vol                                            |
+| os-extended-volumes:volumes_attached | [{"id": "6ea7cd9d-a8fb-4345-9e28-9c3a8b7653f1"}]         |
+| progress                             | 0                                                        |
+| security_groups                      | default                                                  |
+| status                               | ACTIVE                                                   |
+| tenant_id                            | c48611d23b754e909753d7ec2428819a                         |
+| updated                              | 2015-01-28T13:20:58Z                                     |
+| user_id                              | 6094daee26d9463e8b37e87dc8d8b33d                         |
++--------------------------------------+----------------------------------------------------------+
+```
+
+The VM 'demo-boot-vol' is running on volume 'demo-vol2', as its boot disk. Not that "Attempt to boot from volume - no image supplied". Login to this VM, let's check
+
+```
+# on VM demo-boot-vol
+$ ls /dev/vd*
+/dev/vda    /dev/vda1
+```
+
+/dev/vda is the volume booted from. Let's leave something
+
+```
+# on VM demo-boot-vol
+$ pwd
+/home/cirros
+$ mkdir workspace
+$ cd workspace
+$ echo "hello world" "$(date)" > hello.txt
+```
+
+After than let's destory the VM and attach the volume to demo-instance1
+
+```
+$ nova delete demo-boot-vol
+$ cinder list
++--------------------------------------+-----------+--------------+------+-------------+----------+--------------------------------------+
+|                  ID                  |   Status  | Display Name | Size | Volume Type | Bootable |             Attached to              |
++--------------------------------------+-----------+--------------+------+-------------+----------+--------------------------------------+
+| 6ea7cd9d-a8fb-4345-9e28-9c3a8b7653f1 | available |  demo-vol2   |  1   |     lvm     |   true   |                                      |
+| 97f0cbb0-b661-4fbe-92ea-9ff15dab777e |   in-use  |  demo-vol1   |  1   |     lvm     |  false   | 66c94a8d-e56d-447b-8c4e-692c296d7550 |
++--------------------------------------+-----------+--------------+------+-------------+----------+--------------------------------------+
+$ nova volume-attach demo-instance1 6ea7cd9d-a8fb-4345-9e28-9c3a8b7653f1
+```
+
+Let's login to demo-instance1 and check out the file left by demo-boot-vol
+
+```
+# on VM demo-instance1
+$ ls /dev/vd*
+/dev/vda    /dev/vda1   /dev/vdb    /dev/vdd    /dev/vdd1
+$ sudo mkdir /mnt/demo-boot-vol
+$ sudo mount /dev/vdd1 /mnt/demo-boot-vol
+$ cd /mnt/demo-boot-vol
+$ cat home/cirros/workspace/hello.txt
+hello world Wed Jan 28 06:42:41 MST 2015
+```
+
+The file created by demo-boot-vol is still there. It can be shared with demo-instance1 who attached the volume. Note that it is '/dev/vdd' rather than '/dev/vdc' because I previously attached and detached an volume from demo-instance1 once.
+
+## Troubleshooting
 
 If you encoutered below when starting cinder-api
 
@@ -356,40 +620,129 @@ Unauthorized: The request you have made requires authentication. (Disable debug 
 
 First check whether your keystone endpoint has correct ip for cinder. Second restart keystone, memcached and httpd on each side.
 
+If you encounter that
 
+```
+2015-01-27 15:15:28.876 31039 WARNING cinder.brick.iscsi.iscsi [req-83b9d859-6279-45bf-aa54-38fbd8cb7105 6094daee26d9463e8b37e87dc8d8b33d c48611d23b754e909753d7ec2428819a - - -] Failed to create iscsi t
+arget for volume id:volume-97f0cbb0-b661-4fbe-92ea-9ff15dab777e: Unexpected error while running command.
+Command: None
+Exit code: -
+Stdout: u"Unexpected error while running command.\nCommand: sudo cinder-rootwrap /etc/cinder/rootwrap.conf tgt-admin --update iqn.2010-10.org.openstack:volume-97f0cbb0-b661-4fbe-92ea-9ff15dab777e\nExit 
+code: 96\nStdout: u''\nStderr: u'/usr/bin/cinder-rootwrap: Executable not found: tgt-admin (filter match = tgt-admin)\\n'"
+Stderr: None
+2015-01-27 15:15:28.876 31039 ERROR oslo.messaging.rpc.dispatcher [req-83b9d859-6279-45bf-aa54-38fbd8cb7105 6094daee26d9463e8b37e87dc8d8b33d c48611d23b754e909753d7ec2428819a - - -] Exception during mess
+age handling: Failed to create iscsi target for volume volume-97f0cbb0-b661-4fbe-92ea-9ff15dab777e.
+2015-01-27 15:15:28.876 31039 TRACE oslo.messaging.rpc.dispatcher Traceback (most recent call last):
+2015-01-27 15:15:28.876 31039 TRACE oslo.messaging.rpc.dispatcher   File "/usr/lib/python2.7/site-packages/oslo/messaging/rpc/dispatcher.py", line 134, in _dispatch_and_reply
+2015-01-27 15:15:28.876 31039 TRACE oslo.messaging.rpc.dispatcher     incoming.message))
+2015-01-27 15:15:28.876 31039 TRACE oslo.messaging.rpc.dispatcher   File "/usr/lib/python2.7/site-packages/oslo/messaging/rpc/dispatcher.py", line 177, in _dispatch
+2015-01-27 15:15:28.876 31039 TRACE oslo.messaging.rpc.dispatcher     return self._do_dispatch(endpoint, method, ctxt, args)
+2015-01-27 15:15:28.876 31039 TRACE oslo.messaging.rpc.dispatcher   File "/usr/lib/python2.7/site-packages/oslo/messaging/rpc/dispatcher.py", line 123, in _do_dispatch
+2015-01-27 15:15:28.876 31039 TRACE oslo.messaging.rpc.dispatcher     result = getattr(endpoint, method)(ctxt, **new_args)
+2015-01-27 15:15:28.876 31039 TRACE oslo.messaging.rpc.dispatcher   File "/usr/lib/python2.7/site-packages/osprofiler/profiler.py", line 105, in wrapper
+2015-01-27 15:15:28.876 31039 TRACE oslo.messaging.rpc.dispatcher     return f(*args, **kwargs)
+2015-01-27 15:15:28.876 31039 TRACE oslo.messaging.rpc.dispatcher   File "/usr/lib/python2.7/site-packages/cinder/volume/manager.py", line 877, in initialize_connection
+2015-01-27 15:15:28.876 31039 TRACE oslo.messaging.rpc.dispatcher     volume)
+2015-01-27 15:15:28.876 31039 TRACE oslo.messaging.rpc.dispatcher   File "/usr/lib/python2.7/site-packages/osprofiler/profiler.py", line 105, in wrapper
+2015-01-27 15:15:28.876 31039 TRACE oslo.messaging.rpc.dispatcher     return f(*args, **kwargs)
+2015-01-27 15:15:28.876 31039 TRACE oslo.messaging.rpc.dispatcher   File "/usr/lib/python2.7/site-packages/cinder/volume/drivers/lvm.py", line 548, in create_export
+2015-01-27 15:15:28.876 31039 TRACE oslo.messaging.rpc.dispatcher     return self._create_export(context, volume)
+2015-01-27 15:15:28.876 31039 TRACE oslo.messaging.rpc.dispatcher   File "/usr/lib/python2.7/site-packages/cinder/volume/drivers/lvm.py", line 560, in _create_export
+2015-01-27 15:15:28.876 31039 TRACE oslo.messaging.rpc.dispatcher     self.configuration)
+2015-01-27 15:15:28.876 31039 TRACE oslo.messaging.rpc.dispatcher   File "/usr/lib/python2.7/site-packages/cinder/volume/iscsi.py", line 61, in create_export
+2015-01-27 15:15:28.876 31039 TRACE oslo.messaging.rpc.dispatcher     conf.iscsi_write_cache)
+2015-01-27 15:15:28.876 31039 TRACE oslo.messaging.rpc.dispatcher   File "/usr/lib/python2.7/site-packages/cinder/brick/iscsi/iscsi.py", line 249, in create_iscsi_target
+2015-01-27 15:15:28.876 31039 TRACE oslo.messaging.rpc.dispatcher     raise exception.ISCSITargetCreateFailed(volume_id=vol_id)
+2015-01-27 15:15:28.876 31039 TRACE oslo.messaging.rpc.dispatcher ISCSITargetCreateFailed: Failed to create iscsi target for volume volume-97f0cbb0-b661-4fbe-92ea-9ff15dab777e.
+2015-01-27 15:15:28.876 31039 TRACE oslo.messaging.rpc.dispatcher 
+```
 
+Be sure that in cinder.conf, `iscsi_helper=lioadm` is put in global namespace, rather than inside any backend's section. If you search in the code you will find `iscsi_helper` is referenced this way
 
-TODO boot from volume
+```
+# cinder/volume/driver.py::initialize_connection
+         if CONF.iscsi_helper == 'lioadm':
+             self.target_helper.initialize_connection(volume, connector)
+```
 
-TODO how does cinder use lvm iscsi initialize_connection result for VM?
+If you encounter below in compute log when booting VM from volume
+
+```
+2015-01-28 13:01:11.166 19710 ERROR nova.virt.libvirt.driver [-] Error launching a defined domain with XML: <domain type='qemu'>
+  <name>instance-0000003d</name>
+  <uuid>aa2e1571-1d65-4171-9cad-6f6308ed2983</uuid>
+  ...
+  <devices>
+    <emulator>/usr/bin/qemu-system-x86_64</emulator>
+    <disk type='file' device='disk'>
+      <driver name='qemu' type='qcow2' cache='none'/>
+      <source file='/var/lib/nova/instances/aa2e1571-1d65-4171-9cad-6f6308ed2983/disk'/>
+      <target dev='vda' bus='virtio'/>
+      <address type='pci' domain='0x0000' bus='0x00' slot='0x04' function='0x0'/>
+    </disk>
+  ...
+```
+
+And this one
+
+```
+2015-01-28 13:01:11.167 19710 ERROR nova.compute.manager [-] [instance: aa2e1571-1d65-4171-9cad-6f6308ed2983] Instance failed to spawn
+2015-01-28 13:01:11.167 19710 TRACE nova.compute.manager [instance: aa2e1571-1d65-4171-9cad-6f6308ed2983] Traceback (most recent call last):
+2015-01-28 13:01:11.167 19710 TRACE nova.compute.manager [instance: aa2e1571-1d65-4171-9cad-6f6308ed2983]   File "/usr/lib/python2.7/site-packages/nova/compute/manager.py", line 2242, in _build_resources
+2015-01-28 13:01:11.167 19710 TRACE nova.compute.manager [instance: aa2e1571-1d65-4171-9cad-6f6308ed2983]     yield resources
+2015-01-28 13:01:11.167 19710 TRACE nova.compute.manager [instance: aa2e1571-1d65-4171-9cad-6f6308ed2983]   File "/usr/lib/python2.7/site-packages/nova/compute/manager.py", line 2112, in _build_and_run_instance
+2015-01-28 13:01:11.167 19710 TRACE nova.compute.manager [instance: aa2e1571-1d65-4171-9cad-6f6308ed2983]     block_device_info=block_device_info)
+2015-01-28 13:01:11.167 19710 TRACE nova.compute.manager [instance: aa2e1571-1d65-4171-9cad-6f6308ed2983]   File "/usr/lib/python2.7/site-packages/nova/virt/libvirt/driver.py", line 2621, in spawn
+2015-01-28 13:01:11.167 19710 TRACE nova.compute.manager [instance: aa2e1571-1d65-4171-9cad-6f6308ed2983]     block_device_info, disk_info=disk_info)
+2015-01-28 13:01:11.167 19710 TRACE nova.compute.manager [instance: aa2e1571-1d65-4171-9cad-6f6308ed2983]   File "/usr/lib/python2.7/site-packages/nova/virt/libvirt/driver.py", line 4414, in _create_domain_and_network
+2015-01-28 13:01:11.167 19710 TRACE nova.compute.manager [instance: aa2e1571-1d65-4171-9cad-6f6308ed2983]     power_on=power_on)
+2015-01-28 13:01:11.167 19710 TRACE nova.compute.manager [instance: aa2e1571-1d65-4171-9cad-6f6308ed2983]   File "/usr/lib/python2.7/site-packages/nova/virt/libvirt/driver.py", line 4338, in _create_domain
+2015-01-28 13:01:11.167 19710 TRACE nova.compute.manager [instance: aa2e1571-1d65-4171-9cad-6f6308ed2983]     LOG.error(err)
+2015-01-28 13:01:11.167 19710 TRACE nova.compute.manager [instance: aa2e1571-1d65-4171-9cad-6f6308ed2983]   File "/usr/lib/python2.7/site-packages/nova/openstack/common/excutils.py", line 82, in __exit__
+2015-01-28 13:01:11.167 19710 TRACE nova.compute.manager [instance: aa2e1571-1d65-4171-9cad-6f6308ed2983]     six.reraise(self.type_, self.value, self.tb)
+2015-01-28 13:01:11.167 19710 TRACE nova.compute.manager [instance: aa2e1571-1d65-4171-9cad-6f6308ed2983]   File "/usr/lib/python2.7/site-packages/nova/virt/libvirt/driver.py", line 4329, in _create_domain
+2015-01-28 13:01:11.167 19710 TRACE nova.compute.manager [instance: aa2e1571-1d65-4171-9cad-6f6308ed2983]     domain.createWithFlags(launch_flags)
+2015-01-28 13:01:11.167 19710 TRACE nova.compute.manager [instance: aa2e1571-1d65-4171-9cad-6f6308ed2983]   File "/usr/lib/python2.7/site-packages/eventlet/tpool.py", line 183, in doit
+2015-01-28 13:01:11.167 19710 TRACE nova.compute.manager [instance: aa2e1571-1d65-4171-9cad-6f6308ed2983]     result = proxy_call(self._autowrap, f, *args, **kwargs)
+2015-01-28 13:01:11.167 19710 TRACE nova.compute.manager [instance: aa2e1571-1d65-4171-9cad-6f6308ed2983]   File "/usr/lib/python2.7/site-packages/eventlet/tpool.py", line 141, in proxy_call
+2015-01-28 13:01:11.167 19710 TRACE nova.compute.manager [instance: aa2e1571-1d65-4171-9cad-6f6308ed2983]     rv = execute(f, *args, **kwargs)
+2015-01-28 13:01:11.167 19710 TRACE nova.compute.manager [instance: aa2e1571-1d65-4171-9cad-6f6308ed2983]   File "/usr/lib/python2.7/site-packages/eventlet/tpool.py", line 122, in execute
+2015-01-28 13:01:11.167 19710 TRACE nova.compute.manager [instance: aa2e1571-1d65-4171-9cad-6f6308ed2983]     six.reraise(c, e, tb)
+2015-01-28 13:01:11.167 19710 TRACE nova.compute.manager [instance: aa2e1571-1d65-4171-9cad-6f6308ed2983]   File "/usr/lib/python2.7/site-packages/eventlet/tpool.py", line 80, in tworker
+2015-01-28 13:01:11.167 19710 TRACE nova.compute.manager [instance: aa2e1571-1d65-4171-9cad-6f6308ed2983]     rv = meth(*args, **kwargs)
+2015-01-28 13:01:11.167 19710 TRACE nova.compute.manager [instance: aa2e1571-1d65-4171-9cad-6f6308ed2983]   File "/usr/lib64/python2.7/site-packages/libvirt.py", line 728, in createWithFlags
+2015-01-28 13:01:11.167 19710 TRACE nova.compute.manager [instance: aa2e1571-1d65-4171-9cad-6f6308ed2983]     if ret == -1: raise libvirtError ('virDomainCreateWithFlags() failed', dom=self)
+2015-01-28 13:01:11.167 19710 TRACE nova.compute.manager [instance: aa2e1571-1d65-4171-9cad-6f6308ed2983] libvirtError: Failed to open file '/var/lib/nova/instances/aa2e1571-1d65-4171-9cad-6f6308ed2983/disk': No such file or directory
+2015-01-28 13:01:11.167 19710 TRACE nova.compute.manager [instance: aa2e1571-1d65-4171-9cad-6f6308ed2983] 
+2015-01-28 13:01:11.168 19710 AUDIT nova.compute.manager [req-2f72b190-4247-4fd7-89a2-14827a92aa4e None] [instance: aa2e1571-1d65-4171-9cad-6f6308ed2983] Terminating instance
+2015-01-28 13:01:11.168 19710 AUDIT nova.compute.manager [req-2f72b190-4247-4fd7-89a2-14827a92aa4e None] [instance: aa2e1571-1d65-4171-9cad-6f6308ed2983] Terminating instance
+```
+
+Follow [nova-bug-1358624](https://bugs.launchpad.net/nova/+bug/1358624), Sergey's answer. When using the command `nova boot ...`, you need to add `dest=volume` to `--block-device` to tell nova to generate the correct XML for libvirt.
 
 ## Dive into Cinder LVM
 
-TODO cinder lvm driver basically use iscsi
-     the initialize_connection() is invoked when attaching volume
+After tracing the code, I found that when an volume is attached, it follows
 
-TODO QoS support in ceph/lvm driver not found. Checkout how they are in libvirt side
+```
+# nova side
+compute/manager.py::attach_volume -> ...
 
-TODO list the iscsi mapped in vm side
-     [Provisioning KVM virtual machines on iSCSI the hard way](https://www.berrange.com/posts/2010/05/05/provisioning-kvm-virtual-machines-on-iscsi-the-hard-way-part-2-of-2/)
-     
-TODO what is volume type? what is retype?
-     https://wiki.openstack.org/wiki/Cinder-multi-backend#Volume_Type
+# cinder side
+-> ... -> driver.initialize_connection
+```
 
+The initialize_connection() is invoked when attaching volume, to return connection parameters that libvirt can put into VM instance's domain XML to connect. Take cidner/volume/drivers/rbd.py as an example.
 
-Cinder lvm driver doesn't support qos on cinder side (but libvirt can do it). Many proprietary drivers support qos in cinder driver. Just grep qos.
+TODO need a detailed code dive, and verify
+
+Another things is Cinder LVM driver doesn't support qos itself. But many proprietary drivers does support qos in their cinder drivers. Just grep 'qos'.
 
 ```
 # in cinder/volume/drivers/lvm.py
 QoS_support=False
 ```
 
-No qos support found in ceph's cinder driver (cinder/volume/drivers/rbd.py). But ceph cinder support qos on libvirt side. See [here](http://ceph.com/planet/openstack-ceph-rbd-and-qos/). Libvirt qos and cinder driver qos can both be used, but share some difference (iops vs block io rate?). Related [article](http://www.wzxue.com/openstack-cinder%E7%9A%84qos%E7%89%B9%E6%80%A7%E9%A2%84%E8%A7%88/). 
+It looks like no QoS support found in Ceph's Cinder driver (cinder/volume/drivers/rbd.py). But we can use QoS on the libvirt side, i.e. "frontend" QoS, see [here](http://ceph.com/planet/openstack-ceph-rbd-and-qos/). Libvirt QoS and Cinder driver QoS can both be used,i.e. "frontend" and "backend" QoS. Related [article](http://www.wzxue.com/openstack-cinder%E7%9A%84qos%E7%89%B9%E6%80%A7%E9%A2%84%E8%A7%88/). QoS api code entrance at `cinder/api/contrib/qos_specs_manage.py`. Corresponding volume code at `cinder/volume/qos_specs.py`.
 
-QoS code api entrance at `cinder/api/contrib/qos_specs_manage.py`. Corresponding volume code at `cinder/volume/qos_specs.py`.
-
-
-
-http://blog.csdn.net/gaoxingnengjisuan/article/details/18191943
-
-
+BTW, found a Cinder code analysis [article](http://blog.csdn.net/gaoxingnengjisuan/article/details/18191943).
