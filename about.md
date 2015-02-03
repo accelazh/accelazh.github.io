@@ -7,7 +7,7 @@ group: navigation
 
 {% include JB/setup %}
 
-## About Accela Zhao
+### About Accela Zhao
 
-[English Resume](assets/resume/resume-en.pdf)
-[中文简历](assets/resume/resume-cn.pdf)
+* [English Resume](assets/resume/resume-en.pdf)
+* [中文简历](assets/resume/resume-cn.pdf)
