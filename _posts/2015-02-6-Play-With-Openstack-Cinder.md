@@ -1,3 +1,12 @@
+---
+layout: post
+title: "Play with Openstack Cinder"
+tagline : "Play with Openstack Cinder"
+description: "Play with Openstack Cinder"
+category: "openstack"
+tags: [openstack, storage, cinder]
+---
+{% include JB/setup %}
 
 
 ## Architecture
@@ -720,6 +729,35 @@ And this one
 
 Follow [nova-bug-1358624](https://bugs.launchpad.net/nova/+bug/1358624), Sergey's answer. When using the command `nova boot ...`, you need to add `dest=volume` to `--block-device` to tell nova to generate the correct XML for libvirt.
 
+If you encounter below error
+
+```
+$ cinder-volume
+Traceback (most recent call last):
+  File "/usr/bin/cinder-volume", line 50, in <module>
+    from cinder.common import config  # noqa
+  File "/usr/lib/python2.7/site-packages/cinder/common/config.py", line 122, in <module>
+    help=_("DEPRECATED: Deploy v1 of the Cinder API.")),
+  File "/usr/lib/python2.7/site-packages/oslo/i18n/_factory.py", line 80, in f
+    return _message.Message(msg, domain=domain)
+  File "/usr/lib/python2.7/site-packages/oslo/i18n/_message.py", line 51, in __new__
+    msgtext = Message._translate_msgid(msgid, domain)
+  File "/usr/lib/python2.7/site-packages/oslo/i18n/_message.py", line 91, in _translate_msgid
+    system_locale = locale.getdefaultlocale()
+  File "/usr/lib64/python2.7/locale.py", line 511, in getdefaultlocale
+    return _parse_localename(localename)
+  File "/usr/lib64/python2.7/locale.py", line 443, in _parse_localename
+    raise ValueError, 'unknown locale: %s' % localename
+ValueError: unknown locale: UTF-8 
+```
+
+Execute these lines, or add them to your ~/.bash_profile. Refer to this [solution](http://stackoverflow.com/questions/19961239/pelican-3-3-pelican-quickstart-error-valueerror-unknown-locale-utf-8)
+
+```
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
+```
+
 ## Dive into Cinder LVM
 
 After tracing the code, I found that when an volume is attached, it follows
@@ -734,9 +772,71 @@ compute/manager.py::attach_volume -> ...
 
 The initialize_connection() is invoked when attaching volume, to return connection parameters that libvirt can put into VM instance's domain XML to connect. Take cidner/volume/drivers/rbd.py as an example.
 
-TODO need a detailed code dive, and verify
+The nova-compute call stack when attaching a volume:
 
-Another things is Cinder LVM driver doesn't support qos itself. But many proprietary drivers does support qos in their cinder drivers. Just grep 'qos'.
+```
+(Pdb) w
+  /usr/lib/python2.7/site-packages/eventlet/greenthread.py(212)main()
+-> result = function(*args, **kwargs)
+  /usr/lib/python2.7/site-packages/oslo/messaging/rpc/dispatcher.py(129)<lambda>()
+-> yield lambda: self._dispatch_and_reply(incoming)
+  /usr/lib/python2.7/site-packages/oslo/messaging/rpc/dispatcher.py(134)_dispatch_and_reply()
+-> incoming.message))
+  /usr/lib/python2.7/site-packages/oslo/messaging/rpc/dispatcher.py(177)_dispatch()
+-> return self._do_dispatch(endpoint, method, ctxt, args)
+  /usr/lib/python2.7/site-packages/oslo/messaging/rpc/dispatcher.py(123)_do_dispatch()
+-> result = getattr(endpoint, method)(ctxt, **new_args)
+  /usr/lib/python2.7/site-packages/nova/compute/manager.py(414)decorated_function()
+-> return function(self, context, *args, **kwargs)
+  /usr/lib/python2.7/site-packages/nova/exception.py(71)wrapped()
+-> return f(self, context, *args, **kw)
+  /usr/lib/python2.7/site-packages/nova/compute/manager.py(284)decorated_function()
+-> return function(self, context, *args, **kwargs)
+  /usr/lib/python2.7/site-packages/nova/compute/manager.py(314)decorated_function()
+-> return function(self, context, *args, **kwargs)
+  /usr/lib/python2.7/site-packages/nova/compute/manager.py(4549)attach_volume()
+-> do_attach_volume(context, instance, driver_bdm)
+  /usr/lib/python2.7/site-packages/nova/openstack/common/lockutils.py(272)inner()
+-> return f(*args, **kwargs)
+  /usr/lib/python2.7/site-packages/nova/compute/manager.py(4544)do_attach_volume()
+-> return self._attach_volume(context, instance, driver_bdm)
+  /usr/lib/python2.7/site-packages/nova/compute/manager.py(4559)_attach_volume()
+-> do_check_attach=False, do_driver_attach=True)
+  /usr/lib/python2.7/site-packages/nova/virt/block_device.py(46)wrapped()
+-> ret_val = method(obj, context, *args, **kwargs)
+  /usr/lib/python2.7/site-packages/nova/virt/block_device.py(237)attach()
+-> connector)
+  /usr/lib/python2.7/site-packages/nova/volume/cinder.py(185)wrapper()
+-> res = method(self, ctx, volume_id, *args, **kwargs)
+> /usr/lib/python2.7/site-packages/nova/volume/cinder.py(354)initialize_connection()
+-> return cinderclient(context).volumes.initialize_connection(volume_id,
+```
+
+The call passes to cinder's initialize_connection method. On Cinder side, initialize_connection is called. I'm using LVMISCSIDriver volume driver.
+
+```
+(Pdb) w
+  /usr/lib/python2.7/site-packages/eventlet/greenthread.py(212)main()
+-> result = function(*args, **kwargs)
+  /usr/lib/python2.7/site-packages/oslo/messaging/rpc/dispatcher.py(129)<lambda>()
+-> yield lambda: self._dispatch_and_reply(incoming)
+  /usr/lib/python2.7/site-packages/oslo/messaging/rpc/dispatcher.py(134)_dispatch_and_reply()
+-> incoming.message))
+  /usr/lib/python2.7/site-packages/oslo/messaging/rpc/dispatcher.py(177)_dispatch()
+-> return self._do_dispatch(endpoint, method, ctxt, args)
+  /usr/lib/python2.7/site-packages/oslo/messaging/rpc/dispatcher.py(123)_do_dispatch()
+-> result = getattr(endpoint, method)(ctxt, **new_args)
+  /usr/lib/python2.7/site-packages/osprofiler/profiler.py(105)wrapper()
+-> return f(*args, **kwargs)
+  /usr/lib/python2.7/site-packages/cinder/volume/manager.py(896)initialize_connection()
+-> conn_info = self.driver.initialize_connection(volume, connector)
+  /usr/lib/python2.7/site-packages/osprofiler/profiler.py(105)wrapper()
+-> return f(*args, **kwargs)
+> /usr/lib/python2.7/site-packages/cinder/volume/driver.py(1007)initialize_connection()
+-> LOG.debug("bigzhao debug: CONF.iscsi_helper = %s", CONF.iscsi_helper)
+```
+
+Another things is that Cinder LVM driver doesn't support qos itself. But many proprietary drivers does support qos in their cinder drivers. Just grep 'qos'.
 
 ```
 # in cinder/volume/drivers/lvm.py
@@ -745,4 +845,4 @@ QoS_support=False
 
 It looks like no QoS support found in Ceph's Cinder driver (cinder/volume/drivers/rbd.py). But we can use QoS on the libvirt side, i.e. "frontend" QoS, see [here](http://ceph.com/planet/openstack-ceph-rbd-and-qos/). Libvirt QoS and Cinder driver QoS can both be used,i.e. "frontend" and "backend" QoS. Related [article](http://www.wzxue.com/openstack-cinder%E7%9A%84qos%E7%89%B9%E6%80%A7%E9%A2%84%E8%A7%88/). QoS api code entrance at `cinder/api/contrib/qos_specs_manage.py`. Corresponding volume code at `cinder/volume/qos_specs.py`.
 
-BTW, found a Cinder code analysis [article](http://blog.csdn.net/gaoxingnengjisuan/article/details/18191943).
+Also, found a Cinder code analysis [article](http://blog.csdn.net/gaoxingnengjisuan/article/details/18191943).
