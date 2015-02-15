@@ -8,7 +8,7 @@ tags: [python, django, testing]
 ---
 {% include JB/setup %}
 
-Django is equipped with powerful testing framework. I would like to note down the issues and solutions I encountered in my work.
+Django is equipped with powerful testing framework, but there may be some issues one may encounter in real work. I noted down mines.
 
 ### How test cases are run
 
