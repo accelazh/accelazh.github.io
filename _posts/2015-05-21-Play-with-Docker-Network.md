@@ -1,11 +1,20 @@
+---
+layout: post
+title: "Play with Docker Network"
+tagline : "Play with Docker Network"
+description: "Play with Docker Network"
+category: "docker"
+tags: [docker, network, linux-bridge]
+---
+{% include JB/setup %}
 
 ## Environment
 
 3 nodes VMs (or called hosts), each installed docker.
 
-  * VM1/Host1: 10.32.170.202  centos7
-  * VM2/Host2: 10.32.170.203  centos7
-  * Vm3/Host3: 10.32.170.204  centos7
+  * VM1/Host1: 10.32.171.202  centos7
+  * VM2/Host2: 10.32.171.203  centos7
+  * Vm3/Host3: 10.32.171.204  centos7
 
 First, lets setup the experiment environment. On each node
 
@@ -53,8 +62,8 @@ Docker use route and iptables (note the `MASQUERADE`) to create NAT network for 
 
 ```
 $ ip route
-default via 10.32.170.1 dev ens32
-10.32.170.0/24 dev ens32  proto kernel  scope link  src 10.32.170.202
+default via 10.32.171.1 dev ens32
+10.32.171.0/24 dev ens32  proto kernel  scope link  src 10.32.171.202
 169.254.0.0/16 dev ens32  scope link  metric 1002
 172.17.0.0/16 dev docker0  proto kernel  scope link  src 172.17.42.1
 
@@ -226,7 +235,7 @@ Veth pair are usually used to communicate between different network spaces, see 
 
 ## Build My Own Docker Network
 
-Here's a series of experiment to build networks between host and container. Finally I will build a private network 192.168.7.0/24 for the containers, separated from the host network 10.32.170.0/24. A virtual router (by network namespace) connects two networks, which enables host and container to ssh each other.
+Here's a series of experiment to build networks between host and container. Finally I will build a private network 192.168.7.0/24 for the containers, separated from the host network 10.32.171.0/24. A virtual router (by network namespace) connects two networks, which enables host and container to ssh each other.
 
 ### Milestone 1: Intra-host Ping
 
@@ -448,17 +457,17 @@ We connect only local container to local bridges. Other containers are gatewayed
 ```
 # On host 1
 ip route add 192.168.6.2 dev bridge1 src 192.168.6.1
-ip route add 192.168.6.3 via 10.32.170.203 dev ens32
-ip route add 192.168.6.4 via 10.32.170.204 dev ens32
+ip route add 192.168.6.3 via 10.32.171.203 dev ens32
+ip route add 192.168.6.4 via 10.32.171.204 dev ens32
 
 # On host 2
-ip route add 192.168.6.2 via 10.32.170.202 dev ens32
+ip route add 192.168.6.2 via 10.32.171.202 dev ens32
 ip route add 192.168.6.3 dev bridge1 src 192.168.6.1
-ip route add 192.168.6.4 via 10.32.170.204 dev ens32
+ip route add 192.168.6.4 via 10.32.171.204 dev ens32
 
 # On host 3
-ip route add 192.168.6.2 via 10.32.170.202 dev ens32
-ip route add 192.168.6.3 via 10.32.170.203 dev ens32
+ip route add 192.168.6.2 via 10.32.171.202 dev ens32
+ip route add 192.168.6.3 via 10.32.171.203 dev ens32
 ip route add 192.168.6.4 dev bridge1 src 192.168.6.1
 
 # You should still be able to ssh to local container. For example on host 1
@@ -470,16 +479,16 @@ Next we need to make sure ping reply can be sent outside container
 
 ```
 # On host 1
-ip netns exec ${TEST_PID} ip route add 10.32.170.203 via 192.168.6.1 dev veth1
-ip netns exec ${TEST_PID} ip route add 10.32.170.204 via 192.168.6.1 dev veth1
+ip netns exec ${TEST_PID} ip route add 10.32.171.203 via 192.168.6.1 dev veth1
+ip netns exec ${TEST_PID} ip route add 10.32.171.204 via 192.168.6.1 dev veth1
 
 # On host 2
-ip netns exec ${TEST_PID} ip route add 10.32.170.202 via 192.168.6.1 dev veth1
-ip netns exec ${TEST_PID} ip route add 10.32.170.204 via 192.168.6.1 dev veth1
+ip netns exec ${TEST_PID} ip route add 10.32.171.202 via 192.168.6.1 dev veth1
+ip netns exec ${TEST_PID} ip route add 10.32.171.204 via 192.168.6.1 dev veth1
 
 # On host 3
-ip netns exec ${TEST_PID} ip route add 10.32.170.202 via 192.168.6.1 dev veth1
-ip netns exec ${TEST_PID} ip route add 10.32.170.203 via 192.168.6.1 dev veth1
+ip netns exec ${TEST_PID} ip route add 10.32.171.202 via 192.168.6.1 dev veth1
+ip netns exec ${TEST_PID} ip route add 10.32.171.203 via 192.168.6.1 dev veth1
 ```
 
 Make iptables allow the ssh traffic, on each host
@@ -524,9 +533,9 @@ ip netns exec ${TEST_PID} ip li set veth2 up
 ip li set ${TEST_PID}.eth2 up
 
 # Delete useless routes added by Milestone 3. It may mess up what we gonna do next
-ip netns exec ${TEST_PID} ip route del 10.32.170.202
-ip netns exec ${TEST_PID} ip route del 10.32.170.203
-ip netns exec ${TEST_PID} ip route del 10.32.170.204
+ip netns exec ${TEST_PID} ip route del 10.32.171.202
+ip netns exec ${TEST_PID} ip route del 10.32.171.203
+ip netns exec ${TEST_PID} ip route del 10.32.171.204
 
 # Setup the route for each container
 ip netns exec ${TEST_PID} ip route add 192.168.7.0/24 dev veth2
@@ -565,12 +574,12 @@ ip netns exec ${TEST_PID} ssh root@192.168.7.4 'cat /etc/hostname'
 
 ### Milestone 5: A Router Between Host and Container Network (FAILED)
 
-I'm trying to build a router between host network 10.32.170.0/24 and container network 192.168.7.0/24. Since I don't have a new ip on 10.32.170.0/24, I will put the router inside host 1. The router is implemented by network namespace, don't even need a container. First, on host 1, Let's set up the router.
+I'm trying to build a router between host network 10.32.171.0/24 and container network 192.168.7.0/24. Since I don't have a new ip on 10.32.171.0/24, I will put the router inside host 1. The router is implemented by network namespace, don't even need a container. First, on host 1, Let's set up the router.
 
 ```
 # On host 1
 ip netns add testrt
-ip li add testrt.eth0 type veth peer name veth0    # NIC for host network 10.32.170.0/24
+ip li add testrt.eth0 type veth peer name veth0    # NIC for host network 10.32.171.0/24
 ip li add testrt.eth1 type veth peer name veth1    # NIC for container network 192.168.7.0/24
 ip li set veth0 netns testrt
 ip li set veth1 netns testrt
@@ -598,42 +607,42 @@ ip route add 192.168.7.0/24 dev testrt.eth0
 
 # Install testrt router table
 ip netns exec testrt ip route add 192.168.7.0/24 dev veth1
-ip netns exec testrt ip route add 10.32.170.0/24 dev veth0
+ip netns exec testrt ip route add 10.32.171.0/24 dev veth0
 
 # You should be able to ping or ping from testrt now
 ping 192.168.7.100
 ip netns exec testrt ping 192.168.7.2
 ip netns exec testrt ping 192.168.7.4
-ip netns exec testrt ping 10.32.170.202
+ip netns exec testrt ping 10.32.171.202
 ```
 
 Let's set each host and container to use testrt as gateway.
 
 ```
 # On each host
-ip netns exec ${TEST_PID} ip route add 10.32.170.0/24 via 192.168.7.100 dev veth2
+ip netns exec ${TEST_PID} ip route add 10.32.171.0/24 via 192.168.7.100 dev veth2
 
 # On each host except host 1 (host 1 already has route to testrt)
-ip route add 192.168.7.0/24 via 10.32.170.202 dev ens32
+ip route add 192.168.7.0/24 via 10.32.171.202 dev ens32
 ```
 
-You should be able to ssh from each host (network 10.32.170.0/24) to any container (network 192.168.7.0/24), or vice versa.
+You should be able to ssh from each host (network 10.32.171.0/24) to any container (network 192.168.7.0/24), or vice versa.
 
 ```
 # On host 1
 ssh root@192.168.7.2 'cat /etc/hostname'
 ssh root@192.168.7.4 'cat /etc/hostname'
-docker exec -it test1.1 ssh root@10.32.170.202 'cat /etc/hostname'
-docker exec -it test1.1 ssh root@10.32.170.204 'cat /etc/hostname'
+docker exec -it test1.1 ssh root@10.32.171.202 'cat /etc/hostname'
+docker exec -it test1.1 ssh root@10.32.171.204 'cat /etc/hostname'
 
 # On host 3
 ssh root@192.168.7.2 'cat /etc/hostname'
 ssh root@192.168.7.4 'cat /etc/hostname'
-docker exec -it test3.1 ssh root@10.32.170.202 'cat /etc/hostname'
-docker exec -it test3.1 ssh root@10.32.170.204 'cat /etc/hostname'
+docker exec -it test3.1 ssh root@10.32.171.202 'cat /etc/hostname'
+docker exec -it test3.1 ssh root@10.32.171.204 'cat /etc/hostname'
 ```
 
-Failed here: host 1 ping 192.168.7.2, ICMP request can be seen on test1.1's veth0 (tcpdump), but never reaches veth1. I tried using container (testrt2) instead of network namespace to build testrt, stuck in the same place. Host 3 ping 192.168.7.101 (the container testrt2), arp request for 10.32.170.204 heard on testrt2.eth0, but not ens32. Another issue, testrt2 cannot even ping 10.32.170.202.
+Failed here: host 1 ping 192.168.7.2, ICMP request can be seen on test1.1's veth0 (tcpdump), but never reaches veth1. I tried using container (testrt2) instead of network namespace to build testrt, stuck in the same place. Host 3 ping 192.168.7.101 (the container testrt2), arp request for 10.32.171.204 heard on testrt2.eth0, but not ens32. Another issue, testrt2 cannot even ping 10.32.171.202.
 
 ### Milestone 6: Just Use Host 1 & Container test1.1 as Router (FAILED)
 
@@ -642,13 +651,13 @@ Since I find it hard to use network namespace or container to create a virutal r
 ```
 # On each host
 ip route del 192.168.7.0/24
-ip netns exec ${TEST_PID} ip route del 10.32.170.0/24
+ip netns exec ${TEST_PID} ip route del 10.32.171.0/24
 
 # On host 1
 brctl delif bridge2 testrt.eth1
 ```
 
-My plan is to use host 1 as router/gateway for 10.32.170.0/24, use test1.1 as router/gateway for 192.168.7.0/24, and hook host 1 and test1.1 together by a new veth pair.
+My plan is to use host 1 as router/gateway for 10.32.171.0/24, use test1.1 as router/gateway for 192.168.7.0/24, and hook host 1 and test1.1 together by a new veth pair.
 
 ```
 # On host 1
@@ -662,7 +671,7 @@ ip li set ${TEST_PID}.eth3 up
 ip netns exec ${TEST_PID} ip li set veth3 up
 
 ip route add 192.168.7.0/24 dev ${TEST_PID}.eth3
-ip netns exec ${TEST_PID} ip route add 10.32.170.0/24 dev veth3
+ip netns exec ${TEST_PID} ip route add 10.32.171.0/24 dev veth3
 
 # Now you should be able to ping test1.1
 ping 192.168.7.2
@@ -672,8 +681,8 @@ Set gateway on other hosts and containers
 
 ```
 # On host 2 and 3
-ip route add 192.168.7.0/24 via 10.32.170.202 dev ens32
-ip netns exec ${TEST_PID} ip route add 10.32.170.0/24 via 192.168.7.2 dev veth2
+ip route add 192.168.7.0/24 via 10.32.171.202 dev ens32
+ip netns exec ${TEST_PID} ip route add 10.32.171.0/24 via 192.168.7.2 dev veth2
 ```
 
 Failed: host 1 ping 192.168.7.4, inside test1.1, veth3 sees ICMP request, but veth2 never get forwarded. Same problem with Milestone 5. Another issue, test1.1 cannot even ping host 1. At least I can generate a few rules here
@@ -684,7 +693,7 @@ Failed: host 1 ping 192.168.7.4, inside test1.1, veth3 sees ICMP request, but ve
 
 ### Milestone 7: Finally Made the Router Work
 
-In this section I'm going to build a virtual router, using namework namespace, resides in host 1. Container network 192.168.7.0/24 and host network 10.32.170.205/24 will be able to communicate with each other via this router. First, let's clean up the mess left by above two failed sections.
+In this section I'm going to build a virtual router, using namework namespace, resides in host 1. Container network 192.168.7.0/24 and host network 10.32.171.205/24 will be able to communicate with each other via this router. First, let's clean up the mess left by above two failed sections.
 
 ```
 # On host 1
@@ -696,7 +705,7 @@ brctl delif bridge2 testrt2.eth0
 
 # On each host
 ip route del 192.168.7.0/24
-ip netns exec ${TEST_PID} ip route del 10.32.170.0/24
+ip netns exec ${TEST_PID} ip route del 10.32.171.0/24
 ```
 
 Still, I use network namespace to build a router, the `testrt3`
@@ -704,7 +713,7 @@ Still, I use network namespace to build a router, the `testrt3`
 ```
 # On host 1
 ip netns add testrt3
-ip li add testrt3.eth0 type veth peer name veth0    # NIC for host network 10.32.170.0/24
+ip li add testrt3.eth0 type veth peer name veth0    # NIC for host network 10.32.171.0/24
 ip li add testrt3.eth1 type veth peer name veth1    # NIC for container network 192.168.7.0/24
 ip li set veth0 netns testrt3
 ip li set veth1 netns testrt3
@@ -718,20 +727,20 @@ ip li set testrt3.eth1 up
 ip netns exec testrt3 ip li set veth1 up
 
 ip netns exec testrt3 ip route add 192.168.7.0/24 dev veth1
-ip netns exec testrt3 ip route add 10.32.170.0/24 dev veth0
+ip netns exec testrt3 ip route add 10.32.171.0/24 dev veth0
 ```
 
 Let's set each container's gateway to testrt3.
 
 ```
 # On each host
-ip netns exec ${TEST_PID} ip route add 10.32.170.0/24 via 192.168.7.100 dev veth2
+ip netns exec ${TEST_PID} ip route add 10.32.171.0/24 via 192.168.7.100 dev veth2
 
 # You should be able to ping router from container
 ip netns exec ${TEST_PID} ping 192.168.7.100
 ```
 
-At this time, when I ping from a container to a host, I can see icmp or arp request on testrt3's veth1. But they cannot be forward to testrt3's veth0. Next, to connect testrt3's veth0 to host 1, let's create a bridge which connects to 10.32.170.0/24 instead of ens32.
+At this time, when I ping from a container to a host, I can see icmp or arp request on testrt3's veth1. But they cannot be forward to testrt3's veth0. Next, to connect testrt3's veth0 to host 1, let's create a bridge which connects to 10.32.171.0/24 instead of ens32.
 
 ```
 # On host 1
@@ -739,16 +748,16 @@ brctl addbr br-ens32
 ip li set br-ens32 promisc on
 
 # Add ens32 to br-ens32, host 1 will be temporarily disconnected
-ip addr del 10.32.170.202/24 dev ens32 && \
-ip addr add 10.32.170.202/24 dev br-ens32 && \
+ip addr del 10.32.171.202/24 dev ens32 && \
+ip addr add 10.32.171.202/24 dev br-ens32 && \
 brctl addif br-ens32 ens32 && \
-ip route add default via 10.32.170.1 dev br-ens32 && \    # add default route. in my case it is 10.32.170.1
+ip route add default via 10.32.171.1 dev br-ens32 && \    # add default route. in my case it is 10.32.171.1
 ip link set dev br-ens32 up
 
 # Reconnect to host 1, restore the original routes
 ip route add 169.254.0.0/16 dev br-ens32 metric 1002    # the cloud init address
-ip route add 192.168.6.3 via 10.32.170.203 dev br-ens32
-ip route add 192.168.6.4 via 10.32.170.204 dev br-ens32
+ip route add 192.168.6.3 via 10.32.171.203 dev br-ens32
+ip route add 192.168.6.4 via 10.32.171.204 dev br-ens32
 
 # Restore the host NAT for 192.168.5.0/24
 LINENO_MASQ=$(iptables -L POSTROUTING -v --line-numbers -t nat | grep 'MASQUERADE .* ens32 .* 192.168.5.0' | awk '{print $1}')
@@ -756,32 +765,32 @@ iptables -D POSTROUTING ${LINENO_MASQ} -t nat
 iptables -t nat -A POSTROUTING -j MASQUERADE -s 192.168.5.0/24 -o br-ens32
 ```
 
-Now we can connect testrt3's veth0 to 10.32.170.0/24.
+Now we can connect testrt3's veth0 to 10.32.171.0/24.
 
 ```
 # On host 1
 brctl addif br-ens32 testrt3.eth0
 ```
 
-Next, add an ip address to testrt's veth0, who's facing 10.32.170.0/24 side. I borrowed 10.32.170.205 from the network operator. Both side of the router NIC should have ip.
+Next, add an ip address to testrt's veth0, who's facing 10.32.171.0/24 side. I borrowed 10.32.171.205 from the network operator. Both side of the router NIC should have ip.
 
 ```
 # On host 1
-ip netns exec testrt3 ip addr add 10.32.170.205 dev veth0
+ip netns exec testrt3 ip addr add 10.32.171.205 dev veth0
 
 # You should be able to ping router
-ping 10.32.170.205
-ip netns exec testrt3 ping 10.32.170.202
+ping 10.32.171.205
+ip netns exec testrt3 ping 10.32.171.202
 ```
 
 Set each host 's gateway to testrt3
 
 ```
 # On host 1
-ip route add 192.168.7.0/24 via 10.32.170.205 dev br-ens32
+ip route add 192.168.7.0/24 via 10.32.171.205 dev br-ens32
 
 # On host 2 and 3
-ip route add 192.168.7.0/24 via 10.32.170.205 dev ens32
+ip route add 192.168.7.0/24 via 10.32.171.205 dev ens32
 ```
 
 By now, I can ssh from any host to any container, or vice versa.
@@ -790,25 +799,25 @@ By now, I can ssh from any host to any container, or vice versa.
 # On host 1
 ssh root@192.168.7.2 'cat /etc/hostname' && \
 ssh root@192.168.7.4 'cat /etc/hostname' && \
-docker exec -it test1.1 ssh root@10.32.170.202 'hostname' && \
-docker exec -it test1.1 ssh root@10.32.170.204 'hostname' && \
+docker exec -it test1.1 ssh root@10.32.171.202 'hostname' && \
+docker exec -it test1.1 ssh root@10.32.171.204 'hostname' && \
 docker exec -it test1.1 ssh root@192.168.7.2 'cat /etc/hostname' && \
 docker exec -it test1.1 ssh root@192.168.7.4 'cat /etc/hostname'
 
 # On host 3
 ssh root@192.168.7.2 'cat /etc/hostname' && \
 ssh root@192.168.7.4 'cat /etc/hostname' && \
-docker exec -it test3.1 ssh root@10.32.170.202 'hostname' && \
-docker exec -it test3.1 ssh root@10.32.170.204 'hostname' && \
+docker exec -it test3.1 ssh root@10.32.171.202 'hostname' && \
+docker exec -it test3.1 ssh root@10.32.171.204 'hostname' && \
 docker exec -it test3.1 ssh root@192.168.7.2 'cat /etc/hostname' && \
 docker exec -it test3.1 ssh root@192.168.7.4 'cat /etc/hostname'
 ```
 
-Finally, I made the router work! The keypoint is, each side NIC of the router must have an IP, from the network range which it is facing. Other hosts or containers must set gateway to this router's IP in the corresponding side. In prior sections I always tried to avoid using extra IP for router, i.e. 10.32.170.205, which doesn't work anyway.
+Finally, I made the router work! The keypoint is, each side NIC of the router must have an IP, from the network range which it is facing. Other hosts or containers must set gateway to this router's IP in the corresponding side. In prior sections I always tried to avoid using extra IP for router, i.e. 10.32.171.205, which doesn't work anyway.
 
-TODO use gre/vxlan to connect private network
-TODO set up router for the tunnel network
+## Future
 
+Use gre/vxlan to set up private tunnel network for containers. Add router to them.
 
 
 
