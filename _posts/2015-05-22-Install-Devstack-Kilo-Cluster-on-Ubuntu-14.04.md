@@ -350,6 +350,8 @@ Step 7: On compute node, source openstack login environment variables `source ac
 
 Step 8: Change `HOST_IP` in compute node local.conf to your real host ip. Install each of the compute nodes.
 
+BTW, [Murano](https://github.com/openstack/murano) can be installed by devstack very easily. Checkout [here](https://github.com/openstack/murano/tree/master/contrib/devstack). Same works for [Magnum](https://github.com/openstack/magnum), checkout [here](https://github.com/openstack/magnum/tree/master/devstack).
+
 ## Troubleshooting
 
 A useful tip: when you see "error", scroll the log up until you find the root one.
