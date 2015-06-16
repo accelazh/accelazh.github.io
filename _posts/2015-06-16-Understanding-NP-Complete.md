@@ -25,21 +25,33 @@ We define the symbols in this section to prepare for explaining NP-complete.
 A decision problem `C` is NP-complete if
 
   1. `C` is a NP problem, and
+
+
   2. `C` is equal or harder than any other NP problems ("hardness" is defined by [problem reduction](https://en.wikipedia.org/wiki/Many-one_reduction))
 
 The first NP-complete problem is the [circuit satisfiability problem](https://en.wikipedia.org/wiki/Circuit_satisfiability_problem). To prove rule 2 for it
 
   1. Every NP problem `C` has its `A(x, y)`
+
+
   2. Since `A(x, y)` is an algorithm of polynomial time complexity, we can construct its equivalent combinational logic circuit
-  3. If there exists an `y` satisfying A(x, y), the equivalent 'y' must satisfy our circuit, vice versa. The later one is the circuit satisfiability problem.
-  4. So, if circuit satisfiability problem is solved, we know whether 'y' exists, thus solving `C`. This means circuit satisfiability problem is equal or harder than any other NP problem.
+
+
+  3. If there exists an `y` satisfying `A(x, y)`, the equivalent `y` must satisfy our circuit, vice versa. The later one is the circuit satisfiability problem.
+
+
+  4. So, if circuit satisfiability problem is solved, we know whether `y` exists, thus solving `C`. This means circuit satisfiability problem is equal or harder than any other NP problem.
 
 ### To prove a NP-complete problem
 
 The NP problem to prove is `C1`, which has verification algorithm `A1(x, y)`. The general approach is to
 
   1. Find an existing NP-complete problem `C2` and its `A2(x, y)`.
+
+
   2. Given the `A2(x, y)`, construct its equivalent `A1(x, y)`. So that if any `y` satisfies `A1(x, y)`, it satisfies `A2(x, y)`, and vice versa. This is the [reduction](https://en.wikipedia.org/wiki/Reduction_(complexity)).
+
+
   3. So that if we could solve `C1`, i.e. to know whether a `y` satisfying `A1(x, y)` exists, we solve `C2`. It means `C1` is no less harder than `C2`, thus `C1` is NP-complete.
 
 For more about NP-complete, refer to [wiki](https://en.wikipedia.org/wiki/NP-complete) or ["Introduction of Algorithms"](http://book.douban.com/subject/1885170/).
