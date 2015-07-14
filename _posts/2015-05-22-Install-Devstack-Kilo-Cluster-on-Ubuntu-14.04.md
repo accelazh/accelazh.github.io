@@ -60,6 +60,10 @@ SERVICE_PASSWORD=$ADMIN_PASSWORD
 SERVICE_TOKEN=secrete
 RECLONE=no
 
+# public interface eth0 will be added to ovs br-ex. eth0 loses its ip, br-ex gets the ip.
+# if the process is not finished correctly, host is left ssh unconnectable.
+PUBLIC_INTERFACE=eth0
+
 FLAT_INTERFACE=eth0
 FIXED_RANGE=192.168.120.0/24
 NETWORK_GATEWAY=192.168.120.1
@@ -192,6 +196,10 @@ SERVICE_PASSWORD=$ADMIN_PASSWORD
 MYSQL_PASSWORD=$ADMIN_PASSWORD
 SERVICE_TOKEN=secrete
 RECLONE=no
+
+# public interface eth0 will be added to ovs br-ex. eth0 loses its ip, br-ex gets the ip.
+# if the process is not finished correctly, host is left ssh unconnectable.
+PUBLIC_INTERFACE=eth0
 
 FLAT_INTERFACE=eth0
 FIXED_RANGE=192.168.120.0/24
@@ -348,7 +356,11 @@ Step 6: Copy devstack/accrc folder from controller node to each compute node. Se
 
 Step 7: On compute node, source openstack login environment variables `source accrc/admin/admin`. See "Troubleshooting: ERROR: openstack Missing parameter(s)"
 
-Step 8: Change `HOST_IP` in compute node local.conf to your real host ip. Install each of the compute nodes.
+Step 8: Change `HOST_IP` in compute node local.conf to your real host ip. 
+
+Step 9: Run stack.sh on each of the compute nodes. After it finishes, Openstack should be available.
+
+Step 10: To be able to access external network. Login Horizon, manually config external network & router to have correct Gateway, DNS and Provider Network Type. (For example, the gateway should be 10.12.181.1. The PUBLIC\_NETWORK\_GATEWAY in local.conf is wrong. So as is FLOATING\_RANGE.) You might need to delete them and create new ones.
 
 BTW, [Murano](https://github.com/openstack/murano) can be installed by devstack very easily. Checkout [here](https://github.com/openstack/murano/tree/master/contrib/devstack). Same works for [Magnum](https://github.com/openstack/magnum), checkout [here](https://github.com/openstack/magnum/tree/master/devstack).
 
