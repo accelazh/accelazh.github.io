@@ -8,7 +8,7 @@ tags: [linux, debug, kernel]
 ---
 {% include JB/setup %}
 
-## Build the Kernel
+### Build the Kernel
 
 Install pre-requisites
 
@@ -63,7 +63,7 @@ If you hit error and want to start over
 make clean
 ```
 
-## Build the Root Filesystem Manually
+### Build the Root Filesystem Manually
 
 First, create the rootfs file using `ext2` type. This part refers to this [guide](http://www.tldp.org/HOWTO/Bootdisk-HOWTO/buildroot.html). For what is rootfs, refer to [here](http://kernelnewbies.org/RootFileSystem) and [here](https://www.kernel.org/doc/Documentation/filesystems/ramfs-rootfs-initramfs.txt).
 
@@ -83,7 +83,7 @@ wget https://github.com/ewindisch/docker-cirros/raw/master/cirros-0.3.3-x86_64-l
 tar xzvf cirros-0.3.3-x86_64-lxc.tar.gz -C /mnt/rootfs/
 ```
 
-## Debug the Kernel [FAILED]
+### Debug the Kernel [FAILED]
 
 I will use gdb + qemu to debug the kernel. First install qemu
 
@@ -125,7 +125,7 @@ The kernel crashed in boot process. Guess there's something wrong in my rootfs. 
 
 Next I'll try building from the all-in-one tool [Buildroot](http://buildroot.uclibc.org/).
 
-## Build Kernel & RootFS by Buildroot
+### Build Kernel & RootFS by Buildroot
 
 Following [Qemu and the Kernel](http://www.linux-magazine.com/Online/Features/Qemu-and-the-Kernel) and the [Buildroot User Menual](http://buildroot.uclibc.org/downloads/manual/manual.html#_buildroot_quick_start). First, download Buildroot.
 
@@ -190,7 +190,7 @@ gdb
 
 In VNC, you should see it successfully enters linux login. Username `root`, no password. After login you can type shell commands.
 
-## Cross Debug My Own Build vs Buildroot Ones [FAILED]
+### Cross Debug My Own Build vs Buildroot Ones [FAILED]
 
 Try launch my own built kernel with Buildroot built rootfs. Access it with VNC
 
@@ -217,7 +217,7 @@ qemu-system-x86_64 -kernel ~/workspace/kernel/linux-3.10.82/arch/x86/boot/bzImag
 
 In VNC I see another error, still failed. Anyway, by now only buildroot's kernel + rootfs works. I want to change how I face the problem. How about directly debug a live centos7 running in VM directly?
 
-## Run Centos7 in Qemu and Debug with GDB
+### Run Centos7 in Qemu and Debug with GDB
 
 Create my working directory and download centos7 iso image.
 
@@ -282,7 +282,7 @@ Failed. This doesn't work, guess kernel minior version 3.10.xx makes difference.
 
 References: [\[1\]](https://tthtlc.wordpress.com/2014/01/14/how-to-do-kernel-debugging-via-gdb-over-serial-port-via-qemu/)[\[2\]](https://fedoraproject.org/wiki/How_to_use_qemu)[\[3\]](http://wiki.osdev.org/How_Do_I_Use_A_Debugger_With_My_OS)[\[4\]](https://bugs.centos.org/view.php?id=7497)[\[5\]](http://archive.openflow.org/wk/index.php/Kernel_Module_Debugging)
 
-## Run Centos7 in Virtualbox and KGBD Debug via Serial Port
+### Run Centos7 in Virtualbox and KGBD Debug via Serial Port
 
 I'm using a Windows host. First, start my Centos7 VM in Virtualbox. In Centos7, First install the kernel debuginfo
 
@@ -421,7 +421,7 @@ gdb -x gdbinit vmlinux
 
 But this debug on boot way didn't work for me. My gdb keep stucking and timeout. I guess this is because of kgdb io driver staff, see [here](https://www.kernel.org/pub/linux/kernel/people/jwessel/kdb/kgdbwait.html).
 
-## Debug VM using Virtualbox or VMware Debug Support
+### Debug VM using Virtualbox or VMware Debug Support
 
 Both Virtualbox and VMware provide native debugging support, just like qemu provides `-s -S` for gdb.
 
@@ -430,7 +430,7 @@ Both Virtualbox and VMware provide native debugging support, just like qemu prov
 
 But note VBoxGDB is very inmature, and with a lot of limitations. VMware's only works on Workstation. I just post them here, not tried.
 
-## Summary
+### Summary
 
 To debug a live linux (e.g. CentOS7), you can choose one of below ways
 
