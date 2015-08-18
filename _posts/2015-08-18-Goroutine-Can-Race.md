@@ -1,5 +1,14 @@
+---
+layout: post
+title: "Goroutine can Race"
+tagline : "Goroutine can Race"
+description: "Goroutine can Race"
+category: "go"
+tags: [go, concurrency, language]
+---
+{% include JB/setup %}
 
-## When does Goroutine Switch?
+### When does Goroutine Switch?
 
 First, I want to test whether goroutine can switch in busy cpu loop. Here's my program (I'm using go 1.4.2). The two sleep_print goroutines keep switching between print and sleep. On default [GOMAXPROCS](http://stackoverflow.com/questions/6235317/why-doesnt-the-go-statement-execute-in-parallel) should be 1 which means all my goroutines run on one core only.
 
@@ -231,7 +240,7 @@ P.S. About handling concurrent control in Go way, usually we use channels to [Sh
 
 P.S. To detect goroutine races, go provides [Race Detector](https://blog.golang.org/race-detector). It is handy.
 
-## Goroutine Can Race
+### Goroutine Can Race
 
 Here's my program to simulate the classic bank balance problem. Note that there are for loops in Bank.change, making goroutine eagerer to switch.
 
