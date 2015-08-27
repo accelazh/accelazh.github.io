@@ -1,8 +1,8 @@
 ---
 layout: post
-title: "Install Devstack Kilo Cluster on Ubuntu 14.04"
-tagline : "Install Devstack Kilo Cluster on Ubuntu 14.04"
-description: "Install Devstack Kilo Cluster on Ubuntu 14.04"
+title: "Install Devstack Multi-node Kilo on Ubuntu 14.04"
+tagline : "Install Devstack Multi-node Kilo on Ubuntu 14.04"
+description: "Install Devstack Multi-node Kilo on Ubuntu 14.04"
 category: "openstack"
 tags: [openstack, devstack, ubuntu]
 ---
@@ -604,7 +604,7 @@ $ openstack role list --os-token=secrete --os-url=http://10.12.181.120:5000/v3 -
 +----------------------------------+-----------------+
 ```
 
-Solution: run it again.
+Solution: re-install devstack again.
 
 ### n-sch fails to start: no module named simple
 
