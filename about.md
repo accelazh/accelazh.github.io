@@ -9,5 +9,4 @@ group: navigation
 
 ### About Accela Zhao
 
-* [English Resume](assets/resume/resume-en.pdf)
-* [中文简历](assets/resume/resume-cn.pdf)
+* [Linkedin](https://cn.linkedin.com/pub/%E5%A5%95%E9%BE%99-%E8%B5%B5/a1/485/166)
