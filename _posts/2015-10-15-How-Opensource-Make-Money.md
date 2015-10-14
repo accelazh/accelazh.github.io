@@ -12,9 +12,7 @@ Opensource have dramatically reshaped how individuals play in the world the info
 
 The most interesting question related to opensource is how companies make money by it, i.e. the business model, since opensource are free to download. I want to have a list of them. But beware that there can always be new business models and new ways to make monkey by opensource, as long as more and more innovative startups emerge.
 
-## Opensource Business Models
-
-Here is the how-opensource-make-monkey list I've summarized.
+Here is the how-opensource-make-monkey list I've summarized
 
 ### To Sell Complementary Products
 
@@ -117,9 +115,13 @@ Opensource is a way for new technology to disrupt and prove itself. But to disru
 Here are examples based on my understanding
 
   * Ceph: a new generation storage technology completely differs from traditonal proprietary storages. It takes opensource to promote.
+
   * Kubernetes: to make the industry quicker to accept containerized PaaS, google throw out kubernetes. When the market is convinced that contanierized PaaS is better, google already holds the leadership tight
+
   * Java: Sun, IBM, Oracle in aliance builds Java which reshapes the IT industry. Opensource helps Java to beat all the traditionals, win the world, and make Sun, IBM, Oracle the leaders. They define how company should build and run their IT.
+
   * Openstack: Companies like Redhat, Mirantis, HP, IBM are fighting for the leadship of Openstack community, by more contribution, more core developers and more PTL. When one leads how Openstack evolves, it ensures its own products always integrate better and step faster with Openstack than the competitors.
+  
   * Google 3 papers: GFS, bigtable, MapReduce. Even if there are no selling products, and the community have adopted the design. The 3 papers totally reshaped our industry and the cloud technology, making everyone knows that google is the leader.
 
 
