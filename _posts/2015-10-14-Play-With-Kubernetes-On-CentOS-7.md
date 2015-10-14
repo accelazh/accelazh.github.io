@@ -1,8 +1,8 @@
 ---
 layout: post
 title: "Play with Kubernetes on CentOS 7"
-tagline : "Summarizing Production Server Failure Modes"
-description: "Summarizing Production Server Failure Modes"
+tagline : "Play with Kubernetes on CentOS 7"
+description: "Play with Kubernetes on CentOS 7"
 category: "kubernetes"
 tags: [kubernetes, container, paas]
 ---
