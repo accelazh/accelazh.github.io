@@ -8,7 +8,9 @@ tags: [linux, debug, kernel]
 ---
 {% include JB/setup %}
 
-### Build the Kernel
+I want to step by step debug the linux kernel execution. The first to learn is how to build the kernel. The second is to setup the debug environment.
+
+## Build the Kernel
 
 Install pre-requisites
 
@@ -63,7 +65,7 @@ If you hit error and want to start over
 make clean
 ```
 
-### Build the Root Filesystem Manually
+## Build the Root Filesystem Manually
 
 First, create the rootfs file using `ext2` type. This part refers to this [guide](http://www.tldp.org/HOWTO/Bootdisk-HOWTO/buildroot.html). For what is rootfs, refer to [here](http://kernelnewbies.org/RootFileSystem) and [here](https://www.kernel.org/doc/Documentation/filesystems/ramfs-rootfs-initramfs.txt).
 
@@ -83,7 +85,7 @@ wget https://github.com/ewindisch/docker-cirros/raw/master/cirros-0.3.3-x86_64-l
 tar xzvf cirros-0.3.3-x86_64-lxc.tar.gz -C /mnt/rootfs/
 ```
 
-### Debug the Kernel [FAILED]
+## Debug the Kernel [FAILED]
 
 I will use gdb + qemu to debug the kernel. First install qemu
 
@@ -125,7 +127,7 @@ The kernel crashed in boot process. Guess there's something wrong in my rootfs. 
 
 Next I'll try building from the all-in-one tool [Buildroot](http://buildroot.uclibc.org/).
 
-### Build Kernel & RootFS by Buildroot
+## Build Kernel & RootFS by Buildroot
 
 Following [Qemu and the Kernel](http://www.linux-magazine.com/Online/Features/Qemu-and-the-Kernel) and the [Buildroot User Menual](http://buildroot.uclibc.org/downloads/manual/manual.html#_buildroot_quick_start). First, download Buildroot.
 
@@ -190,7 +192,7 @@ gdb
 
 In VNC, you should see it successfully enters linux login. Username `root`, no password. After login you can type shell commands.
 
-### Cross Debug My Own Build vs Buildroot Ones [FAILED]
+## Cross Debug My Own Build vs Buildroot Ones [FAILED]
 
 Try launch my own built kernel with Buildroot built rootfs. Access it with VNC
 
@@ -217,7 +219,7 @@ qemu-system-x86_64 -kernel ~/workspace/kernel/linux-3.10.82/arch/x86/boot/bzImag
 
 In VNC I see another error, still failed. Anyway, by now only buildroot's kernel + rootfs works. I want to change how I face the problem. How about directly debug a live centos7 running in VM directly?
 
-### Run Centos7 in Qemu and Debug with GDB
+## Run Centos7 in Qemu and Debug with GDB
 
 Create my working directory and download centos7 iso image.
 
@@ -282,7 +284,11 @@ Failed. This doesn't work, guess kernel minior version 3.10.xx makes difference.
 
 References: [\[1\]](https://tthtlc.wordpress.com/2014/01/14/how-to-do-kernel-debugging-via-gdb-over-serial-port-via-qemu/)[\[2\]](https://fedoraproject.org/wiki/How_to_use_qemu)[\[3\]](http://wiki.osdev.org/How_Do_I_Use_A_Debugger_With_My_OS)[\[4\]](https://bugs.centos.org/view.php?id=7497)[\[5\]](http://archive.openflow.org/wk/index.php/Kernel_Module_Debugging)
 
-### Run Centos7 in Virtualbox and KGBD Debug via Serial Port
+## Run Centos7 in Virtualbox and KGBD Debug via Serial Port
+
+This requires a target host, i.e. the Centos7 which is being debugged. And a debug host, which connects to the Centos7 via Serial Port. Who should be the debug host? The first choice is to use my Windows host (The Centos7 is a VM on my windows). The second choice is to launch another Linux VM, use it as the debug host.
+
+### Use My Windows as the Debug Host [FAILED]
 
 I'm using a Windows host. First, start my Centos7 VM in Virtualbox. In Centos7, First install the kernel debuginfo
 
@@ -335,13 +341,14 @@ Port number: COM1; Port mode: Host device; Port path: COM4
 
 Failed. My Centos7 VM in Virtualbox cannot start, complaining "Failed to open host device 'COM4'" anyway. If the debug host were Linux (but mine is Windows), it would be a lot easier.
 
+### Use Another Linux VM as the Debug Host
+
 I happen to have another fedora VM in Virtualbox, on my Windows host. I will try another way, debug my live centos7 VM (debug target) from my fedora VM (debug host). Following guide [\[1\]](https://forums.virtualbox.org/viewtopic.php?f=6&t=56897)[\[2\]](http://opensourceforu.efytimes.com/2011/03/kgdb-with-virtualbox-debug-live-kernel/). First copy the `vmlinux` and kernel source to fedora VM
 
 ```
 # On my fedora, the debug host, after copied vmlinux and source
 ls ~/workspace/kernel/linux-3.10.0-229.1.2.e17.centos.x86_64
 ls ~/workspace/kernel/linux-3.10.0-229.1.2.e17.centos.x86_64/vmlinux
-
 ```
 
 Next, config serial port in host pipe type on both fedora and centos. So that they are connected. Centos7 would see `/dev/ttyS0`, Fedora would see `/dev/ttyS3`. For COM* mapping to /dev/ttyS*, see [here](https://techtooltip.wordpress.com/2008/09/12/using-host-serial-port-from-guest-in-virtual-box/).
@@ -354,7 +361,7 @@ Next, config serial port in host pipe type on both fedora and centos. So that th
   * Create pipe: centos7 side yes; fedora side no
 ```
 
-Next on fedora VM do below to prepare
+Next on fedora VM do below to prepare. Note that for gdb to list source code, the kernel source should be in the same folder with `vmlinux`.
 
 ```
 # On my fedora VM
@@ -391,7 +398,7 @@ echo hello > /dev/ttyS0
 ...
 ```
 
-The first way is to trigger debug session inside the linux (when login and already running). More kdb commands see [here](https://www.kernel.org/pub/linux/kernel/people/jwessel/kdb/usingKDB.html)
+The first way is to trigger debug session inside the linux (when login and already running). More kgdb commands see [here](https://www.kernel.org/pub/linux/kernel/people/jwessel/kdb/usingKDB.html) (P.S. this is a good book to learn kgdb.)
 
 ```
 # On centos 7, after system is boot, login as root
@@ -406,11 +413,17 @@ gdb -x gdbinit vmlinux
 (gdb) ...    # Play as you like
 ```
 
-The second way is to trigger debug when system boot. To do it, reboot the centos7 VM, on grub screen, press `e` to edit kernel boot parameters
+The second way is to trigger debug when system boot. This requires `kgdbwait`, which requires [kgdb io driver](https://www.kernel.org/pub/linux/kernel/people/jwessel/kdb/kgdbwait.html) to be built into the kernel (I think it means a serial port driver) rather than as kernel loadable module.
+
+Anyway, to make it work, I recompiled my Centos7 kernel, following the [official guide](https://wiki.centos.org/HowTos/Custom_Kernel). I didn't change the kernel config actually, as told in [step 2](https://wiki.centos.org/HowTos/Custom_Kernel#head-87b9be9f01554c45ebab1d9cf76971348cafcb8e). In [step 4](https://wiki.centos.org/HowTos/Custom_Kernel#head-9cdd87b12cf068c1b9a2aa018c8a37fbedf2cfe6) I only changed the `%define buildid .your_identifier`. Note that 'There should be no space between the "%" and the word "define"'.
+
+It took me hours to download the rpm dependencies, up to 3 hours to build the kernel rpm, and 6G disk space.
+
+After that, I reboot. In grub I choose to use the second centos.local****.x86_64.debug kernel. To enable kgdbwait debugging, on grub screen, press `e` to edit kernel boot parameters
 
 ```
 # Append to kernel boot parameters
-kgdboc=ttyS0,115200 kgdbwait
+... kgdbwait kgdboc=ttyS0,115200
 ```
 
 After continue booting (ctrl-x), you should see the centos7 VM suspend and wait for remote gdb connect in. Then, use fedora VM to gdb connect in
@@ -419,9 +432,9 @@ After continue booting (ctrl-x), you should see the centos7 VM suspend and wait 
 gdb -x gdbinit vmlinux
 ```
 
-But this debug on boot way didn't work for me. My gdb keep stucking and timeout. I guess this is because of kgdb io driver staff, see [here](https://www.kernel.org/pub/linux/kernel/people/jwessel/kdb/kgdbwait.html).
+But this debug on boot way didn't work for me. My gdb keep stucking and timeout. I guess this is because of kgdb io driver staff, see [here](https://www.kernel.org/pub/linux/kernel/people/jwessel/kdb/kgdbwait.html). There are also working guide to [build custom centos kernel](https://wiki.centos.org/HowTos/Custom_Kernel).
 
-### Debug VM using Virtualbox or VMware Debug Support
+## Debug VM using Virtualbox or VMware Debug Support
 
 Both Virtualbox and VMware provide native debugging support, just like qemu provides `-s -S` for gdb.
 
@@ -430,12 +443,19 @@ Both Virtualbox and VMware provide native debugging support, just like qemu prov
 
 But note VBoxGDB is very inmature, and with a lot of limitations. VMware's only works on Workstation. I just post them here, not tried.
 
-### Summary
+## Summary
 
 To debug a live linux (e.g. CentOS7), you can choose one of below ways
 
   1. Launch target VM in qemu `-s -S`, then gdb debug
-  2. Launch target VM in Virtualbox or VMware, add a serial port, then kgdb debug
+  2. Launch target VM in Virtualbox or VMware, add a serial port, then kgdb debug. See also this [tutoria](http://elinux.org/Kgdb)
   3. Use Virutalbox VBoxGDB or VMware Workstation debug support.
 
 I recommend do (1) and (2) on Linux. If you have to do it on Windows, launch another Linux as the debug host, then connect debug target (VM) and debug host (VM) with virtual serial port (host pipe). For (3) it is either inmature or charged with a fee. Windows as the debug host, gdb debug to a Linux VM, never succeeds. Overall I think (1) is the best way as long as you have a baremetal Linux host (qemu on VM is so slow).
+
+## P.S.
+
+I found kgdb supports using keyboard ([the `kbd` option](https://www.kernel.org/doc/htmldocs/kgdb/kgdbKernelArgs.html)) rather than serial port (the `kgdboc`). Maybe I could just run gdb debug session on the debug target VM, without the need of a second debug host VM?
+
+Another [finding](https://www.linux.com/learn/linux-training/33991-the-kernel-newbie-corner-kernel-and-module-debugging-with-gdb) of inplace debug. On my debug host VM, run `gdb vmlinux /proc/kcore`, I can start my gdb session. The kenel is not really running, but I can dump variables.
+
