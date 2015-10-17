@@ -4,7 +4,7 @@ title: "Dive into Linux Kernel IO Path"
 tagline : "Dive into Linux Kernel IO Path"
 description: "Dive into Linux Kernel IO Path"
 category: "kernel"
-tags: [linux, kernel, io]
+tags: [kernel, linux, io]
 ---
 {% include JB/setup %}
 
