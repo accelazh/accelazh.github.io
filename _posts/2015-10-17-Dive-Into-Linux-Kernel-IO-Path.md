@@ -244,10 +244,13 @@ block/blk-core.c::submit_bio(int rw, struct bio *bio)    # `struct bio` is defin
             block/blk-core.c::blk_queue_bio(struct request_queue *q, struct bio *bio)    # I digged out who is `make_request_fn` by gdb.
 
     # so which place assigned blk_queue_bio to q->make_request_fn?
-    block/blk-core.c::blk_init_allocated_queue(struct request_queue *q, request_fn_proc *rfn, spinlock_t *lock)
-        blk_queue_make_request(q, blk_queue_bio);    # defined in block/blk-settings.c::blk_queue_make_request(struct request_queue *q, make_request_fn *mfn)
-            q->make_request_fn = mfn;
-              
+    blk/blk-core.c::blk_init_queue(request_fn_proc *rfn, spinlock_t *lock)
+        return blk_init_queue_node(rfn, lock, NUMA_NO_NODE);
+            q = blk_init_allocated_queue(uninit_q, rfn, lock);
+                blk_queue_make_request(q, blk_queue_bio);    # defined in block/blk-settings.c::blk_queue_make_request(struct request_queue *q, make_request_fn *mfn)
+                    q->make_request_fn = mfn;
+
+            # continued from above
             block/blk-core.c::blk_queue_bio(struct request_queue *q, struct bio *bio)  
                 struct request *req;    # defined at include/linux/blkdev.h
                 el_ret = elv_merge(q, &req, bio);    # `*req` is assigned. decide merge type (not actual merge), return ELEVATOR_NO_MERGE, ELEVATOR_BACK_MERGE or ELEVATOR_FRONT_MERGE (defined at include\linux\elevator.h).
@@ -270,6 +273,7 @@ block/blk-core.c::submit_bio(int rw, struct bio *bio)    # `struct bio` is defin
         },
     }
 
+                    # continued from above
                     e->type->ops.elevator_bio_merged_fn(q, rq, bio);    
                 attempt_back_merge(q, req)    # or attempt_front_merge(q, req)
                     struct request *next = elv_latter_request(q, rq);
@@ -553,6 +557,7 @@ Things I'm still not clear about by now
 ```
 1. in block driver layer, when writes finish and calls back, how BLOCK_SOFTIRQ is triggered and why we need it.
 2. in block driver layer, when writes finish and calls back, in the end, how `wake_up(&rl->wait[sync])` works and how does fs/aio.c::wait_on_sync_kiocb(..) wake up on the right time
+3. in block layer, is there an async thread keep processing block io requests in the request queue? I.e. an async thread keep calling block/blk_core.c::__blk_run_queue_uncond(..) { .. q->request_fn(q); ..}
 ```
 
 Easy ways to piece together load module symbol commands for gdb
@@ -572,7 +577,7 @@ References
   * How to find which SCSI driver I'm using: [\[1\]](http://unix.stackexchange.com/questions/97676/how-to-find-the-driver-module-associated-with-a-device-on-linux)[\[2\]](http://stackoverflow.com/questions/17878843/determine-linux-driver-that-owns-a-disk)[\[3\]](http://sg.danny.cz/scsi/lsscsi.html)
   * IDE disk vs SCSI disk: [\[1\]](http://www.extremetech.com/computing/52680-top-tip-ide-or-scsi-which-is-better)
   * How SCSI IO subsystem works: [\[1\]](https://www.ibm.com/developerworks/cn/linux/l-cn-scsiio/)[\[2\]](http://www.ibm.com/developerworks/cn/linux/l-scsi-subsystem/)[\[3\]](http://www.uibk.ac.at/linuxdoc/LDP/HOWTO/html_single/SCSI-2.4-HOWTO/)[\[4\]](http://www.ibm.com/developerworks/library/l-scsi-api/)
-  * SCSI high level driver vs low level driver: [][\[2\]](http://www.ibm.com/developerworks/cn/linux/l-scsi-subsystem/)[\[3\]](http://www.tldp.org/LDP/khg/HyperNews/get/devices/scsi.html)
+  * SCSI high level driver vs low level driver: [[\[2\]](http://www.ibm.com/developerworks/cn/linux/l-scsi-subsystem/)[\[3\]](http://www.tldp.org/LDP/khg/HyperNews/get/devices/scsi.html)
   * Kernel Page Cache: [\[1\]](http://www.makelinux.net/books/lkd2/ch15lev1sec1)[\[2\]](http://www.ahlinux.com/start/kernel/6900.html)[\[3\]](http://www.makelinux.net/books/lkd2/ch15lev1sec2)[\[4\]](https://www.kernel.org/doc/Documentation/filesystems/vfs.txt)[\[5\]](http://blog.csdn.net/iter_zc/article/details/44195731)
   * Buffer Cache is Merged with Page Cache Now: [\[1\]](http://www.makelinux.net/books/lkd2/ch15lev1sec3)[\[2\]](https://www.quora.com/What-is-the-major-difference-between-the-buffer-cache-and-the-page-cache)
   * Page Cache Radix Tree: [\[1\]](http://blog.csdn.net/joker0910/article/details/8250085)[\[2\]](http://lwn.net/Articles/175432/)[\[3\]](http://www3.cs.stonybrook.edu/~porter/courses/cse506/f11/slides/page-cache-handout.pdf)[\[4\]](https://0xax.gitbooks.io/linux-insides/content/DataStructures/radix-tree.html)
