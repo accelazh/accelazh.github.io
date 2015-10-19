@@ -498,7 +498,8 @@ mm/filemap.c::generic_perform_write(struct file *file, struct iov_iter *i, loff_
     # the `address_space` object is the bridge to kernel page cache.
     # inside the `address_space` defines a `struct radix_tree_root page_tree`
     # the kernel page cache is actually hold by the radix_tree.
-    # radix tree is a space-optimized trie tree. for more see my references
+    # radix tree is a space-optimized trie tree. logically it is a big and sparse array.
+    # so to implement it, we break it into pieces, and add an tree index. For the holes in the array, we don't need actual tree nodes, i.e. space-optimized.
     struct address_space *mapping = file->f_mapping;    # `address_space` is defined at include/linux/fs.h
     const struct address_space_operations *a_ops = mapping->a_ops;    # here the actual a_op is fs/xfs/xfs_aops.c::xfs_address_space_operations.
     
