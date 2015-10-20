@@ -158,7 +158,7 @@ fs\read_write.c::SYSCALL_DEFINE3(write, unsigned int, fd, const char __user *, b
          # input 'c'
             fs/read_write.c::do_sync_write(..)
                 # sync_write is actually implemented by aio_write
-                ret = filp->f_op->aio_write(&kiocb, &iov, 1, kiocb.ki_pos);    # I'm using xfs. filp->f_op->aio_write == fs/xfs/xfs_file.c::xfs_file_operations.xfs_file_aio_write.
+                ret = filp->f_op->aio_write(&kiocb, &iov, 1, kiocb.ki_pos);    # I'm using xfs. filp->f_op->aio_write == fs/xfs/xfs_file.c::xfs_file_operations.xfs_file_aio_write
                 
                 # since xfs is a loadable module, rather than built into kernel, gdb cannot see or step into it on default. we need to load module symbols
                 # to load module symbols, input `add-symbol-file ./fs/xfs/xfs.o 0xffffffffa0144000 -s .data 0xffffffffa0213000 -s .bss 0xffffffffa022b618`; input 'p xfs_file_aio_write' to verify
@@ -419,7 +419,7 @@ drivers/scsi/scsi_lib.c::scsi_request_fn(struct request_queue *q)
                                                 "m" (*(volatile unsigned int __force *)addr) ); }
     }
    
-    # where does high level driver sc.d plays in? by searching `to_driver` in drivers/scsi I found below.
+    # where does high level driver sd.c plays in? by searching `to_driver` in drivers/scsi I found below.
     # so I guess those high level drivers are high level, which interact with general scsi code, and low level drivers have no direct connection to them
     drivers\scsi\scsi.c::scsi_finish_command(struct scsi_cmnd *cmd)
         drv = scsi_cmd_to_driver(cmd);
@@ -577,7 +577,7 @@ References
   * Kernel block level trace: [\[make_request_fn\]](https://www.win.tue.nl/~aeb/linux/vfs/trail-3.html)[\[request plug/unplug\]](http://blog.chinaunix.net/uid-14528823-id-4778396.html)
   * How to find which SCSI driver I'm using: [\[1\]](http://unix.stackexchange.com/questions/97676/how-to-find-the-driver-module-associated-with-a-device-on-linux)[\[2\]](http://stackoverflow.com/questions/17878843/determine-linux-driver-that-owns-a-disk)[\[3\]](http://sg.danny.cz/scsi/lsscsi.html)
   * IDE disk vs SCSI disk: [\[1\]](http://www.extremetech.com/computing/52680-top-tip-ide-or-scsi-which-is-better)
-  * How SCSI IO subsystem works: [\[1\]](https://www.ibm.com/developerworks/cn/linux/l-cn-scsiio/)[\[2\]](http://www.ibm.com/developerworks/cn/linux/l-scsi-subsystem/)[\[3\]](http://www.uibk.ac.at/linuxdoc/LDP/HOWTO/html_single/SCSI-2.4-HOWTO/)[\[4\]](http://www.ibm.com/developerworks/library/l-scsi-api/)
+  * How SCSI IO subsystem works: [\[1\]](https://www.ibm.com/developerworks/cn/linux/l-cn-scsiio/)[\[2\]](http://www.ibm.com/developerworks/cn/linux/l-scsi-subsystem/)[\[3\]](http://www.uibk.ac.at/linuxdoc/LDP/HOWTO/html_single/SCSI-2.4-HOWTO/)[\[4\]](http://www.ibm.com/developerworks/library/l-scsi-api/)[\[3\]](http://www.uibk.ac.at/linuxdoc/LDP/HOWTO/html_single/SCSI-2.4-HOWTO/)
   * SCSI high level driver vs low level driver: [[\[2\]](http://www.ibm.com/developerworks/cn/linux/l-scsi-subsystem/)[\[3\]](http://www.tldp.org/LDP/khg/HyperNews/get/devices/scsi.html)
   * Kernel Page Cache: [\[1\]](http://www.makelinux.net/books/lkd2/ch15lev1sec1)[\[2\]](http://www.ahlinux.com/start/kernel/6900.html)[\[3\]](http://www.makelinux.net/books/lkd2/ch15lev1sec2)[\[4\]](https://www.kernel.org/doc/Documentation/filesystems/vfs.txt)[\[5\]](http://blog.csdn.net/iter_zc/article/details/44195731)
   * Buffer Cache is Merged with Page Cache Now: [\[1\]](http://www.makelinux.net/books/lkd2/ch15lev1sec3)[\[2\]](https://www.quora.com/What-is-the-major-difference-between-the-buffer-cache-and-the-page-cache)
