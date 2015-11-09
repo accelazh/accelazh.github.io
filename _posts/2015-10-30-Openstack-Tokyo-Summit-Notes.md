@@ -8,7 +8,7 @@ tags: [openstack, summit, tokyo]
 ---
 {% include JB/setup %}
 
-The Openstack Tokyo Summit, Oct.27 - Oct.30 2015, releases the Libery and designs the Mitaka. Schedule page at [here](http://openstack.org/summit/tokyo-2015/schedule/). Overall Keystone Federation (and multisite Openstack) was greatly enhanced and actively discussed. More integration remains underworking with Cinder, Nova, etc. Neutron added various new features, and we got Kuryr. NFV and NFV orchestration were hot topics whose rooms were always packed. Magnum positioned itself as the implementation of OCI (Open Containre Initiative) and CNCF (Cloud Native Computing Foundation). Ceph added PMstore (Persistent Memory store), RDMA (Remote DMA) support, XIO Messenger.
+The Openstack Tokyo Summit, Oct.27 - Oct.30 2015, releases the Libery and designs the Mitaka. Schedule page at [here](http://openstack.org/summit/tokyo-2015/schedule/). Design Summit (Mitaka) records [here](https://wiki.openstack.org/wiki/Design_Summit/Mitaka/Etherpads). Overall Keystone Federation (and multisite Openstack) was greatly enhanced and actively discussed. More integration remains underworking with Cinder, Nova, etc. Neutron added various new features, and we got Kuryr. NFV and NFV orchestration were hot topics whose rooms were always packed. Magnum positioned itself as the implementation of OCI (Open Containre Initiative) and CNCF (Cloud Native Computing Foundation). Ceph added PMstore (Persistent Memory store), RDMA (Remote DMA) support, XIO Messenger.
 
 Below is my meeting notes. No warranty for my listening skills :-P
 
