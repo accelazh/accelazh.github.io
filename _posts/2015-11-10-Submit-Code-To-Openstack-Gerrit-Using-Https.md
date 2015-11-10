@@ -32,6 +32,7 @@ So, steps here:
   2. Generate your http password at Openstack gerrit.
   3. Change directory (cd)  to your project folder
   4. Fill in <username>, <http_password> and <project_name> (e.g. magnum), run below commands
+
 ```
 git config gitreview.scheme https
 git config gitreview.port 443
@@ -39,6 +40,7 @@ git remote rm gerrit
 git remote add gerrit https://<username>:<http_password>@review.openstack.org/openstack/<project_name>
 git review -s
 ```
+
   5. If it complains `scp <username>:<http_password>@review.openstack.org:hooks/commit-msg .git/hooks/commit-msg` failed. The file is used to generate ChangeId in commit message. Copy it from https://review.openstack.org/tools/hooks/commit-msg
   6. Now you should be able to `git review` to submit code. Have fun!
 
