@@ -10,7 +10,7 @@ tags: [openstack, gerrit, ssh]
 
 Openstack `git review` submits code to gerrit server. The default transport is ssh. But in some corporate network, ssh may be blocked by firewall. We need to use https. Even though there is [developer doc](http://docs.openstack.org/infra/manual/developers.html), it doesn't seem to always work.
 
-Note that on windows, the https way won'y work either, because its curl implementation here doesn't respect `realm`. In http digest authentication the `realm` is lost. See http://curl.haxx.se/mail/tracker-2015-02/0045.html.
+Note that on windows, the https way won'y work either, because its curl implementation here doesn't respect `realm`. In http digest authentication the `realm` is lost. See [http://curl.haxx.se/mail/tracker-2015-02/0045.html](http://curl.haxx.se/mail/tracker-2015-02/0045.html).
 
 ```
 # on windows git bash, 'realm' is lost, fail
@@ -32,7 +32,7 @@ So, steps here:
   2. Generate your http password at Openstack gerrit.
   3. Change directory (cd)  to your project folder
   4. Fill in <username>, <http_password> and <project_name> (e.g. magnum), run commands attached below
-  5. If it complains `scp <username>:<http_password>@review.openstack.org:hooks/commit-msg .git/hooks/commit-msg` failed. The file is used to generate ChangeId in commit message. Copy it from https://review.openstack.org/tools/hooks/commit-msg
+  5. If it complains `scp <username>:<http_password>@review.openstack.org:hooks/commit-msg .git/hooks/commit-msg` failed. The file is used to generate ChangeId in commit message. Copy it from [https://review.openstack.org/tools/hooks/commit-msg](https://review.openstack.org/tools/hooks/commit-msg)
   6. Now you should be able to `git review` to submit code. Have fun!
 
 ```
