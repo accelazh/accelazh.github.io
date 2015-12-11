@@ -25,7 +25,7 @@ curl -v -k --anyauth https://<username>:<http_password>@review.openstack.org/ope
 > Authorization: Digest username="xxxxxx", realm="Gerrit Code Review", nonce="nIr/lo2fGz8uoqRa/3LsfS72zb7zIuj3eczK+Q==$", uri="/openstack/magnum/info/refs?service=git-receive-pack", cnonce="K2DlZGExGWQ1NDg5NmEyODAwND7mYWY4MDA3Y2UzZmM=", nc=00000001, qop=auth, response="b940fd5254c0b0d3e55fbdb737b3fec0"
 ...
 ```
- 
+
 So, steps here:
  
   1. Find an Ubuntu or CentOS, don't use Wnidows

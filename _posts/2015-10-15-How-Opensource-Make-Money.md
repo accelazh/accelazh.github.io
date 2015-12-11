@@ -37,7 +37,7 @@ A company can sell an opensource version + an enterprise version of its product.
 
   * Ease of installation. More stable. Better deployment layout.
   * Professional support and warranty.
-  * Integrated with enterprise-handy but community-less-care features like: auditing, monitoring, LDAP stuff enterprise user auth, configuration management, complex of dynamic XXX that only the complex company need, enterprise plugins, etc
+  * Integrated with enterprise-handy but community-less-care features like: auditing, monitoring, LDAP stuff enterprise user auth, configuration management, complex of dynamic XXX that only the complex company need, enterprise plugins, a comprehensive web portal, etc
   * Add some advanced component, only available for paied version
 
 Many companies choose this business model. Examples are
