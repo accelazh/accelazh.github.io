@@ -14,6 +14,16 @@ The most interesting question related to opensource is how companies make money 
 
 Here is the how-opensource-make-monkey list I've summarized
 
+### Offload Common Parts and Focus on Differentiators
+
+To develop a complete product to customer, a company usually has to build common parts that have no differents from her competitors and parts that are differentiators of her business. The company may opensource the first part, or leverage the community, to offload the burden. With opensource, she can focus more on the second part, which brings differentiators to her business.
+
+Examples are
+
+  * Well, many companies use opensource library or tools when developing their products
+  * IBM Bluemix combines opensource Openstack & CloudFoundry (which is common parts), and its proprietary technologies (the differentiators) to be the product
+    * Many companies also do this: package popular opensource platforms and sell the "improve" version
+
 ### To Sell Complementary Products
 
 Product A and product B are complementary if when people buy A, they would need B for it to work. This is very common when companies sell products. A strategy is to opensource A, making it free, but charge a fee for B. The growth of A gives more space for B. Also A has the chance to take the precedence in the market because it is free.

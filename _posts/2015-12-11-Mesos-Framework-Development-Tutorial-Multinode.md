@@ -30,7 +30,7 @@ The greatest guide is the [offical mesos framework tutorial](https://github.com/
 
 However, this [tutorial](https://github.com/mesosphere/mesos-framework-tutorial) only guides you how to develop framework on a single node all-in-one mesos. How to do that on a multinode mesos cluster?
 
-#### Develop Frameworks on Multinode Mesos
+### Develop Frameworks on Multinode Mesos
 
 In the multinode mesos, mesos slave is not on the same node of mesos master. How does mesos slave gets the executor's executable file? The mesos slave expects to download it from a shared place, e.g. HDFS, HTTP server, etc. You need to pass it the [executor-uri](https://github.com/mesosphere/mesos-framework-tutorial/blob/bc5da5bb52ad91871fb842e454133fe45d08d319/main.go#L119). The downloading is done by [mesos fetcher](http://mesos.apache.org/documentation/latest/fetcher/).
 
