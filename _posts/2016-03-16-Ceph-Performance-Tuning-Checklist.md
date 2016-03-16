@@ -83,19 +83,19 @@ About the network
 
 ### References
 
-  * Ceph性能优化总结(v0.94): <http://xiaoquqi.github.io/blog/2015/06/28/ceph-performance-optimization-summary/>
-  * One Ceph, Two ways of thinking: <http://documents.tips/technology/ceph-day-beijing-one-ceph-two-ways-of-thinking-between-customers-and-developers.html>
-  * 几个 Ceph 性能优化的新方法和思路（2015 SH Ceph Day 参后感）: <http://www.cnblogs.com/sammyliu/p/4905726.html>
-  * Scheduler queue size and resilience to heavy IO: <http://www.monperrus.net/martin/scheduler+queue+size+and+resilience+to+heavy+IO>
-  * Ceph性能调优——Journal与tcmalloc: <http://hustcat.github.io/ceph-performance-journal-and-tcmalloc/>
-  * 打造高性能高可靠块存储系统: <https://www.ustack.com/blog/build-block-storage-service/>
-  * linux系统数据落盘之细节: <http://www.cnblogs.com/wuhuiyuan/p/4648725.html>
-  * 海量小文件存储与Ceph实践: <http://www.cnblogs.com/wuhuiyuan/p/4651698.html>
-  * Linux Performance Analysis in 60,000 Milliseconds: <http://techblog.netflix.com/2015/11/linux-performance-analysis-in-60s.html>
-  * Netflix at Velocity 2015: <Linux Performance Tools: <http://techblog.netflix.com/2015/08/netflix-at-velocity-2015-linux.html>
-  * EXT4 File-System Tuning Benchmarks: <http://www.phoronix.com/scan.php?page=article&item=ext4_linux35_tuning&num=1>
-  * xfs文件系统使用总结: <http://m.blog.chinaunix.net/uid-522675-id-4665059.html>
-  * Ceph: <Open Source Storage Software Optimizations on Intel® Architecture for Cloud Workloads: <http://www.slideshare.net/LarryCover/ceph-open-source-storage-software-optimizations-on-intel-architecture-for-cloud-workloads>
-  * Yahoo Cloud Object Store - Object Storage at Exabyte Scale: <https://yahooeng.tumblr.com/post/116391291701/yahoo-cloud-object-store-object-storage-at>
-  * BENCHMARK CEPH CLUSTER PERFORMANCE: <http://tracker.ceph.com/projects/ceph/wiki/Benchmark_Ceph_Cluster_Performance>
-  * Ceph Benchmarks: <http://www.sebastien-han.fr/blog/2012/08/26/ceph-benchmarks/>
+  * [Ceph性能优化总结(v0.94)](http://xiaoquqi.github.io/blog/2015/06/28/ceph-performance-optimization-summary/)
+  * [One Ceph, Two ways of thinking](http://documents.tips/technology/ceph-day-beijing-one-ceph-two-ways-of-thinking-between-customers-and-developers.html)
+  * [几个 Ceph 性能优化的新方法和思路（2015 SH Ceph Day 参后感）](http://www.cnblogs.com/sammyliu/p/4905726.html)
+  * [Scheduler queue size and resilience to heavy IO](http://www.monperrus.net/martin/scheduler+queue+size+and+resilience+to+heavy+IO)
+  * [Ceph性能调优——Journal与tcmalloc](http://hustcat.github.io/ceph-performance-journal-and-tcmalloc/)
+  * [打造高性能高可靠块存储系统](https://www.ustack.com/blog/build-block-storage-service/)
+  * [linux系统数据落盘之细节](http://www.cnblogs.com/wuhuiyuan/p/4648725.html)
+  * [海量小文件存储与Ceph实践](http://www.cnblogs.com/wuhuiyuan/p/4651698.html)
+  * [Linux Performance Analysis in 60,000 Milliseconds](http://techblog.netflix.com/2015/11/linux-performance-analysis-in-60s.html)
+  * [Netflix at Velocity 2015](Linux Performance Tools](http://techblog.netflix.com/2015/08/netflix-at-velocity-2015-linux.html)
+  * [EXT4 File-System Tuning Benchmarks](http://www.phoronix.com/scan.php?page=article&item=ext4_linux35_tuning&num=1)
+  * [xfs文件系统使用总结](http://m.blog.chinaunix.net/uid-522675-id-4665059.html)
+  * [Ceph](Open Source Storage Software Optimizations on Intel® Architecture for Cloud Workloads](http://www.slideshare.net/LarryCover/ceph-open-source-storage-software-optimizations-on-intel-architecture-for-cloud-workloads)
+  * [Yahoo Cloud Object Store - Object Storage at Exabyte Scale](https://yahooeng.tumblr.com/post/116391291701/yahoo-cloud-object-store-object-storage-at)
+  * [BENCHMARK CEPH CLUSTER PERFORMANCE](http://tracker.ceph.com/projects/ceph/wiki/Benchmark_Ceph_Cluster_Performance)
+  * [Ceph Benchmarks](http://www.sebastien-han.fr/blog/2012/08/26/ceph-benchmarks/)
