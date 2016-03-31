@@ -134,11 +134,8 @@ Here are examples based on my understanding
   
   * Google 3 papers: GFS, bigtable, MapReduce. Even if there are no selling products, and the community have adopted the design. The 3 papers totally reshaped our industry and the cloud technology, making everyone knows that google is the leader.
 
+### Others
 
+  * Opensource helps company recruit suitable candidate. HR finds competitive candidates from who has contributed to their opensource products on github. Similar things work for Google Summer.
 
-
-
-
-
-
-
+  * Company closes source of their money-earning products, but opens source their old, non-profiting, non-differentiating softares, or infrastructure softwares. This help them earn industry influence, attract competitive developers, and share the burder of developing non-profiting softwares with the community.
