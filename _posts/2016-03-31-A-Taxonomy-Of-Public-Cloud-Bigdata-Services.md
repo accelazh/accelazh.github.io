@@ -16,6 +16,14 @@ Since bigdata services from public clouds are numerous, we try to create a categ
 
 ![Bigdata Lifecycle](/images/bigdata-lifecycle.png "Bigdata Lifecycle")
 
+  * Data Ingestion: How data is input into the cloud. The rate, volume, method, protocol of data ingestion may vary.
+
+  * Data Store: How data is stored. The data storage is designed to cope with data characteristics and to help data analysis.
+
+  * Data Analysis: Where data is analyzed iteratively in various of approaches.
+
+  * Data Visualization: Show the data in graph, discover the potential pattern, and demonstrate the business value.
+
 Another set of general principles to categorize bigdata services are [the extended 3Vs by AWS](http://www.slideshare.net/AmazonWebServices/big-data-and-analytics-on-aws/2). It is very effective if you apply them on storage product designs and their trade-offs.
 
 ![Bigdata Extended 3V General Principles](/images/bigdata-extended-3v.png "Bigdata Extended 3V General Principles")
@@ -44,7 +52,7 @@ Another set of general principles to categorize bigdata services are [the extend
 
   * Views: How diverse the customer. Customers may vary in geo-distribution, access mode, hot time, bandwidth, etc. Cloud vendors need to provide variety in services and configurations. Variety of protocol support, multi-site replication, message bus (to share data between various applications and humans), various of visualization, APIs for different modes (e.g. single or batch), etc, are usually needed.
 
-Above is useful. But for simplicty and handy use, in the following article we still choose to use the bigdata lifecycle model: Ingest, Store, Analyze, Visualize.
+Above is useful. But for simplicty and handy use, in the following article we still choose to use **the bigdata lifecycle model: Ingest, Store, Analyze, Visualize**.
 
 ### Data Ingestion
 
