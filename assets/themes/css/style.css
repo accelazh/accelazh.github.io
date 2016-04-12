@@ -106,3 +106,8 @@ h2, h3 {
   margin-top: 16px;
   margin-bottom: 16px;
 }
+
+.content img {
+  margin: 0 auto;
+  display: block;
+}
