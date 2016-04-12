@@ -57,12 +57,12 @@ Besides, \[6\] shows energy consumption per transaction reaches bottom, when (CP
 
 ### References
 
-\[1\] [Full-System Power Analysis and Modeling for Server Environments](http://www-mount.ece.umn.edu/~jjyi/MoBS/2006/program/3A-Economou.pdf) \[287 references, 2006\]
-\[2\] [A Comparison of High-Level Full-System Power Models](https://www.usenix.org/legacy/event/hotpower08/tech/full_papers/rivoire/rivoire_html/) \[209 references, 2008\]
-\[3\] [Energy-Aware Data Transfer Algorithms](http://www.cse.buffalo.edu/faculty/tkosar/papers/sc_2015.pdf) \[no reference yet, 2015\]
-\[4\] [Reducing Energy Consumption of Disk Storage Using Power-Aware Cache Management](http://opera.ucsd.edu/paper/HPCA04.pdf) \[246 references, 2004\]
-\[5\] [Energy-Efficient Cloud Computing](http://san.ee.imperial.ac.uk/publications/EfficientCloud.pdf) \[504 references, 2010\]
-\[6\] [Energy Aware Consolidation for Cloud Computing](https://www.usenix.org/legacy/events/hotpower08/tech/full_papers/srikantaiah/srikantaiah_html/main.html) [551 references, 2008]
-\[7\] [Energy-Efficient Management of Data Center Resources for Cloud Computing: A Vision, Architectural Elements, and Open Challenges](http://128.250.22.134/papers/GreenCloud2010.pdf) \[333 references, 2010\]
-\[8\] [Energy-aware resource allocation heuristics for efficient management of data centers for Cloud computing](http://www.cloudbus.org/papers/Energy-Aware-CloudResourceAllocation-FGCS2012.pdf) \[838 references, 2012\]
-\[9\] [Cooperative Expendable Micro-Slice Servers (CEMS): Low Cost, Low Power Servers for Internet-Scale Services](http://www-db.cs.wisc.edu/cidr/cidr2009/JamesHamilton_CEMS.pdf)
+* \[1\] [Full-System Power Analysis and Modeling for Server Environments](http://www-mount.ece.umn.edu/~jjyi/MoBS/2006/program/3A-Economou.pdf) \[287 references, 2006\]
+* \[2\] [A Comparison of High-Level Full-System Power Models](https://www.usenix.org/legacy/event/hotpower08/tech/full_papers/rivoire/rivoire_html/) \[209 references, 2008\]
+* \[3\] [Energy-Aware Data Transfer Algorithms](http://www.cse.buffalo.edu/faculty/tkosar/papers/sc_2015.pdf) \[no reference yet, 2015\]
+* \[4\] [Reducing Energy Consumption of Disk Storage Using Power-Aware Cache Management](http://opera.ucsd.edu/paper/HPCA04.pdf) \[246 references, 2004\]
+* \[5\] [Energy-Efficient Cloud Computing](http://san.ee.imperial.ac.uk/publications/EfficientCloud.pdf) \[504 references, 2010\]
+* \[6\] [Energy Aware Consolidation for Cloud Computing](https://www.usenix.org/legacy/events/hotpower08/tech/full_papers/srikantaiah/srikantaiah_html/main.html) \[551 references, 2008\]
+* \[7\] [Energy-Efficient Management of Data Center Resources for Cloud Computing: A Vision, Architectural Elements, and Open Challenges](http://128.250.22.134/papers/GreenCloud2010.pdf) \[333 references, 2010\]
+* \[8\] [Energy-aware resource allocation heuristics for efficient management of data centers for Cloud computing](http://www.cloudbus.org/papers/Energy-Aware-CloudResourceAllocation-FGCS2012.pdf) \[838 references, 2012\]
+* \[9\] [Cooperative Expendable Micro-Slice Servers (CEMS): Low Cost, Low Power Servers for Internet-Scale Services](http://www-db.cs.wisc.edu/cidr/cidr2009/JamesHamilton_CEMS.pdf) \[195 references, 2009\]
