@@ -32,7 +32,11 @@ Energy consumption per transaction, however, is not linear. \[6\] shows that it 
 
 ### The Overall Status
 
-\[5\] gives the perfect summary. Energy-efficient hardware has been researched for long time. Processor can be powered down. Energy-aware scheduling contributes to a large part. THe cloud part is mostly about server consolidation.
+\[5\] gives the perfect summary.
+
+Energy-efficient hardware has been researched for long time. Processor can be powered down. Energy-aware scheduling contributes to a large part. With respect to wireless network, energy-saving routing protocols are studied.
+
+The cloud part is mostly about server consolidation. The challenge is to achieve an "optimal balance between performance, QoS, and energy consumption and include self-aware runtime adaptation".
 
 ### Cloud Consolidation
 
