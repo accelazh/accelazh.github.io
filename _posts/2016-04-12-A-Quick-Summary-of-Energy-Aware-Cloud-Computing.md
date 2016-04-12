@@ -38,6 +38,8 @@ Energy-efficient hardware has been researched for long time. Processor can be po
 
 The cloud part is mostly about server consolidation. The challenge is to achieve an "optimal balance between performance, QoS, and energy consumption and include self-aware runtime adaptation".
 
+Besides, \[1\] reveals some applications such that, dynamically control the fans according current energy consumption, predict the thermal map in a datacenter and allow the cooling system to cool much or less in different spot, calculate the power budget which may be used in scheduling or planning, etc.
+
 ### Cloud Consolidation
 
 Energy-awareness related to Cloud is almost all about consolidation, AFAIK. Since an idle server needs up to even 70% of their maximum power consumption, server consolidation matters. However consolidation usually needs to cope well with SLA.
