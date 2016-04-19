@@ -79,7 +79,9 @@ Geneal steps to improve PUE can be summarized as following [\[10\]]() (page 71).
 
 PUE * SPUE = TPUE (True PUE). Based on the state of the art in 2013, an annual TPUE of 1.25 probably represents the upper limit of what is economically feasible in real-world settings [\[10\]]() (page 73).
 
-With respect to the power efficiency of computing, a key feature is: under low levels of utilization, computing systems tend to be significantly more ineffcient than when they are exercised at maximum utilization [\[10\]]() (page 73). This is usually why we need cloud consolidation. Energy-proportional computing is a different approach, where energy-consumption of computer hardware should be proportional to its utilization. Though some progress, it is still under-research now. But if it comes true, cloud consolidation is not really needed any more, since low utilization yields low energy consumption in proportion.
+With respect to the power efficiency of computing, a key feature is: under low levels of utilization, computing systems tend to be significantly more ineffcient than when they are exercised at maximum utilization [\[10\]]() (page 73). This is usually why we need cloud consolidation.
+
+Energy-proportional computing is a different approach [\[10\]]() (page 76), where energy-consumption of computer hardware should be proportional to its utilization. Though some progress, it is still under-research now. But if it comes true, cloud consolidation is not really needed any more, since low utilization yields low energy consumption in proportion.
 
 ### Other Software Techniques
 
