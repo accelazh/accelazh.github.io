@@ -209,6 +209,7 @@ Complex summary of distributed transaction & consistency, attached it below. I w
            http://www.cs.cmu.edu/~pavlo/courses/fall2013/static/slides/spanner.pdf
            http://research.google.com/archive/spanner-osdi2012.pdf
            http://www.yankay.com/google-spanner%E5%8E%9F%E7%90%86-%E5%85%A8%E7%90%83%E7%BA%A7%E7%9A%84%E5%88%86%E5%B8%83%E5%BC%8F%E6%95%B0%E6%8D%AE%E5%BA%93/
+           http://www.cse.iitb.ac.in/infolab/Data/Courses/CS632/Talks/spanner-osdi2012.pptx
         3. Transactions in MongoDB, Cassandra, Zookeeper and others
            http://rystsov.info/2012/09/01/cas.html
         n. summary
