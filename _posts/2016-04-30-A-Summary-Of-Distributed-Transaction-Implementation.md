@@ -125,6 +125,24 @@ Complex summary of distributed transaction & consistency, attached it below. I w
                WHATEVER, WAIT TO EXPLORE ...: https://github.com/cockroachdb/cockroach/blob/master/docs/design.md#lock-free-distributed-transactions
             4. to map sql table to key-value store: in kv it stores like: tableID/primary/primaryKeyVal/columnID->columnVal (since kv is sorted, easy to fetch entire row)
                a secondary index stores like: tableID/indexID/indexColumnVals/primaryKeyVal/columnID->NULL (we need primaryKeyVal here also because index column may not be unique)
+            5. 有分布式NoSQL store，其支持conditional update，那么可以实现MVCC分布式事务吗？
+               可以认为，一个分布式事务，是由各个NoSQL结点的local transaction组合成。我们把事务信息记录到coordinator后，其实就相当于有了WAL。后面就等待状态传播到所有子节点即可。最终一致性经过等待，就可以变成强一致性。
+               这个时候真正怕的问题，是casual related的事务不按顺序执行，发生冲突。互联网公司貌似库存加减场景，不同大事务的子事务的执行顺序貌似没要求。但分布式数据库需要考虑这点；用来检测事务冲突的timestamp，貌似就非常需要了。于是有了TrueTime或Cockroach的算法，以提高精度、绕过uncertainty。貌似是这样。
+            6. 其它，blog中可以包含的内容
+                1. background: 2PC 3PC
+                   paxos, zookeeper: locking, distributed transaction
+                   idempotent: how to do it in paxos, in db transaction
+                   transactional messaging & kafka
+                   eventual consistency, of transaction, BASE, ACID
+                   transfer state rather than action
+                   asynchronized, scalable,
+                   对账系统，中控事务状态的跟踪和管理
+                   支付系统、交易系统
+                   WAL， redu/undo, ARIES, idempotent
+                   MVCC, db, paxos
+                   trading systems, internet company order/trading/payment system
+                   DB table as the write-ahead log
+                   the power of conditional update
     8. 更多理论
         1. Concurrency Control in Distributed Database Systems     [1272 references, 1981]
            http://www.cs.berkeley.edu/~brewer/cs262/concurrency-distributed-databases.pdf
