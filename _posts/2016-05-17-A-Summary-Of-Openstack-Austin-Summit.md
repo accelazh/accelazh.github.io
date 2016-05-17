@@ -112,7 +112,7 @@ I'm always interested in Ceph, Cinder and various storage technologies in Openst
 
 // TODO Work in process
 
-## Design Summit
+## Design Summit (Newton)
 
 // TODO Work in process
 
