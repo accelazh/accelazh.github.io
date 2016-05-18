@@ -50,6 +50,7 @@ About the network
   * FS parameters: [set noatime, nobarrier](http://www.phoronix.com/scan.php?page=article&item=ext4_linux35_tuning&num=1)
   * [Larger FS journal size](http://m.blog.chinaunix.net/uid-522675-id-4665059.html)
   * If SSD, add discard/trim to FS parameter
+  * Ensure that all file inode, file name descriptors, metadata info are cached in memory. See [link](https://www.ustack.com/blog/tycc/)
 
 ### Ceph Layer
 
@@ -64,6 +65,7 @@ About the network
   * Increase redundant parallel reads with erasure coding. Recovery throttling. Enable bucket sharding. See [Yahoo's](https://yahooeng.tumblr.com/post/116391291701/yahoo-cloud-object-store-object-storage-at).
   * OSD requires about 1 GB memory for per 1TB storage.
   * CRUSH map configurations to improve reliability by reducing number of copysets. See [UStack's blog](https://www.ustack.com/blog/build-block-storage-service/#Coepy_Set) and [this paper](https://www.usenix.org/conference/atc13/technical-sessions/presentation/cidon).
+  * Enable Rbd Cache. See [link](https://www.ustack.com/blog/tycc/)
 
 ### Benchmarking Tools
 
@@ -99,3 +101,4 @@ About the network
   * [Yahoo Cloud Object Store - Object Storage at Exabyte Scale](https://yahooeng.tumblr.com/post/116391291701/yahoo-cloud-object-store-object-storage-at)
   * [BENCHMARK CEPH CLUSTER PERFORMANCE](http://tracker.ceph.com/projects/ceph/wiki/Benchmark_Ceph_Cluster_Performance)
   * [Ceph Benchmarks](http://www.sebastien-han.fr/blog/2012/08/26/ceph-benchmarks/)
+  * [优化的重点：针对Ceph的七剑](https://www.ustack.com/blog/tycc/)
