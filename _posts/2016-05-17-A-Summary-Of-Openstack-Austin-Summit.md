@@ -10,17 +10,13 @@ tags: [openstack, summit, summary]
 
 // TODO WIP
 
-Summary of the overall summit:
+To give a summary of Openstack Austin Summit:
 
 An interesting thing is that super user/developer companies have basically occupied all presentation slots on the Summit. In the [maillist](http://lists.openstack.org/pipermail/community/2016-May/001503.html) someone even proposed to remove voting process of speaker proposals.
 
-There is no much progress about Cinder. Manila becomes maturer (and more exposure) now. CephFS is finally production-ready now ([Jewell version](http://thenewstack.io/converging-storage-cephfs-now-production-ready/)).
+There is no much progress on Cinder. Manila becomes mature (and gets more exposure) now. Multi-site openstack is receiving increasing focus. Ceph [Jewel](http://ceph.com/releases/v10-2-0-jewel-released/) release is remarkable, with CephFS [production ready](http://thenewstack.io/converging-storage-cephfs-now-production-ready/), [RDB mirror](http://docs.ceph.com/docs/master/rbd/rbd-mirroring/) (for journal replication) available. NVM/SSD technologies are game-changing. DPDK are quickly getting adopted. IoT are hot sparkling. Mirantis is gaining increasing weight in community. Besides, this Summit has a new [Superuser TV](https://www.youtube.com/results?search_query=superuser+tv&page=1) series.
 
-Multi-site openstack is clearly receiving increasing focus. New projects, such as [Kingbird](https://wiki.openstack.org/wiki/Kingbird) emerge.
-
-Ceph Jewel release is remarkable, with CephFS production-ready, RDB mirror (for journal replication) available. NVM/SSD technologies are game-changing.
-
-Other interesting new projects I met: [Romana](http://romana.io/try_romana/openstack/) for network and security automation.
+Interesting new projects I met: [Romana](http://romana.io/try_romana/openstack/) for network and security automation, [Kingbird](https://wiki.openstack.org/wiki/Kingbird) for multi-site services. [Nation](https://www.youtube.com/watch?v=lddtWUP_IKQ) for compute node HA.
 
 ## How to Select Videos to Watch
 
@@ -54,7 +50,7 @@ Each Openstack Summit releases hundreds of presentation videos. It is no easy wo
 
 Besides, if you can go on-site to an Openstack Summit, listen to the questions asked by audience (and answer), and talk with people is usually more important.
 
-## Featured Video
+## Featured Videos
 
 After this Openstack Austin Summit, I found out that the official site provided us with a new lively [video page](https://www.openstack.org/videos/featured).
 
@@ -362,21 +358,37 @@ Presented by Comcast. The storage node is using NVMe for journal (but SATA HDD).
 
 ## Popular Presentations
 
-Next I will pick up the popular Openstack Austin Summit videos on Youtube that I'm interested to watch. It is 3 weeks after the Summity day, rough average view count is 100. So 200+ usually means the video is popular. There are a few videos which has over 1000+ views, such as [Why IBM is Betting on OpenStack](https://www.youtube.com/watch?v=ib3vsxc_wWk).
-
-// TODO WIP
-
-## Breakout Sessions
-
-// TODO WIP
-
-## Operation Sessions
-
-// TODO WIP
+Next I will pick up the popular Openstack Austin Summit videos by Youtube view count that I'm interested to watch. It is 3 weeks after the Summity day, rough average view count is 100. So 200+ usually means the video is popular. There are a few videos which has over 1000+ views, such as [Why IBM is Betting on OpenStack](https://www.youtube.com/watch?v=ib3vsxc_wWk).
 
 ## Just Interesting
 
-// TODO WIP
+[End-To-End Monitoring of OpenStack Cloud](https://www.youtube.com/watch?v=RxUyrOiv_KA)
+
+[How to Become an Advanced Contributor](https://www.youtube.com/watch?v=LRMBXnYzcP4)
+
+[Troubleshooting oslo.messaging RabbitMQ issues](https://www.youtube.com/watch?v=WMLFeZG9_so)
+
+[Split Brain Overlays as Seen by Linux Vs. Networking Folks](https://www.youtube.com/watch?v=pb9zGIEeAPI)
+
+[Troubleshoot Cloud Networking Like a Pro](https://www.youtube.com/watch?v=0qxgvWMRlBI)
+
+[Telco Cloud Requirements What VNF s Are Asking For](https://www.youtube.com/watch?v=pd5qoQUVdz8)
+
+[Service Function Chaining Technology Analysis and Perspective](https://www.youtube.com/watch?v=qTUtnosHles)
+
+[Achieving Five-Nine of VNF Reliability in Telco-Grade OpenStack](https://www.youtube.com/watch?v=KD9GIXrE-pM)
+
+[Horror Stories How we keep breaking the Scheduler at Scale!](https://www.youtube.com/watch?v=n3z19lk6Aes)
+
+[Nokia - Combining Neutron, DPDK, Ironic and SRIOV for seamless high-performance networking](https://www.youtube.com/watch?v=GPtgqTRU6gw)
+
+[Neutron Quality of Service, New Features And Future Roadmap.](https://www.youtube.com/watch?v=yLol_9BIP38)
+
+[High Availability for Pets and Hypervisors - State of The Nation](https://www.youtube.com/watch?v=lddtWUP_IKQ)
+
+[Installing, Configuring, and Managing a 300+ OpenStack Node Netw](https://www.youtube.com/watch?v=p1AOHLcSr5s)
+
+[Ancestry.com in Production with OpenStack and Kubernetes](https://www.youtube.com/watch?v=UMXfKJL-pXc)
 
 ## vBrownBag
 
