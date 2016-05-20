@@ -8,7 +8,19 @@ tags: [openstack, summit, summary]
 ---
 {% include JB/setup %}
 
-// TODO Work in process, add the key summary for the overall summit
+// TODO WIP
+
+Summary of the overall summit:
+
+An interesting thing is that super user/developer companies have basically occupied all presentation slots on the Summit. In the [maillist](http://lists.openstack.org/pipermail/community/2016-May/001503.html) someone even proposed to remove voting process of speaker proposals.
+
+There is no much progress about Cinder. Manila becomes maturer (and more exposure) now. CephFS is finally production-ready now ([Jewell version](http://thenewstack.io/converging-storage-cephfs-now-production-ready/)).
+
+Multi-site openstack is clearly receiving increasing focus. New projects, such as [Kingbird](https://wiki.openstack.org/wiki/Kingbird) emerge.
+
+Ceph Jewel release is remarkable, with CephFS production-ready, RDB mirror (for journal replication) available. NVM/SSD technologies are game-changing.
+
+Other interesting new projects I met: [Romana](http://romana.io/try_romana/openstack/) for network and security automation.
 
 ## How to Select Videos to Watch
 
@@ -34,9 +46,13 @@ Each Openstack Summit releases hundreds of presentation videos. It is no easy wo
 
   8. Checkout your interested videos by track ([link](https://www.openstack.org/summit/austin-2016/summit-schedule/#track=25)). Track means type of a presentation, for example, storage, operations, enterprise IT strategies, etc.
 
-  9. Don't forget #vBrownBag videos ([link](https://www.youtube.com/channel/UCaZf13iWhwnBdpIkrEmHLbA), search "austin"). They are 15min each, but usually very inspiring. #vBrownBag is not part of Openstack Foundation; AFAIK it is a horizontal organization that borrows slots in all sorts of summits.
+  9. Watch the presentation level ([example: beginner](https://www.openstack.org/summit/austin-2016/summit-schedule/events/7118)). Choose your fits.
 
-  10. Checkout the Design Summit ([link](https://wiki.openstack.org/wiki/Design_Summit/Newton/Etherpads)). This is where the next version Openstack (Newton) features are being discussed and planned. Wish there was video. The Etherpads content are pretty condensed, while the best way to understand what core developers have said is to attend on-site.
+  10. Don't forget #vBrownBag videos ([link](https://www.youtube.com/channel/UCaZf13iWhwnBdpIkrEmHLbA), search "austin"). They are 15min each, but usually very inspiring. #vBrownBag is not part of Openstack Foundation; AFAIK it is a horizontal organization that borrows slots in all sorts of summits.
+
+  11. Checkout the Design Summit ([link](https://wiki.openstack.org/wiki/Design_Summit/Newton/Etherpads)). This is where the next version Openstack (Newton) features are being discussed and planned. Wish there was video. The Etherpads content are pretty condensed, while the best way to understand what core developers have said is to attend on-site.
+
+Besides, if you can go on-site to an Openstack Summit, listen to the questions asked by audience (and answer), and talk with people is usually more important.
 
 ## Featured Video
 
@@ -88,7 +104,19 @@ This video is completely organized as a long and solid demo. Betfair shows how t
 
 ## Keynotes
 
-// TODO Work in process
+What, I can't find any Keynote video? Are they merged into featured videos? Weird ... (There are still Tokyo keynotes on Youtbe, but no Austin ...)
+
+## Recaps
+
+There is no official recaps of Austin Summit. But I've found one from Rackspace and one from HPE.
+
+### Rackspace: [OpenStack Summit Austin 2016 - Racker Recap](https://www.youtube.com/watch?v=LwHj2AmUp5A)
+
+Talking about the Summit is exciting, in such a big scale, great experience, bla, bla, bla ... Nothing important.
+
+### HPE: [OpenStack® Summit 2016 Austin Recap](https://www.youtube.com/watch?v=DMC03xQAbT4), [Day 2](https://www.youtube.com/watch?v=TGql1l2hofw), [Day 3](https://www.youtube.com/watch?v=Eog9mXDgxIg), [Day 4](https://www.youtube.com/watch?v=TuAiQj-AbC0)
+
+To short. A lot of big things are happening ... Video ends.
 
 ## Cinder, Ceph and Storage in Openstack 
 
@@ -102,19 +130,261 @@ I'm always interested in Ceph, Cinder and various storage technologies in Openst
   
   * Scale-out architecture is the king. I have to say that one reason is Intel cannot build any more scaled-up CPU (and architecture) now, so vendors need the industry to buy-in scale-out strategy. And scale-out is more friendly to the cloud fashion and commodity white box trend.
 
-// TODO Work in process
+### [How Stuff Works Cinder Replication and Live-Migration](https://www.youtube.com/watch?v=IZJpmxmvNpg)
+
+Cinder replication has been long under development, basically, get troubled because vendors have very different design requests. Replication V1.0 is in volume granularity, but given up. Replication V2.x is in fulll backend granularity. V2.1 hope fully will be available to use ([doc](https://specs.openstack.org/openstack/cinder-specs/specs/mitaka/cheesecake.html)). This [article](https://mp.weixin.qq.com/s?__biz=MzA3MjkwMDY5OA==&mid=2652565853&idx=1&sn=27ce74e11b831c133a1623d40ebd8dba) is a good introduction of how replication works; but it doesn't mention [thaw](https://github.com/openstack/cinder/blob/e950e23ca947bb755444db60ed90280f06ea0b86/cinder/volume/api.py#L1696). The video is by NetApp. Live migration and storage compability [chart](https://youtu.be/IZJpmxmvNpg?t=2m48s) is a bit useful.
+
+### [Big Data Rapid Prototyping by Using Magnum with Cinder and Manila](https://www.youtube.com/watch?v=JlVdODLqshE)
+
+Joint video by NetApp and SolidFire. This video introduces using Magnum to orchestrate container PaaS, use Manila to deploy a share (filesystem), and mount to Docker. Where is the "big data"?
+
+### [One Does Not Simply Use Multiple Backends in Cinder](https://www.youtube.com/watch?v=K7LQW85jkiM)
+
+Cinder volume-type and multi-backend have been available for long time. This video teaches you how to use.
+
+### [Cinder and Docker, Like Peanut Butter and Chocolate](https://www.youtube.com/watch?v=CenWomQtQh8)
+
+Cinder and Manila are of coure volume solutions for Container/Docker, one as block and one as fileysystem. Docker now have volume-plugin. Kubernetes support Cinder ([doc](http://kubernetes.io/docs/user-guide/persistent-volumes/#types-of-persistent-volumes)). The talk is by IBM and Dell, but promote rackspace/gophercloud in the end.
+
+### [Leverage the Advantage of Multiple Storage Backends in Glance](https://www.youtube.com/watch?v=eWajj-G9W5k)
+
+This video is by UnitedStack. "More and more users want to leverage the advantages of ceph and enterprise storage. But with the restriction of glance we could only get images in one place and copy to another storage if we boot virtual machines in different backends." Now we can use Glance Multi-location to solve the problem. It is also a usecase that we need more than one Ceph backends to be switched in Glance.
+
+### [EMC - Enterprise Storage Management for Mixed Cloud Environments](https://www.youtube.com/watch?v=oRDyeBtzfcA)
+
+Promoting using CoprHD in Openstack. AFAIK CoprHD can be used to replace Cinder (CoprHD supports Cinder API), or to be used as a Cinder driver. CoprHD actually has a pretty cool [architecture](https://coprhd.atlassian.net/wiki/display/COP/A+Short+Guide+to+the+CoprHD+Architecture) and a much wider [feature range](https://coprhd.atlassian.net/wiki/display/COP/Storage+Controller+Overview#StorageControllerOverview-2.2APIService(apisvc)) covering block, object, filesystem, replication, and recovery.
+
+### [Datera - OpenStack Cinder delivering Intent-Defined Infrastructu](https://www.youtube.com/watch?v=h5JpE2Asu1k)
+
+Datera introducts its orchestration tool product. Talks a lot about the template.
+
+### [Persistent Storage for Containers Using Cinder](https://www.youtube.com/watch?v=ClKcMCDzueY)
+
+The [emccode/rexray](https://github.com/emccode/rexray) is software-defined storage controller for container platforms such as Docker and Mesos. Magnum uses Rexray to [provide persistent volumes](https://github.com/openstack/magnum/blob/f153d61c442053d335072d3dbf69113b678dd13c/magnum/templates/mesos/fragments/volume-service.sh#L23) for Mesos. Compared to Cinder, Rexray is more native to Docker, standalone, and simpler (also mentioned [here](http://www.openstack.cn/?p=5299)).
+
+### [Cephfs as a Service with OpenStack Manila](https://www.youtube.com/watch?v=vt4XUQWetg0)
+
+CephFS has finally gone production-ready ([Jewell version](http://thenewstack.io/converging-storage-cephfs-now-production-ready/)). Integration of CephFS with Manila is OK but seems not mature yet.
+
+### [Cinder Project Update](https://www.youtube.com/watch?v=pVvzn_bSDtY)
+
+Cinder core developers presents.
+
+  *The Replication API: V2.0 is disabled, V2.1 (Cheesecake) fallover the whole backend; avaible to use now, but not mature; vendor support list see [here](https://youtu.be/pVvzn_bSDtY?t=4m24s).
+
+  * Backup supports full and incremental and non-disruptive backup. Active-active HA is very awesome design, there are a lot of moving parts, still WIP. Checkout the [code](https://review.openstack.org/#/q/message:+blueprint+cinder-volume-active-active-support) if you like.
+
+  * Multi-attach allows a volume to be attached to multiple hosts or VMs, not fully functional yet.
+
+  * Rolling upgrade is OK now, but I guess it not very mature; it includes RPC versioning, versionedObjects, API microversions, and online DB schema upgrade. There are updates for Fibre Channel.
+
+  * Some new backend drivers are added (now 53 in total); LVM, RBD, NFS are the reference architectures.
+
+In Newtown (next release), we will have, Replication V2.x (Tiramisu); continuing of active-active HA, rolling upgrade, microversions, os-brick will help Cinder on ironic baremetal, and async operation and reporting. Cinder Replication Tiramisu gives tenants more control of the replication granularity, e.g. a volume or a group of volumes (using Replication Groups). 
+
+### [The Performance Issues of Cinder Under High Concurrent Pressure](https://www.youtube.com/watch?v=n9TZDvwZffY)
+
+AWCloud (海云迅捷) presents. They deployed 200 nodes Openstack and test by Rally. Boot from volume often fail because of the low performance of Cinder. The problem resides on
+  
+  * HAProxy reports 504. It is too slow because the version is too old
+  
+  * Cinder-api database connection driver blocks the thread (eventlet monkey patch doesn't help). Solution is to increase worker count.
+
+  * Cinder-volume is too slow to process large amount of requests: create volume, initialize connection, attach. Solution is to run more Cinder-volume workers (private code).
+
+  * Cinder-volume race condition while running multiple works. Solution is to add lock (private code).
+
+  * RDB rados call blocks the thread, because they are not patched by eventlet.
+
+  * Download or clone image is too slow by Glance. Solution is to use RBD store.
+
+  * The increase of database entries lead to sharp decline in performance. The hotspot is the reservation table. Solution is to add a combined index, and clean unecessary data.
+
+  * Others: increase rpc_response_timeout, rpc_case_timeout, osapi_max_limt.
+
+Results: boot_server_from_volume from failure in concurrency=200, to all success in concurrency=500; create_volume from failure in concurrency=1000, to all success in concurrency=2500. Good presentation!
+
+### [Expanding DBaaS Workloads with OpenStack Trove and Manila](https://www.youtube.com/watch?v=VMrFL7jyTyY)
+
+Presentation by Tesora, NetApp and Redhat. On [5min22s](https://youtu.be/VMrFL7jyTyY?t=5m22s) there is a summary of why people want Openstack
+
+  * 97% is to standardize one platform API
+  * 92% to avoid vendor lock-in
+  * 79% to accelerate innovation
+  * 75% to operation efficiency
+  * 66% to save money
+
+"Until recently, the OpenStack Trove DBaaS project only used the Cinder block storage service for database storage. With joint development work from NetApp, Red Hat and Tesora, it is now possible to run database workloads on OpenStack using Manila-based file shares."
+
+### [Red Hat - Making Ceph the powerhouse you know it can be!](https://www.youtube.com/watch?v=q7WOlte7hco)
+
+Introduce [Red Hat Ceph Storage](https://youtu.be/q7WOlte7hco?t=32m23s) to you.
+
+### [VMware - Charter, PernixData, VMware A case study](https://www.youtube.com/watch?v=mw6fdkpvzoY)
+
+Cassandra deployment demo to introduce VMware Integrated OpenStack, VMware NSX, and [PernixData](http://pernixdata.com/press-release/pernixdata-fvp%E2%84%A2-added-vmware-partner-verified-and-supported-product-program). The case study is pretty detailed, with cluster layout design and benchmark results.
+
+### [There and Back Again - Moving Data Across Your Clouds](https://www.youtube.com/watch?v=NrdIxKSvqcg)
+
+Presentation by Mirantis. Migrating data from one storage backend to another backend, or inter-cloud. Challenge is usually network limits, and how to avoid impact SLA. Approaches can be
+
+  * DD from block to block. Simple, slow, and don't allow data udpates.
+  * Rsync. It's file but [not block level](http://strugglers.net/~andy/blog/2011/03/13/copying-block-devices-between-machines/).
+  * Use storage backend's replication. It is vendor dependent.
+  * Just connect the storage backend to the other side.
+
+They use [bbcp protocol](https://www.olcf.ornl.gov/kb_articles/transferring-data-with-bbcp/) to accelerate block migration. The command `dd | pv | dd` looks useful. For ceph, we have rbd export-diff and rbd import-diff; rbd export and rbd import; this is called [incremental snapshots transfer](http://ceph.com/dev-notes/incremental-snapshots-with-rbd/). [Sébastien's blog](http://www.sebastien-han.fr/blog/2013/01/28/ceph-geo-replication-sort-of/) is using DRBD and Pacemake. MOS/Fuel plugin helps deploy existing Ceph as primary storage, i.e. connect instread of move; it is still under development.
+
+### [Scality - S3 and OpenStack, the best of both worlds](https://www.youtube.com/watch?v=zWbW1e_IpUI)
+
+Present by [Scality](http://www.scality.com/). Swift is [not fully compatible](https://youtu.be/zWbW1e_IpUI?t=12m28s) with AWS S3 API, for example container/object encryption. Scality Ring Storage product comes for you.
+
+### [Amalgamating Manila And Swift for Unified Data Sharing Across Instances](https://www.youtube.com/watch?v=3MMrMUaA_Mg)
+
+Object storage has become more of a choice for many workloads. There are still traditional applications that need filesystem access. Swift and Manila solves the data sharing needs for VM. Presentation by IBM.
+
+### [Ceph at Scale - Bloomberg Cloud Storage Platform](https://www.youtube.com/watch?v=gW084yAvoK0)
+
+Ceph RGW, the object storage, is actually pretty popular. Many people are deploying RGW. The [POD architecture](https://youtu.be/gW084yAvoK0?t=2m55s) of Ceph is interesting, even it may not be really necessary. VM use ephemeral storage vs Ceph, a [summary](https://youtu.be/gW084yAvoK0?t=3m37s). Ceph RGW stack configurations, see [here](https://youtu.be/gW084yAvoK0?t=6m53s). This video shares in detailed their Ceph and RGW config in both hardware and software. The orchestration of Ceph is by Chef. Their tools at [github](https://github.com/bloomberg/chef-bcs). The testing [tools](https://youtu.be/gW084yAvoK0?t=37m1s) for Ceph and RGW:
+
+  * Ceph: RADOS Bench, COS Bench, FIO, Bonnie++
+  * Ceph RGW: JMeter. Test load by requesting from a cloud.
+
+### [Swift Object Encryption](https://www.youtube.com/watch?v=SBkvHYFhwjQ)
+
+Presentation by IBM and HPE. This talk is about future, so Swift object encryption is not ready. The encryption can be supported in hardware disk level, virtual block device level (LUKS, dm-crypt), or Swift encryption middleware level. BYOK (bring your own key) can be supported only in the last approach. Here is encryption [spec](http://specs.openstack.org/openstack/swift-specs/specs/in_progress/at_rest_encryption.html) and [code](https://github.com/openstack/swift/tree/feature/crypto).
+
+### [OpenStack + Open Compute Project == Best of Breed Clouds](https://www.youtube.com/watch?v=rrzZ08jSPKE)
+
+Presented by Big Switch. This talk is about [OCP hardware](http://www.opencompute.org/). It is still early age, so this talk is pretty "soft".
+
+### [Protecting the Galaxy - Multi-Region Disaster Recovery with OpenStack and Ceph](https://www.youtube.com/watch?v=VWFYC6W71tY)
+
+Talking about backup in Openstack, there is a project, [Freezer](https://www.openstack.org/summit/vancouver-2015/summit-videos/presentation/freezer-the-openstack-back-up-as-a-service-platform), focusing data level, and [Smaug](https://github.com/openstack/smaug) focusing on application-level. Besides, you can apply the common [standard backup practices](http://docs.openstack.org/openstack-ops/content/backup_and_recovery.html), for DB, filesystems, /var/lib/xxx, /etc/xxx, /var/log/xxx, etc.
+
+This presentation focus on Ceph cross-site backup. [RDB mirroring](http://docs.ceph.com/docs/master/rbd/rbd-mirroring/) (finally, don't need to export-diff now) is used to replicate Ceph. The [architecture design](https://youtu.be/VWFYC6W71tY?t=14m33s) replications each level of Openstack. RBD mirror is available with Ceph Jewel, with the upcoming Redhat Ceph Storage 2.0. RBD mirror replicates journal underlyingly; it is asynchronized replication. It is supported in Cinder Replication V2.1. The current [gap](https://youtu.be/VWFYC6W71tY?t=25m34s) mainly resides on metadata replication. New project [Kingbird](https://wiki.openstack.org/wiki/Kingbird) provides centralized service for multi-site Openstack deployments.
+
+### [A Close Look at the Behaviors of the Multi-Region Swift Clusters](https://www.youtube.com/watch?v=4y00OsFShng)
+
+Presented by Inspur (浪潮) & 99Cloud. The write & read affinity creatly improve multi-site performance of Swift. But due to eventual consistency, new data may not have to be replicated to appropriate location when site failure happens. Basically this talk tells about some practices about read & write affinity.
+
+### [SanDisk - The Consequences of Infinite Storage Bandwidth](https://www.youtube.com/watch?v=-X9BuepxGko)
+
+SSD / CPU performances and bandwidth drop dramatically because the quick climbing of SSD speed. CPU / DRAM bandwidth bottleneck is another problem. SAN 2.0 - NVMe over Fabrics; this is an interesting idea:
+
+  * NICs will forward NVMe operations to local PCIe decies
+  * CPU removed from the software part of the data path
+  * CPU is still need for the hardware part of the data path
+  * IOPS improve, BW is unchanged
+  * Significant CPU freed for application processing
+
+To me, it looks like that the storage industry is evolving in spiral path. The rise of new NVM/SSD media, may bring back the past-style SAN architecture again. But this time, NVMe protocol is connected directly on PCIe bus, compared to the past-style expensive SCSI. Storage media access is bypassing kernel, bypassing CPU, bypassing memory, just direct RDMA; so it's kinda like a computer controller connecting to bunch of disk arrays, even through the disk array box is actually a computer, its CPU/memory/OS is not used or necessary. New technologies also bring in a lot of proprietary hardware configurations, but they are really much faster than what pure-software white box can do now. Finally rack-scale architecture is a lot heard related to the storage market.
+
+### [OpenIO - OpenIO Object Storage Made Easy](https://www.youtube.com/watch?v=uOX5OimY_s4)
+
+Presented by [OpenIO](http://openio.io/). Commodity hardware + softwared-defined storage = hyper scalable storage and compute pool. Track containers rather than objects. Grid of nodes with no consistent hashing, never balance data. Dynamic loadbalancing by compute scores for each serivce in realtime. These designs are interesting. The OpenIO object storage is integrated at Swift Proxy server level.
+
+### [Swift Middlewares - What Are They?](https://www.youtube.com/watch?v=GSmXyejbGQ0)
+
+The "middileware" here orients from Python's WSGI server design. It allows you to add customized feature to each part of Swift. Middleware can be added to the Swift WSGI servers by [modifying](http://docs.openstack.org/developer/swift/development_middleware.html) their [paste](http://pythonpaste.org/) configuration file. Anyway, middleware is the decorator design pattern introduced by Python WSGI to overlay server features; it's useful. Swift itself actually uses a lot of middleware, see its [config file](http://docs.openstack.org/developer/swift/development_middleware.html).
+
+### [Optimizing Software-Defined Storage for OpenStack](https://www.youtube.com/watch?v=kQ9FJuUQYsE)
+
+Present by EMC. Promoting the idea of software-defined storage (SDS), and EMC ScaleIO. Shared [best practices](https://youtu.be/kQ9FJuUQYsE?t=34m4s) for work with SDS. Compared to Ceph, ScaleIO is purpose-built, native block, less trade-off on performance.
+
+### [Swift 102 Beyond CRUD - More Real Demos](https://www.youtube.com/watch?v=4A9ypg2ASPE)
+
+Present by SwiftStack. A practical talk to introduce Swift advanced features. Concurrent gets to reduce first byte latency. To optimize multi-region, use read/write affinity, memcache pooling, aysnc account/container updats. Swift 2.7 now allows for 1 byte segment in Static Large Objects (previous it is 1MB).
+
+### [Developing, Deploying, and Consuming L4-7 Network Services](https://www.youtube.com/watch?v=OXf40IdYASU)
+
+This is Hands-on Workshop, lasting 1h26m. The Youtube view count is 278, pretty high in average, looks welcome. There is a demo of network service chain: external -> firewall + lb -> lb -> app -> db. The demo is present on Redhat Enterprise Linux Openstack Platform (not Horizon, well).
+
+### [Hey Storage Engineer Tell me About Backups in OpenStack!](https://www.youtube.com/watch?v=7jUDLdpIO9w)
+
+Present by NetApp & SolidFire. Backup the volume snapshots from Cinder, to Swift, to NetApp appliance (dedup & compression is good), or to cloud through a cloud gateway (cloud-integrated storage appliance). Demo 2 shows the backup workflow of SAP HANA on Manila. Next they introduced Manila Share Replication. Replication is used as non-disruptive backup.
+
+### [How to Integrate OpenStack Swift to Your "Legacy" System](https://www.youtube.com/watch?v=sygqq9hDJzk)
+
+Present by NTT. Swift is good solution backup / disaster recovery. Swift uses HTTP REST API. But customer, as mentioned in this video, wants NFS or iSCSI to be compatible with their legacy application. The solution is to mount Swift as filesystem using Cloudfuse. But note that Swift is optimized for large files rather than lots of small files. There various issues while trying to use Swift as NFS/iSCSI to solve the backup problem. This talk has in detail discussion of them.
+
+### [Scality - Open Networking and SDS, vendor-level integration amplifies Software Defined Convergence](https://www.youtube.com/watch?v=cK_pTNkeeW8)
+
+Introduction of Scality Ring Storage product. [Cumulus Linux](https://cumulusnetworks.com/cumulus-linux/overview/) is interesting: a networking-focused Linux distribution, deeply rooted in Debian. It is fully distributed P2P no-center-at-all architecture.
+
+### [Scality - OpenStack Unified Storage One Platform to Rule them All](https://www.youtube.com/watch?v=8DIbF7zPoXU)
+
+Scality Ring Storage product is a unified storage platform, being able to support Swift, Glance, Cinder, Manila (each has the dirver). It is able to replication, erasure coding, geo-redundancy, self-healing, etc. On 9m50s there is an [Openstack Storage usecase diagram](https://youtu.be/8DIbF7zPoXU?t=9m50s) against storage type and size.
+
+### [EMC - Accelerating OpenStack deployments with modern all-flash scale-out storage](https://www.youtube.com/watch?v=zbmN8NotZwE)
+
+Promoting EMC XtremIO. The problem to solve is: IO blender effect at large scale, VM provisioning & clone, dynamic policy-based operations. XtremIO is all-flash and sparkingly fast. The content-based addressing is a key design of XtremIO. Actually the best technical video to introduce XtremIO is the one from [Storage Field Day](https://www.youtube.com/watch?v=lIIwbd5J7bE) and the one from [SolidFire](https://www.youtube.com/watch?v=AeaGCeJfNBg). XtremIO is the #1 all-flash market leader with 34% share. On [11m51s](https://youtu.be/zbmN8NotZwE?t=11m48s) there is a comparison graph of scale-up vs scale-out on the rack shelf; scale-up is actually not able to survive shelf-level failure (e.g. power, switch). Per XtremIO controller provides 150K IPOS, scale-out to 16 boxes 2M IOPS. XtremIO has 100% metadata in memory, inter-connected with RDMA fabric. XtremIO integrates with Openstack Cinder to provide block storage.
+
+### [Monitoring Swift ++ (incl Nagios, Elasticsearch, Zabbix, & more)](https://www.youtube.com/watch?v=YxDIz25nqAo)
+
+Presented by SwiftStack. [8m13s](https://youtu.be/YxDIz25nqAo?t=8m13s) is a nice summary of monitoring components: agent, aggregration engine, visualizer, alerting, and the popular solutions for each of them. [10m11s](https://youtu.be/YxDIz25nqAo?t=10m11s) categorizes the types of data to monitor, and the monitoring lifecycle: measurement, reporting, characterization, thresholds, alerting, root cause analysis, remediation (manual/automated). [19m49s](https://youtu.be/YxDIz25nqAo?t=19m49s) records the key point to monitor in Swift: cluster data full, networking including availability and saturation, proxy states such as CPU and /healthcheck, auditing cycles, replication cycle timing. The checks can be installed on load balancer. Later of this talk is demo.
+
+### [Canonical - ZFS, Ceph and Swift for OpenStack and containers wi](https://www.youtube.com/watch?v=9tGE29hKJTk)
+
+Present by Ubuntu. [Canonical](http://www.canonical.com/) is the company behind Ubuntu. Ubuntu is quite active on this Summit. Compariing raw Disk (3-year refresh) vs AWS storage price:
+
+  * SSD $12 TB/month
+  * HDD $1.5 TB/month
+  * EBS SSD $100 TB/month
+  * EBS HDD $45 TB/month
+  * S3 $30 TB/month
+  * Glacier $7 TB/month
+  * S3 $90/TB transfer out
+  * Glacier $10/TB transfer out
+
+[8m45s](https://youtu.be/9tGE29hKJTk?t=8m45s) is a summary of how recent new technologies save cost (is low-power archtecture ready to use now?). So how Ubuntu helps reduce storage cost? ZFS, Ceph, and Swift. [Deutsche Telekom] evaluated Manila, summarizing that Manila is [enterprise mature](https://youtu.be/9tGE29hKJTk?t=42m17s), and [something needs improve](https://youtu.be/9tGE29hKJTk?t=33m46s).
+
+### [Cephfs in Jewel Stable at Last](https://www.youtube.com/watch?v=T8x1FGo60k4)
+
+Finally! CephFS is production-ready in Jewel release. For previous history, see [CephFS Development Update, Vault 2015](http://events.linuxfoundation.org/sites/events/files/slides/CephFS-Vault.pdf).
+
+CephFS has "consistent caching". The client is allowed to cache, and server invalidates them before change, which means client will never see any stale data. Filesystem clients write directly to RADOS. Only active metadata is stored in memory. CephX security now applies to file path. Scrubbing is available on MDS. Repair tools are available: cephfs-data-scan, cephfs-journal-tool, cephfs-table-tool. MDS has standby servers; they replay MDS logs to warm up the cache for fast take-over. CephFS [sub-tree partitioning](http://ceph.com/papers/weil-mds-sc04.pdf) allows you to have multiple active MDSes. Directory fragmentation allows you to split a hot directory over many active MDSes; it is not well-tested. Snapshot is available now. You can create multiple filesystem, like pools or namespaces (not well tested). Still pain points: file deletion pins inode in memory, client trust problem (there is totally no control expcet separate them in namespaces/tenants), some tools to expose states are still missing (dump individual dirs/files, see why things are blocked, track access to file). 
+
+### [Designing for High Performance Ceph at Scale](https://www.youtube.com/watch?v=P6SCdZXpM2Q)
+
+Presented by Comcast. The storage node is using NVMe for journal (but SATA HDD). To benchmark, FIO for block, Cosbench for object. Remember to test scaled-out performance. Issues encountered
+
+  * [TCMalloc eats 50% CPU](https://youtu.be/P6SCdZXpM2Q?t=20m58s). Solution is to give it more memory
+  * [Tune the NUMA](https://youtu.be/P6SCdZXpM2Q?t=25m49s). Map CPU cores to sockets; map PCIe devices to sockets; Map storage disks (and journals) to the associated HBA; pin all soft IRQs to its associated NUMA node. Align mount points so that OSD and journal are on the same NUMA node.
+
+[General performance tips](https://youtu.be/P6SCdZXpM2Q?t=37m58s) below
+
+  * Use latest vendor drivers (can be up to 30% performance increase)
+  * OS tuning focus on increasing threads, file handles, etc
+  * Jumbo frames help, particular on the cluster network
+  * Flow [control issues](https://en.wikipedia.org/wiki/Ethernet_flow_control) with 40Gbe network adapters; watch out for dropping packets
+  * Scan for failing disks (slow responding disks), take them out
 
 ## Popular Presentations
 
-// TODO Work in process
+Next I will pick up the popular Openstack Austin Summit videos on Youtube that I'm interested to watch. It is 3 weeks after the Summity day, rough average view count is 100. So 200+ usually means the video is popular. There are a few videos which has over 1000+ views, such as [Why IBM is Betting on OpenStack](https://www.youtube.com/watch?v=ib3vsxc_wWk).
+
+// TODO WIP
+
+## Breakout Sessions
+
+// TODO WIP
+
+## Operation Sessions
+
+// TODO WIP
+
+## Just Interesting
+
+// TODO WIP
 
 ## vBrownBag
 
-// TODO Work in process
+// TODO WIP
 
 ## Design Summit (Newton)
 
-// TODO Work in process
+// TODO WIP
 
 ## Others
 

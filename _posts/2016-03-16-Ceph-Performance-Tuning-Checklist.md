@@ -65,7 +65,7 @@ About the network
   * Increase redundant parallel reads with erasure coding. Recovery throttling. Enable bucket sharding. See [Yahoo's](https://yahooeng.tumblr.com/post/116391291701/yahoo-cloud-object-store-object-storage-at).
   * OSD requires about 1 GB memory for per 1TB storage.
   * CRUSH map configurations to improve reliability by reducing number of copysets. See [UStack's blog](https://www.ustack.com/blog/build-block-storage-service/#Coepy_Set) and [this paper](https://www.usenix.org/conference/atc13/technical-sessions/presentation/cidon).
-  * Enable Rbd Cache. See [link](https://www.ustack.com/blog/tycc/)
+  * Enable RBD Cache. See [link](https://www.ustack.com/blog/tycc/)
 
 ### Benchmarking Tools
 
