@@ -10,19 +10,21 @@ tags: [openstack, summit, summary]
 
 To give a summary of Openstack Austin Summit:
 
-There are no much news on Cinder ([features](https://www.youtube.com/watch?v=pVvzn_bSDtY) are being developed but a bit routine). Manila becomes mature (and gets more exposure) now. Multi-site openstack is receiving increasing weight (from Cell V2, Ceph & Swift, backup/DR, to deployment practices).
+There are no much news on Cinder ([features](https://www.youtube.com/watch?v=pVvzn_bSDtY) are developing but a bit routine). Manila becomes mature (and gets more exposure) now. Multi-site openstack is receiving increasing weight (from Cell V2, Ceph & Swift, backup/DR, to deployment practices).
 
-Ceph [Jewel](http://ceph.com/releases/v10-2-0-jewel-released/) release is remarkable (CephFS [production-ready](http://thenewstack.io/converging-storage-cephfs-now-production-ready/), [RDB mirror](http://docs.ceph.com/docs/master/rbd/rbd-mirroring/) available for journal replication). NVM/SSD technologies are game-changing (NVMe Ceph journal, XtremIO, etc). DPDK are quickly getting adopted (in OVS, NFV, [monitoring](https://www.youtube.com/watch?v=BdebhsBFEJs)).
+Ceph [Jewel](http://ceph.com/releases/v10-2-0-jewel-released/) release is remarkable (CephFS [production-ready](http://thenewstack.io/converging-storage-cephfs-now-production-ready/), [RDB mirror](http://docs.ceph.com/docs/master/rbd/rbd-mirroring/) available for journal replication). NVM/SSD technologies are game-changing (NVMe Ceph journal, XtremIO, etc). DPDK are quickly getting adopted (in OVS, NFV, [monitoring](https://www.youtube.com/watch?v=BdebhsBFEJs)). Hyper-converged native storage solution (Veritas[\[1\]](https://www.youtube.com/watch?v=n0Rv-31Aiqw)[\[2\]](https://www.youtube.com/watch?v=gwBML47Q_F4)) for Openstack starts to show up (Ceph however not designed for this).
 
 [Kuryr](https://github.com/openstack/kuryr) or container overlay network doesn't have much progress (looks like). Neutron keeps improving DNS, Baremetal support, IPAM, and NFV/VNF. For SDN part, OVN ([vs Dragonflow](https://www.ustack.com/blog/neutron-dragonflow/?print=yes)), Opendaylight integration, and Dragonflow are progressing. Service Function Chaining (SFC) (and Tacker) is coming to shape. Networking, NFV, SDN, service chaining, and various solutions & vendors, are still the most active part of Openstack.
 
 IoT becomes hot (SAP, IBM, HPE, Pivotal, TCP Cloud, SmartCities). IBM is [betting](https://www.youtube.com/watch?v=ib3vsxc_wWk) on Openstack. [Mirantis](https://www.mirantis.com/) is gaining increasing weight (and respect) in community. [Ubuntu/Canonical](http://www.canonical.com/) is rising (they have so many presentations). Openstack Foundation is spending increasing effort on training activities, including the new Certificated Openstack Admin (COA) (99Cloud [supports](http://www.51ecs.com/3954.html) it in China), in preparation to become the true industry standard. Besides, this Summit has a new [Superuser TV](https://www.youtube.com/results?search_query=superuser+tv&page=1) series. 
 
-Containers are of course hot, but most of them are supported via PaaS (rather than directly through Openstack) ([Murano vs Magnum](https://www.youtube.com/watch?v=Su4X2w-X-IE)), or used for containerized Openstack deployment (Kolla, Ansible + container, [run on Kubernetes](https://www.youtube.com/watch?v=e-j9FOO-i84), etc). OCI & CNCF are still working hard to get themselves known.
+Containers are of course hot, but most of them are supported via PaaS (rather than directly through Openstack) ([Murano vs Magnum](https://www.youtube.com/watch?v=Su4X2w-X-IE)), or used for containerized Openstack deployment (Kolla, Ansible + container, [run on Kubernetes](https://www.youtube.com/watch?v=e-j9FOO-i84), etc). OCI & CNCF are still working hard to get themselves known. Magnum is building [Bay Driver](https://etherpad.openstack.org/p/newton-magnum-bay-driver) (when will CloudFoundry and Openshift come in?).
 
 An interesting thing is that super user/developer companies have basically occupied most presentation slots on the Summit (market/committee consolidation?). In the [maillist](http://lists.openstack.org/pipermail/community/2016-May/001503.html) someone even proposed to remove voting process of speaker proposals.
 
-Interesting new projects I met: [Romana](http://romana.io/try_romana/openstack/) for network and security automation; [Kingbird](https://wiki.openstack.org/wiki/Kingbird) for multi-site services; [Nation](https://www.youtube.com/watch?v=lddtWUP_IKQ) for compute node HA; [Convergence](https://specs.openstack.org/openstack/heat-specs/specs/juno/convergence.html) to make Heat execution more scalable and handle failures better; [Astara](https://www.youtube.com/watch?v=6pepWOwbmy4) for virtualize Neutron agents, VNF, and ease of management; [Tacker](https://www.youtube.com/watch?v=BQ2ZJWk2VNY) for network service function chaining orchestration.
+Interesting new projects: [Romana](http://romana.io/try_romana/openstack/) for network and security automation; [Kingbird](https://wiki.openstack.org/wiki/Kingbird) for multi-site services; [Nation](https://www.youtube.com/watch?v=lddtWUP_IKQ) for compute node HA; [Convergence](https://specs.openstack.org/openstack/heat-specs/specs/juno/convergence.html) to make Heat execution more scalable and handle failures better; [Astara](https://www.youtube.com/watch?v=6pepWOwbmy4) for virtualize Neutron agents, VNF, and ease of management; [Tacker](https://www.youtube.com/watch?v=BQ2ZJWk2VNY) for network service function chaining orchestration; [Fuxi](https://github.com/openstack/fuxi) as [mentioned](https://etherpad.openstack.org/p/newton-magnum-container-storage) in Magnum etherpads with Kuryr to enable data volumes.
+
+Interesting new storage vendors: Scality (S3 compatible, unified solution for Openstack (EMC solutions are however more usecase specific as I see), dynamic loadbalancing & no consistent hashing & never balance data); Veritas (DAS hyper-converged native solution for Openstack (Ceph is not designed for this), built into hypersior).
 
 ### How to Select Videos to Watch
 
@@ -50,7 +52,7 @@ Each Openstack Summit releases hundreds of presentation videos. It is no easy wo
 
   9. Watch the presentation level ([example: beginner](https://www.openstack.org/summit/austin-2016/summit-schedule/events/7118)). Choose your fits.
 
-  10. Don't forget #vBrownBag videos ([link](https://www.youtube.com/channel/UCaZf13iWhwnBdpIkrEmHLbA), search "austin"). They are 15min each, but usually very inspiring. #vBrownBag is not part of Openstack Foundation; AFAIK it is a horizontal organization that borrows slots in all sorts of summits.
+  10. Don't forget #vBrownBag videos ([link](https://www.youtube.com/channel/UCaZf13iWhwnBdpIkrEmHLbA), search "austin"). They are 15min each, but usually very inspiring. #vBrownBag is not part of Openstack Foundation; AFAIK it is a horizontal organization that borrows slots in all sorts of summits/conferences.
 
   11. Checkout the Design Summit ([link](https://wiki.openstack.org/wiki/Design_Summit/Newton/Etherpads)). This is where the next version Openstack (Newton) features are being discussed and planned. Wish there was video. The Etherpads content are pretty condensed, while the best way to understand what core developers have said is to attend on-site.
 
@@ -60,13 +62,13 @@ Besides, if you can go on-site to an Openstack Summit, listen to the questions a
 
 After this Openstack Austin Summit, I found out that the official site provided us with a new lively [video page](https://www.openstack.org/videos/featured).
 
-As far as I can see, Openstack Summit is high focusing on users, especially the big users. The most favored content are usecases, practices, experiences, etc. Technical details, black magic, design discussions are not the main theme, however, except that routinely core developers will come to stage and share the newest updates.
+As far as I can see, Openstack Summit is high focusing on users, especially the big users. The most favored contents are usecases, practices, experiences, etc. Technical details, black magic, design discussions are not the main theme, however, except that routinely core developers will come to stage and share the newest updates.
 
-For real technical stuff, you may need to attend the [design summit](https://www.openstack.org/summit/austin-2016/summit-schedule/full/) (it spans the full week, with most events scheduled to the last summit day; search "contributors meetup"). The core developers summarize their discussions on [design summit etherpads](https://wiki.openstack.org/wiki/Design_Summit/Newton/Etherpads) (I wish there would be videos too). And remember that, the most cutting edge technical updates always appear on [developer maillist](https://wiki.openstack.org/wiki/Mailing_Lists#Future_Development), where the key is to learn how experts think and discuss upon a new problem.
+For real technical stuff, you may need to attend the [design summit](https://www.openstack.org/summit/austin-2016/summit-schedule/full/) (it spans the full week, with most events scheduled to the last summit day; [example](https://www.openstack.org/summit/austin-2016/summit-schedule/global-search?t=Cinder%3A)). The core developers summarize their discussions on [design summit etherpads](https://wiki.openstack.org/wiki/Design_Summit/Newton/Etherpads) (I wish there would be videos too). And remember that, the most cutting edge technical updates always appear on [developer maillist](https://wiki.openstack.org/wiki/Mailing_Lists#Future_Development), where the key is to learn how experts think and discuss upon a new problem.
 
 **[AT&T's Cloud Journey with OpenStack](https://www.openstack.org/videos/video/at-and-ts-cloud-journey-with-openstack)**
 
-AT&T is an elder and super user of Openstack. What they favor is common in the community: pen white box architecture, multi-site deploy with combined local and global controllers, no vendor lock-in, and the agility. But essentially I think it is cost-reduction, which is actually the most seen. I can see multi-site Openstack is getting mature and getting adoptted now. Checkout the differences between [zone vs region vs cell vs aggregates](http://docs.openstack.org/openstack-ops/content/scaling.html#segregate_cloud) (Note: Openstack zone is very different from AWS zone). Cell V1 is deprecated, while Cell V2 is still being actively developed ([link](http://docs.openstack.org/developer/nova/cells.html)). Murano is recommended by AT&T, for which I personally like its object-oriented orchestration language; Magnum, however, is not seen. And eventually Mirantis, and its Fuel, is becoming more and more the canonical production-level Openstack distribution.
+AT&T is an elder and super user of Openstack. What they favor is common in the community: open white box architecture, multi-site deploy with combined local and global controllers, no vendor lock-in, and the agility. But essentially I think it is cost-reduction, which is actually the most seen. I can see multi-site Openstack is getting mature and getting adoptted now. Checkout the differences between [zone vs region vs cell vs aggregates](http://docs.openstack.org/openstack-ops/content/scaling.html#segregate_cloud) (Note: Openstack zone is very different from AWS zone). Cell V1 is deprecated, while Cell V2 is still being actively developed ([link](http://docs.openstack.org/developer/nova/cells.html)). Murano is recommended by AT&T, for which I personally like its object-oriented orchestration language; Magnum, however, is not seen. And eventually Mirantis, and its Fuel, is becoming more and more the canonical production-level Openstack distribution.
 
 **[Doubling Performance in Swift with No Code Changes](https://www.openstack.org/videos/video/doubling-performance-in-swift-with-no-code-changes)**
 
@@ -74,7 +76,7 @@ It is amazing that Swift, who uses Python as the data path language (with so man
 
 **[Canonical - Carrier grade architecture with public cloud economics](https://www.openstack.org/videos/video/canonical-carrier-grade-architecture-with-public-cloud-economics-the-keys-to-successful-openstack-operations)**
 
-NFV is hot and increasingly gaining heat in telecom area to adopt Openstack. But I think they are far from "[carrier grade](https://www.sdxcentral.com/articles/contributed/dont-confuse-high-availability-carrier-grade/2014/04/)" now, the latter demands HA, security, demanding throughput & latency, manageability, and smooth upgrading & patching. for jargon such as Openstack vs OpenDaylight vs Openflow vs Open vSwitch, see [here](https://www.quora.com/What-is-the-relation-between-OpenStack-OpenDaylight-OpenFlow-and-Open-vSwitch-Are-there-other-options-in-place-of-any-of-these). Generally this video gives introduction to Juju (integrated with Ubuntu) that eases Openstack development, and provide support to various aspects such as containers, hyper-converged architecture, software-defined storage, NFV & SDN, deep learning, ceph monitoring. The interesting trends is that, Ubuntu becomes increasingly the canonical platform for Openstack and various opensource software. Although people saying CentOS is more production stable, it seems systemd draws too much repell from the community.
+NFV is hot and increasingly gaining heat in telecom area to adopt Openstack. But I think they are far from "[carrier grade](https://www.sdxcentral.com/articles/contributed/dont-confuse-high-availability-carrier-grade/2014/04/)" now, the latter demands HA, security, demanding throughput & latency, manageability, and smooth upgrading & patching. For jargon such as Openstack vs OpenDaylight vs Openflow vs Open vSwitch, see [here](https://www.quora.com/What-is-the-relation-between-OpenStack-OpenDaylight-OpenFlow-and-Open-vSwitch-Are-there-other-options-in-place-of-any-of-these). Generally this video gives introduction to Juju (integrated with Ubuntu) that eases Openstack development, and provide support to various aspects such as containers, hyper-converged architecture, software-defined storage, NFV & SDN, deep learning, ceph monitoring. The interesting trends is that, Ubuntu becomes increasingly the canonical platform for Openstack and various opensource software. Although people saying CentOS is more production stable, it seems systemd draws too much repell from the community.
 
 **[Embracing Datacenter Diversity](https://www.openstack.org/videos/video/embracing-datacenter-diversity)**
 
@@ -318,6 +320,8 @@ Introduction of Scality Ring Storage product. [Cumulus Linux](https://cumulusnet
 
 Scality Ring Storage product is a unified storage platform, being able to support Swift, Glance, Cinder, Manila (each has the dirver). It is able to replication, erasure coding, geo-redundancy, self-healing, etc. On 9m50s there is an [Openstack Storage usecase diagram](https://youtu.be/8DIbF7zPoXU?t=9m50s) against storage type and size.
 
+Unified storage solution of Openstack, interesting; AFAIK some companies choose Ceph for the same purpose. EMC solutions are however more usecase specific, AFAIK: Block is ScaleIO/XtremIO, filesystem is Isilon, object storage is ECS.
+
 **[EMC - Accelerating OpenStack deployments with modern all-flash scale-out storage](https://www.youtube.com/watch?v=zbmN8NotZwE)**
 
 Promoting EMC XtremIO. The problem to solve is: IO blender effect at large scale, VM provisioning & clone, dynamic policy-based operations. XtremIO is all-flash and sparkingly fast. The content-based addressing is a key design of XtremIO. Actually the best technical video to introduce XtremIO is the one from [Storage Field Day](https://www.youtube.com/watch?v=lIIwbd5J7bE) and the one from [SolidFire](https://www.youtube.com/watch?v=AeaGCeJfNBg). XtremIO is the #1 all-flash market leader with 34% share. On [11m51s](https://youtu.be/zbmN8NotZwE?t=11m48s) there is a comparison graph of scale-up vs scale-out on the rack shelf; scale-up is actually not able to survive shelf-level failure (e.g. power, switch). Per XtremIO controller provides 150K IPOS, scale-out to 16 boxes 2M IOPS. XtremIO has 100% metadata in memory, inter-connected with RDMA fabric. XtremIO integrates with Openstack Cinder to provide block storage.
@@ -416,7 +420,7 @@ Taiwan Openstack Application Hackathon is launched at 2016 March. This video is 
 
 ### Popular, But No Time to Watch
 
-Note that several of the popular videos are moved to my "interested" sections.
+(Note that several of the popular videos are moved to my "interested" sections.)
 
 **[Driving the Future of IT Infrastructure at Volkswagen Group](https://www.youtube.com/watch?v=HL_pzkDnal4)**
 
@@ -526,11 +530,127 @@ Zenoss promoting their monitoring solution: model, events, metrics. It uses no e
 
 ### vBrownBag
 
-// TODO WIP
+vBrownBag is less than 15min each. There are about 70 sessions of them on Openstack Austin Summit. vBrownBag has dedicated meeting rooms; I think it's far from saturated; there must still be many empty slots remaining available.
+
+**[Abhijit Dey – Guaranteed Performance with Advanced QoS in OpenStack](https://www.youtube.com/watch?v=gwBML47Q_F4)**
+
+Present by Veritas. End-to-end storage QoS
+
+  * Application SLA: max IOPS, min IOPS, workload priority, latency
+  * Efficienty utilization of all tiers of storage
+  * Storage congestion control
+  * Resolving distributed IO dependencies
+  * Data management IO prioritization
+  * I added: quotas, throttling, reservation, ...
+
+The QoS ability is provided via
+
+  * Cinder QoS APIs
+  * Scheduling filters for VM and storage affinity
+  * Commodity storage: Near Storage: implemented in IO stack of hypervisor
+      * Awareness of direct-attached storage
+      * Adaptive features/feedback
+
+OpenFlame by Veritas - a software-defined storage solution for Openstack powered private clouds.
+
+**[John White & Shishir Agrawal – Juniper Container SRX Intro & Use](https://www.youtube.com/watch?v=0YPdV0r1jdg)**
+
+Juniper conainerized SRX (vs virtualized SRX) to monitor west-east traffic (a firewall). Would containerized network functions overides VNF one day?
+
+**[ABHIJIT DEY – Deep Dive into VM Live Migration in DAS environment](https://www.youtube.com/watch?v=n0Rv-31Aiqw)**
+
+Present by Veritas. Still introducing their storage solution; there are a few quite interesting designs. To enable efficient support for VM live migration:
+
+  * Use direct-attached storage (DAS) on compute node
+  * Make sure VM always have local replica
+  * Storage lazily moves with VM during live migration
+  * Nova/Cinder orchestrate the storage movement
+
+Openstack native hyper-converged storage solution, interesting. Ceph however is not designed for this. Veritas OpenFlame.
+
+**[Ravi Jagannathan – Security Vulnerabilities in OpenStack deployments](https://www.youtube.com/watch?v=twOC6OqXBAU)**
+
+CVE vulnerability database; pay attention. There are tons of [Openstack-specific vulnerabilities](https://www.cvedetails.com/vulnerability-list/vendor_id-11727/Openstack.html) disclosed on CVE. Make sure you patch faster than cyber attackers. This talk generally walks through the important CVE exploits, horrible. I guess soon (or already?) public net Openstack vulnerability scanner will show up.
+
+**[Balaji Ethirajulu – Network Analytics, catalyst for NFV & SDN](https://www.youtube.com/watch?v=mWm6Enn8Muk)**
+
+Ericsson Network Manager - Analytics: insights of VNF.
+
+**[Ben Silverman – Dynamic Capacity Planning in Elastic Clouds](https://www.youtube.com/watch?v=WivORAcBhV8)**
+
+Mirantis & Cisco presents. Workload testing
+
+  * Use realistic production environment as you can
+  * Compare results against baseline virtualization and baremetal results
+  * Use incremental adjustments to flavors to find sweet spot in CPU and Memory requirements
+
+Proper flavor definition. Monitoring, metrics and elasticity calculations. Develop triggers for expansion.
+
+  * Elasticity: the number of growth and shrinkage daily based on total capacity
+
+Available capacity managment softwares for Openstack: Talligent (commercial), Rightscale Cloud Analytics (Commercial), Cloud Kitty (opensource). Generally, this talk provides a lot of good practices for capacity planning. Mark.
+
+**[Haseeb Akhtar and Toby Ford – Autonomous Network Management](https://www.youtube.com/watch?v=FxO2X-_MGr8)**
+
+Present by AT&T. Introducing AIC ECOMP architecture. Basically this is automated management, monitoring & auto-scaling, multi-datacenter hybrid cloud support, and visualized control panel.
+
+**[Trevor Roberts Jr – What is VMware doing with OpenStack](https://www.youtube.com/watch?v=18dfnGDyx2Y)**
+
+VMware do community contribution, provide drivers, NSX, and the VIO (VMware integrated Openstack) for Openstack. But ... what most Openstack adoptors want is
+
+  * 97% is to standardize one platform API
+  * 92% to avoid vendor lock-in
+  * 79% to accelerate innovation
+  * 75% to operation efficiency
+  * 66% to save money
+
+And now Openstack show much more feature diversity (NFV, big data, IoT, container, etc) than VMware (except you pay for Pivotal again).
+
+**[Joe Arnold – Native File Access for OpenStack Swift](https://www.youtube.com/watch?v=YkadggEykNw)**
+
+Introducing to ProxyFS, which provides filesystem through Swift object storage. The key is that, ProxyFS is integrated to Swift Proxy, rather than on top of Swift API. There are some [comparisons](https://youtu.be/YkadggEykNw?t=2m14s) against [SwiftStack Filesystem Gateway](https://www.swiftstack.com/product__trashed/filesystem-gateway/#). ([Swift Filesystem](https://support.rackspace.com/how-to/swift-filesystem-for-hadoop/) supports [Hadoop](https://hadoop.apache.org/docs/stable/hadoop-openstack/index.html). And there is a [S3QL](https://dmsimard.com/2014/09/29/s3ql-a-filesystem-over-http-with-openstack-swift/) who supports file access to Google Storage, Amazon S3, or Swift). ProxyFS use Log-Structured Files/Directories to store data in Swift. Present by SwiftStack. Looks promising.
 
 ### Design Summit (Newton)
 
-// TODO WIP
+Openstack Austin Summit is for Mitaka version release. But the Design Summit is for [Newton](https://wiki.openstack.org/wiki/Design_Summit/Newton/Etherpads). Looking into the future.
+
+Openstack Summit is high focused on users. Most contents are usecases, practices, experiences, project status, IT strategies, vendor promotions, etc. For real technical stuff, you may need to attend the [Design Summit](https://www.openstack.org/summit/austin-2016/summit-schedule/full/) (it spans full week accompanying the main Summit). Core developers rally to discuss important decisions for the new release cycle, and summarize them on [etherpads](https://wiki.openstack.org/wiki/Design_Summit/Newton/Etherpads) (I wish there would be videos too).
+
+Besides, the most cutting edge technical updates always appear on [developer maillist](https://wiki.openstack.org/wiki/Mailing_Lists#Future_Development), where the key is to learn how experts think and discuss upon a new problem. And checkout the blueprint status ([example](https://blueprints.launchpad.net/cinder/newton)) and code reviews ([example](https://review.openstack.org/#/q/message:+blueprint+cinder-volume-active-active-support)) are helpful.
+
+I mainly focus on Cinder and Magnum status
+
+**[Cinder](https://wiki.openstack.org/wiki/Design_Summit/Newton/Etherpads#Cinder)**
+
+On-going topics:
+
+  * Replication Next Steps (Tiramisu, in granularity of volume group)
+  * Rolling upgrades - next steps (Good to borrow to other systems)
+  * HA Active/Active (Awesome design, and long work)
+  * Scalable backup (Interesting)
+  * Cinderclient to OpenStackclient parity
+  * Changes to our current testing process
+  * Move Cinder Extenstions to Core
+  * Move API docs in tree
+
+There are tons of details. Basically each core dev governs their specifc feature. See it yourself (and in accompany of [blueprints](https://blueprints.launchpad.net/cinder/newton)). So don't say Cinder is too mature to move. A lot of work needs to be done :-)
+
+**[Magnum](https://wiki.openstack.org/wiki/Design_Summit/Newton/Etherpads#Magnum)**
+
+A lot of topics in Magnum too
+
+  * The bay driver design (Finally! When will CloudFoundry and Openshift come into Magnum?)
+  * Lifecycle operations for long running bays (Rotating certs, soft/hard rest, dynamically reconfigure, automate failover/recoveretc. Learning from Carina.)
+  * Magnum scalability / discussion of async implementation (Wait to learn from the design)
+  * Container Storage - Support for Container Data Volumes (What? [OverlayFS is 5 - 7 times more performance than devicemapper](https://etherpad.openstack.org/p/newton-magnum-container-storage)?)
+  * Container Network - Integrate a Kuryr Networking Driver (The overlay^2 network performance penalty is biting)
+  * Ironic Integration - Add Support for Running Containers in Baremetal (Ironic has long been ignored but quite necessary in enterprise usecases)
+  * Challenges in Magnum Adoption - Experiences and How to Address
+  * Unified Container Abstraction for Different COEs
+  * Magnum HEAT template versioning (To allow Magnum upgration being compatible)
+  * Bay monitoring: health, utilization (Notifications and Ceilometer integration, etc)
+
+See their details in each (and in accompany with [blueprints](https://blueprints.launchpad.net/magnum/newton)).
 
 ### Other Sources of Summaries
 
@@ -540,4 +660,4 @@ Another good summary & video recommendation for the network parts is [Neutron Co
 
 And, usually each release of Openstack will have a release note that summarize major changes (e.g. [Kilo's](https://wiki.openstack.org/wiki/ReleaseNotes/Kilo)). They are very useful. But on Mitaka, [release note](http://releases.openstack.org/mitaka/index.html) is re-organized by projects. They are not as informative as before, but I think still very useful to grasp the lastest updates.
 
-Finally, if you are really interested in the feature & development progress of each Openstack component, I think however checkout the blueprint status on Launchpad is the best way (and checkout the dev maillist).
+Finally, if you are really interested in the feature & development progress of each Openstack component, I think however checkout the blueprint status on Launchpad ([example](https://blueprints.launchpad.net/cinder/newton)) is the best way (and checkout the [dev maillist](https://wiki.openstack.org/wiki/Mailing_Lists#Future_Development)).
