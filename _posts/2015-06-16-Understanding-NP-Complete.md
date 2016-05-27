@@ -22,6 +22,8 @@ We define the symbols in this section to prepare for explaining NP-complete.
 
 ### What is NP-complete
 
+![Relationship of NP Problems](/images/np-relation.png "Relationship of NP Problems")
+
 A decision problem `C` is NP-complete if
 
   1. `C` is a NP problem, and
@@ -41,6 +43,13 @@ The first NP-complete problem is the [circuit satisfiability problem](https://en
 
 
   4. So, if circuit satisfiability problem is solved, we know whether `y` exists, thus solving `C`. This means circuit satisfiability problem is equal or harder than any other NP problem.
+
+An NP-complete problem is the hardest problem in NP set. The true magic is that, later people found many other problems are no less harder than the circuit satisfiability problem (proved by problem reduction, see below); i.e. they are off the same hardness. So the truth of NP-complete set is that
+
+  1. NP-complete problems are the hardest in the NP set
+
+
+  2. There are many NP-complete problems, and they are of the same hardness. 
 
 ### To prove a NP-complete problem
 
