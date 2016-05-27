@@ -496,7 +496,7 @@ Zenoss promoting their monitoring solution: model, events, metrics. It uses no e
 
 **[Trusted Cloud Solutions](https://www.youtube.com/watch?v=J_esZ61XXrw)**
 
-Presented by Redhat. The list of her Openstack platform customers: FICO, betfair, Verizon. See [0m44s](https://youtu.be/J_esZ61XXrw?t=44s). Nothing related to "trust" technology.
+Presented by Redhat, to demo the list of her Openstack platform customers: FICO, betfair, Verizon, etc. See [0m44s](https://youtu.be/J_esZ61XXrw?t=44s). Nothing related to "trust" technology.
 
 ### Interesting, But Watch When Have Time
 
