@@ -1,8 +1,8 @@
 ---
 layout: post
-title: "A Quick Summary of Enery-aware Cloud Computing"
-tagline : "A Quick Summary of Enery-aware Cloud Computing"
-description: "A Quick Summary of Enery-aware Cloud Computing"
+title: "A Quick Summary of Energy-aware Cloud Computing"
+tagline : "A Quick Summary of Energy-aware Cloud Computing"
+description: "A Quick Summary of Energy-aware Cloud Computing"
 category: "cloud"
 tags: [cloud, energy, summary]
 ---

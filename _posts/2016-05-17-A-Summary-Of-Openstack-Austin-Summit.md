@@ -22,7 +22,16 @@ To give a summary of Openstack Austin Summit:
 
   * An interesting thing is that super user/developer companies have basically occupied most presentation slots on the Summit (market/committee consolidation?). In the [maillist](http://lists.openstack.org/pipermail/community/2016-May/001503.html) someone even proposed to remove voting process of speaker proposals.
 
-Interesting new projects: [Romana](http://romana.io/try_romana/openstack/) for network and security automation; [Kingbird](https://wiki.openstack.org/wiki/Kingbird) for multi-site services; [Nation](https://www.youtube.com/watch?v=lddtWUP_IKQ) for compute node HA; [Convergence](https://specs.openstack.org/openstack/heat-specs/specs/juno/convergence.html) to make Heat execution more scalable and handle failures better; [Astara](https://www.youtube.com/watch?v=6pepWOwbmy4) for virtualize Neutron agents, VNF, and ease of management; [Tacker](https://www.youtube.com/watch?v=BQ2ZJWk2VNY) for network service function chaining orchestration; [Fuxi](https://github.com/openstack/fuxi) as [mentioned](https://etherpad.openstack.org/p/newton-magnum-container-storage) in Magnum etherpads with Kuryr to enable data volumes.
+Interesting new projects:
+
+  * [Romana](http://romana.io/try_romana/openstack/) for network and security automation
+  * [Kingbird](https://wiki.openstack.org/wiki/Kingbird) for multi-site services
+  * [Nation](https://www.youtube.com/watch?v=lddtWUP_IKQ) for compute node HA
+  * [Convergence](https://specs.openstack.org/openstack/heat-specs/specs/juno/convergence.html) to make Heat execution more scalable and handle failures better
+  * [Astara](https://www.youtube.com/watch?v=6pepWOwbmy4) for virtualize Neutron agents, VNF, and ease of management
+  * [Tacker](https://www.youtube.com/watch?v=BQ2ZJWk2VNY) for network service function chaining orchestration
+  * [Fuxi](https://github.com/openstack/fuxi) as [mentioned](https://etherpad.openstack.org/p/newton-magnum-container-storage) in Magnum etherpads with Kuryr to enable data volumes
+  * [Watcher](https://wiki.openstack.org/wiki/Watcher) provides continous resource optimization (energy-aware optimization, conslidation, rebalancing, etc) in close loop including monitoring and action/advise.
 
 Interesting new storage vendors: Scality (S3 compatible, unified solution for Openstack (EMC solutions are however more usecase specific as I see), dynamic loadbalancing & no consistent hashing & never balance data); Veritas (DAS hyper-converged native solution for Openstack (Ceph is not designed for this), built into hypersior).
 
@@ -497,6 +506,10 @@ Zenoss promoting their monitoring solution: model, events, metrics. It uses no e
 **[Trusted Cloud Solutions](https://www.youtube.com/watch?v=J_esZ61XXrw)**
 
 Presented by Redhat, to demo the list of her Openstack platform customers: FICO, betfair, Verizon, etc. See [0m44s](https://youtu.be/J_esZ61XXrw?t=44s). Nothing related to "trust" technology.
+
+**[Watcher, a Resource Manager for OpenStack: Plans for the N-release and Beyond](https://www.youtube.com/watch?v=mxN7Pi13ppk)**
+
+IBM & Intel (and ZTE). [Watcher](https://wiki.openstack.org/wiki/Watcher) governs the Openstack and provides resource optimization, e.g. energy aware optimizations, workload consolidations, rebalancing, etc. It includes monitoring in the close loop. Users can template their own strategies. Watcher can run in advise mode, active mode, and verbose mode. It reminds me of VMware DRS which uses live-migration to conlidate VMs and saves power. Good project orientation.
 
 ### Interesting, But Watch When Have Time
 
