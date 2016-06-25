@@ -32,6 +32,7 @@ Interesting new projects:
   * [Tacker](https://www.youtube.com/watch?v=BQ2ZJWk2VNY) for network service function chaining orchestration
   * [Fuxi](https://github.com/openstack/fuxi) as [mentioned](https://etherpad.openstack.org/p/newton-magnum-container-storage) in Magnum etherpads with Kuryr to enable data volumes
   * [Watcher](https://wiki.openstack.org/wiki/Watcher) provides continous resource optimization (energy-aware optimization, conslidation, rebalancing, etc) in close loop including monitoring and action/advise.
+  * [Higgins/Zun](https://wiki.openstack.org/wiki/Higgins) aims to enable Openstack as one platform for provisioning and managing VMs, baremetals, and containers as compute resources. Compared to Magnum, who enables containers by a second framework such as Kubernetes/Mesos/Swarm on top of Openstack, Higgins try to make containers Openstack-native. The developers come from original Nova-docker and Magnum. It being renamed to [Zun](https://wiki.openstack.org/wiki/Zun).
 
 Interesting new storage vendors: Scality (S3 compatible, unified solution for Openstack (EMC solutions are however more usecase specific as I see), dynamic loadbalancing & no consistent hashing & never balance data); Veritas (DAS hyper-converged native solution for Openstack (Ceph is not designed for this), built into hypersior).
 
@@ -509,7 +510,7 @@ Presented by Redhat, to demo the list of her Openstack platform customers: FICO,
 
 **[Watcher, a Resource Manager for OpenStack: Plans for the N-release and Beyond](https://www.youtube.com/watch?v=mxN7Pi13ppk)**
 
-IBM & Intel (and ZTE). [Watcher](https://wiki.openstack.org/wiki/Watcher) governs the Openstack and provides resource optimization, e.g. energy aware optimizations, workload consolidations, rebalancing, etc. It includes monitoring in the close loop. Users can template their own strategies. Watcher can run in advise mode, active mode, and verbose mode. It reminds me of VMware DRS which uses live-migration to conlidate VMs and saves power. Good project orientation.
+IBM & Intel (and ZTE) presents. [Watcher](https://wiki.openstack.org/wiki/Watcher) governs the Openstack and provides resource optimization, e.g. energy aware optimizations, workload consolidations, rebalancing, etc. It includes monitoring in the close loop. Users can template their own strategies. Watcher can run in advise mode, active mode, and verbose mode. It reminds me of VMware DRS which uses live-migration to conlidate VMs and saves power. Good project orientation.
 
 ### Interesting, But Watch When Have Time
 
