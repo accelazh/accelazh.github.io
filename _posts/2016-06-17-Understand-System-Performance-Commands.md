@@ -11,7 +11,7 @@ tags: [Linux, shell, performance]
 There are tons of system monitoring commands in Linux which are handy for collecting system statistics and performance troubleshooting. Here are the most impressive tutorials I found
 
   * [Linux Performance Analysis in 60,000 Milliseconds](http://techblog.netflix.com/2015/11/linux-performance-analysis-in-60s.html) by Netflix.
-  * [Netflix at Velocity 2015: Linux Performance Tools](http://techblog.netflix.com/2015/08/netflix-at-velocity-2015-linux.html). Check the part-1 & part-2 talk on Youtube. They are inspiring.        
+  * [Netflix at Velocity 2015: Linux Performance Tools](http://techblog.netflix.com/2015/08/netflix-at-velocity-2015-linux.html). Check the part-1 & part-2 talks on Youtube. They are inspiring.        
 
 **Understand `top`**
 
@@ -30,7 +30,7 @@ Extracted from [its_me's ask on stackexchange](http://unix.stackexchange.com/que
 
 **Understand `iostat`**
 
-Type `iostat -x -d 1` to disk IO monitoring. It rolling print to shell per second.
+Type `S_TIME_FORMAT="ISO" iostat -x -d -t 1` to disk IO monitoring. It rolling prints to shell per second.
 
 CPU status
 
