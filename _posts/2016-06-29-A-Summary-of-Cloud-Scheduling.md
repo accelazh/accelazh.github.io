@@ -3,7 +3,7 @@ layout: post
 title: "A Summary of Cloud Scheduling"
 tagline : "A Summary of Cloud Scheduling"
 description: "A Summary of Cloud Scheduling"
-category: "Scheduling"
+category: "cloud"
 tags: [cloud, scheduling, energy]
 ---
 {% include JB/setup %}
@@ -32,7 +32,7 @@ So overall, I can assume real world resource utilization is under 20%. That's lo
 
 ### The Goals of Scheduling
 
-As mentioned in the previous summary of [Energy-aware Cloud Computing](cloud/A-Quick-Summary-of-Energy-Aware-Cloud-Computing), the root motivation of scheduling is to save the energy cost (almost account for 50% total spending including purchasing new machines). To improve resource utilization (or energy efficiency), scheduling needs to consolidate applications in less hosts. But that raises new questions about performance and QoS (Quanlity of Service) / SLA (Service Level Agreements) / SLO (Service Level Objectives). Below I summary the goals of scheduling
+As mentioned in the previous summary of [Energy-aware Cloud Computing](/cloud/A-Quick-Summary-of-Energy-Aware-Cloud-Computing), the root motivation of scheduling is to save the energy cost (almost account for 50% total spending including purchasing new machines). To improve resource utilization (or energy efficiency), scheduling needs to consolidate applications in less hosts. But that raises new questions about performance and QoS (Quanlity of Service) / SLA (Service Level Agreements) / SLO (Service Level Objectives). Below I summary the goals of scheduling
 
   * Server consolidation. Less machines, higher apps density, increased resource utilization, better energy-efficieny. Eventually less cost.
 
