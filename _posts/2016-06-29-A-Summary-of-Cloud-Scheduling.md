@@ -126,6 +126,8 @@ Overall, resource interference is the major problem. [Bubble-up](http://www.cs.v
 
       * It includes: CPU clock frequency, sockets, cores, L1/L2/L3 cache/LLC, TLB, memory, and the ages of server hardware, etc.
 
+      * Hardware support is also a consideration. GPU, big memory, or special hardware-assistance, acceleration card, etc.
+
   * Preference to scale-out and scale-up. App performance may have different sensitivities towards each of them.
 
 The next factor is app dependency. Apps usually depend on other apps to work. Their frequency of interaction and amount of traffic are asymmetric. Uniform scheduling is not appropriate here. The varying affinity between application leads to
