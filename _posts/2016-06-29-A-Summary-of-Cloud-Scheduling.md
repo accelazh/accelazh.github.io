@@ -126,7 +126,7 @@ Overall, resource interference is the major problem. [Bubble-up](http://www.cs.v
 
       * It includes: CPU clock frequency, sockets, cores, L1/L2/L3 cache/LLC, TLB, memory, and the ages of server hardware, etc.
 
-      * Hardware support is also a consideration. GPU, big memory, or special hardware-assistance, acceleration card, etc.
+      * Hardware support is also a consideration. GPU, big memory, SR-IOV, NVM, or special hardware-assistance, acceleration card, etc.
 
   * Preference to scale-out and scale-up. App performance may have different sensitivities towards each of them.
 
