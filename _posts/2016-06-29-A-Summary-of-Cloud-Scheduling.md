@@ -68,7 +68,9 @@ I actually understand cloud scheduling as three complementary aspects
       
       * Examples: [Google Heracles](http://csl.stanford.edu/~christos/publications/2015.heracles.isca.pdf)
 
-The ideal is they co-work together as the complete cloud scheduling solution. In real world usually the later two are missing.
+The ideal is they co-work together as the complete cloud scheduling solution. In real world usually the later two are missing. More, to improve resource utilization, it is also possible to start from human/users, for example.
+
+  * Resource pricing and chargeback. It forces users to consider how much they should rent. Money incentive improves resource efficiency. See [Twitter's](http://sched.co/7ERX).
 
 ### The Factors of Scheduling
 
