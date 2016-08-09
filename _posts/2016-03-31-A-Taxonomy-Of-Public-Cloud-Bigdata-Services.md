@@ -197,3 +197,6 @@ There are several aspects that matters to the quality and variety of data visual
   
   * The ability to gather multiple data sources, which may be heterogeneous, with numerous data formats and protocols. The gathered data are properly joined and visualized in user-end tables and charts.
 
+### Others
+
+  * Updated 2016-8-9: [onurakpolat/awesome-bigdata](https://github.com/onurakpolat/awesome-bigdata) gives an impressive list of popular bigdata frameworks and their categorizations. Worth reading.
