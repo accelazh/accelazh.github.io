@@ -883,7 +883,7 @@ The paper readings are basically orangized from history to modern, from basic fo
 
 Covers most of the foundamental concepts. The lecture notes are very helpful, e.g. to understand what we should grasp in a paper.
 
-**[Soft Updates - a method for metadata consistency](http://www.scs.stanford.edu/06wi-cs240d/notes/l8d.txt)**, [Soft Updates: A Technique for Eliminating Most Synchronous Writes in the Fast Filesystem](https://www.usenix.org/legacy/event/usenix99/full_papers/mckusick/mckusick.pdf) \[1999, 121 refs\]
+**[Soft Updates - a method for metadata consistency](http://www.scs.stanford.edu/06wi-cs240d/notes/l8d.txt)**, **[Soft Updates: A Technique for Eliminating Most Synchronous Writes in the Fast Filesystem](https://www.usenix.org/legacy/event/usenix99/full_papers/mckusick/mckusick.pdf)** \[1999, 121 refs\]
 
 ```
 1. soft update was first proposed at 1994.
