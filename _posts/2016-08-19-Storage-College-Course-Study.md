@@ -909,7 +909,7 @@ Covers most of the foundamental concepts. The lecture notes are very helpful, e.
     3. crash in middle of mv may result in two names for the same dir
 ```
 
-**[Managing Update Conflicts in Bayou, a Weakly Connected Replicated Storage System](https://people.cs.umass.edu/~mcorner/courses/691M/papers/terry.pdf)** \[1995, 1112 refs\], [lecture notes](http://www.scs.stanford.edu/06wi-cs240d/notes/l13d.txt), [another lecture](http://www.cs.utah.edu/~stutsman/cs6963/lecture/17/)
+**[Managing Update Conflicts in Bayou, a Weakly Connected Replicated Storage System](https://people.cs.umass.edu/~mcorner/courses/691M/papers/terry.pdf)** \[1995, 1112 refs\], **[lecture notes](http://www.scs.stanford.edu/06wi-cs240d/notes/l13d.txt)**, **[another lecture](http://www.cs.utah.edu/~stutsman/cs6963/lecture/17/)**
 
 ```
 1. Bayou is highly referenced in oceanstore and also course http://www.scs.stanford.edu/06wi-cs240d/notes/
@@ -975,7 +975,7 @@ Covers most of the foundamental concepts. The lecture notes are very helpful, e.
 
 Helpful lecture notes about key concepts in distribute systems and deep dive of modern famous system designs.
 
-**[Chord: A Scalable Peer-to-peer Lookup Service for Internet Applications](https://pdos.csail.mit.edu/papers/chord:sigcomm01/chord_sigcomm.pdf)** \[2001, 12405 refs\], [leture notes](http://www.cs.utah.edu/~stutsman/cs6963/lecture/16/)
+**[Chord: A Scalable Peer-to-peer Lookup Service for Internet Applications](https://pdos.csail.mit.edu/papers/chord:sigcomm01/chord_sigcomm.pdf)** \[2001, 12405 refs\], **[leture notes](http://www.cs.utah.edu/~stutsman/cs6963/lecture/16/)**
 
 ```
 1. a famous DHT paper, peer-to-peer routing and location scheme, very highly referenced, good to read
