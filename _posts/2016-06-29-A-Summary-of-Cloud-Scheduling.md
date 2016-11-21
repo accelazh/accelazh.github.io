@@ -38,6 +38,8 @@ As mentioned in the previous summary of [Energy-aware Cloud Computing](/cloud/A-
 
   * Improve the resource utilization. Higher resource utilization is more power efficent, and less waste of idle resources.
 
+    * Balance resource placement is the other side of the same coin. For storage, we need to balance both the storage capacity space and access hotness space. But consistent-hashing based placements usually ignore/be-unflexible-for the second point.
+
   * Ensure the QoS / SLA / SLO of applications. There are similar names. I will call it SLA below for consistency.
 
   * Improve the performance of scheduled appliactions by better placement
