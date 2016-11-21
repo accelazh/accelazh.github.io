@@ -16,9 +16,9 @@ __What contributes to tail latency?__
   
   * Timeouts. Failure tolerance and retry is a common design pattern in distributed systems. But one retry is enough to send current request to latency tail. [Google SRE Book](http://shop.oreilly.com/product/0636920041528.do) chapter 21 to 22 discuss it in detail, such as,
     
-    * Reduce remaining timeout quota and pass it down each layer of the request processing chain.
+      * Reduce remaining timeout quota and pass it down each layer of the request processing chain.
     
-    * Be aware of the chained retry amplification (layer1 3 retries, layer2 3*3 retries, ...).
+      * Be aware of the chained retry amplification (layer1 3 retries, layer2 3*3 retries, ...).
 
   * Background tasks. Almost every services, from software to even hardware/firmware, have backgroud tasks. Background task may temporarily slowdown the world. The most notorious one is GC (garbage collection).
 
@@ -30,29 +30,29 @@ The latency percentile has low, middle, and tail parts. [Controlling latency](ht
 
   * To reduce the low, middle parts: Provisioning more resources, cut and parallelize the tasks, eliminate "head-of-line" blocking, and caching will help.
 
-    * This is the common techniques that we apply for scale-out distributed systems.
+      * This is the common techniques that we apply for scale-out distributed systems.
 
   * To reduce the tail latency: The basic idea is hedging. Even we've parallelized the service, the slowest instance will determine when our request is done. You can use probability math to model the combined latency distribution.
     
-    * Send more requests than necessary and only collect the fastest returned, helps reduce the tail. Send 2 instread of 1. Send 11 instead of 10 (e.g. in erasure-coding 10 fragment reconstruct read). Send backup requests at 95% percentile latency.
+      * Send more requests than necessary and only collect the fastest returned, helps reduce the tail. Send 2 instread of 1. Send 11 instead of 10 (e.g. in erasure-coding 10 fragment reconstruct read). Send backup requests at 95% percentile latency.
     
-    * Canary request, i.e. send normal requests but fallback to sending hedged requests if the canary did't finish in reasonable time.
+      * Canary request, i.e. send normal requests but fallback to sending hedged requests if the canary did't finish in reasonable time.
     
-    * Usually, smaller task partitions (micro-partition) will help achieve smoother latency distribution percentiles.
+      * Usually, smaller task partitions (micro-partition) will help achieve smoother latency distribution percentiles.
 
-    * Reducing head-of-line blocking. A small number of expensive queries may add up latencies to a large number of concurrent cheaper queries. Uniformly smaller tasks partitioning camn help.
+      * Reducing head-of-line blocking. A small number of expensive queries may add up latencies to a large number of concurrent cheaper queries. Uniformly smaller tasks partitioning camn help.
 
-    * To deal with timeout
+      * To deal with timeout
 
-      * Try a non-block try read at first (read but do not wait), then follow it by a best-effort read (read and wail till timeout).
+          * Try a non-block try read at first (read but do not wait), then follow it by a best-effort read (read and wail till timeout).
 
-      * When a timeout is found, mark related resource as known slow. Tell others to walk around it, and immediately timeout all pendings on it.
+          * When a timeout is found, mark related resource as known slow. Tell others to walk around it, and immediately timeout all pendings on it.
 
-      * To set a proper timeout value, we can use the 99.9% percentile, and adjust it dynamically. Arbitrary timeout value can be harmful.
+          * To set a proper timeout value, we can use the 99.9% percentile, and adjust it dynamically. Arbitrary timeout value can be harmful.
 
-    * More fine-grained scheduling and even a management framework to balance latency and cost. (e.g. [Bing's Kwiken](http://conferences.sigcomm.org/sigcomm/2013/papers/sigcomm/p219.pdf), also attached below.)
+      * More fine-grained scheduling and even a management framework to balance latency and cost. (e.g. [Bing's Kwiken](http://conferences.sigcomm.org/sigcomm/2013/papers/sigcomm/p219.pdf), also attached below.)
 
-The famous [The Tail at Scale](http://web.stanford.edu/class/cs240/readings/tail-at-scale.pdf) from Google give more fine-grained techniques. More discussion around it: [\[1\]](http://research.google.com/people/jeff/latency.html)[\[2\]](http://highscalability.com/blog/2012/3/12/google-taming-the-long-latency-tail-when-more-machines-equal.html)[\[3\]](http://highscalability.com/blog/2011/2/1/google-strategy-tree-distribution-of-requests-and-responses.html)[\[4\]](http://highscalability.com/blog/2012/6/18/google-on-latency-tolerant-systems-making-a-predictable-whol.html)[\[5\]](http://www.bailis.org/blog/doing-redundant-work-to-speed-up-distributed-queries/)[\[6\]](http://static.googleusercontent.com/external_content/untrusted_dlcp/research.google.com/en/us/people/jeff/Stanford-DL-Nov-2010.pdf)[\[video of 6\]](https://www.youtube.com/watch?v=modXC5IWTJI)[\[7\]](http://www.evanjones.ca/retries-considered-harmful.html)[\[8\]](http://research.google.com/people/jeff/latency.html)[\[9\]](https://news.ycombinator.com/item?id=5215884). Reading notes attached below
+The famous [The Tail at Scale](http://web.stanford.edu/class/cs240/readings/tail-at-scale.pdf) from Google give more fine-grained techniques. More discussion around it: [\[1\]](http://research.google.com/people/jeff/latency.html)[\[2\]](http://highscalability.com/blog/2012/3/12/google-taming-the-long-latency-tail-when-more-machines-equal.html)[\[3\]](http://highscalability.com/blog/2011/2/1/google-strategy-tree-distribution-of-requests-and-responses.html)[\[4\]](http://highscalability.com/blog/2012/6/18/google-on-latency-tolerant-systems-making-a-predictable-whol.html)[\[5\]](http://www.bailis.org/blog/doing-redundant-work-to-speed-up-distributed-queries/)[\[6\]](http://static.googleusercontent.com/external_content/untrusted_dlcp/research.google.com/en/us/people/jeff/Stanford-DL-Nov-2010.pdf)[\[video\]](https://www.youtube.com/watch?v=modXC5IWTJI)[\[7\]](http://www.evanjones.ca/retries-considered-harmful.html)[\[8\]](http://research.google.com/people/jeff/latency.html)[\[9\]](https://news.ycombinator.com/item?id=5215884). Reading notes attached below
 
 ```
 1. Google Jeff Dean's "the tail at scale" paper    [2013, 345 refs]
@@ -243,7 +243,7 @@ The famous [The Tail at Scale](http://web.stanford.edu/class/cs240/readings/tail
             2. "Just routing by least connections is one option"
 ```
 
-The papers employing tail latency implies more detailed scheduling (and even a management framework) helps further: [1](https://www.usenix.org/system/files/conference/hotcloud16/hotcloud16_nguyen.pdf)[2](https://people.eecs.berkeley.edu/~dzats/detail.pdf)[3](https://www.usenix.org/system/files/conference/hotcloud14/hotcloud14-lu.pdf)[4](https://arxiv.org/pdf/1407.1239.pdf)[5](https://nsl.cs.usc.edu/~tobiasflach/publications/Flach_Latency.pdf)[6](http://conferences.sigcomm.org/sigcomm/2013/papers/sigcomm/p219.pdf)[7](http://www.microarch.org/micro48/files/slides/F1-2.pdf). Reading notes attached below. You may select them by refs count.
+The papers employing tail latency implies more detailed scheduling (and even a management framework) helps further: [\[1\]](https://www.usenix.org/system/files/conference/hotcloud16/hotcloud16_nguyen.pdf)[\[2\]](https://people.eecs.berkeley.edu/~dzats/detail.pdf)[\[3\]](https://www.usenix.org/system/files/conference/hotcloud14/hotcloud14-lu.pdf)[\[4\]](https://arxiv.org/pdf/1407.1239.pdf)[\[5\]](https://nsl.cs.usc.edu/~tobiasflach/publications/Flach_Latency.pdf)[\[6\]](http://conferences.sigcomm.org/sigcomm/2013/papers/sigcomm/p219.pdf)[\[7\]](http://www.microarch.org/micro48/files/slides/F1-2.pdf). Reading notes attached below. You may select them by refs count.
 
 ```
 1. the papers related to tail latency
