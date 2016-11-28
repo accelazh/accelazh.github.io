@@ -168,6 +168,6 @@ Question
 				When E0, E1, ..., Em-1 are not overlapped, we can deduce that Ei DL are independent
 ```
 
-Below is the formulas stated above
+Below are the formulas stated above
 
 ![Formula index](/images/dataloss-formula-index.png "Formula index")
