@@ -158,6 +158,9 @@ Conclusions (proof omitted)
 	Data loss probability: (thr7)
 	P(Ei DL) vs P(DL): connected by |SNL|/|S| ("NL" in subscript), but not always matched
 		Counter-case: from (N, p, D, K, M) = (20, 0.16, 4, 1, 50) to (20, 0.16, 12, 2, 50), P(DL) drops, but P(Ei DL) raises.
+	P(Ei DL) vs P(DL): meaning
+		P(Ei DL): when a customer asks how easy is his extent to be lost.
+		P(DL): when the operation asks how easy will they encouter data loss alert, and how much lost data.
 
 Question
 
