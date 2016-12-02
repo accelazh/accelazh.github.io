@@ -205,6 +205,8 @@ Notations
     TD := total user data size
     DS := fragment size = SD*SR/D = SD/(D-K)
 
+Assumptions
+
     Breakdown extents by how many fragments lost: (asp6)
 
         Ml ("l" in subscription) := extent count of losing l fragments
