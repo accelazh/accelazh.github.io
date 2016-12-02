@@ -230,8 +230,7 @@ Conclusions
             If we force MK..M1 to balance, M0 will drop. The process repeats until all M0..MK-1 drop to 0, surviving extents retract to MK
 
             A healthy cluster can only be M0=M: (thr13)
-
-                The other M1..MK should be infinitely small, ignorable size
+                The other M1..MK should be infinitely small, ignorable count
 
     Next, lets find out data loss rates
 
