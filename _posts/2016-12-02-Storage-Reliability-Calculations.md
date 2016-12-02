@@ -246,6 +246,7 @@ Conclusions
         Recovery bandwidth NB limits how much data can be there in a super large storage cluster
             λ and code schema storage overhead multiply it by factors
             Cluster node count has no relation with NB. But user data size does.
+
         For customer-faced reliability, extent loss rate λ(ext) should be low. It is the direct result λ and code schema
         For operation ease, cluster data loss λ(DL) should be low. It is the direct result of λ and code schema.
             λ(ext) and λ(DL) have no direct relation ship with NB. But NB is necessary to pull extents from M1..MK != 0 states.
