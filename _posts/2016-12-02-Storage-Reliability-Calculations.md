@@ -276,6 +276,7 @@ __Reliability framework__
 
 To summarize the technique framework to ensure storage reliability
 
+```
   * Data input: ensure the reliability when data is coming in
       * End-to-end verification: ensure what user writes is what is stored
       * Commit safe: when user is ack-ed, ensure the data is guaranteed persistent
@@ -312,6 +313,7 @@ To summarize the technique framework to ensure storage reliability
       * Make sure the necessary metadata for raw disk recovery can be obtained and well protected.
 
   * Hardware: hardware failure rate has direct impact on everything about reliability, very straightforward. Be careful to balance reliability and cost wisely.
+```
 
 Other references
 
