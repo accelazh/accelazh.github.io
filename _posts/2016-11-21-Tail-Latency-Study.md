@@ -366,6 +366,27 @@ The papers employing tail latency implies more detailed scheduling (and even a m
                 2. to set the core’s speed as per the slowdown factor, we employ RAPL  
 ```
 
+__Monitoring__
+
+There should be two types of monitoring
+
+  * Single operation
+  * Percentile statistics
+
+The monitoring should be able to
+
+  * Provide a trace id that can be followed from user request entrance to hardware operations
+  * Cover the breakdown of each level
+  * Point cover where it is easy to have problems
+
+There are several aspects to be monitored
+
+  * Errors that directly related to customer failure, e.g. VM stall/restart
+  * Timeout error counts and auto throttles that directly impact customer experience
+  * Operation slowdown
+  * Typical hardware performance such as CPU, network, disks
+  * Provide trace from user entrace, breakdown at each level, and eventually to hardware
+
 __Other References__
 
   * [Latency Numbers Every Programmer Should Know](https://people.eecs.berkeley.edu/~rcs/research/interactive_latency.html): Give you the basic latency numbers of each level of a storage system

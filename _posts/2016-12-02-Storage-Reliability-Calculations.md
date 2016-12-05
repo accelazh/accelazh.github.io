@@ -236,9 +236,23 @@ Conclusions
 
         Extent loss rate λ(ext): (thr14)
         Cluster data loss rate λ(DL): (thr15)
-
             λ(ext) and λ(DL) are the solo result of Mi states. They has not relation with NBi. While NBi is what maintains Mi states.
             When M0=M, λ(ext) and λ(DL) are the best of what they can get from NBi.
+
+        Practical markov for single extent loss probability: (thr16)
+            Notations
+                Let NBSi := the available network recovery bandwidth for this single extent, when it has lost i fragments
+                    The bandwidth is affacted by repair priority, TOR and node NIC bandwidth.
+                P(EDL Mi) := probability of lose this extent when it is at Mi
+                    P(EDL M0) is what we try to calculate
+            Note that this formula not math strict, because in a absorbing markov chain the extent loss probability should be eventually 1
+                https://www.dartmouth.edu/~chance/teaching_aids/books_articles/probability_book/Chapter11.pdf
+            But we are here to calculate the "practical" probability
+                This formula assumes we follow the repair lifecycle of the given extent
+                While the above λ(ext) assumes we take any extent from the cluster, which has M1-MK count is infinitely small
+            This formula is useful because
+                It takes network recovery bandwidth into consideration, very practical
+                It follows the entire repair lifecycle of the given extent
 
     Conclusions
 
@@ -252,9 +266,53 @@ Conclusions
         For operation ease, cluster data loss λ(DL) should be low. It is the direct result of λ and code schema.
             λ(ext) and λ(DL) have no direct relation ship with NB. But NB is necessary to pull extents from M1..MK != 0 states.
             If M1..MK != 0, the λ(ext)dt and λ(DL)dt raise by factor of 1/(λdt)
-
 ```
 
 Below are the formulas stated above
 
 ![Formula index](/images/reliability-limits-formula-index.png "Formula index")
+
+__Reliability framework__
+
+To summarize the technique framework to ensure storage reliability
+
+  * Data input: ensure the reliability when data is coming in
+      * End-to-end verification: ensure what user writes is what is stored
+      * Commit safe: when user is ack-ed, ensure the data is guaranteed persistent
+
+  * Data storing: ensure the reliability at where data is stored
+      * Good data should not be overwriten. In case a bug or at least we can recover data from history
+      * Data recovery
+          * Detect data loss as fast as you can
+              * On-the-fly, when user read data, from node loss, from disk failure, etc. Summarize whatever info you can leverage to detect data loss fast.
+              * Prediction, from unstable/unhealthy/untrustable nodes that are going to loss, from disks that frequently have problem. Prepare to move data out of danger zones.
+          * Repair action should be prioritized
+              * Repair the data at high risk first.
+              * Repair actions should be well-scheduled and well-managed.
+              * The overall reliability is determined by how fast you can repair.
+          * Watch out that your data is more vulnerable when server upgrading, because
+              * Some portion of data is unavailable
+              * The user traffic becomes larger because of reconstruction read
+              * The repair traffic also becomes larger
+          * Code schema (e.g. 3-replica, erasure-coding, LRC) is very important for data reliability.
+              * It is also important for balancing reliability with overhead of storage, bandwidth, latency, reconstruct, and metadata.
+              * Policied auto transition between different code schemas may be necessary.
+      * Silent data corruption: This is a real problem. Background check and repair can help; but too time/resource consuming for super large clusters.
+      * Some piece hardware from vendors can have problem. Some firmware can have problem, go wrong, or have bug. They can become slow, unstable, or whatever.
+      * Old clusters are highly risked: old devices are easy to fail, and in burst, which generates a lot of data loss. They may frequently become slow, unstable, jump online and offline.
+
+  * Data serving
+      * Data availability and data durability are different. Good data serving ensures data availability
+      * Nodes can be transiently unavailable. Detect transient and permanent before you head to expensive data repair.
+      * Node failure can usually be repaired quickly by a reboot. Node can jump online and offline. Be careful to schedule repair actions wisely.
+      * Customer impact is different, i.e. even data is lost, if we are in the lucky time window where customer is not reading/writing (this is of high probabilty), there can be no customer impact.
+
+  * Raw disk recovery: when everything is goine, we expect to extract user data from a raw disk
+      * Make sure you have a way to know the raw binary format on disk. Extract data from raw disk can be the final resort.
+      * Make sure the necessary metadata for raw disk recovery can be obtained and well protected.
+
+  * Hardware: hardware failure rate has direct impact on everything about reliability, very straightforward. Be careful to balance reliability and cost wisely.
+
+Other references
+
+  * [DataDomain DIA](http://www.emc.com/collateral/software/white-papers/h7219-data-domain-data-invul-arch-wp.pdf)
