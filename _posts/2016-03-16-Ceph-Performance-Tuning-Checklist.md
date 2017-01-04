@@ -43,6 +43,10 @@ About the network
   * Set the kernel block IO scheudler, noop for SSD, deadline for SATA/SAS disks. [Increase the block IO queue size](http://www.monperrus.net/martin/scheduler+queue+size+and+resilience+to+heavy+IO).
   * [Shut-off disk controller cache](http://www.cnblogs.com/wuhuiyuan/p/4648725.html), because it doesn't have battery/capacitor to protect from power outage.
 
+### Block Caching Layer
+
+  * Use bcache, or LVM cache.
+
 ### Filesystem Layer
 
   * FS type: XFS or BTRFS or EXT4 (XFS is recommended, BTFS is good but not production ready)
