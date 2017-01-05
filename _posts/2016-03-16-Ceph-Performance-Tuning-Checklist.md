@@ -30,7 +30,7 @@ About the storage
 About the network
 
   * NIC card count and bandwidth, for different type of Ceph work nodes.
-  * Enable jumbo frame if your switch supports it
+  * Enable jumbo frame if your switch supports it (MTU 9000 instead of 1500)
   * The bandwidth of internal cluster network should be no less than 10Gb.
 
 ### OS Layer
@@ -60,7 +60,7 @@ About the network
 
   * OSD per disk. Monitor on separated node.
   * Put journal in separated OSD disk if you can.
-  * CGroup pin each OSD to its CPU core.
+  * CGroup pin each OSD to its CPU core/socket (To avoid NUMA issues).
   * Proper PG count. Briefly, PGs = round2((Total_number_of_OSD * 100) / max_replication_count). See [pgcalc](http://ceph.com/pgcalc/).
   * Scrubbing, if enabled, may severely impact performance.
   * Enable tcmalloc and adjust max thread cache, see [hustcat's blog](http://hustcat.github.io/ceph-performance-journal-and-tcmalloc/).
@@ -106,3 +106,4 @@ About the network
   * [BENCHMARK CEPH CLUSTER PERFORMANCE](http://tracker.ceph.com/projects/ceph/wiki/Benchmark_Ceph_Cluster_Performance)
   * [Ceph Benchmarks](http://www.sebastien-han.fr/blog/2012/08/26/ceph-benchmarks/)
   * [优化的重点：针对Ceph的七剑](https://www.ustack.com/blog/tycc/)
+  * [Ceph OSD Hardware - A Pragmatic Guide](https://www.youtube.com/watch?v=kc7GIHyk57M)

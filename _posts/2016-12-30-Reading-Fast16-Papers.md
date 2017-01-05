@@ -1404,7 +1404,32 @@ __[F2FS: A New File System for Flash Storage](https://www.usenix.org/system/file
             1. based on superblock. {N, K} parameter controls the N data block and K log block in a group
                the optimal {N, K} is infered from the access pattern of the target application, determined at design stage
             2. to find the {N, K} value, use the proposed analysis model
-    
+
+        4. related readings
+            1. A SPACE-EFFICIENT FLASH TRANSLATION LAYER FOR COMPACTFLASH SYSTEMS    [2002, 989 refs]
+               https://pdfs.semanticscholar.org/e0a1/546f56b68ebfcc5f7237c073d6186188f192.pdf
+                1. the beginning paper that proposed the hybrid-mapping for FTL metadata
+                   The key idea of the log scheme is to maintain a small number of log blocks in flash memory
+                    to serve as write buffer blocks for overwrite operations
+
+            2. A Log Buffer-Based Flash Translation Layer Using Fully-Associative Sector Translation    [2007, 778 refs]
+               http://csl.skku.edu/uploads/ICE3028S11/fast-tecs07.pdf
+                1. improved from "A SPACE-EFFICIENT FLASH TRANSLATION LAYER FOR COMPACTFLASH SYSTEMS"
+                   In FAST, one log block can be shared by all the data blocks.
+                   FAST also maintains a single log block, called sequential log block, to manipulate the sequential writes
+                2. my notes are lost due to software bug. see the original paper then.
+
+            3. LAST: Locality-Aware Sector Translation for NAND Flash Memory-Based Storage Systems    [2008, 298 refs]
+               http://yourcmc.ru/wiki/images/d/d2/02-lee-last-usenix09.pdf
+                1. improved from "A Log Buffer-Based Flash Translation Layer Using Fully-Associative Sector Translation"
+                   LAST partitions the log buffer into two parts: random log buffer and sequential log buffer
+                   The sequential log buffer consists of several sequential log blocks,
+                    and one sequential log block is associated with only one data block
+                   random log buffer is partitioned into hot and cold partitions.
+                    By clustering the data with high temporal locality within the hot partition,
+                    we can educe the merge cost of the full merge
+                2. my notes are lost due to software bug. see the original paper then.
+
     2. compared with "NOVA: A Log-structured File System for Hybrid Volatile/Non-volatile Main Memories"    [2016, 10 refs]
        http://cseweb.ucsd.edu/~swanson/papers/FAST2016NOVA.pdf
         1. NOVA is designed for NVM as memory along with DRAM, i.e. NVMM
