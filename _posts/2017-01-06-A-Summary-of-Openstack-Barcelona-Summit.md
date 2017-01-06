@@ -10,7 +10,7 @@ tags: [openstack, summit, summary]
 
 Openstack adoption is growing. Interoperability, scaling, baremetal are receiving more attention. Real data heavy services often run on baremetal. Networking VNF/NFV/SDN is hot as always and quick evolving. Openstack competes AWS in cost. Many new projects appears using Ansible to automate Openstack. Sessions about experiences and tunings thrive at the Summit. Mirantis is embracing Kubernetes, on top of which to run Openstack (as upgraded in Fuel). Chinese influence is rising (Gold Members and Superuser Awards).
 
-Besides, checking out blueprints, specs, and design summit etherpads are good ways to understand community direction.
+Besides, checking out blueprints, specs, and design summit etherpads are good ways to understand community directions.
 
 __[OpenStack Newton Release Demo](https://www.youtube.com/watch?v=z6ftW7fUdp4)__    (High clicks)
 
