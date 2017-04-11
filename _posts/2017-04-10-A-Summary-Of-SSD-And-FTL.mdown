@@ -1,8 +1,8 @@
 ---
 layout: post
-title: "A Summary of SSD & FTL"
-tagline : "A Summary of SSD & FTL"
-description: "A Summary of SSD & FTL"
+title: "A Summary of SSD and FTL"
+tagline : "A Summary of SSD and FTL"
+description: "A Summary of SSD and FTL"
 category: "Ceph"
 tags: [SSD, FTL, summary]
 ---
@@ -158,7 +158,7 @@ __FTL - Hybrid-level Mapping (More 5)__
 Implications
   * Although FTL does remapping, sequential writes still benefits SSD because it reliefs GC (more switch merges)
 
-Image from [FTL LAST](http://yourcmc.ru/wiki/images/d/d2/02-lee-last-usenix09.pdf)
+Image from: [FTL LAST](http://yourcmc.ru/wiki/images/d/d2/02-lee-last-usenix09.pdf)
 
 ![FTL GC Merge Operations](/images/ftl-gc-merge.png "FTL GC Merge Operations")
 
