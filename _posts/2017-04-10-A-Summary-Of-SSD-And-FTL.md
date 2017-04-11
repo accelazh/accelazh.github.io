@@ -25,6 +25,7 @@ The almost 100% growth speed is why everybody is looking at SSD.
 __SSD Chip Structure__
 
 Flash chip
+
   * 1 Chip/Device -> multiple DIEs
   * 1 DIE -> several Planes
   * 1 Plane -> thousands of Blocks
