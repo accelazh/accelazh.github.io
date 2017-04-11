@@ -38,26 +38,31 @@ Flash chip
       * Max P/E cycles: MLC from 1500 to 10,000; SLC up to 100,000
 
 References
+
   * Alanwu's blog: [\[1668609\]](http://alanwu.blog.51cto.com/3652632/1668609) [\[1544227\]](http://alanwu.blog.51cto.com/3652632/1544227)
   * [Storage architecture](http://meseec.ce.rit.edu/551-projects/fall2010/1-4.pdf)
 
 __MLC vs eMLC vs SLC__
 
 Cell comparison
+
   * SLC - Expensive. Fast, reliable, high P/E
   * MLC - Consumer grade. cost 2- 4x less than SLC, 10x less P/E than SLC, lower write speed, less reliable
   * eMLC - Enterprise (grade) MLC. Better controller to manage wear-out and error-correction.
   * TLC - Championed by Samsung
 
 [Flash Reliability in Production: The Expected and the Unexpected \(Google\)](https://www.usenix.org/node/194415) [2016, 14 refs]
+
   * "We see no evidence that higher-end SLC drives are more reliable than MLC drives within typical drive lifetimes" (not cells)
 
 References
+
   * [MLC vs. eMLC vs. SLC vs. TLC](http://www.tomsitpro.com/articles/flash-data-center-advantages,2-744-2.html)
 
 __Latency Numbers__
 
 [Latency Numbers Every Programmer Should Know](https://people.eecs.berkeley.edu/~rcs/research/interactive_latency.html)
+
   * Cache access: ~1ns
   * Memory access: ~100ns
   * SSD access: ~10μs
@@ -69,6 +74,7 @@ __Latency Numbers__
 __SSD Interfaces__
 
 SSD Interfaces (not including NVRAM's)
+ 
   * SATA/SAS
       * Traditional HDD interface, now mapped to SSD
   * PCIe
@@ -78,12 +84,14 @@ SSD Interfaces (not including NVRAM's)
       * Improved from the PCIe. The native interface for flash media.
 
 References
+  
   * [What’s the difference between SATA, PCIe and NVMe](http://www.userbenchmark.com/Faq/What-s-the-difference-between-SATA-PCIe-and-NVMe/105)
   * [Clarification of terminology: SSD vs M.2, vs PCIe vs. NVMe](http://www.tomshardware.com/answers/id-2776112/clarification-terminology-ssd-pcie-nvme.html)
 
 __FTL - Flash Translation Layer__
 
 FTL functionalities
+  
   * Interface Adaptor
       * Map flash interface to SCSI/SATA/PCIe/NVMe interface
   * Bad Block Management
@@ -98,21 +106,25 @@ FTL functionalities
       * Avoid writing more actual data than the user input
 
 References
+  
   * [Understanding FTL](https://flashdba.com/2014/09/17/understanding-flash-the-flash-translation-layer/)
   * Alanwu's blog: [\[1427101\]](http://alanwu.blog.51cto.com/3652632/1427101)
 
 __FTL - Hybrid-level Mapping__
 
 Logical to physical address mapping
+  
   * Block-level mapping: too coarse
   * Page-level mapping: too much matadata
   * Hybrid-level mapping: what is used today
 
 [A Space-efficient Flash Translate Layer for Compactflash Systems](https://pdfs.semanticscholar.org/e0a1/546f56b68ebfcc5f7237c073d6186188f192.pdf) [2002, 988 refs]
+  
   * The beginning paper of hybrid-level mapping FTL
   * The key idea is to maintain a small number of log blocks in the flash memory to serve as write buffer blocks for overwrite operations
 
 References
+  
   * Alanwu's blog: [\[1427101\]](http://alanwu.blog.51cto.com/3652632/1427101)
 
 ![FTL Hybrid-level mapping](/images/ftl-hybrid-mapping-alanwu.jpg "FTL Hybrid-level mapping")
@@ -120,6 +132,7 @@ References
 __FTL - Hybrid-level Mapping (More 1)__
 
 [A reconfigurable FTL (flash translation layer) architecture for NAND flash-based applications](http://csl.skku.edu/papers/tecs08.pdf) [2008, 232 refs]
+  
   * Good paper to introduce flash structures and detailed concepts
       * "As an approach that compromises between page mapping and block mapping, ... A hybrid mapping scheme ... was first presented by Kim et al. [2002]. The key idea ...
       * To solve this problem of the log block scheme, the fully associative sector translation (FAST) scheme has been proposed [Lee et al. 2006] ...
@@ -129,6 +142,7 @@ __FTL - Hybrid-level Mapping (More 1)__
 __FTL - Hybrid-level Mapping (More 2)__
 
 [A Log Buffer-Based Flash Translation Layer Using Fully-Associative Sector Translation](http://csl.skku.edu/uploads/ICE3028S11/fast-tecs07.pdf) [2007, 778 refs]
+  
   * Usually called as FAST. Improved from "A Space-efficient Flash Translate Layer for Compactflash Systems"
   * Key ideas
       * In FAST, one log block can be shared by all the data blocks.
@@ -139,6 +153,7 @@ __FTL - Hybrid-level Mapping (More 2)__
 __FTL - Hybrid-level Mapping (More 3)__
 
 [A Superblock-based Flash Translation Layer for NAND Flash Memory](http://csl.skku.edu/papers/emsoft06.pdf) [2006, 368 refs]
+  
   * The flash is divided into superblocks, each superblock consist of N data block + M log block
       * In this way, set-associative is fully configurable, as from what FAST discussed
       * Garbage collection overhead is reduced up to 40%
@@ -148,6 +163,7 @@ __FTL - Hybrid-level Mapping (More 3)__
 __FTL - Hybrid-level Mapping (More 4)__
 
 [LAST: Locality-Aware Sector Translation for NAND Flash Memory-Based Storage Systems](http://yourcmc.ru/wiki/images/d/d2/02-lee-last-usenix09.pdf) [2008, 298 refs]
+  
   * Improved from "A Log Buffer-Based Flash Translation Layer Using Fully-Associative Sector Translation" and "A Superblock-based Flash Translation Layer for NAND Flash Memory"
   * Key ideas
     * LAST partitions the log buffer into two parts: sequential log buffer and random log buffer
@@ -157,6 +173,7 @@ __FTL - Hybrid-level Mapping (More 4)__
 __FTL - Hybrid-level Mapping (More 5)__
 
 Implications
+  
   * Although FTL does remapping, sequential writes still benefits SSD because it reliefs GC (more switch merges)
 
 Image from: [FTL LAST](http://yourcmc.ru/wiki/images/d/d2/02-lee-last-usenix09.pdf)
@@ -166,11 +183,13 @@ Image from: [FTL LAST](http://yourcmc.ru/wiki/images/d/d2/02-lee-last-usenix09.p
 __Bypassing FTL - Open-channel SSD__
 
 Though FTL is powerful and __dominatedly__ adopted, there are people who try to get rid of it
+  
   * No nondeterministic slowdowns by background tasks of FTL
   * Reduce the latency introduced by FTL
   * Application customized optimization for flash operation
 
 Open-channel SSD
+  
   * SSD hardware exposes its internal channels directly to application. No remapping by FTL
   * [An Efficient Design and Implementation of LSM-Tree based Key-Value Store on Open-Channel SSD](http://www.ece.eng.wayne.edu/~sjiang/pubs/papers/wang14-LSM-SDF.pdf) (Baidu) [2014, 25 refs]
       * Optimize the LSM-tree-based KV store (based on LevelDB) on Open-channel SSD. 2x+ throughput improvement.
@@ -182,17 +201,20 @@ Open-channel SSD
 	  * [LightNVM](https://en.wikipedia.org/wiki/Open-channel_SSD)
 
 [Application-Managed Flash](http://people.csail.mit.edu/ml/pubs/fast2016.pdf) [2016, 6 refs]
+  
   * Expose the block IO interface and the erase-before-overwrite to applications
 
 __Design Shifts - Seastar__
 
 ScyllaDB Seastar
+  
   * Original designed to build ScyllaDB, a 10x faster Cassandra. Now opensourced
   * FCP async programming: future, promise, completion. Sharded application design.
   * User-space TCP/IP stack, bypassing the kernel. By Intel DPDK
   * User-space storage stack, bypassing the kernel. By Intel SPDK (WIP)
 
 Rationales Behind
+  
   * SSD is so fast, that storage software stack needs to be improved. 
       * - Better async programming. FCP. Lockless. Cpu utilization.
   * SSD is so fast, that Linux kernel is too slow.
@@ -204,16 +226,19 @@ Image: [Tradition NoSQL vs ScyllaDB architecture](https://adtmag.com/articles/20
 ![Tradition NoSQL vs ScyllaDB Architecture](/images/traditional-vs-scylladb.png "Tradition NoSQL vs ScyllaDB Architecture")
 
 References
+  
   * [Seastar / ScyllaDB, or how we implemented a 10-times faster Cassandra](http://www.slideshare.net/TzachLivyatan/seastar-scylladb-or-how-we-implemented-a-10times-faster-cassandra)
   * [Linux Kernel IO Stack](https://www.thomas-krenn.com/en/wiki/Linux_Storage_Stack_Diagram)
 
 __Design Shifts - DSSD__
 
 DSSD - EMC Rack-scale Flash Appliance
+  
   * Kernel bypass, directly connect to DSSD appliance
       * Similar idea to Seastar
 
 References
+  
   * [DSSD D5 Data Access Methods](https://www.emc.com/collateral/data-sheet/h14868-ds-dssd-d5-data-access-tech-brief.pdf)
   * [Software Aspects of the EMC DSSD D5](https://www.emc.com/collateral/white-papers/h14907-wp-dssd-d5-software-aspects.pdf)
   * [DSSD bridges access latency gap with NVMe fabric flash magic](https://www.theregister.co.uk/2015/08/18/dssd_nvme_fabric_flash_magic/)
@@ -221,6 +246,7 @@ References
 __Design Shifts - Content-based Addressing__
 
 Content-based Addressing
+  
   * Data placement is determined by data content rather than address.
   * Leverage SSD random-write ability. Natural support for dedup.
   * Adopted in EMC XtremIO and SolidFire
@@ -230,6 +256,7 @@ Image: [SSD storage array tradeoffs by SolidFire](https://www.eigenmagic.com/201
 ![SSD Storage Array Tradeoffs by SolidFile](/images/solidfire-product-tradeoff.png "SSD Storage Array Tradeoffs by SolidFile")
 
 References
+  
   * [XtremIO Architecture](https://www.youtube.com/watch?v=lIIwbd5J7bE) (The debate is famous)
   * [Comparing Modern All-Flash Architectures](https://www.youtube.com/watch?v=AeaGCeJfNBg) - Dave Wright, SolidFire
   * [Coming Clean: The Lies That Flash Storage Companies Tell with Dave Wright of NetApp/SolidFire](https://www.youtube.com/watch?v=35KNCOYguBU)
@@ -237,6 +264,7 @@ References
 __Design Shifts - LSM-tree Write Amplification__
 
 [WiscKey: Separating Keys from Values in SSD-conscious Storage](https://www.usenix.org/conference/fast16/technical-sessions/presentation/lu) [2016, 7 refs]
+  
   * In LSM-tree, the same data is read and written multiple times throughout its life, because of the compaction process
       * Write amplification can be over 50x. Read amplification can be over 300x.
       * Many SSD-optimized key-value stores are based on LSM-trees
@@ -247,6 +275,7 @@ __Design Shifts - LSM-tree Write Amplification__
 __Design Shifts - RocksDB__
 
 RocksDB is well-known to be an SSD optimized KV store
+  
   * It is developed based on LevelDB, opensourced by Facebook. Optimized in many aspects for SSD.
   * [RocksDB: Key-Value Store Optimized for Flash-Based SSD](https://www.percona.com/live/data-performance-conference-2016/sessions/rocksdb-key-value-store-optimized-flash-based-ssd)
       * Why is it flash-friendly? 
@@ -260,11 +289,13 @@ RocksDB is well-known to be an SSD optimized KV store
 __Design Shifts - Ceph BlueStore__
 
 Ceph BlueStore
+   
    * Develop the single purpose filesystem, BlueFS, to manage data directly on raw block devices
    * Use RocksDB to store the object metadata and WAL. Better management for SSD.
    * Faster software layer to exploit the high performance of SSD. Similar thoughts from Seastar
 
 References
+   
    * [Ceph存储引擎bluestore解析](http://www.sysnote.org/2016/08/19/ceph-bluestore/)
    * [Ceph Jewel Preview](https://www.sebastien-han.fr/blog/2016/03/21/ceph-a-new-store-is-coming/)
    * ["System Notes" blog](http://www.sysnote.org/)
@@ -273,9 +304,11 @@ References
 __Design Shifts - RAID 2.0, FlashRAID__
 
 Many design points to adapt for SSD
+  
   * Failure model, write amplification, random writes, RISL (Random Input Stream Layout), zero-fill, trim, partial-stripe writes, ...
 
 References
+  
   * Alanwu's blog: [\[1876942\]](http://alanwu.blog.51cto.com/3652632/1876942) [\[1859361\]](http://alanwu.blog.51cto.com/3652632/1859361) [\[1722581\]](http://alanwu.blog.51cto.com/3652632/1722581) [\[1683079\]](http://alanwu.blog.51cto.com/3652632/1683079) [\[1682091\]](http://alanwu.blog.51cto.com/3652632/1682091) [\[1430288\]](http://alanwu.blog.51cto.com/3652632/1430288)
   * [SSD failure model](http://www.storagesearch.com/ssd-data-art.html)
 
@@ -286,15 +319,18 @@ Image from: [SSD failure model](http://www.storagesearch.com/ssd-data-art.html)
 __Incoming New Generation__
 
 Intel 3D XPoint
+  
   * Announced in mid-2015 with claims of ten times reduced latency compared to flash
   * [References](http://www.userbenchmark.com/Faq/What-is-3D-XPoint-and-how-fast-is-it/106)
 
 NVMe over Fabrics
+  
   * A bit like the flash version of SCSI over SAN
   * DSSD's bus is like a customized verion of NVMe over Fabrics
   * [References](https://www.snia.org/sites/default/files/SDC15_presentations/networking/WaelNoureddine_Implementing_%20NVMe_revision.pdf)
 
 NVDIMM
+  
   * Attach flash to the memory bus. Even faster.
   * References
       * [Wiki NVDIMM](https://en.wikipedia.org/wiki/NVDIMM)
@@ -303,6 +339,7 @@ NVDIMM
 __Paper & Material Summary__
 
 References
+  
   * [Reading Fast16 Papers](http://accelazh.github.io/storage/Reading-Fast16-Papers)
   * FAST summits: [FAST16](https://www.usenix.org/conference/fast16)
   * [Flash Memory Summit](http://www.flashmemorysummit.com/)
@@ -314,17 +351,22 @@ References
 __Hints for Reading Papers__
 
 Check the "Best Paper Award" on each conferences
+  
   * On top-level conferences, they are best of the best
 
 Search for papers with very high reference counts
+  
   * E.g. 1800+ for industry reformer, 900+ for breakthrough tech, 200+ for big improvement tech.
   * 10+ refs on the first year indicates very good paper
 
 Search for papers backed by industry leaders
+  
   * E.g. Authored by/with Google, Microsoft, etc
 
 Some papers have extensive background introduction
+  
   * It is very good for understanding a new technology
 
 You may even hunt on college curriculums. They help grow solid understanding.
+  
   * E.g. From [where Ceph's author graduates](https://users.soe.ucsc.edu/~sbrandt/290S/)
