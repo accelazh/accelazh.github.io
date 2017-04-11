@@ -3,7 +3,7 @@ layout: post
 title: "A Summary of SSD & FTL"
 tagline : "A Summary of SSD & FTL"
 description: "A Summary of SSD & FTL"
-category: "Ceph"
+category: "SSD"
 tags: [SSD, FTL, summary]
 ---
 {% include JB/setup %}
@@ -314,7 +314,7 @@ References
 
 Image from: [SSD failure model](http://www.storagesearch.com/ssd-data-art.html)
 
-![SSD Failure Bathtub](/images/ssd-reliability-bathtub.pngn "SSD Failure Bathtub")
+![SSD Failure Bathtub](/images/ssd-reliability-bathtub.png "SSD Failure Bathtub")
 
 __Incoming New Generation__
 
@@ -346,7 +346,7 @@ References
   * [Storage Tech Field Day](http://techfieldday.com/)
   * [Alanwu's blog](http://alanwu.blog.51cto.com/)
   * [MSST](http://storageconference.us/) - Massive Storage Systems and Technology
-  * OSDI- Google likes to publish new systems here: [OSDI16](https://www.usenix.org/conference/osdi16)
+  * OSDI - Google likes to publish new systems here: [OSDI16](https://www.usenix.org/conference/osdi16)
 
 __Hints for Reading Papers__
 
