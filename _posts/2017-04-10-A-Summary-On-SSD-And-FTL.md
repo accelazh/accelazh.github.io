@@ -1,8 +1,8 @@
 ---
 layout: post
-title: "A Summary of SSD & FTL"
-tagline : "A Summary of SSD & FTL"
-description: "A Summary of SSD & FTL"
+title: "A Summary on SSD & FTL"
+tagline : "A Summary on SSD & FTL"
+description: "A Summary on SSD & FTL"
 category: "SSD"
 tags: [SSD, FTL, summary]
 ---
