@@ -41,15 +41,15 @@ In many cases, the feature to be implemented is not simple enough to allow let t
       * Note that although more replica makes it harder to lose all, but one more replica adds one more frequency to lose something.
 
   * The durability factors we want to achieve: how often data is lost from disk
-  	  * Different from availability, durability calculates how easy is data lost from persistent disk rather than just offline
-  	  * We may use markov state transition and calculate its MTTF. Or simpler, truncate it to a sigle direction condition tree and calculate it.
-  	  * Usually durability is greatly larger than availability.
+      * Different from availability, durability calculates how easy is data lost from persistent disk rather than just offline
+      * We may use markov state transition and calculate its MTTF. Or simpler, truncate it to a sigle direction condition tree and calculate it.
+      * Usually durability is greatly larger than availability.
 
   * The overhead: storage overhead, memory bloat, extra IOs, CPU, network bandwidth, etc
-  	  * Performance, availability/durability, overhead are usually conflicting. Make sure we know which one we should prioritize.
-  	  * Online services need to have good profitibility. We need to consider COGS carefully.
-  	  * The overhead part can blow up existing systems sometime. E.g. memory increase when our metadata size is already near system critical line; or space overhead when we are rolling out to a cluster that has used up nearly all storage.
-  	  * Also, be aware with the read/write amplification introduced by the new feature
+      * Performance, availability/durability, overhead are usually conflicting. Make sure we know which one we should prioritize.
+      * Online services need to have good profitibility. We need to consider COGS carefully.
+      * The overhead part can blow up existing systems sometime. E.g. memory increase when our metadata size is already near system critical line; or space overhead when we are rolling out to a cluster that has used up nearly all storage.
+      * Also, be aware with the read/write amplification introduced by the new feature
 
   * The pressure on exsiting systems: extra IOs, memory bloat, metadata size, network bandwidth etc
       * An looks-like effective algorithm may however putting too much pressure on underlying existing systems. For example, it issues too many concurrnet IOs, it needs a lof of memory, etc.
@@ -88,9 +88,9 @@ There are other aspects we need to take into consideration in design phase
       * How do we handle the growth? Do we have enought capacity? What is the limit? What can be the next generation design? etc.
 
   * Key component protection
-  	  * We also need to include risks into consideration. It can be reflect in our design, and in our rollout.
-  	  * First, many services have central metadata management components (though it can be paoxes, but still easy to fall). Make sure we carefully handle the related risks, and we have proper preparation if we introduced something wrong
-  	  * Data corruption. This can destroy the business. Be careful that we involved enough protection and caution in the design and rollout. Also, beware that data corruption can quickly propagate across replicas.
+      * We also need to include risks into consideration. It can be reflect in our design, and in our rollout.
+      * First, many services have central metadata management components (though it can be paoxes, but still easy to fall). Make sure we carefully handle the related risks, and we have proper preparation if we introduced something wrong
+      * Data corruption. This can destroy the business. Be careful that we involved enough protection and caution in the design and rollout. Also, beware that data corruption can quickly propagate across replicas.
 
 Next we need to consider migration. We need to be absolutely careful when migrating customer data
 
@@ -141,20 +141,20 @@ Here are some tips about writting test cases. They key is covering all combinati
 
   * The techniques about testing large test case combination.
       * Equivalent class: what is proper to be selected as a class?
-	  * Merge some for loops to others. E.g. for (a) { for (b) {..}} => for (b) { a = rand() }. But this loses some coverage. 
-	  * Sampling. For example, for (a = 1..100) => for (i = 1..10) {a = rand (1, 100)}. We can also add some edge cases as complementary.
-	  * Focus on critical cases first. Some case are more critical to system reliability, or more frequently used.
-	      * We make sure the most critical cases / low-hanging fruits work fine first, and then as the stepstone, we continuouly improve/involve more.
-	      * We can use A/B testing. A is the original code, B is the new code but only do logging.
-	          * We compare the logs and identify the ciritcal issues to fix, and (quantitively) verify how much actual improvements B is gaining over A.
-	  * Smaller model. For example, use a smaller matrix or less replicas instead of full. The correctness of tests can be preserved.
-	  * Only full cover the critical cases, and use random select for the remaining. So that we still have chance to cover the remaining.
-	  * In the end, we can add an overall case skip ratio, to equally skip all cases.
+    * Merge some for loops to others. E.g. for (a) { for (b) {..}} => for (b) { a = rand() }. But this loses some coverage. 
+    * Sampling. For example, for (a = 1..100) => for (i = 1..10) {a = rand (1, 100)}. We can also add some edge cases as complementary.
+    * Focus on critical cases first. Some case are more critical to system reliability, or more frequently used.
+        * We make sure the most critical cases / low-hanging fruits work fine first, and then as the stepstone, we continuouly improve/involve more.
+        * We can use A/B testing. A is the original code, B is the new code but only do logging.
+            * We compare the logs and identify the ciritcal issues to fix, and (quantitively) verify how much actual improvements B is gaining over A.
+    * Smaller model. For example, use a smaller matrix or less replicas instead of full. The correctness of tests can be preserved.
+    * Only full cover the critical cases, and use random select for the remaining. So that we still have chance to cover the remaining.
+    * In the end, we can add an overall case skip ratio, to equally skip all cases.
 
   * If there are too many test cases even after we only include the critical ones
-	  * Select the most critical ones. we first add the test cases for the most critical ones.
-	  * Next, when we have extra test time, we just add more, and add more, layer by layer
-	  * The contrary way is to write all at once. this is not favorable when we have limitted resources.
+    * Select the most critical ones. we first add the test cases for the most critical ones.
+    * Next, when we have extra test time, we just add more, and add more, layer by layer
+    * The contrary way is to write all at once. this is not favorable when we have limitted resources.
 
   * For complex combinations beyond test effort, we can write test cases this way
       * A core test case to cover the most critical functionalities. It may be using random tests.
