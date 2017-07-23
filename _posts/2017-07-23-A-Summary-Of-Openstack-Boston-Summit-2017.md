@@ -358,16 +358,16 @@ Given the rate of adoption of container based infrastructure platforms, will the
 
 __Other summaries__
 
-  * [2017 OpenStack Summit | 网络性能篇](https://zhuanlan.zhihu.com/p/27126974)
+  * [2017 OpenStack Summit 网络性能篇](https://zhuanlan.zhihu.com/p/27126974)
       * Hybrid Messaging Solutions for Large Scale OpenStack Deployments. Interesting.
       * Saving up to 98% Time Updating Firewall Using Netlink. 98% saving.
       * Serverless Network Services in OpenStack and Data Centers. Mellox Smart NIC.
       * Maximizing Hardware - Server Simulator. Testing using few hardwares to sumilate large environment.
-  * [2017 OpenStack Summit day | Baremetal篇](https://zhuanlan.zhihu.com/p/27174508)
+  * [2017 OpenStack Summit day Baremetal篇](https://zhuanlan.zhihu.com/p/27174508)
       * Ironic new features: RedFish, Driver Composition, VIF Interface Attachment, Rolling Upgrades, Boot From Volume.
   * [OpenStack波士顿峰会Day1](http://www.sdnlab.com/19184.html)
   * [OpenStack波士顿峰会Day2](http://www.sdnlab.com/19192.html)
-  * [OpenStack@波士顿 | Day3 风景这边独好](http://m.yopai.com/show-2-218938.html)
-  * [OpenStack@波士顿 | Day4 用优秀案例回馈社区](http://www.sohu.com/a/139949497_740446)
+  * [OpenStack@波士顿 Day3 风景这边独好](http://m.yopai.com/show-2-218938.html)
+  * [OpenStack@波士顿 Day4 用优秀案例回馈社区](http://www.sohu.com/a/139949497_740446)
   * [OpenStack波士顿峰会：第二代私有云如何理解？](http://www.sohu.com/a/139332099_123058)
 
