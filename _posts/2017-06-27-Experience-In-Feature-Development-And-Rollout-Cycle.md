@@ -31,6 +31,7 @@ In many cases, the feature to be implemented is not simple enough to allow let t
       * We can combine different strategies, which form into a failover chain. Performance is more complex but more robust.
       * We shouldn't forget there can be background reads/writes (e.g. other services/customers are accessing), when we consider the performance of our systems.
       * Usually a feature means to improve from the existing one. So, how much improvements are we achieving. This should be analyzed.
+      * Worst case analysis, in the (very) degrade case or very bad access pattern
 
   * The availability factors we want to achieve: how often data is offline
       * Usually, a (data storage) althorithm has inherit property of availability. This is something to compare
@@ -39,11 +40,13 @@ In many cases, the feature to be implemented is not simple enough to allow let t
           * Collecting the production metrics should be done prehand to know the reliability numbers for each hardware
       * Having replicas is not enough. We need real number data-driven calculations to known how well is something dong
       * Note that although more replica makes it harder to lose all, but one more replica adds one more frequency to lose something.
+      * Worst case analysis, in the (very) degrade case or very bad failure pattern
 
   * The durability factors we want to achieve: how often data is lost from disk
       * Different from availability, durability calculates how easy is data lost from persistent disk rather than just offline
       * We may use markov state transition and calculate its MTTF. Or simpler, truncate it to a sigle direction condition tree and calculate it.
       * Usually durability is greatly larger than availability.
+      * Other tips adoptable from the availability part
 
   * The overhead: storage overhead, memory bloat, extra IOs, CPU, network bandwidth, etc
       * Performance, availability/durability, overhead are usually conflicting. Make sure we know which one we should prioritize.
