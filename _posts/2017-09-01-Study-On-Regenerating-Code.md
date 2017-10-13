@@ -189,8 +189,6 @@ Most regenerating code limits the d>=2k-2, and they can do regenerating recovery
         2. advantages
             1. MSR code for all (n, k, d), which is previously known to be impossible in some case.
                but systematic-repair only and large galois fields size made it possible
-    
-
 ```
 
 Usually regenerating recovery only fix 1 node, i.e. obtain only one symbol. This paper gives a way to simultaneously rebuild multiple symbols. There are other issues though, see details below.
@@ -224,6 +222,7 @@ Regenerating code is reducing recovery bandwith transimitted, with additional co
   * How much is the computational overhead compared to the gain by reducing bandwith? RS code implementation has many optimizations; also need to take that into consideration.
   * Will the computational overhead make recovery slower? Also, regenerating recovery ususally issues more IOs, will that cause trouble?
   * Talk about reduce bandwith, are other engineering improvements more effective than regenerating code? For example, compression before transimit, inline EC instead of write replicas and then fetch and EC them again, tweak the write-amplification introduced by log-strtuctured anyting, improve data placement & migration logic to reduce migration churn, etc. Besides, is upgrading hardware even cheaper than spend dev hours to build software techniques?
+  * A disadvantage of regenerating code is that it usually can only repair 1 fragment each time. RS code, although cost more bandwidth, can repair all fragments in one run. With multiple fragment failure, the repair-in-one-run and replicate fragments out way of RS code may actually save more bandwidth. Need to check that in production.
 
 Build new technology from paper to real production is no easy work. There are gaps between each steps. Each gap involves great work.
 
@@ -242,3 +241,12 @@ But, search coding matrix which has holes in it, or in another word has parities
 ![Searching code matrix with holes math algorithm](/images/search-hole-coding-matrix.png "Search code matrix with holes math algorithm")
 
 In general, setting more constraints, and applying various math results can reduce the search range or matrix size. Some random search algorithms such as Simulated Annealing can be used. And, running things in parallel on MapReduce can help the search. If we have supercomputers, we can search it their. Supercomputers make up the short of math. And sometime the math is even too complex to be possible. I think that's why they are super important in all sorts of engineerings and sciences.
+
+### Post Notes
+
+Worth attention that, regenerating code doesn't reduce disk IO count, doesn't reduce network IO count. What it does is to reduce only the network traffic. And it needs more CPU, and cannot repair more than one failures at once (where RS code can repair all and replicate to save bandwidth too).
+
+There are other families of codes, which can be more attractive for storage systems:
+
+  * Locality codes such as Pyramid Codes / LRC that reduce IO count thus lower down network traffic two
+  * XOR based codes, too many types, which have low CPU overhead, faster recover speed and fan-in; but usually cannot tolerate too many failures, or they need extra space.
