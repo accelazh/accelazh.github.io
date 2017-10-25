@@ -82,13 +82,23 @@ LDPC (Low-density parity check) codes are very famous and extensively researched
 
 Fragment lost status transition is usually modeled as Markov state transition model. The MTTF can be calculated by standard methods in "Adventures in stochastic processes". Some papers are telling [how](http://www.wseas.us/e-library/conferences/2007venice/papers/570-618.pdf) and [why](http://www.item.ntnu.no/fag/tm8101/SecPapRepos/Buzacott_Markov-times.pdf). A better material is the [cat and mouse example](https://en.wikipedia.org/wiki/Stochastic_matrix#Example:_the_cat_and_mouse). I will follow this example
 
-
 __Question 1: We know the survival probability of each steps (or call it rounds) in the markov model. How do we calculate MTTF?__
+
+Markov model transit step by step. In each step we can calculate the probability of survival. It can be drawed as the graph on the left.
 
 ![Cat Mouse Example Survival Function](/images/cat-mouse-probability-distribution.png "Cat Mouse Example Survival Function")
 
+Suppose we know the graph already, how do we get the MTTF? MTTF is can be seen the probability average of steps. Flip the graph on the left by the y=x axis, you get the graph on the right. It is the probablity distribution of number of steps. So, the average value of steps, i.e. MTTF. equals to the area. MTTF = sum up the survival probability of each step.
 
+__Question 2: How to calculate the survival probability at step n?__
 
+Non-survival means we are staying at stationary states, or call it absorbing states. Survival means we are staying at non-stationary states. The probability of survival is to add the probabilities of each non-stationary state up.
+
+![Survival Probability and MTTF of Markov Model](/images/markov-survival-prob.png "Survival Probability of Markov Model & MTTF")
+
+__Question 3: How to calculate the MTTF?__
+
+Since we have the survival probability at step n already. In the last step of the above picture, MTTF is calculated. When we are using "steps", the MTTF is the in unit of "steps". If we are using failure probability per hour, the MTTF becomes expected hours of survival, which is commonly used in EC storage.
 
 As in [Availability in Globally Distributed Storage Systems](https://www.usenix.org/legacy/event/osdi10/tech/full_papers/Ford.pdf), EC for cloud storage is to improve reliability in the constraint of cost. The paper gives extensive content, including various comparisons, data, and how to calculate MTTF. More importantly, this paper put emphasis on correlated failures, which is the true MTTF killer in cloud storage. Multi-site is also discussed; it is a method to break the chain of correlated failures. There are other papers analyzing the MTTF too and what are the keys to cloud storage reliability and cost. See paper notes.
 
