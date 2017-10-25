@@ -80,11 +80,17 @@ LDPC (Low-density parity check) codes are very famous and extensively researched
 
 ### Calculating MTTF
 
-Fragment lost status transition is usually modeled as Markov state transition model. The MTTF can be calculated by standard methods in "Adventures in stochastic processes". Some papers are telling [how](http://www.wseas.us/e-library/conferences/2007venice/papers/570-618.pdf) and [why](http://www.item.ntnu.no/fag/tm8101/SecPapRepos/Buzacott_Markov-times.pdf). The [cat and mouse example](https://en.wikipedia.org/wiki/Stochastic_matrix#Example:_the_cat_and_mouse) is also helpful. I'm still trying to find better materials.
+Fragment lost status transition is usually modeled as Markov state transition model. The MTTF can be calculated by standard methods in "Adventures in stochastic processes". Some papers are telling [how](http://www.wseas.us/e-library/conferences/2007venice/papers/570-618.pdf) and [why](http://www.item.ntnu.no/fag/tm8101/SecPapRepos/Buzacott_Markov-times.pdf). A better material is the [cat and mouse example](https://en.wikipedia.org/wiki/Stochastic_matrix#Example:_the_cat_and_mouse). I will follow this example
 
-As in [Availability in Globally Distributed Storage Systems](https://www.usenix.org/legacy/event/osdi10/tech/full_papers/Ford.pdf), EC for cloud storage is to improve reliability in the constraint of cost. The paper gives extensive content, including various comparisons, data, and how to calculate MTTF. More importantly, this paper put emphasis on correlated failures, which is the true MTTF killer in cloud storage. Multi-site is also discussed; it is a method to break the chain of correlated failures.
 
-There are many other papers analyzing the MTTF and what are the keys to cloud storage reliability and cost. See paper notes.
+__Question 1: We know the survival probability of each steps (or call it rounds) in the markov model. How do we calculate MTTF?__
+
+![Cat Mouse Example Survival Function](/images/cat-mouse-probability-distribution.png "Cat Mouse Example Survival Function")
+
+
+
+
+As in [Availability in Globally Distributed Storage Systems](https://www.usenix.org/legacy/event/osdi10/tech/full_papers/Ford.pdf), EC for cloud storage is to improve reliability in the constraint of cost. The paper gives extensive content, including various comparisons, data, and how to calculate MTTF. More importantly, this paper put emphasis on correlated failures, which is the true MTTF killer in cloud storage. Multi-site is also discussed; it is a method to break the chain of correlated failures. There are other papers analyzing the MTTF too and what are the keys to cloud storage reliability and cost. See paper notes.
 
 ### Paper notes
 
