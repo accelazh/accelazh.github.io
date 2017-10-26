@@ -100,6 +100,10 @@ __Question 3: How to calculate the MTTF?__
 
   * Since we have the survival probability at step n already. In the last step of the above picture, MTTF is calculated. When we are using "steps", the MTTF is the in unit of "steps". If we are using failure probability per hour, the MTTF becomes expected hours of survival, which is commonly used in EC storage.
 
+__Question 4: How come the `(I + T + T^2 + T^3 + ...) = (I - T)^(-1)`?__
+
+  * Multiply (I-T) to both right sides of the equation. You will get `lim(n->+∞):(I - T^(n+1)) = I`. Since the `T` above is for non-stationary states, T^n will eventally trend to zero, because all states eventally escape to stationary (i.e. failure). We have the above question proved.
+
 As in [Availability in Globally Distributed Storage Systems](https://www.usenix.org/legacy/event/osdi10/tech/full_papers/Ford.pdf), EC for cloud storage is to improve reliability in the constraint of cost. The paper gives extensive content, including various comparisons, data, and how to calculate MTTF. More importantly, this paper put emphasis on correlated failures, which is the true MTTF killer in cloud storage. Multi-site is also discussed; it is a method to break the chain of correlated failures. There are other papers analyzing the MTTF too and what are the keys to cloud storage reliability and cost. See paper notes.
 
 ### Paper notes
