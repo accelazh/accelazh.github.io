@@ -32,6 +32,7 @@ In many cases, the feature to be implemented is not simple enough to allow let t
       * We shouldn't forget there can be background reads/writes (e.g. other services/customers are accessing), when we consider the performance of our systems.
       * Usually a feature means to improve from the existing one. So, how much improvements are we achieving. This should be analyzed.
       * Worst case analysis, in the (very) degrade case or very bad access pattern
+      * If the hardware generation upgrades quickly, take that into consideration
 
   * The availability factors we want to achieve: how often data is offline
       * Usually, a (data storage) althorithm has inherit property of availability. This is something to compare
@@ -53,6 +54,7 @@ In many cases, the feature to be implemented is not simple enough to allow let t
       * Online services need to have good profitibility. We need to consider COGS carefully.
       * The overhead part can blow up existing systems sometime. E.g. memory increase when our metadata size is already near system critical line; or space overhead when we are rolling out to a cluster that has used up nearly all storage.
       * Also, be aware with the read/write amplification introduced by the new feature
+      * Another thing, an improved/better/complex algorithm to replace the older version, usually means it can introduce more performance overhead than the old. Be careful with the benchmarks.
 
   * The pressure on exsiting systems: extra IOs, memory bloat, metadata size, network bandwidth etc
       * An looks-like effective algorithm may however putting too much pressure on underlying existing systems. For example, it issues too many concurrnet IOs, it needs a lof of memory, etc.
@@ -77,7 +79,7 @@ In the end, different design alternatives may show different trade-offs, rather 
   * We can use the rank table or score table, by alternatives * KPIs, to show the difference. The key is to show the team and management levels the transparent information of trade-off. So that eventually we can discuss and make consistent choices.
   * Another way, is to provide different config setups for users to favor different trade-offs. E.g. allow users to select optimal storage space, or optimal performance. However this introduces more implementation effort
 
-Besides the design, before implementation we also need to find the actual parameters/configs numbers for our design. Some algorithms may even need an carefully choosen matrix satisfying a lot of constraints. Here are some tips
+Besides the design, before implementation we also need to find the actual parameters/configs numbers for our design. Some algorithms may even need an carefully choosen matrix satisfying a lot of constraints. Or the EC codec needs well-choosen codec parameters and length. Here are some tips
 
   * For example, how large should it be, when should we fallover to another, how many concurrnet IOs to issue, etc. These parameters/configs need to be carefuly choosen; they may have great impact on the end results.
   * Still, we use math or simulations to tell which choice is optimal. And we can use charts to visualize results and help analysis.
@@ -139,6 +141,8 @@ Usually after code component owners sign-off, new code is merged to master. Mast
   * Canary production environment. This is production clusters, but for customers willing to try out new features (may not be stable). So after new code is well-tested on testing environments, we move to the first production environment.
   * Production environments can be ordered from samller/less-used ones, to large and heavily used once. This is not testing. But we can rollout from less risky production to heavy-running ones. In the meanwhile, good monitoring and alerting is critical for us to know anything goes wrong, and before the user even noticed.
   * There are user end tests, which targets on product user-facing APIs. There can be dedicated team and framework that doing such testing in continous effort. And there are also stress/load tests that intentionally heavily pressure an environment until it is full, so that we can discover more problems.
+  * If the hardware generation upgrades quickly, take that into consideration. The hardware you write code and the production may differ, especially the performance aspects.
+  * Scenario-based testing is a way, though we will mostly focus on functional. Catch missed scenarios, e.g. what ops need but not customer.
 
 Here are some tips about writting test cases. They key is covering all combinations are simply not possible, we need other ways, the engineering ways, with reasonable effort corresponding to what work has true value. Below are my tips combined reallife experience and something from textbook
 
@@ -189,6 +193,7 @@ Also, we need to test the overhead and pressure we give, such as memory bloat, c
   * Test to make sure that critical system resources won't blow up. Such as metadata memory overhead, or use up the disk space.
   * Also, how much more CPU we are using. Using too much CPU may indicate bugs or can heavily affact other functionalities.
   * Also, check we are not writting too much log unexpectedly, which uses up the disk quota.
+  * If a new (more complex) alogrithm is replacing the older one. Besides A/B compare how well it performs functionally, we also need to A/B test the performance overhead it introduces more than the older algorithm.
 
 __Rollout__
 
@@ -207,6 +212,8 @@ Rollout needs to be carefully planned, especially the rollback part. Otherwise w
       * Rollout the remaining production environments. Start from the less important ones, such as backup cluster, then less used onces, and then to the heavily used hot ones in the end.
   * Rollback. Rollout have many steps, we need to make sure at every step at any time, we all have rollback plan prepared.
   * Rollback. Rollback needs to be tested. It should be added in the test plan and executed/rehearsed at every rollout phase.
+  * When rollout is changing persistent data, better keep old data for some time in case we need some recover.
+  * Make sure that in every state of rollout, we all have the rollback plan to go back
   * Next we need some automation. Like a controller to govern the phase/state change in the rollout process.
       * It should automate the testing, watch gate conditions, and determine when to forward to the next step.
       * It should keep watch key metrics, logs. and report abnormals or incorrectness. It should do some integrity checks.
