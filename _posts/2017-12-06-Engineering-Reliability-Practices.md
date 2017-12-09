@@ -3,8 +3,8 @@ layout: post
 title: "Engineering Reliability Practices"
 tagline : "Engineering Reliability Practices"
 description: "Engineering Reliability Practices"
-category: "erasure-coding"
-tags: [storage, erasure-coding, coding theory]
+category: "storage"
+tags: [reliability, engineering, development]
 ---
 {% include JB/setup %}
 
