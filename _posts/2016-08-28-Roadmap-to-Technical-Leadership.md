@@ -58,6 +58,8 @@ An expert needs where to obtain the cutting edge updates and knows what is going
 
   * Stay with good people, stay in the circle accounts a lot
 
+  * Others: recruiting JD reveals concret trends, e.g. interns requirements by research lab.
+
 Use strategic thinking to watch market moves and find technology updates
 
   * Watch big players' / competitors' moves, their new investiments and portfolio changes
