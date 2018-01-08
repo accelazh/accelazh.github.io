@@ -76,6 +76,10 @@ Even only in top-level storage conferences, there are too many papers each year.
 
   * You may even hunt on college curriculums. They help grow solid understanding. For example, from [where Ceph's author Sage graduated](https://users.soe.ucsc.edu/~sbrandt/290S/).
 
+Others
+
+  * After read a paper, search who references to it. Those referencers may have valuable/inspiring/insightful comments on the paper.
+
 ### Storage top-level conferences
 
 Here I list the top-level conferences related to storage. (The "others" part is not top-level, but ATC is worth reading.)
@@ -161,7 +165,7 @@ Additionally, for all the best papers in the above conferences
 
 To grasp how the world storage technology evolves, I sketch through papers in each conferences at year 2016 and extracts what are everyone talking about.
 
-__MSST 2016___
+__MSST 2016__
 
 ```
     1. the panels, talks, invited tracks, are very helpful.
