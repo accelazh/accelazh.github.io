@@ -65,6 +65,12 @@ In many cases, the feature to be implemented is not simple enough to allow let t
       * On the other side, what we implement in underlying systems may negatively interfere with upper layer systems. We need to understand their access pattern, special case and do the design. Examples are GC process of upper layer systems, anti-virus scan, or they just easily create a lot of short-life entities which bloat our memory.
       * We usualy also need to co-work with upper layer systems to understand whether our new feature is solving their key needs, or not impacting their performance/reliability SLA or something.
 
+  * Correctness vs Benefits
+      * An implementation may approch the most accurate math model or probability model, etc. Or, it's a ball of many practical fixes each targeting to an actual problem.
+          * The first one is nearer to academic way; it can be math elegant, but complex to implement; the actual benefit in production may however prove to be only a little improvement in the most common cases, and doing good in a few corner cases.
+          * The later one is more practical; it can be simpler, flexible to implement; and most importantly, the actual benefit and problem solved are taken into design from start; it may perform better even.
+          * The second way is the more favored way in engineering production. In summary, it's the benefits rather than correctness what we are pursuiing
+
 Usually it needs to be data-driven, and do number calculates. Usually we extract the key KPIs, to reflect what we prioritize, what are the most direct to end result. We evaluation what we can achieve in design, and test/evaluate after implementation to find the gap. Explain the gap, find implementation bugs, or identify the next stepstone to go from the gap we see. In design phase we usually do analysis on the several design alternatives, compare, and make choice. There are several tips on math/simulation analysis
 
   * Math, combinations, probability, matrix, markov model, and even stochastic process are something necessary.
@@ -221,4 +227,9 @@ Rollout needs to be carefully planned, especially the rollback part. Otherwise w
       * It is good to be able to handle rollback. And should give chance for human to come in for manual operate
       * It should have proper visualization of current status, at least a periodically report sending through mail.
       * Also, sign-off mechanisms can be used for human to determine whether the auto controller should enter the next phase.
-   * In the end, data related rollout can take very long time. Because it needs to gradually transform all data formats, in the reliable way.
+  * In the end, data related rollout can take very long time. Because it needs to gradually transform all data formats, in the reliable way.
+  * Some mechansim to help rollout and baking
+      * Shadow feature. The new feature only prints log, but don't carry out actual action. The old feature is still running. So that we can compare the actual benefit. Besides logs, we may also need aggregrate metrics or counters to reveal overall benefits, rather than human read logs one by one.
+      * Baking time and rollout flow. The new feature is not one-off thing.
+          * New fixes/improvements keep adding to it. It's a flow. The binary rollout is a flow too. The feature enabling along staging->canary->production with order, is also a flow.
+          * We may set free the binary flow, bug keep the enabling flow sit to staging/canary for a long baking time, and while we are adding new fixes/improvements to the feature flow.

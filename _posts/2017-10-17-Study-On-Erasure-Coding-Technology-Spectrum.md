@@ -25,6 +25,8 @@ For category (5), Ceph distributes PG across OSDs, so the recovery workloads are
 
 ### Regenerating Codes
 
+I have dedicated blog [Study on Regenerating Code](/erasure-coding/Study-On-Regenerating-Code) previously.
+
 Regenerating codes target on categorize (1). Saving over 50% network bandwidth though, they usually need to contact more nodes, thus more network IO counts, won't reduce disk IO. Usually they can only repair 1 failure at once. While RS codes, though more network traffic, can do repair multiple and replicate to reduce network bandwidth too. Cloud storage, however, may seek for codes with less IO rather than less network storage.
 
 Classic papers are [Network Coding for Distributed Storage Systems](http://users.ece.utexas.edu/~dimakis/RC_Journal.pdf), which firstly proposed regenerating code and MBR/MSR point. It uses information flow graph to theoretically calculate lower bounds of network traffic.
@@ -32,6 +34,8 @@ Classic papers are [Network Coding for Distributed Storage Systems](http://users
 [Optimal Exact-Regenerating Codes for Distributed Storage at the MSR and MBR Points via a Product-Matrix Construction](https://people.eecs.berkeley.edu/~rashmikv/papers/product_matrix_codes.pdf) constructs MBR and MSR codes achieving the lower bounds of network traffic. MBR introduces more storage overhead, while MSR applies only to codes of ~2x storage overhea, and introduces more computational overhead.
 
 [Explicit Constructions of High-Rate MDS Array Codes With Optimal Repair Bandwidth](https://arxiv.org/pdf/1604.00454.pdf) uses array code to construct a simpler and less computational expensive regenerating code. But when the code is longer, i.e. have more fragments, the array length grows exponentially beyond practical.
+
+Update 20180305: [Clay Codes](https://www.usenix.org/conference/fast18/presentation/vajha) is a significant work that is 1) MSR regenerating code 2) Allows n<2k-2 or small d, i.e. low storage overhead 3) Able to repair multi-node failure with reduced traffic 4) Vector code with small sub-packetization level. These solved almost every problem of regenerating code, which previously hanging around for years. Clay Code proposed the first practical MSR code for production.
 
 ### Locally Redundant Codes (LRC)
 
@@ -51,7 +55,7 @@ The power of Pyramid Codes is that the methodoloy applies to not only RS codes, 
 
 Besides, there are other interesting optimizations, such as [Optimizing Galois Field Arithmetic for Diverse Processor Architectures and Applications](http://www.kaymgee.com/Kevin_Greenan/Publications_files/greenan-mascots08.pdf). This paper maps big GF(2^w) into several smaller GF(2^w'), so that multiplication lookup table is smaller. The lookup table is also optimized. And smaller table can be pinned in cache, which is important for performance. Also, application-specific customizations can improve performance further. These methods are used in [Jerasure: A Library in C/C++ Facilitating Erasure Coding for Storage Applications](https://web.eecs.utk.edu/~plank/plank/papers/CS-08-627.pdf), which is an opensource EC library first published by J.Plank.
 
-[Locally Repairable Codes](https://arxiv.org/pdf/1206.3804.pdf) is also trying to determine the theory lower bound of locality `r`. Different from [On the Locality of Codeword Symbols](https://arxiv.org/pdf/1106.3625.pdf), it allows relaxing storage overhead. Each node stores a=(1+e)M/k data. The locality lower bound becomes: `d<=n-roof(k/(1+e))-roof(k/(r(1+e)))+2`. The example constructs it gives is right the [Simple Regenerating Code](https://arxiv.org/pdf/1109.0264.pdf). The code needs 1/3 extra storage space than RS code, but it is super simple, tolerates as many failures as RS, only needs to contact 4 nodes for recovery no matter total node count, only needs to transfer 2/3 of each node data, and only needs XOR for recovery unless too many nodes are lost.
+[Locally Repairable Codes](https://arxiv.org/pdf/1206.3804.pdf) is also trying to determine the theory lower bound of locality `r`. Different from [On the Locality of Codeword Symbols](https://arxiv.org/pdf/1106.3625.pdf), it allows relaxing storage overhead. Each node stores a=(1+e)M/k data. The locality lower bound becomes: `d<=n-roof(k/(1+e))-roof(k/(r(1+e)))+2`. The example constructs it gives is right the [Simple Regenerating Code](https://arxiv.org/pdf/1109.0264.pdf). The code needs 1/3 extra storage space than RS code, but it is super simple, tolerates as many failures as RS, only needs to contact 4 nodes for recovery no matter total node count, only needs to transfer 2/3 of each node data, and only needs XOR for recovery unless too many nodes are lost. Facebook datacenter was experimenting [XORing Elephants: Novel Erasure Codes for Big Data](http://www.vldb.org/pvldb/vol6/p325-sathiamoorthy.pdf) on Hadoop, which is another well-known adoption of "Locally Repairable Codes".
 
 The third locality paper is [Self-repairing Homomorphic Codes for Distributed Storage Systems](https://arxiv.org/pdf/1008.0064.pdf) by F.Oggier. It constructs code by a series of interesting polynominal transforms. The `p(a+b)=p(a)+p(b)` allows two parities to recover another one, with only XOR, and with the minimum locality. The code itself is not MDS, nor systematic.
 
@@ -606,4 +610,74 @@ Raw paper reading notes. There are more contents here. Not all are covered above
                regular graphs, i.e. nodes have constant in/out degree, cannot achieve "channel capacity" asymptotically
             4. the performance in theory is asymptotic value, in real case, you need to run generation methods multiple times to get one good construction
                some generation method may require long time to find a good construction
+
+---------
+[Update 20180305]
+
+1. readings: remaining piled up papers
+    1. Clay Codes: Moulding MDS Codes to Yield an MSR Code
+       https://www.usenix.org/conference/fast18/presentation/vajha
+        1. Very good paper. Awesome work.
+           "Clay codes extend the theoretical construction presented by Ye & Barg with practical considerations from a coupled-layer perspective that leads directly to implementation"
+           Clay Code solved almost every drawback in regenerating code existing for years. "Clay codes provide the first practical implementation of an MSR code"
+            1. Clay Code is MSR regenerating code. And it allows low storage overhead. This is not like Product-Matrix code which requires n > 2k-2
+            2. It's array code, and the sub-packetization level, i.e. array size, is small enough
+            3. It can regenerate multiple node failure with reduced traffic. This is hardpoint for regenerating code for many years
+                1. the MSR property illustrated is for 1 node failure. multi-node it's "reduced traffic", bound given by appendix
+            4. The Clay Code is based on RS code, actually pretty simple and easy transform
+        2. how the code works
+            1. the author only gives an example construct of (4,2) code. it's a bit lazy, because
+                0. how could you write so little for such an awesome code construct that solved almost every problem in regenerating code? 
+                1. there is no generalized code construct, e.g. how to assign the x, y, z correctly
+                2. there is no illustration of how to regenerate multiple node failure with reduced traffic
+                    1. yes, there is, see appendix. and there is repair algorithm listed. this answers the general code construct and decoding method
+                3. there is no math proof of the code property and the theory bounds
+                4. In Table 1 it’s said Clay Code has polynomial sub-packetization level.
+                   But in the "(n = qt, k, d) (α = q^t ,β = q^(t−1))" given later in paper, α is exponential to n. It’s confusing.
+            2. The baseline plain RS code. multiple packets abstracted as layers
+               Then we add in the "Pairs" across layers. Encode "pairs" again with a simple inversible matrix
+               For decode, we start from intersection score from 1 to biggest. using the pair PRT -> MDS Decode -> PFT to decode layer by layer.
+                1. there is no general code construct except the very simple example (4,2) code. I've been gussing the general construct
+                    1. Coordinates x is 0~q-1, y is 0~t-1, z is (0~q-1, 0~q-1, .., 0~q-1) {t times}.
+                        1. Yes, this is it. See appendix. They are there
+                    2. The "pair" follows same way described in paper. In each fixed y, z, ranging through all x, there is one and only one unpaired point
+                    3. the decode and selecting correct layers are complicated ..
+                        1. In appendix, there is repair algorithm listed. now we have all we need.
+            3. in the evaluation part
+                1. the charts mostly shows "d=n-1". for regenerating code to reduce total IO count, this is not enough
+                2. the (14,10,11~13) network traffic and disk-read charts compared to RS are not reaching theory numbers
+        3. other highlights
+            1. Sub-chunking through interleaving: pack the bytes in same position in code array together, to form the subchunk
+                1. in implementation part, the calculation is performed in unit of sub-chunk, rather than directly every byte
+            2. "Locally repairable codes such as the Windows Azure Code [15] and Xorbas [28] trade the MDS property to allow efficient node-repair by accessing a smaller number of helper nodes"
+            3. "Clay codes possess all of the desirable properties mentioned above, and also offer several additional advantages compared to the Ye-Barg code"
+            4. "Clay codes can be constructed using any scalar MDS code as building blocks"
+            5. "The savings in repair bandwidth of the Clay code arises from the fact that parity-check constraints are judiciously spread across layers of the C data cube"
+            6. to extend Clay Code for any (n,k,d) where not q divide n, the paper uses the imaginary data node whose data is all zero
+                1. "The technique used is called shortening in the coding theory literature"
+            7. "The helper nodes are to be chosen in such a way that if a y-section contains a failed node, then all the surviving nodes in that y-section must act as helper nodes"
+               "If no such choice of helper nodes is available then it is not a repairable failure pattern"
+        n. related materials
+            1. [29] XORing Elephants: Novel Erasure Codes for Big Data [2013, 418 refs]
+               http://www.vldb.org/pvldb/vol6/p325-sathiamoorthy.pdf
+                1. facebook datacenter has employed (10,4) RS code.
+                   this paper is also by facebook. Locally Repairable Codes (LRCs) based on RS (10,4). t HDFS-Xorbas
+                    1. achievements: a 2x reduction in disk I/O and repair network traffic.
+                       the disadvantage of the new code is that it requires 14% more storage
+                       compared to RS code
+                    2. geo-distribution is key futhure direction to improving latency and reliability
+                       RS code is be impractical due to high bandwidth requirements
+                       local repairs make it possible
+                2. "Locally Repairable Codes", share the same authors with this paper: Dimitris S. Papailiopoulos, Alexandros G. Dimakis
+                   https://arxiv.org/abs/1206.3804
+                3. the code construct here
+                    1. "The basic idea of LRCs is very simple: we make repair efficient by adding additional local parities"
+                        1. I'd say this is exactly the same with Azure LRC code ..
+                    2.  HDFS-Xorbas computes two extra parities for a total of 16 blocks per stripe (10 data blocks, 4 RS parities and 2 Local XOR parities)
+                        1. Note that it's XOR.
+                4. the new local parities are calculated by MapReduce and in a incremental manner.
+                    1. the code design makes new code rollout well adopted
+            2. [35] Explicit Constructions of Optimal-Access MDS Codes With Nearly Optimal Sub-Packetization [2017, 34 refs]
+               https://pdfs.semanticscholar.org/75d9/fedfa0c13b983e315ec2460da0c2e6d85775.pdf
+                1. the "optimal access" property and the "group optimal access" property
 ```
