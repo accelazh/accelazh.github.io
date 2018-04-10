@@ -1,10 +1,10 @@
 ---
 layout: post
-title: "FPGA Study"
-tagline : "FPGA Study"
-description: "FPGA Study"
+title: "Cloud FPGA Study And Catapult"
+tagline : "Cloud FPGA Study And Catapult"
+description: "Cloud FPGA Study And Catapult"
 category: "storage"
-tags: [storage, acceleration, fpga]
+tags: [storage, accelerator, fpga]
 ---
 {% include JB/setup %}
 
