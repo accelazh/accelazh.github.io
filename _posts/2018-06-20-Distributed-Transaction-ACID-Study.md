@@ -351,6 +351,12 @@ Further, different approaches to implement distributed transaction
            so the implementation can be trimmed and optimized in specialized way.
            for large operations, strategies like eventual consistency + hide middle results, can be used
            as in paper "HopsFS: Scaling Hierarchical File System Metadata Using NewSQL Databases"
+    6. multiple single-know-all DB servers + shared underlying distributed log system
+        1. "Hyder - A Transactional Record Manager for Shared Flash" and AWS Aurora Multi-master are taking this approach
+        2. single DB server is able to know all states from the log system, so is able to handle full transaction.
+           there is actually not need for data partitioning and distributed transaction
+           but, the underlying log system is distributed, so able to support scale-out write throughput
+        3. to resolve conflicts due to multi-master DB servers, may use an external resolver
 ```
 
 More paper readings
@@ -554,6 +560,62 @@ More paper readings
                people use the verison control system to manage/update F1 schema
                 1. this also allows them to batch several updates in one schema change operation. good design
             6. database reorganization is implemented by background with MapReduce framework
+
+4. Spanner, TrueTime & The CAP Theorem    [2017, 11 refs]
+   https://static.googleusercontent.com/media/research.google.com/en//pubs/archive/45855.pdf
+    1. The newer article to explain the key design concepts in spanner
+    2. highlights
+        1. spanner claim to be a "CA" system. It is meaningful than "P" that
+             1) the system already has high enough availability besides the cap of CAP
+             2) network partition is low probability outage
+        2. spanner employs 2PC for distributed transaction. 2PC is named "anti-availability" [Hel16], because each member has to be up and work.
+           Spanner mitigates this by having each member be a Paxos group, thus ensuring each 2PC "member" is highly available
+        3. what is external consistency: for any two transactions T1 and T2, if T2 starts to commit after T1 finishes committing,
+           then the timestamp for T2 is greater than T1.
+            1. more explanations - Cloud Spanner: TrueTime and External Consistency
+               https://cloud.google.com/spanner/docs/true-time-external-consistency
+                1. compared Percolator, I think, the diff from spanner is, each replica is getting timestamp from different sources.
+                   so without external consistency, it's possible that replicas disagree with T1->T2 ordering
+        4. TrueTime has bigger use than Spanner. E.g. TrueTime makes it possible to take snapshots across multiple independent systems
+
+5. Hyder - A Transactional Record Manager for Shared Flash    [2011, 130 refs]
+   http://web.eecs.umich.edu/~michjc/eecs584/Papers/cidr11_hyder.pdf
+    1. paper from Microsoft. using shared log + multiple * single-know-all sql database server.
+       transactions broadcast so each node knows everything and can resolve conflicts.
+       has some similarity to AWS Aurora Multi-master
+    2. highlights
+        1. how Hyder works
+            1. multiple active-active sql database, backed by one shared distributed log system.
+            2. there is no data partitioning, like the otherwise approach took by Spanner. each sql database see single trueth from the backend log
+            3. transaction is not distributed, it is done within one sql database. there is no need for two-phase commit. throughput is backed by the distributed backend log system
+            4. to resolve transaction conflicts
+                1. each transaction in a sql database server is broardcase to every other sql database server.
+                2. each know all states. the use the "meld algorith" to merge tree index and resolve conflicts
+                3. so generally it looks like a shared everything architecture, like Oracle's, but with log backend rather than shared SAN disks
+            5. index data structure - using copy-on-write tree
+                1. has the general issue of changes on leaf propagate to root, and need to change every node on path
+                2. to mitigate it, works on batch, and use "meld algorithm" to merge changes and reduce the churn
+            6. log system failure recovery: using Vertical Paxos to agree on sealing a stripe
+        2. problems / questions
+            1. since a transaction is handled by single sql database, there is no partition, so the transaction processing speed could be limited.
+                1. the underlying distributed logging does improve write throughtput
+            2. the transaction broadcast to every server can be expensive. and single server unavailable / lagging may hinder overall performance
+                1. if the paper assume big memory high network interconnect environment, it could be acceptable
+            3. every sql database server independently calculate their meld algorithm and conflict resolving. the duplicated computation wastes.
+                1. so the paper mentioned many-core where we can dedicate several cores for it
+            4. the copy-on-write tree index structure is subject to the common issue of, leaf change propagates to root and we need to COW each nodes on path
+                1. the batched transaction handling and meld algorithm mitigate the issue
+        3. looks similar to AWS Aurora Multi-master
+           https://www.slideshare.net/AmazonWebServices/deep-dive-on-the-amazon-aurora-mysqlcompatible-edition-dat301-reinvent-2017#33
+            1. multiple master sql database on a shared distributed log system
+            2. how Aurora resolves multi-master conflict?
+                1. both database server and storage nodes can resolve local conflicts.
+                   so true conflicts only happen when changed at both multiple database servers AND multiple storage nodes
+                2. there is a Regional resolver, which communicates with the two conflicting master database servers, to arbitrate the conflict
+        4. others
+            1. Dan et al. [11]: Modeling the Effects of Data and Resource Contention on the Performance of Optimistic Concurrency Control
+               Dan et al. [12]: The Effect of Skewed Data Access on Buffer Hits and Data Contention in a Data Sharing Environment
+                1. Dan et al. [11]: analytical model and simulation study of the effect of data and resource contention on transaction throughput for optimistic concurrency control
 ```
 
 Other materials
