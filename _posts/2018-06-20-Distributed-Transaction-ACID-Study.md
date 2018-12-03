@@ -10,6 +10,12 @@ tags: [transaction, acid, storage]
 
 How is distributed transaction implemented with ACID semantics is a wonder. Percolator TLA+ mostly solved the myths. My summarized notes here.
 
+WeiChart articles published to re-summarize
+
+  * [Distributed Transaction in Distributed Systems (P1)](https://mp.weixin.qq.com/s/oNhTUoqE4Jj7GBSaE-hX0g) [PDF](/images/Accela-distributed-transaction-in-distributed-systems-P1.pdf)
+  * [Distributed Transaction in Distributed Systems (P2)](https://mp.weixin.qq.com/s/K-VLqNkFH5047bTIJsTRzw) [PDF](/images/Accela-distributed-transaction-in-distributed-systems-P2.pdf)
+  * [Distributed Transaction in Distributed Systems (P3)](https://mp.weixin.qq.com/s/FvQO_ZfHbdXKlmRnrt1O7Q) [PDF](/images/Accela-distributed-transaction-in-distributed-systems-P3.pdf)
+
 For TLA+ study how & why, you may read the [TLA+ book](https://lamport.azurewebsites.net/tla/tla.html), or see attached slides for materials. 
 
 ![TLA+ My Cheatsheet](/images/tla-plus-my-cheatsheet.png "TLA+ My Cheatsheet")
