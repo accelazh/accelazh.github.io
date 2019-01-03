@@ -100,6 +100,7 @@ I want to index the recent year papers and rank them by reference counts, so tha
   * FAST: top-level storage conference; favor in filesystem, reliability, SSD, kvstore papers; lack distributed architecture design (I guess they are supposed to goto OSDI/SOSP)
       * [Home 2016](https://www.usenix.org/conference/fast16/technical-sessions)
       * Searches 2016: [part-1](https://scholar.google.com/scholar?as_q=&as_epq=&as_oq=&as_eq=&as_occt=any&as_sauthors=&as_publication=FAST&as_ylo=2014&as_yhi=2017&btnG=&hl=en&as_sdt=0%2C5), [part-2](https://scholar.google.com/scholar?hl=en&as_publication=USENIX+Conference+on+File+and+Storage&as_sdt=0%2C5&as_vis=1&as_ylo=2014&as_yhi=2017)
+      * Searches 2018: [16th USENIX Conference on File and Storage Technologies](https://scholar.google.com.sg/scholar?hl=zh-CN&as_sdt=0%2C5&as_ylo=2018&q=16th+USENIX+Conference+on+File+and+Storage+Technologies&btnG=)["16th USENIX"](https://scholar.google.com.sg/scholar?hl=zh-CN&as_sdt=0%2C5&as_ylo=2018&as_vis=1&q=%2216th+USENIX%22&btnG=)
 
   * MSST: top-level, more industry oriented; also includes panels and talks; Ceph once occupied the headline.
       * [Home 2016](http://storageconference.us/2016/)
@@ -112,6 +113,7 @@ I want to index the recent year papers and rank them by reference counts, so tha
   * OSDI: top-level, storage architecture, paxos, scheduling, big data, OS components, etc. A place to publish new distributed storage system architectures. Google likes to publish here, e.g. Bigtable, MapReduce, Spanner.
       * [Home 2016](https://www.usenix.org/conference/osdi16/program)
       * Searches 2016: [part-1](https://scholar.google.com.sg/scholar?hl=zh-CN&as_publication=OSDI&as_sdt=0%2C5&as_ylo=2014&as_yhi=2017), [part-2](https://scholar.google.com.sg/scholar?as_q=&as_epq=&as_oq=&as_eq=&as_occt=any&as_sauthors=&as_publication=Operating+Systems+Design+and+Implementation&as_ylo=2014&as_yhi=2016&hl=zh-CN)
+      * Searches 2018: [Proceedings of the 13th USENIX Symposium on Operating Systems](https://scholar.google.com.sg/scholar?hl=zh-CN&as_sdt=0%2C5&as_ylo=2018&q=Proceedings+of+the+13th+USENIX+Symposium+on+Operating+Systems&btnG=)
 
   * SOSP: top-level, storage architecture, paxos, big data, OS components, etc. A place to publish new distributed storage system architectures, e.g. Google File System
       * [Home 2015 (per 2 years)](http://sigops.org/sosp/sosp15/archive/index.html)
@@ -132,6 +134,7 @@ I want to index the recent year papers and rank them by reference counts, so tha
   * NSDI: top-level network, also include some distributed storage systems. The ZLog CORFU paper was published here.
       * [Home 2016](https://www.usenix.org/conference/nsdi16)
       * [Searches 2016](https://scholar.google.com.sg/scholar?as_q=&as_epq=&as_oq=&as_eq=&as_occt=any&as_sauthors=&as_publication=NSDI&as_ylo=2016&as_yhi=2016&hl=zh-CN)
+      * [Searches 2018](https://scholar.google.com.sg/scholar?hl=zh-CN&as_sdt=0%2C5&as_ylo=2018&q=15th+USENIX+symposium+on+networked+design+and+implementation&btnG=)
 
   * SIGCOMM: top-level network, include big player papers such as Google, Facebook. DCTCP, Jupiter Rising, were published here.
       * [Home 2016](http://conferences.sigcomm.org/sigcomm/2016/program.php)

@@ -8,8 +8,9 @@ tags: [storage, erasure-coding, math]
 ---
 {% include JB/setup %}
 
+RDP (row-diagonal parity) code is a popular code. It is of n+2, one parity encodes horizontal strips, and one for diagonal (slightly different from EVENODD). It tolerates 2 disk failure. [Optimal Recovery of Single Disk Failure in RDP Code Storage Systems](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.439.9023&rep=rep1&type=pdf) proposed the optimal recovery scheduling, which achieves mimimum disk IO count and balanced recovery workload across disks.
 
-The pasted paper pages are annotated with key steps. When exploring this RDP optimal recovery problem, I think
+In this post I try to understand the math in the paper and also the thinking behind. The pasted paper page images (at tail of this post) are annotated with key steps. When exploring this RDP optimal recovery problem, I think
 
   * Pick a few specific p=5 or p=7 example to try out a few recovery combinations first, may help realize that there are minimal read conditions
   * Use Python etc programming to simulate, may help find that each minimal reads conditions have equal number of reads
