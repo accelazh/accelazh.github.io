@@ -22,7 +22,7 @@ Rollout, i.e. replacing hot wheel in speed vehicle, worth attention. In practice
 
 If you are reviewing evaluation results, you need to be careful. Find unexpected resutls in this step is much eaiser than locate RCA from unexpected issues on production. Grasp the interacting parts in the project from global, think about what key improvements and what overhead you need to control and visiualize. Make sure each can see results in evaluation, the separate charts/data are chained to support results with completeness. When looking at charts/data, think about whether this is expected or unexpected, need to work with experience, attention, and the sensitive to discover hidden issue in charts/data. Principles and workflows are impactful. To say high technology of high reliability, is essentially to say to work with high quality.
 
-See previous [Experience in Feature Development and Rollout Cycle](/Experience-In-Feature-Development-And-Rollout-Cycle) for real stuff.
+See previous [Experience in Feature Development and Rollout Cycle](/storage/Experience-In-Feature-Development-And-Rollout-Cycle) for real stuff.
 
 __Storage design__
 
