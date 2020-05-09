@@ -95,25 +95,33 @@ Each of them probably publish ~50 papers each year.
 
 ### Ranking good papers
 
-I want to index the recent year papers and rank them by reference counts, so that I can find out which are good papers and whose reference counts are quickly growing. In the end I found Google Scholar is the handy tool. Here I list each conference, their home page of year 2016, and google scholar search links for their papers. In the search results page, the top ones are usually good papers.
+I want to index the recent year papers and rank them by reference counts, so that I can find out which are good papers and whose reference counts are quickly growing.
+
+In the end I found Google Scholar is the handy tool. Here I list each conference, their home page of year 2016, and google scholar search links for their papers. In the search results page, the top ones are usually good papers.
+
+Besides, many conferences put their video on YouTube, e.g. USENIX. By ranking view count I can find which paper attracts more people. This ranking reponses quicker than papar reference count.
 
   * FAST: top-level storage conference; favor in filesystem, reliability, SSD, kvstore papers; lack distributed architecture design (I guess they are supposed to goto OSDI/SOSP)
       * [Home 2016](https://www.usenix.org/conference/fast16/technical-sessions)
       * Searches 2016: [part-1](https://scholar.google.com/scholar?as_q=&as_epq=&as_oq=&as_eq=&as_occt=any&as_sauthors=&as_publication=FAST&as_ylo=2014&as_yhi=2017&btnG=&hl=en&as_sdt=0%2C5), [part-2](https://scholar.google.com/scholar?hl=en&as_publication=USENIX+Conference+on+File+and+Storage&as_sdt=0%2C5&as_vis=1&as_ylo=2014&as_yhi=2017)
       * Searches 2018: [16th USENIX Conference on File and Storage Technologies](https://scholar.google.com.sg/scholar?hl=zh-CN&as_sdt=0%2C5&as_ylo=2018&q=16th+USENIX+Conference+on+File+and+Storage+Technologies&btnG=)["16th USENIX"](https://scholar.google.com.sg/scholar?hl=zh-CN&as_sdt=0%2C5&as_ylo=2018&as_vis=1&q=%2216th+USENIX%22&btnG=)
+      * Searches 2019: [By Google search](https://scholar.google.com/scholar?hl=en&as_sdt=0%2C5&as_ylo=2019&as_yhi=2019&as_vis=1&q=USENIX+%22Conference+on+File+and+Storage+Technologies%22&btnG=) [By YouTube view count](https://www.youtube.com/user/USENIXAssociation/search?query=Fast+%2720)
 
   * MSST: top-level, more industry oriented; also includes panels and talks; Ceph once occupied the headline.
       * [Home 2016](http://storageconference.us/2016/)
       * [Searches 2016](https://scholar.google.com.sg/scholar?hl=zh-CN&as_publication=MSST&as_sdt=0%2C5&as_vis=1&as_ylo=2014&as_yhi=2017)
+      * [Searches 2019](https://scholar.google.com.sg/scholar?q=source%3AMSST&hl=zh-CN&as_sdt=0%2C5&as_vis=1&as_ylo=2019&as_yhi=2019)
 
   * USENIX ATC: much more papers; contains smart ideas; Copyset paper was published in it
       * [Home 2016](https://www.usenix.org/conference/atc16/technical-sessions)
       * [Searches 2016](https://scholar.google.com.sg/scholar?hl=zh-CN&as_publication=USENIX+Annual+Technical+Conference&as_sdt=0%2C5&as_vis=1&as_ylo=2014&as_yhi=2016)
+      * [Searches 2019](https://scholar.google.com.sg/scholar?start=0&q=source:USENIX+source:Annual+source:Technical+source:Conference&hl=zh-CN&as_sdt=0,5&as_ylo=2019&as_yhi=2019&as_vis=1)
 
   * OSDI: top-level, storage architecture, paxos, scheduling, big data, OS components, etc. A place to publish new distributed storage system architectures. Google likes to publish here, e.g. Bigtable, MapReduce, Spanner.
       * [Home 2016](https://www.usenix.org/conference/osdi16/program)
       * Searches 2016: [part-1](https://scholar.google.com.sg/scholar?hl=zh-CN&as_publication=OSDI&as_sdt=0%2C5&as_ylo=2014&as_yhi=2017), [part-2](https://scholar.google.com.sg/scholar?as_q=&as_epq=&as_oq=&as_eq=&as_occt=any&as_sauthors=&as_publication=Operating+Systems+Design+and+Implementation&as_ylo=2014&as_yhi=2016&hl=zh-CN)
       * Searches 2018: [Proceedings of the 13th USENIX Symposium on Operating Systems](https://scholar.google.com.sg/scholar?hl=zh-CN&as_sdt=0%2C5&as_ylo=2018&q=Proceedings+of+the+13th+USENIX+Symposium+on+Operating+Systems&btnG=)
+      * [Searches 2019](https://scholar.google.com.sg/scholar?start=0&q=USENIX+Symposium+on+Operating+Systems+Design+and+Implementation&hl=zh-CN&as_sdt=0,5&as_ylo=2019&as_yhi=2019&as_vis=1)
 
   * SOSP: top-level, storage architecture, paxos, big data, OS components, etc. A place to publish new distributed storage system architectures, e.g. Google File System
       * [Home 2015 (per 2 years)](http://sigops.org/sosp/sosp15/archive/index.html)
@@ -122,6 +130,7 @@ I want to index the recent year papers and rank them by reference counts, so tha
   * ASPLOS: top-level, storage architecture, scheduling, OS, etc. The Quasar & Paragon scheduler was published here. Most paper published into sigarch, sigops, sigplan.
       * [Home 2016](https://www.ece.cmu.edu/calcm/asplos2016/program.html)
       * Searches 2016: [asplos part-1](https://scholar.google.com.sg/scholar?hl=zh-CN&as_publication=Architectural+Support+for+Programming+Languages+and+Operating+Systems&as_sdt=0%2C5&as_vis=1&as_ylo=2014&as_yhi=2017), [asplos part-2](https://scholar.google.com.sg/scholar?as_q=&as_epq=&as_oq=&as_eq=&as_occt=any&as_sauthors=&as_publication=ASPLOS&as_ylo=2014&as_yhi=2017&btnG=&hl=zh-CN), [sigarch](https://scholar.google.com.sg/scholar?hl=zh-CN&as_publication=SIGARCH&as_sdt=0%2C5&as_vis=1&as_ylo=2015&as_yhi=2017), [sigops](https://scholar.google.com/scholar?hl=en&as_publication=SIGOPS&as_sdt=0%2C5&as_vis=1&as_ylo=2015&as_yhi=2017), [sigplan](https://scholar.google.com.sg/scholar?hl=zh-CN&as_publication=SIGPLAN&as_sdt=0%2C5&as_vis=1&as_ylo=2015&as_yhi=2017)
+      * [Searches 2019](https://scholar.google.com.sg/scholar?q=Architectural+Support+for+Programming+Languages+and+Operating+Systems&hl=zh-CN&as_sdt=0%2C5&as_vis=1&as_ylo=2019&as_yhi=2019)
 
   * ISCA: top-level, computer architecture, cache, resource utilization, etc. Google Heracles was published in it.
       * [Home 2016](http://isca2016.eecs.umich.edu/index.php/main-program/)
@@ -135,6 +144,7 @@ I want to index the recent year papers and rank them by reference counts, so tha
       * [Home 2016](https://www.usenix.org/conference/nsdi16)
       * [Searches 2016](https://scholar.google.com.sg/scholar?as_q=&as_epq=&as_oq=&as_eq=&as_occt=any&as_sauthors=&as_publication=NSDI&as_ylo=2016&as_yhi=2016&hl=zh-CN)
       * [Searches 2018](https://scholar.google.com.sg/scholar?hl=zh-CN&as_sdt=0%2C5&as_ylo=2018&q=15th+USENIX+symposium+on+networked+design+and+implementation&btnG=)
+      * [Searches 2019](https://scholar.google.com.sg/scholar?hl=zh-CN&as_sdt=0%2C5&as_ylo=2019&as_yhi=2019&as_vis=1&q=source%3ANSDI&btnG=)
 
   * SIGCOMM: top-level network, include big player papers such as Google, Facebook. DCTCP, Jupiter Rising, were published here.
       * [Home 2016](http://conferences.sigcomm.org/sigcomm/2016/program.php)

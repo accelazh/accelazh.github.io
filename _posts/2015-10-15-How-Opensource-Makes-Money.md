@@ -1,8 +1,8 @@
 ---
 layout: post
-title: "How Opensource Make Money?"
-tagline : "How Opensource Make Money?"
-description: "How Opensource Make Money?"
+title: "How Opensource Makes Money?"
+tagline : "How Opensource Makes Money?"
+description: "How Opensource Makes Money?"
 category: "opensource"
 tags: [opensource, business, startup]
 ---
