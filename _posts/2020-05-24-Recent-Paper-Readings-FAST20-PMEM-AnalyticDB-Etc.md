@@ -8,7 +8,7 @@ tags: [storage, paper, FAST]
 ---
 {% include JB/setup %}
 
-Recent paper readings. Search "very good", "good", "interesting" for my recommendations. Search "question" for my reviews.
+Recent paper readings. Search "very good", "good", "interesting", "useful" for my recommendations. Search "question" for my reviews.
 
 ```
 1. Design of Global Data Deduplication for A Scale-out Distributed Storage System    [2018, 2 refs]
