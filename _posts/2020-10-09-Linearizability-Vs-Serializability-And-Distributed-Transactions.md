@@ -72,11 +72,11 @@ __Total Order Broadcast__
 
 Total Order Broadcast (also known as atomic broadcast) is a protocol to exchange messages across nodes. It satisfies
 
-  * Reliable delivery: If a message is delivered to one node, it is eventually delivered to all nodes. If one node receives the message, then all nodes eventually receive the message. Or on the contrary, no node receive the message.  You can see the atomicity of all or nothing here. And message delivery is not required to happen immediately.
+  * __Reliable delivery__: If a message is delivered to one node, it is eventually delivered to all nodes. If one node receives the message, then all nodes eventually receive the message. Or on the contrary, no node receive the message.  You can see the atomicity of all or nothing here. And message delivery is not required to happen immediately.
 
-  * Total ordered delivery: If a node receives Msg1 first and then Msg2, any other node must also receive Msg1 first and Msg2 second. Messages delivered are totally ordered. And each node receives messages in the same order.  More, the order is fixed, where no node is allowed to insert a message into an earlier position.
+  * __Total ordered delivery__: If a node receives Msg1 first and then Msg2, any other node must also receive Msg1 first and Msg2 second. Messages delivered are totally ordered. And each node receives messages in the same order.  More, the order is fixed, where no node is allowed to insert a message into an earlier position.
 
-  * Uniform Integrity: A message is received by each node at most once, and only if it was previously broadcast. (This property is mentioned in [Wiki](https://en.wikipedia.org/wiki/Atomic_broadcast) but somehow missed in the [Designing Data-Intensive Applications](https://www.oreilly.com/library/view/designing-data-intensive-applications/9781491903063/) book, page 348.)
+  * __Uniform Integrity__: A message is received by each node at most once, and only if it was previously broadcast. (This property is mentioned in [Wiki](https://en.wikipedia.org/wiki/Atomic_broadcast) but somehow missed in the [Designing Data-Intensive Applications](https://www.oreilly.com/library/view/designing-data-intensive-applications/9781491903063/) book, page 348.)
 
 You can find that Total Order Broadcast behaves eactly like a log that is consensus across all nodes. Messages are ordered by LSN (log sequence number). [CORFU](https://www.usenix.org/system/files/conference/nsdi12/nsdi12-final30.pdf) is a realworld project that builds the distributed shared log.
 
@@ -84,11 +84,11 @@ __Consensus__
 
 Consensus is usually described as multiple nodes proposing values, and nodes eventually agree on the same proposed value. A consensus algorithm satisfies:
 
-  * Uniform agreement: Every node eventually agrees on the same value. 
+  * __Uniform agreement__: Every node eventually agrees on the same value. 
 
-  * Integrity: If a node decided value v, it must always decide the same value in future.
+  * __Integrity__: If a node decided value v, it must always decide the same value in future.
 
-  * Termination: Every node (that didn't crash) eventually decides some value.
+  * __Termination__: Every node (that didn't crash) eventually decides some value.
 
 The best known consensus algorithms are [Viewstamped Replication](http://www.pmg.lcs.mit.edu/papers/vr-revisited.pdf) (VSR), [Paxos](https://en.wikipedia.org/wiki/Paxos_(computer_science)), [Raft](https://raft.github.io/), and [Zab](https://cwiki.apache.org/confluence/display/ZOOKEEPER/Zab+vs.+Paxos) (ZooKeeper)
 
@@ -112,23 +112,23 @@ __More things equivalent__
 
 Besides the equivalence chain, Linearizability with compare-and-set <=> Total Order Broadcast <=> Consensus, there are more things equivalent to them. These equivalence are among the most profound and surprising insights into distributed systems. ([Designing Data-Intensive Applications](https://www.oreilly.com/library/view/designing-data-intensive-applications/9781491903063/) book, page 374.)
 
--- Distributed Locks --
+Distributed Locks
 
-Distributed Locks can be implemented by Consensus. Lock requires Linearizability: every node must agree on who owns the lock. This is what Consensus guarantees. Besides, distributed lock is usually implemented as a Lease, which can be expired upon lock owner crash.
+  * __Distributed Locks can be implemented by Consensus.__ Lock requires Linearizability: every node must agree on who owns the lock. This is what Consensus guarantees. Besides, distributed lock is usually implemented as a Lease, which can be expired upon lock owner crash.
 
-Consensus can be implemented by Distributed Locks. The node owning the lock is the Leader. Followers simply agree on whatever the Leader says.  Leader selection is a useful service provided by etcd or ZooKeeper, to shift the burden of implementing the complexity of Paxos.
+  * __Consensus can be implemented by Distributed Locks.__ The node owning the lock is the Leader. Followers simply agree on whatever the Leader says.  Leader selection is a useful service provided by etcd or ZooKeeper, to shift the burden of implementing the complexity of Paxos.
 
--- Uniqueness Constraint --
+Uniqueness Constraint
 
-Uniqueness Constraint can be implemented by Distributed Locks. A typical use case of Uniqueness Constraint is to avoid creating duplicated usernames. Obviously, just lock the write to the object to be unique. Or, Linearizability compare-and-set can also be used to implement Uniqueness Constraint.
+  * __Uniqueness Constraint can be implemented by Distributed Locks.__ A typical use case of Uniqueness Constraint is to avoid creating duplicated usernames. Obviously, just lock the write to the object to be unique. Or, Linearizability compare-and-set can also be used to implement Uniqueness Constraint.
 
-Distributed Locks can be implemented by Uniqueness Constraint. Locking is the unique ownership of the lock object. Uniqueness Constraint ensures the owner is unique.
+  * __Distributed Locks can be implemented by Uniqueness Constraint.__ Locking is the unique ownership of the lock object. Uniqueness Constraint ensures the owner is unique.
 
--- Atomic Transaction Commit -- 
+Atomic Transaction Commit
 
-Distributed transaction can be implemented by a shared log which is consensus across all nodes. The shared log is the Total Order Broadcast. Atomic Transaction Commit means every node in the end agrees on the same whether to commit or abort the distributed transaction, i.e. a consensus.
+  * __Distributed transaction can be implemented by a shared log which is consensus across all nodes.__ The shared log is the Total Order Broadcast. Atomic Transaction Commit means every node in the end agrees on the same whether to commit or abort the distributed transaction, i.e. a consensus.
 
-Total Order Broadcast can be implemented by distributed transaction, obviously. Distributed transaction is a more capable semantics, where it can carry anything you need. An Atomic Transaction Commit maps to a message accepted in Total Order Broadcast.
+  * __Total Order Broadcast can be implemented by distributed transaction.__ Each message round maps to a transaction commit. Distributed transaction is a more capable semantics, where it can carry anything you need. An Atomic Transaction Commit maps to a message accepted in Total Order Broadcast.
 
 These equivalence forms the foundation that we can implement distributed transactions. We will see more in the next section.
 
@@ -136,11 +136,11 @@ These equivalence forms the foundation that we can implement distributed transac
 
 Modern databases usually distribute partitions across multiple nodes, or even geo-regions. The distributed transactions, which coordinate across multiple partitions, are challenging. Typical industry implementations all template (verb) from 2PC: [Percolator](https://github.com/pingcap/tla-plus/blob/master/Percolator/Percolator.tla), [Spanner](https://static.googleusercontent.com/media/research.google.com/en//archive/spanner-osdi2012.pdf), [CockroachDB](https://dl.acm.org/doi/pdf/10.1145/3318464.3386134), [TiDB](http://www.vldb.org/pvldb/vol13/p3072-huang.pdf).
 
-The liveness issue of 2PC is mitigated by running each 2PC participants (table partitions) as a Paxos quorum, which is highly available. The coordinator can run on one of the participant quorum to achieve high availability (Spanner), or coordinator failure results in transaction abort (CockroachDB), or the coordinator runs on a separated highly available service (TiDB).
+The liveness issue of 2PC is mitigated by running each 2PC participants (table partitions) as a Paxos quorum, which is highly available. The coordinator can run on one of the participant quorum to achieve high availability ([Spanner](https://static.googleusercontent.com/media/research.google.com/en//archive/spanner-osdi2012.pdf)), or coordinator failure results in transaction abort ([CockroachDB](https://dl.acm.org/doi/pdf/10.1145/3318464.3386134)), or the coordinator runs on a separated highly available service ([TiDB](http://www.vldb.org/pvldb/vol13/p3072-huang.pdf)).
 
 2PC can be much more flexible .. actually .. Let's think about a series of questions.
 
-First, how do transaction operations (reads, writes) enforce their orders?
+First, how do transaction operations (reads, writes) enforce their ordering?
 
   * __Method 1, God node__: A god node, which knows every transaction, uniformlly schedules each operation for every transaction, to reach the desired isolation level. Partition nodes blindly execute the scheduled operations, requiring no coordination. The god node can be replicated or backup using Paxos, to achieve high availability. Probably, the god node can also scale-out by partitioning, if the transactions are absolutely non-overlapping.  The distributed transaction problem is then reduced to single node transaction, and the algorithm is not 2PC.  Realworld systems include [OceanBase V0.1](https://zhuanlan.zhihu.com/p/93721603) (or also V2.0?) and [Calvin DB](http://cs.yale.edu/homes/thomson/publications/calvin-sigmod12.pdf).
 
