@@ -10,7 +10,7 @@ tags: [ceph, storage, bluestore]
 
 Summary of study, first published as a WeiChat article.
 
-  * [Ceph BlueStore and Double Write Issues](https://mp.weixin.qq.com/s/oNhTUoqE4Jj7GBSaE-hX0g) [PDF](/images/ceph-bluestore-double-write-issue.pdf)
+  * [Ceph BlueStore and Double Write Issues](https://mp.weixin.qq.com/s/dT4mr5iKnQi9-NEvGhI7Pg) [PDF](/images/ceph-bluestore-double-write-issue.pdf)
 
 Besides, zhihu article [BlueStore源码分析之对象IO](https://zhuanlan.zhihu.com/p/92397191) by "鱼香肉丝没有鱼" has a nice chart of BlueStore IO path and code flow reading. Besides Ceph doc has a [BlueStore Small Write Strategies](https://github.com/ceph/ceph/blob/master/doc/dev/bluestore.rst).
 
