@@ -8,11 +8,15 @@ tags: [storage, accelerator, fpga]
 ---
 {% include JB/setup %}
 
-Summary of study, see respective WeiChat articles.
+Summary of study, also put to respective WeiChat articles.
 
   * [Interesting Papar FPGA Catapult (P1)](https://mp.weixin.qq.com/s/JID96e0votEWvghAlN7UCw) [PDF](/images/weichat-fpga-catapult-p1.pdf)
   * [Interesting Papar FPGA Catapult (P2)](https://mp.weixin.qq.com/s/hcnB0tKJQfuUWEuI4ZWNGw) [PDF](/images/weichat-fpga-catapult-p2.pdf)
   * [Interesting Paper FPGA Catapult (P3)](https://mp.weixin.qq.com/s/0U_tIxOoOoKxfBl2A_XC0g) [PDF](/images/weichat-fpga-catapult-p3.pdf)
+
+Also, related
+
+  * [Interesting Paper KV-Direct in-memory & FPGA](https://mp.weixin.qq.com/s/94aw3hM2GgnbzA7YuPrIxw) [PDF](/images/interesting-paper-kv-direct-in-memory.pdf)
 
 Raw notes, containing all the read list.
 

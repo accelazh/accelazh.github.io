@@ -8,6 +8,12 @@ tags: [SSD, FTL, summary]
 ---
 {% include JB/setup %}
 
+Summary of study, also put to respective WeiChat articles.
+
+  * [SSD & FTL Bottom-up (P1)](https://mp.weixin.qq.com/s/2iM-Q63jvtPYCSL-N-AX-w) [PDF](/images/ssd-ftl-bottom-up-p1.pdf)
+  * [SSD & FTL Bottom-up (P1)](https://mp.weixin.qq.com/s/RrefVitT--BIb49yax_Hvw) [PDF](/images/ssd-ftl-bottom-up-p2.pdf)
+  * [SSD & FTL Bottom-up (P1)](https://mp.weixin.qq.com/s/Y37GLELxtaUxoUBKW0EmLQ) [PDF](/images/ssd-ftl-bottom-up-p3.pdf)
+
 The brief summary to book my SSD and FTL knowledge collected.
 
 __SSD Market Growth__

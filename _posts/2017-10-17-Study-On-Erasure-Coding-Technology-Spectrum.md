@@ -8,6 +8,10 @@ tags: [storage, erasure-coding, coding theory]
 ---
 {% include JB/setup %}
 
+Summary of study, also put to respective WeiChat articles.
+
+  * [Storage Erasure Coding A Look](https://mp.weixin.qq.com/s/TqFo92rKaFzDs4CuY_lapQ) [PDF](/images/storage-erasure-coding-a-look.pdf)
+
 Besides Reed-Solomon (RS) codes and regenerating codes, there are many types of codes and optimizations. Here we summarize the erasure coding (EC) technology spectrum.
 
 [Coding Techniques for Repairability in Networked DistributedStorage Systems](http://phdopen.mimuw.edu.pl/lato12/longsurvey.pdf) by F.Oggier is great material that covers coding theory basics and spectrum of coding features beyond plain RS code (see chapter 5):

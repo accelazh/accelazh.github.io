@@ -1,12 +1,17 @@
 ---
 layout: post
-title: "How Opensource Makes Money?"
-tagline : "How Opensource Makes Money?"
-description: "How Opensource Makes Money?"
+title: "How Opensource Make Money?"
+tagline : "How Opensource Make Money?"
+description: "How Opensource Make Money?"
 category: "opensource"
 tags: [opensource, business, startup]
 ---
 {% include JB/setup %}
+
+Summary of study, also put to respective WeiChat articles.
+
+  * [Opensource Business Models P1](https://mp.weixin.qq.com/s/KbXBJNJGVu7ocgnx4PwmaA) [PDF](/images/open-source-business-models-p1.pdf)
+  * [Opensource Business Models P2](https://mp.weixin.qq.com/s/cerDgNDCEl8GpamPYH9j4A) [PDF](/images/open-source-business-models-p2.pdf)
 
 Opensource have dramatically reshaped how individuals play in the world the information technologies, how enterprises run their business internally and externally, and how startup companies can quickly grasp their technical stack on the fast train of internet.
 
