@@ -2,7 +2,7 @@
 layout: post
 title: "Determining the Sample Size"
 tagline : "Determining the Sample Size"
-description: "Determining the eSample Size"
+description: "Determining the Sample Size"
 category: "statistics"
 tags: [statistics, math, reliability]
 ---

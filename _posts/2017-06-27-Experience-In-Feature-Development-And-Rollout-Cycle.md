@@ -149,6 +149,7 @@ Usually after code component owners sign-off, new code is merged to master. Mast
   * There are user end tests, which targets on product user-facing APIs. There can be dedicated team and framework that doing such testing in continous effort. And there are also stress/load tests that intentionally heavily pressure an environment until it is full, so that we can discover more problems.
   * If the hardware generation upgrades quickly, take that into consideration. The hardware you write code and the production may differ, especially the performance aspects.
   * Scenario-based testing is a way, though we will mostly focus on functional. Catch missed scenarios, e.g. what ops need but not customer.
+  * Test the middle steps on rollout, the special flags to turn on, and able to fallback in worst cases. Test the extra verification used in middle or rollout won't crash itself. Carefully test the data migration, fallback, and old/new code facing new/old data structure.
 
 Here are some tips about writting test cases. They key is covering all combinations are simply not possible, we need other ways, the engineering ways, with reasonable effort corresponding to what work has true value. Below are my tips combined reallife experience and something from textbook
 
