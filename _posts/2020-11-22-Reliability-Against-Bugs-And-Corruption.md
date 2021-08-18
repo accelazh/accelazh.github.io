@@ -30,6 +30,8 @@ First, let's name __some small design tips__:
 
   * Storage systems typically do data scrubbing to detect silent data corruption. This should also be designed to detect any corruption due to bugs, e.g. with end-to-end CRCs. Besides, make sure all necessary data and metadata are included in scrubbing, e.g. periodical compare those stored at metadata server and those on data nodes.
 
+  * Data may transform into different formats, where end2end CRC before/after the boundary are not compatible. E.g. Data1 + CRC1 -> Verify(Data1, CRC1) -> Transform -> Data2 + CRC2 -> Verify(Data2, CRC2). Make sure there is an additional check across the boundary, that 1) After generated Data2, Verify the Data1 being used still matches CRC1; 2) CRC1 matches CRC2, by applying the same transform of Data1 -> Data2.
+
   * Incremental algorithms are usually clever, but full volume scan is still necessary. A bug can drift away incremental results unnoticed. Full volume scan can be less frequent, but necessary to detect such drift. E.g. Scan and compare all data between data nodes, v.s. the metadata tracked at metadata server.  The idea remotely resembles the CRC-verifiy-every-step (incremental) vs end-to-end CRC paradigm (end-to-end).
 
   * Make sure the delete decisions, typically scheduled by metadata server, is on linearizability algorithms. So that, it won't see a stale view and issue incorrect deletes.  A simple method is, only the writer can do read-decide-delete. And the writer should not trust metadata reported by someone else except the owner (i.e. to avoid cached metadata).
