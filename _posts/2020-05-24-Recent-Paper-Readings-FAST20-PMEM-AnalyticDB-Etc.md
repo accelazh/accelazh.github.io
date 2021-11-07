@@ -1534,7 +1534,7 @@ Recent paper readings. Search "very good", "good", "interesting", "useful" for m
                 2. question, why not directly add a bloom filter for each segment in Tiering.
                    then the main cost of Tiering solution is gone.
             4. Dostoevsky needs monitoring and quicky adapt data structures e.g. the optimal Bloom filter set
-               against running workload. this is non-trival. How is it built?
+               against running workload. this is non-trivial. How is it built?
                 1. implemented in RocksDB, implemented auto-tuning by measuring the proportion of different
                    operations in the workload during time windows and feeding them to Equation 14
                 2. but anyway, even if we cannot realtime adapt, we can measure business workload and trim our LSM-tree

@@ -77,7 +77,7 @@ The paper readings are basically orangized from history to modern, from basic fo
 **[A Trace-Driven Analysis of the UNIX 4.2 BSD File System](https://users.soe.ucsc.edu/~sbrandt/290S/trace.pdf)** \[1985, 748 refs\]
 
 ```
-1. good paper, it answers to the foundamental accesss pattern problem
+1. good paper, it answers to the fundamental accesss pattern problem
     1. How much network bandwidth is needed to support a diskless workstation?
     2. What are typical file access patterns (and what protocols will support those patterns best)?
     3. How should disk block caches be organized and managed?
@@ -881,7 +881,7 @@ The paper readings are basically orangized from history to modern, from basic fo
 
 ### [Stanford - Secure Computer Systems - David Mazières - Distributed Storage Systems](http://www.scs.stanford.edu/06wi-cs240d/notes/)
 
-Covers most of the foundamental concepts. The lecture notes are very helpful, e.g. to understand what we should grasp in a paper.
+Covers most of the fundamental concepts. The lecture notes are very helpful, e.g. to understand what we should grasp in a paper.
 
 **[Soft Updates - a method for metadata consistency](http://www.scs.stanford.edu/06wi-cs240d/notes/l8d.txt)**, **[Soft Updates: A Technique for Eliminating Most Synchronous Writes in the Fast Filesystem](https://www.usenix.org/legacy/event/usenix99/full_papers/mckusick/mckusick.pdf)** \[1999, 121 refs\]
 

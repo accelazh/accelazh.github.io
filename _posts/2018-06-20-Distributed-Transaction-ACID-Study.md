@@ -169,7 +169,7 @@ Studying Percolator vs TiDB vs CockroachDB
               n. related materials
                 1. A Critique of ANSI SQL Isolation Levels  [1995, 1056 refs]
                    https://www.microsoft.com/en-us/research/wp-content/uploads/2016/02/tr-95-51.pdf
-                    1. this is the foundamental paper. as said to have formalized SI. the paper is done mainly by Microsoft.
+                    1. this is the fundamental paper. as said to have formalized SI. the paper is done mainly by Microsoft.
                        the paper analyzed in detail the different anomalies in ANSI SQL isolation levels,
                        using the mostly formal transaction dependency graph, the transaction history representation, etc
                        most importantly, it proposed "Snapshot Isolation", which is being used till today
@@ -199,7 +199,7 @@ Studying Percolator vs TiDB vs CockroachDB
                                 2. Snapshot Isolation + Prevent RW-conflict, is Serializable, but it aborts some graphs that Serializable allows
                                   1. I.e. Snapshot Isolation + Prevent RW-conflict, aborts some false positives
                                 3. Serializable Snapshot Isolation, is Serializable, and it aborts less false positives than Snapshot Isolation
-                                  1. that's the foundamental "better" of why PostgreSQL is adopting SSI
+                                  1. that's the fundamental "better" of why PostgreSQL is adopting SSI
                                   2. and, SSI can be but atop snapshot isolation which PostgreSQL already has
                                   3, and, most importantly, SSI provides a fast, or say feasible way, to implement serializatble,
                                      compared to traditional S2PL (strict two-phase locking) which is slow

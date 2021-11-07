@@ -454,7 +454,7 @@ Raw paper reading notes. There are more contents here. Not all are covered above
                it brings operational convenience that each storage node can be directly replaced.
             2. Pergamum add NVRAM to each node, so that disk don't need to be powered up, and they can
                do store signatures or compare them, defer writes, metadata requests.
-               the foundamental truth is NVRAM is more power cheap than power-on disks
+               the fundamental truth is NVRAM is more power cheap than power-on disks
             3. Pergamum is able to keep 95% disks power-off in all time. This is the key to save energy.
                 1. I does worry about its sustaining write ingesting throughput,
                    which is important if we want to use it in cloud for customers along side blob/object storage
@@ -601,7 +601,7 @@ Raw paper reading notes. There are more contents here. Not all are covered above
             1. LRC code achieves locality lower bound with best recoverability without sacrificing space overhead
             2. Simple Regenerating Code achieves locality lower bound with best recoverability when allow sacrificing space overhead
             3. r can be configured to other sub-linear functions of k, e.g. r=log(k), r=sqrt(k), 
-               to construct non-trival locality codes for large k with small storage overhead penalty
+               to construct non-trivial locality codes for large k with small storage overhead penalty
 
     29. A Practical Analysis of Low-Density Parity-Check Erasure Codes for Wide-Area Storage Applications    [2004, 110 refs]
         http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.133.5556&rep=rep1&type=pdf

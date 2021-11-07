@@ -196,7 +196,7 @@ Taming Performance Variability
 ```
 2. Taming Performance Variability    [1 refs, 2018]
    https://www.usenix.org/system/files/osdi18-maricq.pdf
-    1. Use foundamental statistics methods to tell performance results that:
+    1. Use fundamental statistics methods to tell performance results that:
         1) don't follow normal distribution
         2) is stationary
         3) how many samples needed to reach desired confidence level (CONFIRM)
@@ -641,7 +641,7 @@ Improving Docker Registry Design Based on Production Workload Analysis
             3. Is there spatial locality in registry requests? (§4.3)
             4. Do any correlations exist among subsequent requests? Can future requests be predicted? (§4.4)
             5. What are the workload’s temporal properties? Are there bursts and is there any temporal locality? (§4.5)
-        2. main findings (but most are trival)
+        2. main findings (but most are trivial)
             1. GET requests dominates
             2. 65% and 80% of all layers are smaller than 1 MB and 10MB
             3. yonger and non-production registries experience lower load
@@ -946,7 +946,7 @@ An Analysis of Linux Scalability to Many Cores
                find bottlenecks
                fix bottlenecks and re-run
                 1. "Understanding Manycore Scalability of File Systems" is cleverer
-                2. stop when a non-trival fix is required, or bottleneck is DRAM
+                2. stop when a non-trivial fix is required, or bottleneck is DRAM
         2. findings
             1. more core#, less throughput. scaling collapse. e.g. Exim.
             2. lookup_mnt: high kernel cpu%, spin_lock may use more cycles than critical section
@@ -1645,7 +1645,7 @@ Generative Adversarial Nets
 ```
 1. Generative Adversarial Nets    [2015, 6621 refs]
    https://papers.nips.cc/paper/5423-generative-adversarial-nets.pdf
-    1. initial paper of GAN. the foundamental theory is actually simple
+    1. initial paper of GAN. the fundamental theory is actually simple
     2. highlights
         1. "Instead, we alternate between k steps of optimizing D and one step of optimizing G"
         2. sounds hard to train. like training judge and athlete together

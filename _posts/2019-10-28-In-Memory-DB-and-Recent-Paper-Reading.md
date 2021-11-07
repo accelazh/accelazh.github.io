@@ -333,7 +333,7 @@ Section 1
         n. related materials
             1. The Power of Two Choices in Randomized Load Balancing    [2001, 1072 refs]
                https://www.eecs.harvard.edu/~michaelm/postscripts/tpds2001.pdf
-                1. the result is so obvious and foundamental today. it's the key of tail latency reduction
+                1. the result is so obvious and fundamental today. it's the key of tail latency reduction
                    customer can select d out of n total servers to join in the shortest queue
                    d = 2 is exponentially better than d = 1. d = 3 is constant factor better than d = 2.
                     1. actually clients may cache queue status for available data copy to choice to best one
@@ -350,7 +350,7 @@ Section 1
                     2. the instinctive view is, if a server is very hot, it means the access to object is hot and biased,
                        so that object will be cached, as a result the server shouldn't be that hot
                     3. questions
-                        1. there is a foundamental limitation that, the paper assumes the adversary client queried x
+                        1. there is a fundamental limitation that, the paper assumes the adversary client queried x
                            different keys, are perfectly balancedly distributed on the servers.
                             1. however this is often not true. and if this is not true, the worst hot server load has no bound
                             2. the well side is, servers can do hot data migration / balancing, so to reach the theory bound

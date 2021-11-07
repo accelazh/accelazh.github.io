@@ -649,7 +649,7 @@ Look for "very good" > "good" > "interesting" as the levels that I recommend pap
         1. SSD virtualization - interesting as this paper thinks from hardware perspective
             1. by pin app workload to dedicated channels, or dedicated dies
                 1. question: if other channels are idle, can the app temporarily expand out of its pined to use others?
-                             I think that's the foundamental weakness of this approach. software virtualization may do better.
+                             I think that's the fundamental weakness of this approach. software virtualization may do better.
                              however, strong quota/throttling/limit enforcement, may favor the hardware pin approach
             2. the design is based on Open-channel SSD.
                Open-channel SSD are getting popularity these years.
