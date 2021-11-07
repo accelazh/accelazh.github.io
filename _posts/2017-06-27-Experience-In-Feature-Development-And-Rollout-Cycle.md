@@ -234,3 +234,14 @@ Rollout needs to be carefully planned, especially the rollback part. Otherwise w
       * Baking time and rollout flow. The new feature is not one-off thing.
           * New fixes/improvements keep adding to it. It's a flow. The binary rollout is a flow too. The feature enabling along staging->canary->production with order, is also a flow.
           * We may set free the binary flow, bug keep the enabling flow sit to staging/canary for a long baking time, and while we are adding new fixes/improvements to the feature flow.
+
+  * Core feature catch rollout timeline should have metrics monitoring, incident alerting, log scanning, and even Jupyter Notebook processed scanning, to run daily.
+    * Periodically to sample vicitim clusters and scale-out to team members to co-review
+    * Auto marking healthy and unhealthy can be tricky. Filtering out noise is a long-term and non-trival task
+    * For tight schedule, we need to allocate more resource on daily scanning and more people for co-review. For important incidents, we need to establish prioritized collaboration process - keep focus, cancel all meeting, push off all dev work.
+
+  * Core feature catch rollout timeline should have testing pipeline continuously running
+     * This is to catch that new changes may break existing feature, and we need to know before code deploy on production. Otherwise we have to do hotfixing which delays feature rollout.
+     * If we see the testing break, don't wait. need first time high priority act to fix.
+     * Proactive act in mind. E.g. to review code changes from other tracks that may impact the core feature rollout.
+     * Or when people ask us to review, don't wait or ignore. otherwise when the PR merged we have more work to fix.
