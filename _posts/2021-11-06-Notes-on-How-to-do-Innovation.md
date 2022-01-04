@@ -12,7 +12,7 @@ Here to summarize my experience on how to do innovation in the daily engineering
 
 First, why engineering work needs innovation?
 
-  * Incremental innovation. Our daily work is to build better systems. Every step is essentially __incremental innovation__. Some proposed new features enroll into next level __paradigm shift__, or even __disruptive innovation__. Compared infrastructure systems, App development receives more drive from changing business needs. 
+  * Incremental innovation. Our daily work is to build better systems. Every step is essentially __incremental innovation__. Some proposed new features enroll into next level __paradigm shift__, or even __disruptive innovation__. Compared to infrastructure systems, App development receives more drive from changing business needs. 
 
   * If the product aims as the __leader__ in a market unit, innovation is a must, to explore what's next, and more to construct the next market rules. If the product is a __follower__, the task of innovation is more shifted to learn from competitors and eco-systems, to keep up with "what others are playing", and to regularly attend in info sources.
 
@@ -131,3 +131,12 @@ In the end, here attaches the __storage driving factors__ I summarized in scratc
     2. on-premise and hybrid cloud management and COGS improvement, metrics and analytics COGS saving
     3. data migration, shipping, Edge, caching, Tiering
 ```
+
+Adding new points (2021-12-25)
+
+  * Learn from history, understand upstream and downstream, stand on giant shoulders. Summarize and analyze down experiences and issues systematically (归纳和总结). Dig to bottom rather than solve case by case （治本而不是治标. 局部、全局，以及发散的眼光，前瞻未来的问题。 发现问题、眼光，定义问题。 [Architecture Thinkings by 阿里道延](https://mp.weixin.qq.com/s?fontRatio=1&__biz=MzA5OTAyNzQ2OA==&mid=2649721202&idx=1&sn=97b3edaa344a1d901ee6ad4b8c4830e4&scene=94&subscene=315)
+
+  * Practice writing and presenting to others. Clarify and make sure you only present what you understand, and make sure the audience can understand. Writing means clarifying your mind; Always try to write something – some of the best ideas will come to you by writing. [Instructions for PhD Students - Dimitris Papadias, HKUST](https://cse.hkust.edu.hk/~dimitris/Instructions%20for%20PhD%20Students.pdf)
+
+  * Read in systematically and compare. It's compare rather than read a thing that reveals its intrinsics. And innovation comes from the compare.
+  
