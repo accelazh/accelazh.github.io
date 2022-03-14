@@ -56,7 +56,7 @@ There are various aspects why software architecture is necessary, besides techno
 
 Technology aspects
 
-  * __Handling the complexity__. Software design are separated into architecture level, modular level, and class level. Each level popularize with own techniques: 4+1 view, design patterns, refactoring. Any challenge can be solved by adding one layer of abstraction.
+  * __Handling the complexity__. Software design are separated into architecture level, component level, and class level. Each level popularize with own techniques: 4+1 view, design patterns, refactoring. Any challenge can be solved by adding one layer of abstraction.
 
   * __Decide key technology stack__. Internet companies commonly build services atop opensource stacks across different domains, e.g. database, caching, service mesh. Which stack to use affects architecture, and are often evaluated with technology goals and organization resources.
 
@@ -175,6 +175,8 @@ Below are conceptual tools to handle complexity.
 
   * __Reuse__. If a component is easy to reuse, it naturally follows high cohesion and good naming responsibility. Design for reuse is recommended, but avoid introduce extra encapsulation and delegation, which results in high OO complexity. Refactor for reuse is recommended, but refactor usually requires global picture knowledge, which contradicts with the goal that changes should be localized. __Reference architecture__ is another reuse to reduce mind complexity. Find the top product and opensource to learn from. Find the popular framework which teaches good designs. The past experience here becomes its domain knowledge, shared by team members, and changing points are more predictable. 
 
+  * __Separate of concerns__. Divide and concur, decomposition, are the popular concepts. Decouple on the boundary of minimal dependency links. Make components __orthogonal__ from each own space. Make API __idempotent__ from timeline of calls. To truly separate concerns, methodologies are naturally required such as encapsulation, knowledge hiding, minimal assumptions. In theory, any complexity can be broken down into handy small pieces, but beware of the information flow distorted in between, and the missing holes in responsibility delegating.
+
   * __Component boundary__. Separating components and sub-components eases mind memory usage. Component boundary should be cut at what changes together. If an upstream service change is frequently coupled with a downstream service change, they should have been put into the same component. Violating it is the common case where micro-service messes up the system. High organization collaboration cost is another place to cut component boundary, see [Convey's Law](https://en.wikipedia.org/wiki/Conway%27s_law).
 
 Design complexity can be formulated and evaluated using scores on dependency. I found [D Score](https://book.douban.com/subject/26915970/) interesting. And this [article](https://thevaluable.dev/complexity-metrics-software/) lists other measures. These methods are less popular probably because domain knowledge is more effective to handle complexity. In general,
@@ -185,49 +187,172 @@ Design complexity can be formulated and evaluated using scores on dependency. I 
 
   * "Cyclomatic Complexity" treat software as control flow graph. The number of edges, nodes, and branches, are summed up, with a formula, as the final score.
 
-__Levels of software design__
+// TODO https://mp.weixin.qq.com/s?__biz=MzA4NTkwODkyMQ==&mid=2651257296&idx=1&sn=7273271d15bc7e2e41da58a155c6e4ab&chksm=84229506b3551c10f20437b06e0e2fb75c1cb0642d5571ea0b30f534a9000b7bb4f2946a393c
+   表1-1　质量评估指标 This is a really nice picture to show how to measure code complexity
+
+__Levels of architecture design__
+
+Software design is complex. To manage the complexity, we break it into different __levels and views__. Typical levels are: architecture level, component level, and class level. The abstraction level goes from high to low, scope from big to small, and uncertainty from fuzzy to clear. Each level yet has its own methodologies. Levels also map to first-and-next steps, which in practice can be simplified or mixed, to lean more to the real world bottleneck. 
+
+  * __Architecture level__ focuses on components and their __interconnections__. Interconnections are abstracted by ports and connectors. A component or connector can hide great complexity and to delay technical decision to lower levels. A component can be a metadata server, a storage pool, or with distributed caching. A connector can be a queue with throttling QoS, REST services, or an event-driven CQRS. System __scope__ is examined, e.g. input and output flows, how to interact with end users, and the up/down stream systems. The infrastructure and the technology stack to build atop can be investigated and determined. __Non-functional requirements__, user __scenarios__, and system scenarios are captured and addressed in this level. The typical analysis method is __[4+1 View](https://zhuanlan.zhihu.com/p/112531852)__. When talking about __software architecture__, more are referring on this level. It is also what this article to cover.
+
+  * __Component level__ follows the architecture level. It focuses on the design inside the component. The scope should also be defined, e.g. interface, input and output, execution model and resources needed. This level usually involves tens of classes, __[Design Patterns](https://en.wikipedia.org/wiki/Software_design_pattern#Creational_patterns)__ are the popular methodology, and component should be designed __Reusable__. Architecture can be built on existing systems, where __technical debt__ plays a role, e.g. to rewrite all with a better design (high cost), or to reuse by inserting new code (high coupling). 
+
+  * __Class level__ next focuses on the more fine-grained level, i.e. how to implement one or several classes well. The definitions are clear and ready for coding. Typical methodologies are __[Coding Styles](https://google.github.io/styleguide/cppguide.html)__, __[Code Refactoring](https://m.douban.com/book/subject/1229923/)__, __[Code Complete](https://book.douban.com/subject/1477390/)__ (bad book name). You can also hear about defensive programming, contract based programming. __[UML diagrams](https://en.wikipedia.org/wiki/Unified_Modeling_Language)__ are vastly useful at this level and also component level, as a descriptive tool, and more importantly an analysis tool; e.g. use state machine diagram/table to ensure all possible system conditions are exhausted and cared about. (Similar methods are also shared in [PSP](https://www.geeksforgeeks.org/personal-software-process-psp/), which is a [subset](https://www.isixsigma.com/tools-templates/combining-cmmia-psp-tsp-and-six-sigma-software/) of [CMMI](https://en.wikipedia.org/wiki/Capability_Maturity_Model_Integration); real world today more lean to Agile, while CMMI essentially turns developers into screw nails with heavy documentation and tightly monitored statistics). 
+
+__Views of architecture design__
+
+Views help understand software design from different perspectives. The methodologies covered below act as the descriptive tools for design output, the analysis tools to verify correctness, the heuristic frameworks for mind flow, and the processes to carry out architecture design.
+
+__[4+1 View](https://zhuanlan.zhihu.com/p/112531852)__ is one of the most popular software architecture method. Tt captures the static structure, runtime parallelism, physical deployment, and development lifecycle.
+
+  * __Logical View__: The components and their interconnections. The diagram captures what consists of the system and how it functions, the dependencies and scope, and the responsibility decomposition. It's the most commonly mentioned "what architecture is".
+
+  * __Process View__: Logical View is static, while Process View captures the runtime. Performance and scalabiliy are considered. Examples are how multi-node parallelism and multi-threading are organized, how control flow and data flow co-work in timeline.
+
+  * __Deployment View__: E.g. which part of the system runs at datacenter, CDN, cloud, and client device. How should the rollout and upgrade be managed. What are the binary artifacts to deliver.
+
+  * __Implementation View__: Managing the code, repo, modules, DLLs, etc. Logical View components are mapped to concete code objects, that developers and project manager can readily work on. It also covers the branching policies and how different versions of the product should be maintained.
+
+  * __Usecase View__: Last but the most __important__ view. It captures all user scenarios and system scenarios, functional and non-functional requirements. Each of them are walked through across the previous 4 views to verify truely addressed.
+
+// TODO pic: 4+1 view chart from https://zhuanlan.zhihu.com/p/112531852
+
+__[UML](https://en.wikipedia.org/wiki/Unified_Modeling_Language)__ is the generic software modeling tool, but it can also be understood from the view's perspective.
+
+  * __Structural diagrams__ capture the static view of the system. From higher abstraction level to lower, there are Component diagram, Class diagram, Object diagram, etc.
+
+  * __Behavioral diagrams__ capture the runtime view of the system. E.g. Activity diagram for the logic workflow, sequence diagram for timeline, Communication diagram for multi-object interaction, and the state diagram everyone likes.
+
+  * __Other diagrams__. There are Usecase diagram to capture user scenarios and more fine-grained cases; and deployment view to capture how the code and artifacts are grouped for code development.
+
+[DDD](https://www.amazon.com/Domain-Driven-Design-Tackling-Complexity-Software/dp/0321125215) (Domain-Driven Design) views the system from the domain expert perspective. It applies to systems with complex business logic and domain knowledge, e.g. ERP, CRM, or Internet companies with rich business. Compared to tranditional OO-design, which easily leads to a spider web of objects ("__Big Ball of Mud__"), DDD introduces "domains" to tide it up. Below lists key concepts:
+
+  * __Domain__. A big complex system (enterprise scale) are cut into multiple domains (e.g. user account system, forum system, ecommerce system, etc), each with their specifc domain knowledge, language wording, and domain experts.
+
+  * __BoundedContext__. The boundary of the domain is called the bounded context. The same conceptual object is possible to exist in two different domains, but they map to different classes; e.g. an account in the context of banking is different from an account in book selling. The object __can only interact__ with objects from the same bounded context (and you should not directly operate on getters/setters, instead use "business workflow calls"). A domain's object cannot (directly) go outside of its bounded context. Bounded contexts are orthogonal to each other.
+
+  * __Context Map__. But how two BoundedContext interact? A domain's object is mapped to another domain, via the context map. The context map can be as simple as "new an object" and "assign properties", or as complex as a REST service. __Anti-corruption layer__ (ACL) can be inserted in between for isolation.
+
+  * __[Drive DDD design by language](https://qiyu2580.gitbooks.io/iddd/content/Chapter2/making-sense-of-bounded-contexts.html)__. Domain knowledge is a language, and knowledge itself is a good design (if you see the philosophy part). However language has its fuzziness nature, that's why __context__ needs to be introduced to bound for certainty. Language is fluent when you organize talking at the same abstraction level; that explains objects should only interact with objects from the same bounded context. DDD is a methodology to __operate language into design__; it expresses domain knowledge __in code__, where domain experts are (or close to) code developers.
+
+  * __Company strategic view__. DDD is able to model company wide. An executive needs to strategically decide what is core for business competency, what to support it, and what are the common parts. This introduces __[Core domains](https://cloud.tencent.com/developer/article/1709312)__, __Supporting domains__, and __Generic domains__. Priority resouces are biased into them. In long term, the domain knowledge, and the DDD model implemented in running code, are accumulated to become valuable __company assets__. The DDD architecture focus on lasting domain modeling, where a good design is __neutral to the technical architecture__ being implemented.
+
+// TODO DDD pic insert: https://qiyu2580.gitbooks.io/iddd/content/Chapter1/how-to-ddd.html. 表1.4 分析"注射流感疫苗"的最佳模型
+
+There are more general architecture views more used for customer facing and sales scenarios. They provide an alternative insight for what an architecture should include. 
+
+  * The [Enterprise architecture](https://dev.to/dhruvesh_patel/software-architecture-five-common-design-principles-2il0) consists of Business architecture, Data architecture, Application architecture, Technology architecture. This is more viewed from enterprise business level and does a coarse decomposition 
+
+  * The [四横三纵 architecture](https://mp.weixin.qq.com/s?__biz=MzI4OTc4MzI5OA==&mid=2247544948&idx=6&sn=e89031d33a1b7f753095164b022ae80d) or with more detailed in this [article](https://posts.careerengine.us/p/5f0db6acb5fef84f7de7203d). "四横" are IaaS, DaaS (data as a service), PaaS (platform services) and SaaS. "三纵" are Standard Definition & Documentation (准规范体系), Security Enforcing (安全保障体系), Operation Support & Safety (运维保障体系).
+
+// TODO pic arch from: https://dev.to/dhruvesh_patel/software-architecture-five-common-design-principles-2il0
+
+
+__Architecture styles__
+
+This is the old topic, a generic design pattern on the scale of architecture. New recent technologies bring more paradigms, but the essence can be tracked back. Company-wide the architecture may eventually evolve to reflect the organization's communication structure ([Conway's Law](https://en.wikipedia.org/wiki/Conway%27s_law)), besides the technical aspects. 
+
+  * __Layered architecture__. Now every architecture cannot totally discard this.
+
+  * __Repository/blackboard architecture__. All components are built around the central database (the "Repository/blackboard"). They use pull model or get pushed by updates.
+
+  * __Main program and subroutines__. Typical C-lang program architecture, __procedure-oriented__ programming, and can usually be seen at simple tools. The other side is object-oriented programming.
+
+  * __Dataflow architecture__. Still procedure-oriented programming, it can typically be represented by dataflow diagram. The architecture is useful for data processing, especially chips/FPGA, and image processing. __Pipeline and filters__ are another architecture accompanied.
+
+  * __MVC (Model-view-controller)__. The fundamental architecture to build UI. It separates data, representation, and business logic.
+
+  * __Client server__. The old fashion client device connecting to server style. Nowadays it's usually Web, REST API, or SOA instead. But the architecture is still useful in IoT, or as a host agent to report status / receive command to central server, or as a rich client lib to speedup system interactions.
+
+  * __The mediator__. Suppose N components are connecting to M components, instead of N * M connections, a "mediator" component is introduced in middle to turn it to N + M connections.
+
+  * __Event sourcing__. User sends command, and every system change is driven by an event. System stores the chain of events as the central truth. Realtime states can be derived from event replay, and speedup by checkpoints. The system naturally supports auditing, and is append-only and immutable.
+
+  * __Functional programming__. This is more an ideal methodology rather than a concrete architecture. Variables are immutable; system states are instead defined by a chain of function calls. I.e. it's defined by math formula, or a bit like event sourcing. Functions are thus the first-class citizen.
+
+// TODO pic: add charts for each major architecture. this is much easier to understand.
+
+More recent architecture below
+
+  * __Micro-service__. Complex systems are broken into micro-services interacting with REST APIs. Typical examples are __Kubernetes and Service Mesh__. You need container infrastructure to run micro-services, you need SDN controller and agents for virtual networking, you need HA load balancer to distribute traffic, you need circuit breaker to protect from traffic surge, you need service registry to manage REST endpoints, you need Paxos quorum to manage locking and consistent metadata, you need persistent storage to provide disk volumes and database services, and you need ..
+
+  * __Stream processing__. Upstream and downstream systems, across company wide, are connected via messaging queue, or low latency streaming platforms. Nowadays enterprises are moving from __Lambda architecture__ (realtime approximate streaming and delayed accurate batching are separated) to __[Kappa architecture](https://towardsdatascience.com/a-brief-introduction-to-two-data-processing-architectures-lambda-and-kappa-for-big-data-4f35c28005bb)__ (combine both into streaming, with consistent transaction). A more complex system can comprise [online, nearline, offline](https://netflixtechblog.com/system-architectures-for-personalization-and-recommendation-e081aa94b5d8) parts.
+
+// TODO pic: online,nearline,offline from netflix chart: https://netflixtechblog.com/system-architectures-for-personalization-and-recommendation-e081aa94b5d8
+
+  * __Cloud native__. The system is designed to run exclusively on cloud infrastructure (but to be hybrid cloud). The typical example is [Snowflake](https://www.usenix.org/conference/nsdi20/presentation/vuppalapati) database. Key designs are: 1) Disk file persistence are offloaded to __S3__. 2) Memory caching, query processing, storage are __disaggregated__ and can independently scale-out and to be elastic to traffic surge. 3) Read path and write path can separately scale, where typical user generate write contents in steady throughput and read traffic in spike. 4) Different tiers of resources, since fully disaggregated, can accurately charge fee for how much a customer actually uses. __Serverless__ is another topic, where all the heavy parts like database and even programming runtime are shifted to cloud, programmers focus on writing functions to do what business values; serverless functions are also expected to be lightweighted and elastic to the traffic.
+
+  * __DDD onion architecture__. The onion (or call it hexagon) architecture comes to shape in the context of DDD. Domain model is the central part. The next layer outside is applications. The outer layer are adapters that connects to external systems. Onion architecture is neutral to the actual technical architecture being implemented. Domain models can also be connected test cases to easily validate business logic (rather than the verbosity of preparing testbed with fake data in databases, fake REST interfaces, etc).
+
+  * __[React-Redux](https://medium.com/mofed/react-redux-architecture-overview-7b3e52004b6e)__. The architecture is a more advanced version of MVC. With data pulled from server-side, the javascripts running at client-side runs MVC itself. Views are constructed by templates + input properties. User action generates events, which triggers actions, e.g. call services. New updates are sent to reducer, which then map to store. Contain users selector to fetch states from store, map them to properties, and then finally render the new view. The architecture is also frequently accompanied with Electron and NodeJS to develop rich client applications with web technology.
+
+// TODO Pic: add architecture pic for each bullets.
+
+__Architecture principles__
+
+Most principles are already reflected in above sections. At architecture level, the most mentioned principles are below [three](https://xie.infoq.cn/article/5e899856e29017c1079b3be86)
+
+  * __Keep it simple__. There are enough complexity; simple is precious. Related to [KISS](https://en.wikipedia.org/wiki/KISS_principle).
+
+  * __Suitable__. Enough for the need, is better than "industrial leading". An architecture should be suitable, to steer it with your concrete requirement and team resource, rather than to vainlessly pursuit new technologies. Be frugal. The benefit of a design should be mapped to financial cost to evaluate.
+
+  * __Designed for evolving__. Business needs are changing. Traffic scale are increasing. Team members may come and go. Technologies are updating. An architecture should be designed evolvable. The architecture process (and development) should be carried out with a growth mindset. An example is [Ele.me payment system](https://mp.weixin.qq.com/s/mtPQLSONUCWOC2HDPRwXNQ); this is quite common for Internet companies.
+
+More principles come to component level design. [CoolShell has a very good post](https://coolshell.cn/articles/4535.html) to list all of them. Below lists what I think are useful
+
+  * __Keep It Simple__, Stupid (KISS), You Ain't Gonna Need It (YAGNI), Don't Repeat Yourself (DRY), Principle of Least Knowledge, Separation of Concerns (SoC): That said, make everything simple. If you cannot, divide and conquer.
+
+  * Object-oriented __S.O.L.I.D__. Single Responsibility Principle (SRP), Open/Closed Principle (OCP), Liskov substitution principle (LSP), Interface Segregation Principle (ISP), Dependency Inversion Principle (DIP). Note that though OO principles try to isolate concerns and make changes local, refactoring and maintaining the system in well such state however usually demand global knowledge and global dependency.
+
+  * Idempotent. Not only API, the system operation should be Idempotent when replayed. A distributed system can commonly lost message and do retry. Idempotent example can be doing sync (rather than update), propagating info in an eventual consistency way in one direction, action can be re-executed with no side effect, etc. Sync a command to node, which is consistent if node fails in middle and recovered later. 
+
+  * Orthogonality. Component behavior is totally isolated without each other. They don't assume any hidden behaviors from another. Not only the code path, also the development process can be orthogonal. Orthogonality also greatly saves the mind burden.
+
+  * __Hollywood Principle__, don't call us, we'll call you. Component doesn't `new` components; it's however the Container who manages Component creation and initialization. It's inversion of control, or dependency injection.
+
+  * __Convention over Configuration（CoC)__. Properly set default values, save the caller's effort to always pass in comprehensive configurations. This principle is useful to design opensource libs, e.g. Rails.
+
+  * __Design by Contract (DbC)__. A component / class should work by its "naming", i.e. contract, rather than implementation. A caller should call a component by its "naming", instead of the effort to look into its internals.
+
+  * __Acyclic Dependencies Principle (ADP)__. Try not to create a cyclic dependency in your components. 
+
+Coming to __class level__ or lower component level, how to evaluate if a piece of code is a __good design__? People can frequently spend long time arguing but cannot reach an conclusion that please both sides. In fact, several distinct design philosophies all exist, which can be seen from different opensource codebases and different programming language designs. To end the arguing, the practical principles are
+
+  * Compare __concrete benefits/costs__ to team and daily work, rather than design philosophies.
+
+  * Build the analysis on __concrete real usecases__, rather than blindly forecasting future for design extensibility.
+
+Typically, the key concern is whether the design __saves mind burden__ in team. There are generally two paradigms: OO design and Simple direct. They work in different ways.
+
+  * __OO design__ reduces __mind burden__ because good OO design patterns and principles are __shared language__ across team. This may not be correct if it's actually __not "shared"__, which should be verified.  One person's natural modeling is not another person's nature. What code one persons feels as natural good design, can be another person's __mind burden__. What can happen is one top team guy quickly generates code in his/her natural OO design, and the new code becomes mind burden for other team members, and thus slows them down. The condition loops and makes the "top" topper.  __Consistency__ can be desired, because it makes what's shared to share.
+
+  * __OO design__ does __increase complexity__. It introduces more parts from beginning. More interactions are __hidden and dynamic__. A change can impact more parts because need to maintain high cohesion low coupling.  Things become worse when need to consider __performance dimensions__. Decoupling generally hurts performance; it thus needs to introduce more parts to compensate, e.g. caching. More moving parts touched, yet larger scope to maintain for production safety and correctness.  __Over-design__ is the next problem behind. OO design is essentially forecasting the "future" to make the code extendable. However the forecasting is frequently wrong, and extra code becomes yet new burden. 
+
+  * __Simple direct__. Compared to OO design which more apply to app level programming, simple and direct are more used in system level and data plane programming. The __"interface"__ supported in programming, which is the core that OO design relies on, is however usually not capable to hold all information passing around. E.g. performance aspects (cache line, extra calls, memory management, etc), safety & security concerns, fragile side effects that touch system data structures (if you are programming OS), etc.
+
+  * In __simple direct__ paradigm, as a result, people frequently need to __read over all code__ in a workflow, grasp every detail, to make sure it can work correct. People also need to read over the code to make sure each corner cases are handled, all scenarios are covered, and worst case and graceful degradation are handled.  Then, __less code less burden__ to people, everything __simple direct and transparent__ is better. __Mind burden__ is reduced this way.  __OO design__ are making it harder however, because subtle aspects to capture are hidden in layers of encapsulation, and linked in dynamic binding, and there are more code and more components need to be introduced.
+
+  * What's the __gravity and traction__ of the project being developed? Apps with rich and varying logic are willing to adopt OO design. While system level and data plane usually have more stable interface and feature set, but having more traction to performance and safety. Some time the developer is willing to break every OO rule as long as COGS can be improved. Besides OO design encapsulation impairs ability for the developer wants to have a __control__ on the overall perf numbers and calls.
+
+  * __Prioritization__. Can the new code go prod? Perf under goal, no. Prod safty concern, no. Bad OO design, OK. Thus, the design should first consider perf and safty, and then OO design.  However, OO design naturally prioritizes design first, and __pushes off__ goals like performance to future extension. Extension may turn out not work, not even possible after the interface is already running live code, or incur major cost.
+
+
+
+------------------------------
 
 
 
 
-// TODO 3 layers of architecture design
-    // TODO books of DD for middle leve, code complete/refactor for class level
-    // TODO give a picture?
-        // TODO I should insert more pictures also in former parts to help reading. too many words 
-    // TODO what each layer does, focus on, and principles?
-
-
-
-// TODO the 4+1 view
-  // TODO other architecture paradigm
-
-// TODO architecture styles
 
 
 
 
 
--- Key methodologies in software architecture
-
-4+1 view
-three layers of architecture, 高中低三层架构整理
 
 
+// TODO I should insert more pictures also in former parts to help reading. too many words 
 
-四横三纵架构
-business,data,app,tech architectures
-
-tech bet, reliability budget,
-
----- handling complexity, managing complexity,
-
-name and responsibility
-coherent and coupling
-
-
-depend on the stable. abstraction, interface, DIP, arch boundary, ISP.  高内聚低耦合，cut by 耦合min。they are all can be explained. 
-The D score in clean architecture book is interesting. measures stable / abstraction. write it. 
-广义关联dependency。语言模型。
 
 
 
@@ -260,15 +385,12 @@ state machine, etc
 
 
 
--- Key styles of architecture design
-
-mapping to real world and organization (convey's law)
-different architecture styles
-data flow
-
-
 
 -- Key system properties and their design patterns
+
+let's use consultant thinking to handle this chapter. systematic breakdown, and probe with structure
+
+
 
 e.g. concurrency of web services, concurrency of manycore
 读写分离、CAP
@@ -283,6 +405,19 @@ put the LSM tree paper here
   LSM-based Storage Techniques: A Survey
   https://zhuanlan.zhihu.com/p/351241814
   https://arxiv.org/pdf/1812.07527.pdf
+
+put disk data layout paper here
+  // TODO OK .. this section is basically following database each layers?
+
+Another design space example: Optimal Column Layout for Hybrid Workloads (presented at VLDB 2020)
+  https://www.youtube.com/watch?v=AsjqfidHNAQ
+  https://stratos.seas.harvard.edu/files/stratos/files/caspervldb2020.pdf
+ 
+  For design space, also remember the dovsky LSM paper
+
+another design space example: Building Enclave-Native Storage Engines for Practical Encrypted Databases - use the table 1 for plotting
+  http://vldb.org/pvldb/vol14/p1019-sun.pdf
+
 
 reference to the aws guy's answer
 reference to in nek's blog: https://zhuanlan.zhihu.com/p/153030979, but also use the git version

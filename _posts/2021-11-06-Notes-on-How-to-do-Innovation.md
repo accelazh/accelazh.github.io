@@ -20,6 +20,8 @@ First, why engineering work needs innovation?
 
 The common sense innovation method is brainstorming and idea [addition/subtraction/multiplication/division](https://medium.com/swlh/the-secret-innovation-technique-behind-silicon-valleys-creativity-91fe6e7c1526). Usually most ideas will be filtered out, but one in ten can be shiny ones.
 
+  * Besides free style, brainstorm ideas but with structured categories and heuristics, mine ideas with [MECE](http://www.caseinterviewsecrets.com/), and comination iteration.
+
   * Besides, sleep and forget. Let those ideas mutate and reform in our subconscious. When we come back and look again, there can be new discoveries.
 
 The fundamental innovation method is to stand on the top and look one step further.
@@ -132,6 +134,16 @@ In the end, here attaches the __storage driving factors__ I summarized in scratc
     3. data migration, shipping, Edge, caching, Tiering
 ```
 
+Some tips for personal lifestyle
+
+  * Time to stay alone uninterrupted is extremely important. Be idle, do routine hand work (non-mental involving), or casual reading. 
+
+  * Don't get too busy. Free relaxed time is important. Sleep more than enough to let your mind reorganize itself.
+
+  * Phone browsing gets updates but is time consuming. Separate your time to fragmented time and big block time. Only phone with fragmented time. Big block time should do big block thing.
+
+  * Changing the living environment works. Stay at a new place for a few days to get rid of stereotypes or fixed thinking mindsets.
+
 Adding new points (2021-12-25)
 
   * Learn from history, understand upstream and downstream, stand on giant shoulders. Summarize and analyze down experiences and issues systematically (归纳和总结). Dig to bottom rather than solve case by case （治本而不是治标. 局部、全局，以及发散的眼光，前瞻未来的问题。 发现问题、眼光，定义问题。 [Architecture Thinkings by 阿里道延](https://mp.weixin.qq.com/s?fontRatio=1&__biz=MzA5OTAyNzQ2OA==&mid=2649721202&idx=1&sn=97b3edaa344a1d901ee6ad4b8c4830e4&scene=94&subscene=315)
@@ -139,4 +151,3 @@ Adding new points (2021-12-25)
   * Practice writing and presenting to others. Clarify and make sure you only present what you understand, and make sure the audience can understand. Writing means clarifying your mind; Always try to write something – some of the best ideas will come to you by writing. [Instructions for PhD Students - Dimitris Papadias, HKUST](https://cse.hkust.edu.hk/~dimitris/Instructions%20for%20PhD%20Students.pdf)
 
   * Read in systematically and compare. It's compare rather than read a thing that reveals its intrinsics. And innovation comes from the compare.
-  
