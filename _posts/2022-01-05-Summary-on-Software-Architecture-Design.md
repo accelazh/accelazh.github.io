@@ -251,6 +251,8 @@ There are more general architecture views more used for customer facing and sale
 
 __Architecture styles__
 
+// TODO arch article the conventional arch sryle is too trival.  use 质素分布来重新推导
+
 This is the old topic, a generic design pattern on the scale of architecture. New recent technologies bring more paradigms, but the essence can be tracked back. Company-wide the architecture may eventually evolve to reflect the organization's communication structure ([Conway's Law](https://en.wikipedia.org/wiki/Conway%27s_law)), besides the technical aspects. 
 
   * __Layered architecture__. Now every architecture cannot totally discard this.
@@ -425,3 +427,14 @@ OK .. add reference to each other articles I found interesting?
   https://mp.weixin.qq.com/s/bnhXGD7UhwTxL8fpddzAuw
 
 system perf tuning from in reck's blog about that Linux
+
+
+------------
+
+metadata size and degree of freedom, the very good insight theory
+
+Patterns of Distributed Systems - martinfowler
+https://martinfowler.com/articles/patterns-of-distributed-systems/
+
+Break the barrier and build consensus. Cross team collaboration
+  What's the biggest challenge in architecturing?
