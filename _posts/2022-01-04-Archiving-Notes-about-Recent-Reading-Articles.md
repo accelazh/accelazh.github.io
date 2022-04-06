@@ -2115,6 +2115,101 @@ More results in the timeline
             1. non-force, steal
             2. redo log is page-level. undo log is logical; undo's physical is CLR log
 
+2. readings: TiDB new release features
+    1. Key Visualizer: Observe Distributed Databases to Discover the Unknowns
+       https://pingcap.com/blog/observe-distributed-databases-to-discover-unknowns
+        1. https://cloud.google.com/bigtable/docs/keyvis-overview
+           https://www.youtube.com/watch?v=aKJlghIygQw
+
+    2. How to Back Up and Restore a 10-TB Cluster at 1+ GB/s
+       https://pingcap.com/blog/back-up-and-restore-a-10-tb-cluster-at-1-gb-per-second
+        1. why LSM-tree memtable needs to checkpoint SSTables, when we know data is already in log?
+            1. data lives in log shortly, eventually they will live in SSTables which are optimized for read (compared to log)
+                1. so double-write is a problem, but capacity usable is not a problem
+                2. if only metadata is in log, data not, then double-write is not a problem
+            2. 华为TaurusDB技术解读（转载）
+               https://zhuanlan.zhihu.com/p/64364775
+                1. "日志即数据"?
+                2. https://zhuanlan.zhihu.com/p/29182627
+                    1. should be redo log replication to other nodes
+
+            3. 华为Taurus云原生数据库论文分析
+               https://zhuanlan.zhihu.com/p/151086982
+                1. paper: "Taurus Database: How to be Fast, Available, and Frugal in the Cloud"
+                2. very good. highlights
+                    1. "POLARDB通过将Innodb的log和page存放到类POSIX接口的分布式文件系统（PolarFs）来实现计存分离。这种做法看似很美好、对Innodb的侵入非常小，但是却有一些严重的问题，Taurus论文中有提及。 具体来说，大量刷脏的时候，持久化page的网络流量对于计算层、存储层都是一个很大的挑战，因为page流量是单纯log流量的几倍到几十倍不等，具体取决于用户的工作负载。另外，page刷脏会抢占log的持久化需要的资源（网络带宽、IO带宽），增大log持久化的延时，继而增大事务提交的延时。另外，由于PolarFs的基于raft（准确说是ParallelRaft）的数据复制方式，导致事务提交的路径上至少需要两跳网络传输，这个架构导致其需要在计算节点、存储节点都需要引入RDMA来减少网络带来的rt。"
+                    2. "计存分离的最优做法是采用“log is database”的理念，只需要把log写到存储层，由存储层负责重放log、回写page并尽量减少写放大。将刷脏这个操作从计算层剔除之后，可以降低计算节点的网络开销。Aurora首先采用这种做法，后续的Socrates、CynosDB、Taurus也均采用这个做法。"
+                    3. "Aurora将db的数据（也即是所有page）分成若干个10GB大小的shard，相应的log也随data一起保存在shard中。每个shard有6个副本，采用N=6，W=4，R=3的策略，事务提交时需要等到log在至少4个副本持久化之后才能完成提交。Aurora的log持久化、page读取都只需要一跳网络传输。
+
+                    Socrates也是采用“log is database”的理念，但是它单独了一个log层用于快速持久化log（具体实现不详），避免受到重放log、回写page的影响。另外，page svr层从log层拉取log进行重放、回写page，并向计算节点提供读取page的服务。但是page svr层只将部分page缓存在本地，全量的page在额外的冷备层。所以Socrates的读请求有可能在page svr层本地无法命中，进而从冷备层获取page。
+
+                    CynosDB也是采用“log is database”的理念，从公开资料来看，存储层为计算节点提供了Log IO接口与Page IO接口，前者负责持久化log，后者负责page的读取。
+
+                    Taurus也是采用“log is database”的理念，存储层分为Log Store、Page Store两个模块，前者负责持久化log，后者负责page的读取。log持久化、page读取都只需要一跳网络传输。"
+                3. questions
+                    1. why redo log (physical log) is smaller size of binlog (logical log)?
+                        1. and if a pages is altered many times, sync a page be can smaller than redo log too
+                    2. replication by logs rather than pages / full data?
+                    3. compared to replicate by data, which can use different sets of nodes as replication chain
+                       but logs replication need to lock to a fixed set of nodes? because log needs to know its previous logs to be able to replay
+                    4. Storage node needs to rebuild pages from logs
+                        which means it needs "history"
+                        which means no easy to quickly failover to another storage node
+                          to mitigate tail latency
+                       So you see, instead of 3-replica 3-writes, Aurora uses quorum append
+                        i.e. in 6 replicas, write 4 of them, and only require 3 succeeds.
+                    5. LSM-tree seems less affected
+                        it can just put data into logs. the memtable only for index
+                        or memtable only saves changed data. read old data from cache/old-memtable
+                        the flush/checkpoint only writes changed data. no flush unnecessary dirty "page" here
+
+            4. how to do consistent snapshot?
+                1. BR only needs to send a snapshot timestamp. TiKV supports timestamp multi-version
+
+        2. how database do checkpoints? large database cannot load all data in memory
+            1. https://docs.microsoft.com/en-us/sql/relational-databases/logs/database-checkpoints-sql-server?view=sql-server-ver15
+                1. checkpoint only includes in-memory data
+            2. https://www.sqlskills.com/blogs/paul/how-do-checkpoints-work-and-what-gets-logged/
+
+    3. TiCDC: Replication Latency in Milliseconds for 100+ TB Clusters
+       https://pingcap.com/blog/replication-latency-in-milliseconds-for-100-tb-clusters
+        1. TiCDC Open Protocol. row-level data change notification
+            for monitoring, caching, full-text indexing, analysis engines, and master-slave replication between different databases
+            to third-party data medium such as MQ (Message Queue)
+        2. Before version 4.0, TiDB provided TiDB Binlog, which collects binlog data from TiDB and provides near real-time replication to downstream platforms
+            1. TiCDC pulls TiDB's data change logs from a TiKV cluster via the Google remote procedure call (gRPC) API and outputs data to downstream platforms
+
+    4. Large Transactions in TiDB
+       https://pingcap.com/blog/large-transactions-in-tidb
+        1. "Large transactions caused problems for a few reasons:
+                they take up a lot of memory in TiDB,
+                they keep locks on many keys for a long time,
+                which blocks other transactions from making progress,
+                and they can exceed their time-to-live (TTL) and be rolled-back even though they are still working"
+
+    5. Pessimistic Locking: Better MySQL Compatibility, Fewer Rollbacks Under High Load
+       https://pingcap.com/blog/pessimistic-locking-better-mysql-compatibility-fewer-rollbacks-under-high-load
+        1. TiDB now implements both pessimistic and optimistic concurrency control mechanisms
+           MySQL supports pessimistic locking by default
+
+    6. SQL Plan Management: Never Worry About Slow Queries Again
+       https://pingcap.com/blog/sql-plan-management-never-worry-about-slow-queries-again
+        1. old approach: SQL queries (optimizer hints)
+        2. TiDB uses a cost-based optimizer that relies on statistics
+            1. statistics can abruptly change becoming out of date as front-end application changes
+            2. even with correct statistics, it's difficult to ensure that the optimizer chooses the best execution plan for all cases
+            3. To avoid these issues, DBAs often try to find slow queries, rewrite SQL queries, or write comments in query statements (known as SQL hints)
+                1. problems
+                    1. SQL are generated by framework, unable to change directly
+                    2. deploy new code introduces risk
+                    3. SQL hints quickly become outdated when data distribution changes later
+        3. SQL Plan Management
+            1. manually bind an execution plan with a type of queries
+            2. automatically create bindings for frequent SQL queries
+            3. evolve binding: probe with alternative executino plans
+                               perform experiments in a predefined period
+            4. oracle: https://docs.oracle.com/en/database/oracle/oracle-database/12.2/tgsql/overview-of-sql-plan-management.html
+
 7. readings: misc piled up articles
     1. YARN 在字节跳动的优化与实践
        https://mp.weixin.qq.com/s/9A0z0S9IthG6j8pZe6gCnw

@@ -1098,7 +1098,7 @@ Akkio: Sharding the Shards: Managing Datastore Locality at Scale with Akkio
 ```
 3. Akkio: Sharding the Shards: Managing Datastore Locality at Scale with Akkio (Facekbook)   [2018, 2 refs]
    https://www.usenix.org/conference/osdi18/presentation/annamalai
-    1. cross-datacenter geo-distributed u-shareds migration, DC access locality management
+    1. interesting paper. cross-datacenter geo-distributed u-shareds migration, DC access locality management
     2. highlights
         1. Akkio went into production at Facebook in 2014, and it currently manages ∼100PB of data
            Akkio reduces access latencies by up to 50%, cross-datacenter traffic by up to 50%
