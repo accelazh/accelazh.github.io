@@ -184,7 +184,7 @@ CephFS has finally gone production-ready ([Jewell version](http://thenewstack.io
 
 Cinder core developers presents.
 
-  *The Replication API: V2.0 is disabled, V2.1 (Cheesecake) fallover the whole backend; avaible to use now, but not mature; vendor support list see [here](https://youtu.be/pVvzn_bSDtY?t=4m24s).
+  * The Replication API: V2.0 is disabled, V2.1 (Cheesecake) fallover the whole backend; avaible to use now, but not mature; vendor support list see [here](https://youtu.be/pVvzn_bSDtY?t=4m24s).
 
   * Backup supports full and incremental and non-disruptive backup. Active-active HA is very awesome design, there are a lot of moving parts, still WIP. Checkout the [code](https://review.openstack.org/#/q/message:+blueprint+cinder-volume-active-active-support) if you like.
 
