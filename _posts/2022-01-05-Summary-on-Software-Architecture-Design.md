@@ -1,4 +1,4 @@
----
+<!-- ---
 layout: post
 title: "Summary on Software Architecture Design"
 tagline : "Summary on Software Architecture Design"
@@ -6,7 +6,7 @@ description: "Summary on Software Architecture Design"
 category: "technology"
 tags: [cloud, engineering, architecture]
 ---
-{% include JB/setup %}
+{% include JB/setup %} -->
 
 
 The article summarizes my experiences on software architecture.
@@ -380,13 +380,45 @@ Articles, books, and courses teach design patterns and outlines the design space
 
 Recognized opensource and industry systems become the Reference architectures, which to learn prevalent techniques or design patterns. I listed what I recall quickly (can be __incomplete__). Reference architectures can be found by searching top products, comparing vendor alternatives, or from cornerstone papers with high reference.
 
-  * Due to the lengthy content, I list them in the next section "Reference architectures in different areas".
+  * Due to the lengthy content, I list them in the next section "Reference architectures in storage areas".
 
-// TODO Related works of a paper. Add one example with good related works
-// TODO Survey, Overview, design space, related work
+Related works section in generous papers are useful to compare contemporary works and reveal the design space. For example,
 
+  *  [TiDB](http://www.vldb.org/pvldb/vol13/p3072-huang.pdf) paper and [Greenplum](https://arxiv.org/pdf/2103.11080.pdf) paper related works show how competing market products support HTAP (Hybrid Transactional and Analytical Processing) from either prior OLTP or OLAP. They also reveal the techniques employed and the Pros/Cons.
 
-### Reference architectures in different areas
+Good papers and surveys can enlighten the technology landscape and reveal design space in remarkable depth and breadth
+
+  * [LSM-based Storage Techniques: A Survey](https://arxiv.org/abs/1812.07527) ([Zhihu](https://zhuanlan.zhihu.com/p/351241814)) investigated full bibliography of techniques used to optimize LSM-trees, and organized the very useful taxonomy.
+
+![LSM-based Storage Techniques: A Survey](/images/arch-design-space-lsm-survey.png "LSM-based Storage Techniques: A Survey")
+
+  * [Scaling Replicated State Machines with Compartmentalization](https://arxiv.org/abs/2012.15762) shows a group of techniques to decouple Paxos components and optimize the throughput.
+
+![Scaling Replicated State Machines with Compartmentalization](/images/arch-design-space-paxos-compartment.png "Scaling Replicated State Machines with Compartmentalization")
+
+  * [An Empirical Evaluation of In-Memory Multi-Version Concurrency Control](http://www.vldb.org/pvldb/vol10/p781-Wu.pdf) compared how main-stream databases implement MVCC with varieties, extracted the common MVCC components, and discussed main techniques. It's also useful guide to understand MVCC.  
+
+![An Empirical Evaluation of In-Memory Multi-Version Concurrency Control](/images/arch-design-space-in-mem-mvcc.png "An Empirical Evaluation of In-Memory Multi-Version Concurrency Control")
+
+  * [In-Memory Big Data Management and Processing](https://www.comp.nus.edu.sg/~ooibc/TKDE-2015-inmemory.pdf) surveyed how main-stream in-memory databases and designed, compared their key techniques, that form the design space.
+
+![In-Memory Big Data Management and Processing](/images/arch-design-space-in-mem-db.png "In-Memory Big Data Management and Processing")
+
+  * [Constructing and Analyzing the LSM Compaction Design Space](http://vldb.org/pvldb/vol14/p2216-sarkar.pdf) compared different compaction strategies in LSM-tree based storage engines. THere are more fine-grained tables inside the paper. 
+
+![Constructing and Analyzing the LSM Compaction Design Space](/images/arch-design-space-lsm-compaction.png "Constructing and Analyzing the LSM Compaction Design Space")
+
+  * Another [Dostoevsky: Better Space-Time Trade-Offs for LSM-Tree](https://www.youtube.com/watch?v=fmXgXripmh0) also plots the design space for space-time trade-offs among updates, point lookups, range lookups.
+
+![Dostoevsky: Better Space-Time Trade-Offs for LSM-Tree](/images/arch-design-space-dostoevsky.png "Dostoevsky: Better Space-Time Trade-Offs for LSM-Tree")
+  
+  * [Latch-free Synchronization in Database Systems](http://www.jmfaleiro.com/pubs/latch-free-cidr2017.pdf) compared common lock/lock-free techniques, e.g. CAS, TATAS, xchgq, pthread, MCS， against different concurrency levels. It reveals the choice space while implementing effective B+-tree locking techniques.
+
+  * [Optimal Column Layout for Hybrid Workloads](https://stratos.seas.harvard.edu/files/stratos/files/caspervldb2020.pdf) models CRUD, point/range query, random/sequential read/write cost functions on how blocks are partitioned by partition size. It helps find the optimal block physical layout. 
+
+  * [Access Path Selection in Main-Memory Optimized Data Systems](https://www.eecs.harvard.edu/~kester/files/accesspathselection.pdf) models query cost using full scan vs B+-tree at different result selectivity and query sharing concurrency. The cost model shows how query optimizer choose physical plans.
+
+### Reference architectures in storage areas
 
 (Continued from the previous section.)
 
@@ -432,7 +464,7 @@ __OLTP/OLAP database__
 
   * [CockroachDB](https://dl.acm.org/doi/pdf/10.1145/3318464.3386134) builds the cross-regional SQL database that enables serializable ACID, an opensource version of [Google Spanner](https://static.googleusercontent.com/media/research.google.com/en//archive/spanner-osdi2012.pdf). It overcomes TrueTime dependency by instead use [Hybrid Logical Clock](https://www.cockroachlabs.com/docs/stable/architecture/transaction-layer.html). It maps SQL schema to key-value and stores in [RocksDB](https://www.cockroachlabs.com/blog/cockroachdb-on-rocksd/). It uses [Raft](https://www.cockroachlabs.com/docs/stable/architecture/replication-layer.html#raft) to replicate partition data. It built novel [Write Pipelining](https://www.cockroachlabs.com/blog/transaction-pipelining/) and [Parallel Commit](https://www.cockroachlabs.com/blog/parallel-commits/) to speedup transactions. Another contemporary is [YugabyteDB](https://blog.yugabyte.com/ysql-architecture-implementing-distributed-postgresql-in-yugabyte-db/), which reuses PostgreSQL for query layer and replaced RocksDB with DocDB. [YugabyteDB](https://blog.yugabyte.com/yugabytedb-vs-cockroachdb-bringing-truth-to-performance-benchmark-claims-part-2/) had an interesting [debate](https://www.zhihu.com/question/449949351) with [CockroachDB](https://www.cockroachlabs.com/blog/unpacking-competitive-benchmarks/).
 
-  * [TiDB](https://www.vldb.org/pvldb/vol13/p3072-huang.pdf) is similar with CockroachDB. It focus on single region and serializes with timestamp oracle server. It implements transaction following [Percolator](https://github.com/pingcap/tla-plus/blob/master/Percolator/Percolator.tla). TiDB moved a step further to combine OLTP/OLAP (named HTAP, Hybrid Transactional and Analytical Processing) by Raft replicating an extra columnar replica (TiFlash) from the baseline row format data. In [contemporaries](https://arxiv.org/pdf/2103.11080) to support both OLTP/OLAP, besides HyPer/MemSQL/Greenplum, Oracle Exadata (OLTP) improves OLAP performance by introducing NVMe flash, RDMA, and add in-memory columnar cache; AWS Aurora (OLTP) offloads OLAP to parallel processing on cloud; [F1 Lightning](http://www.vldb.org/pvldb/vol13/p3313-yang.pdf) replicas data from OLTP database (Spanner, F1 DB) and converts them into columnar format for OLAP, with strong snapshot consistency.
+  * [TiDB](https://www.vldb.org/pvldb/vol13/p3072-huang.pdf) is similar with CockroachDB. It focus on single region and serializes with timestamp oracle server. It implements transaction following [Percolator](https://github.com/pingcap/tla-plus/blob/master/Percolator/Percolator.tla). TiDB moved a step further to combine OLTP/OLAP (i.e. HTAP) by Raft replicating an extra columnar replica (TiFlash) from the baseline row format data. In [contemporaries](https://arxiv.org/pdf/2103.11080) to support both OLTP/OLAP, besides HyPer/MemSQL/Greenplum, Oracle Exadata (OLTP) improves OLAP performance by introducing NVMe flash, RDMA, and add in-memory columnar cache; AWS Aurora (OLTP) offloads OLAP to parallel processing on cloud; [F1 Lightning](http://www.vldb.org/pvldb/vol13/p3313-yang.pdf) replicas data from OLTP database (Spanner, F1 DB) and converts them into columnar format for OLAP, with strong snapshot consistency.
 
   * [OceanBase](https://zhuanlan.zhihu.com/p/93721603) is a distributed SQL database, MySQL-compatible, and supports both OLTP/OLAP with [hybrid row-column data layout](https://dbdb.io/db/oceanbase). It uses a central controller (Paxos replicated) to serialize distributed transaction. The contemporary [X-Engine](https://www.cs.utah.edu/~lifeifei/papers/sigmod-xengine.pdf) is an MySQL-compatible LSM-tree storage engine, used by [PolarDB](https://www.usenix.org/conference/fast20/presentation/cao-wei). It uses FPGA to do compaction. Read/write paths are separated to tackle with traffic surge. PolarDB features in pushing down queries to Smart SSD ([an example](https://cacm.acm.org/magazines/2019/6/237002-programmable-solid-state-storage-in-future-cloud-datacenters/fulltext)) which computes within disk box to reduce filter output.
 

@@ -94,7 +94,7 @@ Section 1
                    rich analytics and visaulization support in database
 
     2. A Unified Theory of Garbage Collection    [2004, 66 refs]
-       https://www.cs.virginia.edu/~cs415/reading/bacon-garbage.pdf
+       https://web.eecs.umich.edu/~weimerw/2012-4610/reading/bacon-garbage.pdf
         1. good paper. one paper to go through all major GC designs
         2. highlights
             1. reference counting and tracing and too main approaches for GC.
