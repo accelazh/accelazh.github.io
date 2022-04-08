@@ -17,7 +17,7 @@ Related paper reading
 ```
 1. Access Path Selection in Main-Memory Optimized Data Systems: Should I Scan or Should I Probe?    [2017, 33 refs, CMU 15-721]
    https://www.eecs.harvard.edu/~kester/files/accesspathselection.pdf
-    1. interesting paper and very useful modeling. Access Path Selection is a general Query Optimization problem..
+    1. good paper and very useful modeling. Access Path Selection is a general Query Optimization problem..
        query concurrency should be considered choosing full scan vs B+tree index. Low selectivty is still key to use index (e.g. secondary index)
        the math model is linear (training possible) in a given hardware setup (varying selectivity / query concurrency), and logN/N on total DB data size.
        The math model is evaluated by math analysis, one physical machine + varying workload, and varying hardware setups (AWS VM)

@@ -782,7 +782,7 @@ __SOSP 2015__
                     1. FaRM, in-memory distributed system, using RDMA, and NVDRAM (batteried DRAM)
                        transaction with high availability and strict serializability
                         1. These trends eliminate storage and network bottlenecks, but they also expose CPU bottlenecks
-                            1. FaRM’s protocols follow three principles for CPU bottleneck
+                            1. FaRM's protocols follow three principles for CPU bottleneck
                                 1. reducing message counts
                                     1. FaRM reduces message counts by using vertical Paxos [25] with primary-backup replication
                                        and unreplicated coordinators that communicate directly with primaries and backups

@@ -2499,4 +2499,249 @@ More results in the timeline
         1. "客户端会发出caps消息请求锁，拿不到想要的caps会睡眠等待，这么属于业界经典的客户端行为设计了。服务端即mds进行中心化管理，要想切换lock，修改lock状态，必须在中心（或主）mds进行，其他mds只是保留副本，方便客户端读取，这样就通过消息传递把lock的中心化控制做在了元数据服务器mds。"
     9. 浅谈分布式系统元数据服务器设计
        https://zhuanlan.zhihu.com/p/85008536
+
+5. readings: clear the weichat pending read
+    1. good ones
+        1. Ceph冷知识 | Cache Tier 的抉择与使用
+           http://mp.weixin.qq.com/s/w39cEMBtV8bCI1k_2PR2vA
+        2. 预算892万元的政务云项目，又0.01元中标了！
+           https://mp.weixin.qq.com/s/70MHFCIqW9dl7tRHj46BeQ
+        3. OpenStack：云之梯》连载三：搭建 OpenStack 团队
+           http://mp.weixin.qq.com/s/8tPjTdEJFqRnC9v08TR3Hg
+        4. 看云计算里的资源"超卖" (1)
+           http://mp.weixin.qq.com/s/9GpVNTG_bNkqzPvX42dpsw
+        5. 简单测试验证NUMA对内存带宽性能的影响
+           http://mp.weixin.qq.com/s/s0o59e3gjYWaLTMI8rjqSQ
+        6. Jupiter Rising -Google数据中心网络演进之路(1)
+           http://mp.weixin.qq.com/s/hQHuv4Pjm4dutepjcPhKxA
+            1. TCP incast and outcast problem
+                1. https://pdfs.semanticscholar.org/bb38/6b1986cbef4d2d3aa833f6e3b273f757eeb1.pdf
+                2. http://oversea.cnki.net/Kcms/detail/detail.aspx?filename=1013038128.nh&dbcode=CMFD&dbname=CMFD2014
+                3. http://www.sciencedirect.com/science/article/pii/S1084804516300649
+                4. TCP Incast and Cloud application performance
+                   http://bradhedlund.com/2011/05/01/tcp-incast-and-cloud-application-performance/
+                5. TCP incast: What is it? How can it affect Erlang applications?
+                   http://www.snookles.com/slf-blog/2012/01/05/tcp-incast-what-is-it/
+                6. The TCP Outcast Problem: Exposing Unfairness in Data Center Networks
+                   https://www.usenix.org/node/165730
+            2. the paper: Jupiter Rising: A Decade of Clos Topologies and Centralized Control in Google's Datacenter Network
+               https://static.googleusercontent.com/media/research.google.com/en//pubs/archive/43837.pdf
+                1. just did a quick read. http://mp.weixin.qq.com/s/hQHuv4Pjm4dutepjcPhKxA is usable start
+                2. related readings
+                    1. Data Center TCP (DCTCP) (Microsoft Research)    [2010, 909 refs]
+                       https://www.microsoft.com/en-us/research/publication/data-center-tcp-dctcp/
+                       https://habr.com/en/post/474282/
+                        1. good paper. this is the classic TCP improvment, supported by commodity switches, to address TCP incast, queue buildup, buffer pressure problems
+                           the results looks quite good: 10X background traffic, while 10X foreground traffic does not cause any timeouts
+                            1. referenced as [3] in "Jupiter Rising: A Decade of Clos Topologies and Centralized Control in Google's Datacenter Network"
+                        2. key points
+                            1. DCTCP leverages Explicit Congestion Notification (ECN) in the network to provide multi-bit feedback to the end hosts
+                                1. maintain queue length "should-be" less than K
+                                2. essentially, DCTCP by reacting to congestion in proportion to the extent of congestion
+                                    1. by using the marking bits, in the response get from ECN
+                                    2. and the a and cwnd iteration formula
+                            2. address to the TCP incast problem, and the aggregrate/partition application pattern
+                                1. besides incast
+                                    1. Query and delay-sensitive short messages experience long latencies due to long flows consuming some or all of the available buffer in the switches
+                                    2. queue buildup impairment: even when no packets are lost, the short flows experience increased latency
+                                                                 as they are in queue behind packets from the large flows
+                                2. learnings
+                                    1. switch buffer occupancies need to be persistently low, while maintaining high throughput for the long flows.
+                                       DCTCP is designed to do exactly this
+                            3. The TCP literature is vast, and there are two large families of congestion control protocols that attempt to control queue lengths
+                                (i) Delay-based protocols use increases in RTT measurements as a sign of growing queueing delay, and hence of congestion.
+                                    These protocols rely heavily on accurate RTT measurement, which is susceptible to noise in the very low latency environment of data centers.
+                                    Small noisy fluctuations of latency become indistinguishable from congestion and the algorithm can over-react.
+                                (ii) Active Queue Management (AQM) approaches use explicit feedback from congested switches.
+                                     The algorithm we propose is in this family
+
+        7. 网络产品及硬件架构
+           http://mp.weixin.qq.com/s/MC5sHlHdvVat0iNi7qpF2g
+        8. 谈谈10G光模块(1)
+           http://mp.weixin.qq.com/s/YpTaJhYjnf7zlTVGxdoGig
+        9. 运营商网络简介
+           http://mp.weixin.qq.com/s/wNkHD1c3_8VTN9Ila7_EqA
+        10. GitLab想离弃云，但...
+           http://mp.weixin.qq.com/s/YFSANJpAdyU538a6KjUe_A
+            1. the comments are interesting. there are a lot of experience
+            2. they got a lot of community support
+```
+
+Business visions.
+
+```
+1. Readings: Vision: Case Interview Secrets - Victor Cheng
+   https://www.caseinterview.com/
+    1. use proxy for estimation
+        1. match you intuition and find proxy via
+            1. relevance links
+            2. history or similar peers
+            3. population breakdown
+        2. improving the proxy
+            1. break the problem into different aspects and find multiple proxies
+            2. finding different proxies from different layers for the same problem, and cross validate
+            3. segmenting the proxy to confine the imperfect proxy issue
+        3. comparing interview estimation problem vs real storage vision
+            1. interview has limitted time, no google, no knowledge background, no calculator. the general questions are general product-sales-revenue
+            2. but targeting for storage area, we can borrow many knowledge, no time limit and use complex model and simulation, shadow peer works. so a lot questions become easier
+    2. Consultent Sense
+        1. Independent Problem Solver
+            1. Can I drop you off with a division of a Fortune 500 company by yourself, with little to no supervision? Can you handle the client, solve the problems, and in the process make teh firm looks good?
+        2. Doing as Little as Possible vs Boiling the Ocean
+            1. What is the "key information" to answer client's questions?
+               How do the as little as possible to finish the quest?
+        3. The Airplane Test (aka Don't Be an Asshole)
+            1. Would I want to spend three hours sitting next to you on an airplane?
+        4. Tooling
+            1. Hypothesis
+                1. Always Hypothesis first. Hypothesis dictate what customized Issue Tree you use
+            2. Issue tree/framework/template
+                1. Validated by
+                    1. Always have Hypothesis first. Issue tree is dedicated to hypothesis, don't blindly borrow a framework for certain area
+                    2. the MECE test
+                    3. Victor Cheng's conclusiveness test: If all branches are true, you cannot reject the conclusion. To accept/reject the conclusion, you don't need less/more branches
+            3. Drill-down analysis, goback and re-structure again
+                1. process of elimination on false branches, until the final one left to point the true conclusion
+            4. Synthesis: action-oriented, concise, big picture integrated with detailed analysis
+    3. Issue tree frameworks
+        1. Profitability framework: Revenue (price/#unit sold), (variable/fixed) cost
+        2. Business situation framework: Customer, product, company, competition
+        3. some tips
+            1. Always do comparison, to historical data, to external competitors
+            2. Company specifc issue, or industry wide issue?
+            3. Combine both qualitive questions and quantitive questions 
+            4. Segementation and process-of-elimination
+            5. Linear thinker, rationalize each decision choice taken, as be thoughtful
+            6. P173 the live case Frameworks in action. This chapter is very good
+    4. more captures
+        1. Record and replay, until you get every wording sythesis right
+        2. Brainstorm ideas but with structured categories heuristics, MECE mining, comination iteration
+        4. Presentation slides：each title should give the point (rather than description), the all titles together should tell a complete story - synthesis
+
+4. readings: finish the recent WeiChat articles
+    1. Facebook开源LogDevice：一种用于日志的分布式数据存储系统
+       https://mp.weixin.qq.com/s/rJby2i4eUrY_qweOwp8XHQ
+       https://code.facebook.com/posts/357056558062811/logdevice-a-distributed-data-store-for-logs/
+        1. good to read
+        2. highlights
+            1. LogDevice record placement is different from HDFS (metadata approach) and Ceph (hash approach)。每个"R"或"G"（估计是不同的log stream或compent分类什么的）
+               有固定的存储节点集。节点集实际上是允许log往这些节点里同时写入，最大限度地保证写入速度和写入tail latency tolerate（牺牲读效率）；这确实适合日志写这种场景。日志记录
+               也在节点集中复制里2到3个副本。读取器联系节点集中的所有节点，自己做去重和排序。为了优化读效率，LogDevice保证每个log记录只有一个副本服务器从磁盘读取；这是通过把副本集（copy set）
+               附加到每个log record的header实现的。
+            2. 序号epoach:seq设计很巧妙，只有epoach递增（对应sequencer server crash）需要paxos保存，seq严格递增则只需要一台轻量的sequencer server即可。
+               而不同的"R"和"G"（应该是对应不同log stream），可以分别用不同的log sequencer服务；"R"和"G"的epoach不同，对应关系由epoach paxos保存。这感觉是学了megastore。
+               这种方式下，有了一个高效的全局sequencing方案。paxos的优化思路就是，把轻量的功能下放给SPOF的服务，自己管高层，同时还保证容忍层服务挂了不影响逻辑正确。
+               这种多层代理的方式，确实增加了paxos的吞吐量；而paxos本身之管最顶上一层了。Ceph的paxos只管metadata，也有这个思路的影子。
+    2. 深入浅出阿里云新一代关系型数据库 PolarDB
+       https://mp.weixin.qq.com/s/Chqd-HSRQmSpuKcqJNnUwQ
+        1. 跟进Amazon的Aurora，基于MySQL的云RDS服务。
+           不同于原RDS，PolarDB的计算和存储分离，存储使用共享存储。
+           类似Aurora，redolog和数据文件从在共享存储上。网络使用RDMA。
+        2. others
+            1. OceanBase
+               https://www.zhihu.com/question/19841579
+                1. transaction writes in memory, only journal to disk (SSD).
+                   at night, data batch commit to disk (SSD). (all sequential write)
+                   three zones in turn do night batch commit.
+                2. 支撑蚂蚁双十一交易支付流量
+                   http://velocity.oreilly.com.cn/2016/index.php?func=session&id=26
+                   https://yq.aliyun.com/articles/217
+                3. Questions
+                    1. 基线数据在SSD，修改在内存。读怎么serve？
+    3. 曹亚孟 - 中国云计算现状
+        1. 成本篇： https://mp.weixin.qq.com/s?__biz=MzI3MzAzNDAyMQ==&mid=2657598340&idx=1&sn=0f417c8d04fd484bf0f4d2dbc331cd59
+        2. 采购篇: https://mp.weixin.qq.com/s?__biz=MzA5MjA2MjgyNg==&mid=2649901141&idx=1&sn=d3107c14bebee710850a49d51de678f9
+        3. 产品篇： https://mp.weixin.qq.com/s?__biz=MzI3MzAzNDAyMQ==&mid=2657598771&idx=1&sn=cf9ff35a396978074ab3739fb30f6a88
+        4. 盈利篇： https://mp.weixin.qq.com/s?__biz=MzI3MzAzNDAyMQ==&mid=2657598340&idx=1&sn=0f417c8d04fd484bf0f4d2dbc331cd59
+            1. 销售部分讲得很好好；good to read
+    4. 史无前例开放！阿里内部集群管理系统Sigma混布数据
+       https://mp.weixin.qq.com/s/4-7LLacEksMGfw6eZPz53w
+       https://github.com/alibaba/clusterdata
+    5. Mirantis: Is Kubernetes Repeating OpenStack's Mistakes?
+       https://www.mirantis.com/blog/is-kubernetes-repeating-openstacks-mistakes/?from=timeline
+    6. 没有绝对安全的系统：写在AES 256破解之后
+       https://zhuanlan.zhihu.com/p/28089365?utm_medium=social&utm_source=wechat_timeline&from=timeline
+        1. 使用专有的硬件来完成密码学操作(FPGA impl)，就可以很好地防御这类攻击了
+    7. 同程容器云平台网络方案演进
+       https://mp.weixin.qq.com/s/MqGI_l5bbWM1sdigDo65Bg
+        1. 隧道方案：Weave，OVS，Flannel
+            缺点：随着节点规模增长，复杂度上升，网络问题不好跟踪，性能损失严重
+           路由方案：Cailco，Macvlan
+            性能更好，但依赖BGP，侵入传统物理网络，频繁变更物理路由器的配置
+           Vlan方案：Contiv netplugin，pipework
+            Contiv由思科推出，支持ACI，性能到物理网卡95%，master挂了不影响网络，基于ovs可以灵活地做Policy/ACL/Qos监控
+            最终选择使用Contiv netplugin
+        2. 实现了container迁移后，容器IP不变（IP持久化）
+        3. 网络监控使用ovs的sflow
+        4. 深度解密京东登月平台基础架构
+           https://mp.weixin.qq.com/s/uyhlp4oBV5VKc-eapKRsMw
+    8. 深度解密京东登月平台基础架构
+       https://mp.weixin.qq.com/s/uyhlp4oBV5VKc-eapKRsMw
+    9. 分布式存储Ceph 架构及性能调优实践
+       https://mp.weixin.qq.com/s/4mE5k6yfF-rinMHeBpe59w
+    10. 万字长文 | 详解优维科技内部DevOps研发实践 | 演讲实录
+        https://mp.weixin.qq.com/s/_moAftumbmxb4wBQfMO48Q
+    11. 美团云《纠删码存储系统中的投机性部分写技术》在国际顶级技术大会USENIX ATC上发表
+        https://mp.weixin.qq.com/s/2ku_PqzaSKh9rMVHeaKaqg
+        1. good improvement. handles updates in EC fragments
+        2. 在SSE、AVX等向量运算指令集的帮助下，现代CPU的1个核心每秒就能完成5~13GB数据量的编解码工作，
+           远远大于同时期各种外部存储设备的吞吐率，所以编解码运算已不再成为EC存储系统的瓶颈
+    12. Synthesizing Obama: Learning Lip Sync from Audio
+        http://grail.cs.washington.edu/projects/AudioToObama/siggraph17_obama.pdf
+        1. very interesting. good to take a look. video: https://www.youtube.com/watch?v=9Yq67CjDqvw
+        2. using RNN. this technology can be used in Skype, Facebook, etc video chats
+    13. 麦子迈 Ceph开发每周谈
+        https://mp.weixin.qq.com/s/tm9uKZFZm-3ekbq5lTu8Sw
+        https://mp.weixin.qq.com/s/GR6AnKqgnNBd_7K3WJf0sw
+        false sharing: https://mp.weixin.qq.com/s/BKBwNb0JyuqOjgeHw4MkWA
+        SPDK BlobStore: https://mp.weixin.qq.com/s/IfIie34YOxXtTbvsng3L0A
+            1. think about MS LLAMA storage layer
+        OpenStack 2017 用户调研: https://mp.weixin.qq.com/s/h-sMMm_ENQoDHmUHWU6ejA
+        CRUSH 不均衡问题: https://mp.weixin.qq.com/s/7Djv7rgo-Lv0nlVMV0kLLA
+        rbdcache CPU消耗: https://mp.weixin.qq.com/s/eZgg_gEr2GBZSqAyXfWBsQ
+        Ceph 去重: https://mp.weixin.qq.com/s/z47TT8mfGHT61iL2312H0A
+        https://mp.weixin.qq.com/s/8qPNt-9YdVjFtr4hcK3S3Q
+        Ceph Day Beijing: https://mp.weixin.qq.com/s/e7rtVcF8CjnFsmWRQ6FqOg
+            1. ceph day beijing agenda: https://www.slideshare.net/DanielleWomboldt/ceph-day-beijing-welcome-to-beijing-ceph-day
+            2. slides
+                1. Ceph Day Beijing - Ceph All-Flash Array Design Based on NUMA Architecture
+                   https://www.slideshare.net/DanielleWomboldt/ceph-day-beijing-ceph-allflash-array-design-based-on-numa-architecture?next_slideshow=1
+                2. Ceph Day Beijing - Optimizing Ceph Performance by Leveraging Intel Optane and 3D NAND TLC SSDS
+                   https://www.slideshare.net/DanielleWomboldt/ceph-day-beijing-optimizing-ceph-performance-by-leveraging-intel-optane-and-3d-nand-tlc-ssds?qid=fe7dce42-8e43-49be-b5a3-96847182d5a2&v=&b=&from_search=3
+                3. Ceph Day Beijing - Our journey to high performance large scale Ceph cluster at Alibaba
+                   https://www.slideshare.net/DanielleWomboldt/ceph-day-beijing-our-journey-to-high-performance-large-scale-ceph-cluster-at-alibaba?qid=fe7dce42-8e43-49be-b5a3-96847182d5a2&v=&b=&from_search=5
+                4. Ceph Day Beijing - Ceph RDMA Update
+                   https://www.slideshare.net/DanielleWomboldt/ceph-day-beijing-ceph-rdma-update?qid=fe7dce42-8e43-49be-b5a3-96847182d5a2&v=&b=&from_search=6
+                5. Ceph Day Beijing - Small Files & All Flash: Inspur's works on Ceph
+                   https://www.slideshare.net/DanielleWomboldt/ceph-day-beijing-small-files-all-flash-inspurs-works-on-ceph?qid=fe7dce42-8e43-49be-b5a3-96847182d5a2&v=&b=&from_search=7
+                6. Ceph Day Beijing - SPDK for Ceph
+                   https://www.slideshare.net/DanielleWomboldt/ceph-day-beijing-spdk-for-ceph?qid=fe7dce42-8e43-49be-b5a3-96847182d5a2&v=&b=&from_search=8
+                7. Ceph Day Beijing - Leverage Ceph for SDS in China Mobile
+                   https://www.slideshare.net/DanielleWomboldt/ceph-day-beijing-leverage-ceph-for-sds-in-china-mobile?qid=fe7dce42-8e43-49be-b5a3-96847182d5a2&v=&b=&from_search=10
+                8. Ceph Day Beijing - BlueStore and Optimizations
+                   https://www.slideshare.net/DanielleWomboldt/ceph-day-beijing-bluestore-and-optimizations?qid=fe7dce42-8e43-49be-b5a3-96847182d5a2&v=&b=&from_search=11
+        LMDB: https://mp.weixin.qq.com/s/4cf6v4vLIq0Df0ZWmVH6NA
+            1. PR: https://github.com/ceph/ceph/pull/4403
+        https://mp.weixin.qq.com/s/Wo_yVNP5-KQXq_Rd8lsD_Q
+        Open Channel SSD: https://mp.weixin.qq.com/s/gLRDRwwHChME7YFCKNaaWg
+            1. LightNVM
+        https://mp.weixin.qq.com/s/6vS5LzruoAoX8caYHW_7rA
+        https://mp.weixin.qq.com/s/DoxO_PBcQ7fF8VjDwZx0Pw
+        ObjectStore性能新数据: https://mp.weixin.qq.com/s/__xKjWi9y55di52QG1D19w
+        Ceph新社区经理: https://mp.weixin.qq.com/s/jkE_a0jVfzT6TxyzCjtTgg
+        Ceph Client Cache: https://mp.weixin.qq.com/s/DpmJ7C92Ke0IASZQIM7aZQ
+        Rados Level Replication: https://mp.weixin.qq.com/s/6OryLe6m4vT-FFoHPQd8mQ
+            1. from Qihoo 360: http://tracker.ceph.com/attachments/download/2903/ceph_rados-level_replication.pdf
+        RocksDB Multi Column Family Performance: https://mp.weixin.qq.com/s/f1CctA8V492oAhCWqKd3Pg
+            1. 很多用户问 CephFS 的多 Filesystem 特性是否安全，John 之前回应了这个特性并不是很好的测试覆盖，而且存在漏洞，
+               用户在安全层面仍然能够访问所有 FS，而且不排除存在明显问题。
+        Luminous 特性: https://mp.weixin.qq.com/s/co0GXRrtbrrMEC16sotu4A
+            1. BlueStore:
+                在 Luminous，BlueStore 大约经历了若干时间的稳定开发后，已经可以一用，特别是在对象存储场景，相信各方面性能和稳定性都能超越 FileStore。
+                但是目前仍然有几个潜在风险，
+                    第一个是内存消耗，BlueStore 虽然针对分配容量能够做控制，当时实际容量消耗仍然更大，大约在 1.5x 相较于默认 BlueStore cache memory 配置。
+                    第二个是老生常谈的元数据缓存问题，在元数据大部分命中情况下，有较好的性能结果，但是当元数据超过 SSD 容量时，这个时候性能下降是非常大的，但是目前这个性能下降是无声的，对大量用户使用会有较大影响。
+                    第三个是块存储性能上，基于目前的情况来看，在闪存下性能可以大致相当于 FileStore，但是延迟会更高，在 HDD 情况下性能会好一些，在大块场景下，可以完全超越 FileStore，目前主要是小块性能仍然不足。
+                如果基于想尝试 Luminous 的生产用户，仍然推荐用 FileStore 先行，目前社区仍然太缺乏 BlueStore 的用例和实践，会存在较大运维困难和问题触发。
+        https://mp.weixin.qq.com/s/0YZbm-w0shMJZnZtwj0SIg
 ```

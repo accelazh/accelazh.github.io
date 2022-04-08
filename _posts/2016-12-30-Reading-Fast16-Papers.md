@@ -47,7 +47,7 @@ __[NOVA](http://github.com/NVSL/NOVA): [A Log-structured File System for Hybrid 
            journaling works for cross inode atomic updates; only save necessary data
            the most complex POSIX rename operation involves up to four inodes; journal are always no more than 64 bytes
         2. the code to enforce write ordering
-            ```
+            ---
             new_tail = append_to_log(inode->tail, entry);
             // writes back the log entry cachelines
             clwb(inode->tail, entry->length);
@@ -55,7 +55,7 @@ __[NOVA](http://github.com/NVSL/NOVA): [A Log-structured File System for Hybrid 
             PCOMMIT(); // commits entry to NVMM
             sfence(); // orders subsequent store
             inode->tail = new_tail;
-            ```
+            ---
            if new instructions are not supported, NOVA fallbacks to movntq and uses a combination of clflush and sfense
     4. implement the log as a singly linked list
         1. since NVM allows fast random access, the log doesn't need to be sequential
