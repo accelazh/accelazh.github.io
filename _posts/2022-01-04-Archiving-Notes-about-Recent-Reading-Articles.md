@@ -1292,6 +1292,30 @@ Archiving notes about recent reading articles. Many.
                 4. 软件开发，数字化，运营
                 5. 供应商
             3. Zhihu: https://www.zhihu.com/question/504904337
+
+1. Readings: Comparing AWS S3 with Azure Storage and learn.
+    1. Below articles reveal S3 is essentially Dynamo (which is published)
+    2. key takeaways
+        1. S3 is not append-only system. Blob objects can be updated. Updates are versioned.
+        2. S3 is eventual consistent (though most time reads will return newest version). Until 2020 Dec.1, S3 released strong consistency feature (deep dive).
+            1. According to deep dive, the primary source of S3 inconsistency is from the metadata cache layer. Reads may go to metadata cache nodes pointing to older version of data.
+        3. S3 uses consistent hashing to manage data placement, which doesn't need metadata. Unlike we have metadata memory scalability issue. (Note consistent hashing is weaker at fine-grain placement and migration)
+        4. S3 is a blob service. VHD is served by EBS, which seems another system. Unlike Azure Storage combine them all.
+        5. S3 updates goes through quorum writes, e.g. writes need update 3 out of 5 replicas. It has a few implications
+            1. Not all replicas are latest, thus stale reads are possible, i.e. eventual consistency.
+            2. Version conflicts are possible. S3 resolving conflicts by simple "last write win".
+            3. Maintaining 5 replica is expensive, unless multi-zone/region. Probably S3 built-in multi-zones and cross-region inside quorum write from day 1.
+        6. There are interesting features in revealed in this article about S3 2006-2021 history 
+            1. S3 Intelligent-Tiering
+            2. S3 Replication Time Control
+            3. S3 Object Lambda feature
+    3. materials
+        1. https://www.allthingsdistributed.com/2021/04/s3-strong-consistency.html
+        2. https://aws.amazon.com/about-aws/whats-new/2020/12/amazon-s3-now-delivers-strong-read-after-write-consistency-automatically-for-all-applications/
+        3. https://www.allthingsdistributed.com/2021/03/happy-15th-birthday-amazon-s3.html
+        4. https://stackoverflow.com/questions/564223/amazon-s3-architecture
+        5. https://www.allthingsdistributed.com/2007/10/amazons_dynamo.html
+
 ```
 
 More earlier results.

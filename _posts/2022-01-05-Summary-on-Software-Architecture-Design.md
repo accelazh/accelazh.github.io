@@ -8,6 +8,7 @@ tags: [cloud, engineering, architecture]
 ---
 {% include JB/setup %} -->
 
+// TODO get a good article name, also the innovation one
 
 The article summarizes my experiences on software architecture.
 
@@ -362,7 +363,7 @@ Continued from the above discussion about evaluating a piece of code is good des
 
 ## Technology design spaces, architecture design patterns, and system properties
 
-Software architecture have common __system properties__, e.g. [CAP](https://www.educative.io/blog/what-is-cap-theorem). To achieve them, different techniques are invented and evolve into more general __architecture design patterns__. Plotting them on the map of various driving factors, they reveal the landscape of __technology design space__, that we explore and navigate for building new systems. I'll focus on __distributed storage__. 
+Software architecture has common __system properties__, e.g. [CAP](https://www.educative.io/blog/what-is-cap-theorem). To achieve them, different techniques are invented and evolve into more general __architecture design patterns__. Plotting them on the map of various driving factors, they reveal the landscape of __technology design space__, that we explore and navigate for building new systems. I'll focus on __distributed storage__. 
 
 ### Sources to learn from
 
@@ -430,7 +431,7 @@ __Cache__
 
 __(Distributed) Filesystem__
 
-  * [BtrFS](https://dominoweb.draco.res.ibm.com/reports/rj10501.pdf) for Linux single node filesystem. It indexes inodes with B-tree, updates with copy-on-write (COW), ensures atomicity with shadow paging. Other contemporaries are [XFS](http://www.scs.stanford.edu/nyu/03sp/sched/sgixfs.pdf), which also indexes by B-tree buts updates with overwrite; and [EXT4](https://ext4.wiki.kernel.org/index.php/Ext4_Disk_Layout), which is the default Linux filesystem that directory inode is a tree index to file inodes, and employs write-ahead journaling (WAL) to ensure update (overwrite) atomicity.
+  * [BtrFS](https://dominoweb.draco.res.ibm.com/reports/rj10501.pdf) for Linux single node filesystem. It indexes inodes with B-tree, updates with copy-on-write (COW), ensures atomicity with shadow paging. Other contemporaries include [XFS](http://www.scs.stanford.edu/nyu/03sp/sched/sgixfs.pdf), which also indexes by B-tree buts updates with overwrite; and [EXT4](https://ext4.wiki.kernel.org/index.php/Ext4_Disk_Layout), which is the default Linux filesystem that directory inode is a tree index to file inodes, and employs write-ahead journaling (WAL) to ensure update (overwrite) atomicity.
 
   * [CephFS](https://docs.ceph.com/en/pacific/cephfs/index.html) introduces MDS to serve filesystem metadata, i.e. directories, inodes, caches; while persistence is backed by object storage data pool and metadata pool. It features in [dynamic subtree partitioning](https://ceph.io/assets/pdfs/weil-mds-sc04.pdf) and [Mantle load balancing](https://engineering.ucsc.edu/sites/default/files/technical-reports/UCSC-SOE-15-10.pdf). Cross-partition transaction is done by [MDS journaling](https://docs.ceph.com/en/pacific/cephfs/mds-journaling/) to the object store. MDS acquires [locks](https://docs.ceph.com/en/pacific/cephfs/mdcache/#distributed-locks-in-an-mds-cluster) before update.
 
@@ -440,13 +441,13 @@ __(Distributed) Filesystem__
 
 __Object/Block Storage__
 
-  * [Ceph](https://www.ssrc.ucsc.edu/pub/weil-osdi06.html) for distributed block storage and object storage (and CephFS for distributed filesystem). Ceph made opensource scale-out storage possible, and [dominated](https://ubuntu.com/blog/openstack-storage) in OpenStack ecosystem. It features in CRUSH map to save metadata by hash-based placement. It converges all object/block/file serving in one system. Node metadata is managed by a Paxos quorum (Consistent Core) to achieve all CAP. Ceph stripes objects and update in-place, which yet introduced single node transaction. Ceph later built [BlueStore](https://mp.weixin.qq.com/s/dT4mr5iKnQi9-NEvGhI7Pg) that [customized](https://www.pdl.cmu.edu/PDL-FTP/Storage/ceph-exp-sosp19.pdf) filesystem, optimized for SSD, and solved the double-write problem.
+  * [Ceph](https://www.ssrc.ucsc.edu/pub/weil-osdi06.html) for distributed block storage and object storage (and CephFS for distributed filesystem). Ceph made opensource scale-out storage possible, and [dominated](https://ubuntu.com/blog/openstack-storage) in OpenStack ecosystem. It features in CRUSH map to save metadata by hash-based placement. It converges all object/block/file serving in one system. Node metadata is managed by a Paxos quorum (Consistent Core) to achieve all CAP. Ceph stripes objects and update in-place, which yet introduced single node transaction. Ceph later built [BlueStore](https://mp.weixin.qq.com/s/dT4mr5iKnQi9-NEvGhI7Pg) that [customized](https://www.pdl.cmu.edu/PDL-FTP/Storage/ceph-exp-sosp19.pdf) filesystem, optimized for SSD, and solved the [double-write problem](http://accelazh.github.io/ceph/Ceph-Blue-Store-And-Double-Write-Issues). The double-write issues is solved by separating metadata (delegated to RocksDB), and key/value data (like [Wisckey](https://www.usenix.org/system/files/conference/fast16/fast16-papers-lu.pdf)); and big writes become append-only, small overwrites are merged to WAL (write-ahead logging).
 
-  * [Azure Storage](https://azure.microsoft.com/en-us/blog/sosp-paper-windows-azure-storage-a-highly-available-cloud-storage-service-with-strong-consistency/) for industry level public cloud storage infrastructure. It is built on Stream layer, which a distributed append-only filesystem; and uses Table layer, which implements scale-out table schema, to support VM disk pages, object storage, message queue. Append-only simplifies update management but gets more challenge in Garbage Collection (GC). The contemporary [AWS S3](https://stackoverflow.com/questions/564223/amazon-s3-architecture) seems instead follow Dynamo, that is update in-place and shards by consistent hashing. 
+  * [Azure Storage](https://azure.microsoft.com/en-us/blog/sosp-paper-windows-azure-storage-a-highly-available-cloud-storage-service-with-strong-consistency/) for industry level public cloud storage infrastructure. It is built on Stream layer, which a distributed append-only filesystem; and uses Table layer, which implements scale-out table schema, to support VM disk pages, object storage, message queue. Append-only simplifies update management but gets more challenge in Garbage Collection (GC). The contemporary [AWS S3](https://stackoverflow.com/questions/564223/amazon-s3-architecture) seems instead follows Dynamo, that is update in-place and shards by consistent hashing. For converging object/block/file converged, [Nutanix](https://www.nutanix.com/hyperconverged-infrastructure) shares similar thought to run storage and VM on one node (unlike remotely attached SAN/NAS).
 
-  * [Tectonic](https://www.usenix.org/conference/fast21/presentation/pan) is similar with Azure Storage. It hash partitions metadata to scale-out. It employs [Copyset Placement](http://www.stanford.edu/~skatti/pubs/usenix13-copysets.pdf). It consolidates Facebook Haystack/F4 (Object storage) and Data Warehouse, and introduced much multi-tenancy and resource throttling.
+  * [Tectonic](https://www.usenix.org/conference/fast21/presentation/pan) is similar with Azure Storage. It hash partitions metadata to scale-out. It employs [Copyset Placement](http://www.stanford.edu/~skatti/pubs/usenix13-copysets.pdf). It consolidates Facebook Haystack/F4 (Object storage) and Data Warehouse, and introduced much multitenancy and resource throttling. Another feature of Tectonic is to decouple common background jobs, e.g. data repair, migration, GC, node health, from metadata store, into background services. [TiDB](https://docs.pingcap.com/tidb/dev/tidb-architecture) shares similar thought if would have moved Placement Driver out of metadata server.
 
-  * [XtremIO](https://www.youtube.com/watch?v=lIIwbd5J7bE) to build full-flash block storage array with an innovative content-based hashing. The data placement is decided by content hash, thus deduplication is naturally supported. Though accesses are randomized, they run on flash. Write is acked after two copies in memory. Other contemporaries are [SolidFire](https://www.youtube.com/watch?v=AeaGCeJfNBg), which is also scale-out; and [Pure Storage](https://www.purestorage.com/products.html), which is scale-up and uses a dual-controller sharing disks.
+  * [XtremIO](https://www.youtube.com/watch?v=lIIwbd5J7bE) to build full-flash block storage array with an innovative content-based hashing. The data placement is decided by content hash, thus deduplication is naturally supported. Though accesses are randomized, they run on flash. Write is acked after two copies in memory. Other contemporaries include [SolidFire](https://www.youtube.com/watch?v=AeaGCeJfNBg), which is also scale-out; and [Pure Storage](https://www.purestorage.com/products.html), which is scale-up and uses a dual-controller sharing disks.
 
 __Data deduplication__
 
@@ -462,27 +463,29 @@ __Archival storage__
 
 __OLTP/OLAP database__
 
-  * [CockroachDB](https://dl.acm.org/doi/pdf/10.1145/3318464.3386134) builds the cross-regional SQL database that enables serializable ACID, an opensource version of [Google Spanner](https://static.googleusercontent.com/media/research.google.com/en//archive/spanner-osdi2012.pdf). It overcomes TrueTime dependency by instead use [Hybrid Logical Clock](https://www.cockroachlabs.com/docs/stable/architecture/transaction-layer.html). It maps SQL schema to key-value and stores in [RocksDB](https://www.cockroachlabs.com/blog/cockroachdb-on-rocksd/). It uses [Raft](https://www.cockroachlabs.com/docs/stable/architecture/replication-layer.html#raft) to replicate partition data. It built novel [Write Pipelining](https://www.cockroachlabs.com/blog/transaction-pipelining/) and [Parallel Commit](https://www.cockroachlabs.com/blog/parallel-commits/) to speedup transactions. Another contemporary is [YugabyteDB](https://blog.yugabyte.com/ysql-architecture-implementing-distributed-postgresql-in-yugabyte-db/), which reuses PostgreSQL for query layer and replaced RocksDB with DocDB. [YugabyteDB](https://blog.yugabyte.com/yugabytedb-vs-cockroachdb-bringing-truth-to-performance-benchmark-claims-part-2/) had an interesting [debate](https://www.zhihu.com/question/449949351) with [CockroachDB](https://www.cockroachlabs.com/blog/unpacking-competitive-benchmarks/).
+  * [CockroachDB](https://dl.acm.org/doi/pdf/10.1145/3318464.3386134) builds the cross-regional SQL database that enables serializable ACID, an opensource version of [Google Spanner](https://static.googleusercontent.com/media/research.google.com/en//archive/spanner-osdi2012.pdf). It overcomes TrueTime dependency by instead use [Hybrid Logical Clock](https://www.cockroachlabs.com/docs/stable/architecture/transaction-layer.html). It maps SQL schema to key-value and stores in [RocksDB](https://www.cockroachlabs.com/blog/cockroachdb-on-rocksd/). It uses [Raft](https://www.cockroachlabs.com/docs/stable/architecture/replication-layer.html#raft) to replicate partition data. It built novel [Write Pipelining](https://www.cockroachlabs.com/blog/transaction-pipelining/) and [Parallel Commit](https://www.cockroachlabs.com/blog/parallel-commits/) to speedup transactions. Another contemporary is [YugabyteDB](https://blog.yugabyte.com/ysql-architecture-implementing-distributed-postgresql-in-yugabyte-db/), which reuses PostgreSQL for query layer and replaced RocksDB with DocDB, and [had](https://blog.yugabyte.com/yugabytedb-vs-cockroachdb-bringing-truth-to-performance-benchmark-claims-part-2/) an interesting [debate](https://www.zhihu.com/question/449949351) with [CockroachDB](https://www.cockroachlabs.com/blog/unpacking-competitive-benchmarks/).
 
-  * [TiDB](https://www.vldb.org/pvldb/vol13/p3072-huang.pdf) is similar with CockroachDB. It focus on single region and serializes with timestamp oracle server. It implements transaction following [Percolator](https://github.com/pingcap/tla-plus/blob/master/Percolator/Percolator.tla). TiDB moved a step further to combine OLTP/OLAP (i.e. HTAP) by Raft replicating an extra columnar replica (TiFlash) from the baseline row format data. In [contemporaries](https://arxiv.org/pdf/2103.11080) to support both OLTP/OLAP, besides HyPer/MemSQL/Greenplum, Oracle Exadata (OLTP) improves OLAP performance by introducing NVMe flash, RDMA, and add in-memory columnar cache; AWS Aurora (OLTP) offloads OLAP to parallel processing on cloud; [F1 Lightning](http://www.vldb.org/pvldb/vol13/p3313-yang.pdf) replicas data from OLTP database (Spanner, F1 DB) and converts them into columnar format for OLAP, with strong snapshot consistency.
+  * [TiDB](https://www.vldb.org/pvldb/vol13/p3072-huang.pdf) is similar with CockroachDB. It focus on single region and serializes with timestamp oracle server. It implements transaction following [Percolator](https://github.com/pingcap/tla-plus/blob/master/Percolator/Percolator.tla). TiDB moved a step further to combine OLTP/OLAP (i.e. HTAP) by Raft replicating an extra columnar replica ([TiFlash](https://docs.pingcap.com/zh/tidb/dev/tiflash-overview)) from the baseline row format data. In [contemporaries](https://arxiv.org/pdf/2103.11080) to support both OLTP/OLAP, besides HyPer/MemSQL/Greenplum, Oracle Exadata (OLTP) improves OLAP performance by introducing NVMe flash, RDMA, and added in-memory columnar cache; AWS Aurora (OLTP) offloads OLAP to parallel processing on cloud; [F1 Lightning](http://www.vldb.org/pvldb/vol13/p3313-yang.pdf) replicas data from OLTP database (Spanner, F1 DB) and converts them into columnar format for OLAP, with snapshot consistency.
 
-  * [OceanBase](https://zhuanlan.zhihu.com/p/93721603) is a distributed SQL database, MySQL-compatible, and supports both OLTP/OLAP with [hybrid row-column data layout](https://dbdb.io/db/oceanbase). It uses a central controller (Paxos replicated) to serialize distributed transaction. The contemporary [X-Engine](https://www.cs.utah.edu/~lifeifei/papers/sigmod-xengine.pdf) is an MySQL-compatible LSM-tree storage engine, used by [PolarDB](https://www.usenix.org/conference/fast20/presentation/cao-wei). It uses FPGA to do compaction. Read/write paths are separated to tackle with traffic surge. PolarDB features in pushing down queries to Smart SSD ([an example](https://cacm.acm.org/magazines/2019/6/237002-programmable-solid-state-storage-in-future-cloud-datacenters/fulltext)) which computes within disk box to reduce filter output.
+  * [OceanBase](https://zhuanlan.zhihu.com/p/93721603) is a distributed SQL database, MySQL-compatible, and supports both OLTP/OLAP with [hybrid row-column data layout](https://dbdb.io/db/oceanbase). It uses a central controller (Paxos replicated) to serialize distributed transaction. The contemporary [X-Engine](https://www.cs.utah.edu/~lifeifei/papers/sigmod-xengine.pdf) is an MySQL-compatible LSM-tree storage engine, used by [PolarDB](https://www.usenix.org/conference/fast20/presentation/cao-wei). X-Engine uses FPGA to do compaction. Read/write paths are separated to tackle with traffic surge. X-Engine also introduced Multi-staged Pipeline where tasks are broken small, executed async, and pipelined, which resembles [SeaStar](https://www.scylladb.com/2016/03/18/generalist-engineer-cassandra-performance/). PolarDB features in pushing down queries to Smart SSD ([an example](https://cacm.acm.org/magazines/2019/6/237002-programmable-solid-state-storage-in-future-cloud-datacenters/fulltext)) which computes within disk box to reduce filter output. Later [PolarDB Serverless](http://www.cs.utah.edu/~lifeifei/papers/polardbserverless-sigmod21.pdf) moved to disaggregated cloud native architecture like Snowflake. 
 
-  * [AnalyticDB](http://www.vldb.org/pvldb/vol12/p2059-zhan.pdf) is Alibaba's OLAP database. It stores data on shared [Pangu](https://www.alibabacloud.com/blog/pangu%E2%80%94the-highperformance-distributed-file-system-by-alibaba-cloud_594059) (HDFS+), and schedules jobs via [Fuxi](http://www.vldb.org/pvldb/vol7/p1393-zhang.pdf) (Yarn+). Data is organized in hybrid row-column data layout (columnar separated by row groups). Write nodes and read nodes are separated to scale independently. Updates are first appended as incremental delta, and then merged and build index on all columns off the write path. The baseline + incremental resembles [Lambda architecture](https://www.cnblogs.com/listenfwind/p/13221236.html).
+  * [AnalyticDB](http://www.vldb.org/pvldb/vol12/p2059-zhan.pdf) is Alibaba's OLAP database. It stores data on shared [Pangu](https://www.alibabacloud.com/blog/pangu%E2%80%94the-highperformance-distributed-file-system-by-alibaba-cloud_594059) (HDFS++), and schedules jobs via [Fuxi](http://www.vldb.org/pvldb/vol7/p1393-zhang.pdf) ([YARN](https://www.cnblogs.com/liangzilx/p/14837562.html)++). Data is organized in hybrid row-column data layout (columnar in row groups). Write nodes and read nodes are separated to scale independently. Updates are first appended as incremental delta, and then merged and build index on all columns off the write path. The baseline + incremental resembles [Lambda architecture](https://www.cnblogs.com/listenfwind/p/13221236.html).
 
   * [ClickHouse](https://clickhouse.com/docs/en/development/architecture/) is a recent OLAP database quickly gaining popularity known as "[very fast](https://clickhouse.tech/docs/en/faq/general/why-clickhouse-is-so-fast/)". Besides common columnar format, vectorized query execution, data compression, ClickHouse made fast by "attention to low-level details". ClickHouse supports various indexes (besides full scan). It absorbs updates via [MergeTree](https://developer.aliyun.com/article/762092) (similar to LSM-tree). It doesn't support transaction due to OLAP scenario.
 
-  * [Log is database](https://zhuanlan.zhihu.com/p/33603518) [[2]](https://zhuanlan.zhihu.com/p/338582762)[[3]](https://zhuanlan.zhihu.com/p/151086982). The philosophy was first seen on [AWS Aurora Multi-master](https://www.allthingsdistributed.com/2019/03/Amazon-Aurora-design-cloud-native-relational-database.html). Logs are replicated as the single source of truth, rather than sync pages. Page server is treated a cache that replays logs. In parallel, [CORFU](https://blog.acolyer.org/2017/05/02/corfu-a-distributed-shared-log/), [Delos](https://www.usenix.org/system/files/osdi20-balakrishnan.pdf) builds the distributed shared log as a service. [Helios Indexing](http://www.vldb.org/pvldb/vol13/p3231-potharaju.pdf), [FoundationDB](https://www.foundationdb.org/files/fdb-paper.pdf), [HyderDB](http://www.cs.cornell.edu/~blding/pub/hyder_sigmod_2015.pdf) builds database atop shared logging.
+  * [Log is database](https://zhuanlan.zhihu.com/p/33603518) [[2]](https://zhuanlan.zhihu.com/p/338582762)[[3]](https://zhuanlan.zhihu.com/p/151086982). The philosophy was first seen on [AWS Aurora Multi-master](https://www.allthingsdistributed.com/2019/03/Amazon-Aurora-design-cloud-native-relational-database.html). Logs are replicated as the single source of truth, rather than sync pages. Page server is treated a cache that replays logs. In parallel, [CORFU](https://blog.acolyer.org/2017/05/02/corfu-a-distributed-shared-log/), [Delos](https://www.usenix.org/system/files/osdi20-balakrishnan.pdf) build the distributed shared log as a service. [Helios Indexing](http://www.vldb.org/pvldb/vol13/p3231-potharaju.pdf), [FoundationDB](https://www.foundationdb.org/files/fdb-paper.pdf), [HyderDB](http://www.cs.cornell.edu/~blding/pub/hyder_sigmod_2015.pdf) build database atop shared logging.
 
 __In-memory database__
 
-  * [HyPer](https://hyper-db.de/) in-memory database has many recognized publications. It pioneers in [vectorized query execution by code generation](https://www.vldb.org/pvldb/vol11/p2209-kersten.pdf), features in [Morsel-driven execution scheduling](https://db.in.tum.de/~leis/papers/morsels.pdf), `fork()` to create OLAP snapshot from OLTP, and many other aspects. Other contemporaries are [SAP HANA](http://sites.computer.org/debull/A12mar/hana.pdf), which combines both OLTP/OLAP (with delta structure) and supports rich analytics; [MemSQL](https://www.singlestore.com/blog/revolution/), which supports OLTP/OLAP by adding both row/columnar format; and [GreenPlum](https://arxiv.org/pdf/2103.11080), which extended PostgreSQL to MPP, added GemFire for in-memory processing, and added OLTP after OLAP with performance improvement and resource isolation.
+  * [HyPer](https://hyper-db.de/) in-memory database has many recognized publications. It pioneers [vectorized query execution](https://www.vldb.org/pvldb/vol11/p2209-kersten.pdf) with code generation, where [LLVM](https://stackoverflow.com/questions/2354725/what-exactly-is-llvm) is commonly used to compile IR (intermediate representation); and features in [Morsel-driven execution scheduling](https://db.in.tum.de/~leis/papers/morsels.pdf), `fork()` to create OLAP snapshot from OLTP, and many other aspects. Other contemporaries include [SAP HANA](http://sites.computer.org/debull/A12mar/hana.pdf), which combines both OLTP/OLAP (with delta structure) and supports rich analytics; [MemSQL](https://www.singlestore.com/blog/revolution/), which supports OLTP/OLAP by adding both row/columnar format; and [GreenPlum](https://arxiv.org/pdf/2103.11080), which extended PostgreSQL to MPP, added GemFire (used by [12306.cn](https://blog.csdn.net/u014756827/article/details/102610104)) for in-memory processing, and added OLTP after OLAP with performance improvement and resource isolation.
 
-  * [Hekaton](https://www.microsoft.com/en-us/research/publication/hekaton-sql-servers-memory-optimized-oltp-engine/) is the in-memory DB engine for Microsoft SQL Server. It features in the lock-free [Bw-Tree](https://www.cs.cmu.edu/~huanche1/publications/open_bwtree.pdf), which works by append deltas and merge. Bw-tree needs a [Page Mapping Table](https://www.microsoft.com/en-us/research/publication/the-bw-tree-a-b-tree-for-new-hardware/) for atomic page update, and avoid propagating page id change to parent nodes. [LLAMA](https://db.disi.unitn.eu//pages/VLDBProgram/pdf/research/p853-levandoski.pdf) further optimizes the Page Mapping Table. Bw-tree's SSD component can also be append-only, with "Blind Incremental Update" in [DocumentDB](https://www.vldb.org/pvldb/vol8/p1668-shukla.pdf). Hekaton also has [Project Siberia](http://www.vldb.org/pvldb/vol6/p1714-kossmann.pdf) to tier cold data, which uses adaptive filters to tell whether data exists on cold disk, and cold classification is done [offline](https://www.microsoft.com/en-us/research/wp-content/uploads/2016/02/p1016-eldawy.pdf) on logged sampled record accesses.
+  * [Hekaton](https://www.microsoft.com/en-us/research/publication/hekaton-sql-servers-memory-optimized-oltp-engine/) is the in-memory DB engine for Microsoft SQL Server. It features in the lock-free [Bw-Tree](https://www.cs.cmu.edu/~huanche1/publications/open_bwtree.pdf), which works by append deltas and merge. Bw-tree needs a [Page Mapping Table](https://www.microsoft.com/en-us/research/publication/the-bw-tree-a-b-tree-for-new-hardware/) ([LLAMA](https://db.disi.unitn.eu//pages/VLDBProgram/pdf/research/p853-levandoski.pdf)) for atomic page update, and avoid propagating page id change to parent nodes. Bw-tree's SSD component can also be append-only, with "Blind Incremental Update" in [DocumentDB](https://www.vldb.org/pvldb/vol8/p1668-shukla.pdf). Hekaton also has [Project Siberia](http://www.vldb.org/pvldb/vol6/p1714-kossmann.pdf) to tier cold data, which uses adaptive filters to tell whether data exists on cold disk, and cold classification is done [offline](https://www.microsoft.com/en-us/research/wp-content/uploads/2016/02/p1016-eldawy.pdf) on logged sampled record accesses.
 
-  * [ART tree](https://db.in.tum.de/~leis/papers/ART.pdf) is one of the popular index (e.g. HyPer) for in-memory databases (and also PMEM). It's essentially a radix tree with adaptive node sizes. Other contemporaries are [Masstree](https://pdos.csail.mit.edu/papers/masstree:eurosys12.pdf), which is a trie of B+trees and collective optimizing techniques; [Bw-tree](https://www.microsoft.com/en-us/research/publication/the-bw-tree-a-b-tree-for-new-hardware/); and [Be-tree](https://www.usenix.org/conference/fast15/technical-sessions/presentation/jannen), which uses per node buffer to absorb random updates, and can be used in [VMWare copy files](https://www.usenix.org/conference/fast20/presentation/zhan).
+  * [ART tree](https://db.in.tum.de/~leis/papers/ART.pdf) is one of the popular index (e.g. HyPer) for in-memory databases (and also PMEM). It's essentially a radix tree with adaptive node sizes. Other contemporaries include [Masstree](https://pdos.csail.mit.edu/papers/masstree:eurosys12.pdf), which is a trie of B+trees and collective optimizing techniques; [Bw-tree](https://www.microsoft.com/en-us/research/publication/the-bw-tree-a-b-tree-for-new-hardware/); and [Be-tree](https://www.usenix.org/conference/fast15/technical-sessions/presentation/jannen), which uses per node buffer to absorb random updates, and can be used in [VMWare copy files](https://www.usenix.org/conference/fast20/presentation/zhan). For filtering, besides commonly used [BloomFilter](http://oserror.com/backend/bloomfilter/), [SuRF](https://db.cs.cmu.edu/papers/2018/mod601-zhangA-hm.pdf) additionally supports range query but with high update cost.
 
   * [FaRM](https://www.microsoft.com/en-us/research/project/farm/) builds scale-out in-memory database with fast serializable transactions on RDMA and UPS protected PMEM. CPU bottleneck is overcome by reducing message count, one-sided RDMA reads/writes, and exploiting parallelism. Data is sharded. Distributed transaction is implemented with 2PC; lock is persisted in logs of primary nodes of each partition; read is lock-free; coordinator has no persistent state. Zookeeper is used to maintain node membership. Objects are accessed via keys (pointer address). Following work [A1](https://arxiv.org/abs/2004.05712) builds graph database atop FaRM, and handles RDMA congestion with [DCQCN](https://blog.csdn.net/hithj_cainiao/article/details/117292144).
+
+  * [Silo](https://wzheng.github.io/silo.pdf) builds OCC serializable transaction commit protocol by epoch-based group commit, indexed by Masstree. [Manycore](https://taesoo.kim/pubs/2016/min:fxmark.pdf) (40+ CPU cores) significantly changes concurrency design in HPC, in-memory, PMEM systems; e.g. Linux [Kernel](https://pdos.csail.mit.edu/papers/linux:osdi10.pdf) and [Filesystems](https://taesoo.kim/pubs/2016/min:fxmark-slides.pdf). Besides custom latching & fencing, techniques are frequently used such as [Epoch-based Reclamation](https://aturon.github.io/blog/2015/08/27/epoch/#epoch-based-reclamation) (e.g. in Masstree), [Sloppy Counter](https://pdos.csail.mit.edu/papers/linux:osdi10.pdf), [Flat Combining](https://www.cs.bgu.ac.il/~hendlerd/papers/flat-combining.pdf), Share Nothing. Epoch-based Reclamation groups frequent memory operations into larger infrequent epochs; threads work on local memory, except the GC one touches all after epoch inactive. [RCU](http://www.jmfaleiro.com/pubs/latch-free-cidr2017.pdf) is similar, that after all transaction passed low-watermark epoch, older DB record versions can be reclaimed. Sloppy Counter splits reference counting to a global counter and per-core counters, where most operation happens at thread-local. In Flat Combining, worker threads publish requests to thread-local, then compete for a global CAS (compare-and-set), and the only winner batches and executes all requests. Shared Nothing is the silver bullet for high concurrency, as long as the system can be designed this way ([comprehensive example](https://www.usenix.org/conference/osdi16/technical-sessions/presentation/curtis-maury)).
 
 __NoSQL database__
 
@@ -490,11 +493,11 @@ __NoSQL database__
 
   * [FoundationDB](https://www.foundationdb.org/files/fdb-paper.pdf) to support ACID transaction in distributed KV store. The transaction implementation is backed by the shared logging system. Control Plane, Transaction, Shared Logging, Storage Systems are decoupled. FoundationDB also builds fast recovery leveraging the shared log. Besides, FoundationDB features in Deterministic Simulation Testing built by Flow.
 
-  * [MongoDB](https://engineering.mongodb.com/papers) is the de-facto JSON document database, one of the most successful opensource databases and went [IPO](https://www.cnbc.com/2017/10/19/mongodb-mdb-ipo-stock-price-on-first-trading-day.html). MongoDB went popular because of easy to use. It scales out by sharding (range/hash partitioning) and HA (high availability) by replica set (1 write + N read replicas).
+  * [MongoDB](https://engineering.mongodb.com/papers) is the de-facto JSON document database, one of the most successful opensource databases and went [IPO](https://www.cnbc.com/2017/10/19/mongodb-mdb-ipo-stock-price-on-first-trading-day.html). MongoDB went popular because of ease to use. It scales out by sharding (range/hash partitioning) and HA (high availability) by replica set (1 write + N read replicas).
 
   * [HBase](https://segmentfault.com/a/1190000019959411) is the opensource version of [Big Table](https://static.googleusercontent.com/media/research.google.com/en//archive/bigtable-osdi06.pdf). Table is range partitioned and metadata managed by [ZooKeeper](https://mikechen.cc/4657.html) (opensource version of Chubby, or Paxos + [Replicated State Machine](https://www.youtube.com/watch?v=TWp6H7mb09A) + Namespace indexing). Partition server employs LSM-tree to manage updates, with common parts like MemTable, HFile, Compaction. HBase features in variable column schema, retrieving values by timestamp versions, and per row atomic operations. Cross-partition transactions can be built atop with [Percolator](https://research.google/pubs/pub36726/). HBase becomes the de-factor big table schema database on HDFS, and serves as the backend for higher level systems serving SQL, time-series, block, etc. ByteDance has customized implementation of Big Table and Spanner [[1]](https://mp.weixin.qq.com/s/DvUBnWBqb0XGnicKUb-iqg)[[2]](https://mp.weixin.qq.com/s/oV5F_K2mmE_kK77uEZSjLg). Alibaba customized HBase and published [Lindorm](https://zhuanlan.zhihu.com/p/407175099).
 
-  * [Cassandra](https://www.cs.cornell.edu/projects/ladis2009/papers/lakshman-ladis2009.pdf) follows the peer-to-peer (P2P) cluster management from [Dynamo](http://docs.huihoo.com/amazon/Dynamo-Amazon-Highly-Available-Key-Value-Store.pdf) (while [DynamoDB](https://www.allthingsdistributed.com/2012/01/amazon-dynamodb.html) is AWS commercial that also follows Dynamo). It has no dedicated metadata quorum, but carries it in peer nodes and propagate with [Gossip](http://kaiyuan.me/2015/07/08/Gossip/) protocol. It supports big table schema where primary key is required. Keys are partitioned and placement-ed by [Consistent Hashing](https://www.toptal.com/big-data/consistent-hashing) to avoid data churn when node join/leaves. Cassandra employs quorum write/read (write N replicas, read N/2+1 replicas) to ensure durability and version consistency. Similar P2P cluster management can be found in [Service Fabric](https://dl.acm.org/doi/pdf/10.1145/3190508.3190546) which hosts micro-services and has extensive mechanism for member node ring consistency.
+  * [Cassandra](https://www.cs.cornell.edu/projects/ladis2009/papers/lakshman-ladis2009.pdf) follows the peer-to-peer (P2P) cluster management from [Dynamo](http://docs.huihoo.com/amazon/Dynamo-Amazon-Highly-Available-Key-Value-Store.pdf) (while [DynamoDB](https://www.allthingsdistributed.com/2012/01/amazon-dynamodb.html) is AWS commercial that also follows Dynamo). It has no dedicated metadata quorum, but carries it in peer nodes and propagate with [Gossip](http://kaiyuan.me/2015/07/08/Gossip/) protocol. It supports big table schema where primary key is required. Keys are partitioned and placement-ed by [Consistent Hashing](https://www.toptal.com/big-data/consistent-hashing) to avoid data churn when node join/leaves. Cassandra employs quorum write/read (write N replicas, read N/2+1 replicas) to ensure durability and version consistency. Similar P2P cluster management can be found in [Service Fabric](https://dl.acm.org/doi/pdf/10.1145/3190508.3190546) which hosts micro-services and has extensive mechanisms for member node ring consistency.
 
   * [ElasticSearch] originates from full-text search engine based on Apache Lucene, so popular, then evolves into the scalable database of JSON documents, logging, time-series, [geospatial data](https://www.baeldung.com/elasticsearch-geo-spatial) with strong search support. ElasticSearch manages [scale-out](https://www.cnblogs.com/sgh1023/p/15691061.html) with primary-secondary replications, and hash sharding. Previously ElasticSearch was also known by [ELK stack](https://www.elastic.co/what-is/elk-stack). 
 
@@ -502,11 +505,11 @@ __NoSQL database__
 
 __Graph database__
 
-  * [Graphene](https://www.usenix.org/conference/fast17/technical-sessions/presentation/liu) builds the typical patterns for a graph databases. It speeds up queries by co-locating edges and vertices accessed together, managing small objects and fine-grained IOs. Former work traces back to [GraphLab](https://arxiv.org/ftp/arxiv/papers/1408/1408.2041.pdf). Other contemporaries are [Neo4J](https://neo4j.com/), which originates from saving OO graph in DB; [ArangoDB](https://www.arangodb.com/), which features in [JSON document graph](https://www.g2.com/categories/graph-databases) and multi-model; and [OrientDB](http://www.enotes.vip/index.php/tz_enotes/Article/showArticleReader.html?art_id=513) which is also a [multi-model](https://db-engines.com/en/system/ArangoDB%3BNeo4j%3BOrientDB) database. Graph databases are frequently used in Social Network mining and iterative Machine Learning algorithms.
+  * [Graphene](https://www.usenix.org/conference/fast17/technical-sessions/presentation/liu) builds the typical patterns for a graph databases. It speeds up queries by co-locating edges and vertices accessed together, managing small objects and fine-grained IOs. Former work traces back to [GraphLab](https://arxiv.org/ftp/arxiv/papers/1408/1408.2041.pdf). Other contemporaries include [Neo4J](https://neo4j.com/), which originates from saving OO graph in DB; [ArangoDB](https://www.arangodb.com/), which features in [JSON document graph](https://www.g2.com/categories/graph-databases) and multi-model; and [OrientDB](http://www.enotes.vip/index.php/tz_enotes/Article/showArticleReader.html?art_id=513) which is also a [multi-model](https://db-engines.com/en/system/ArangoDB%3BNeo4j%3BOrientDB) database. Graph databases are frequently used in Social Network mining and iterative Machine Learning.
 
   * [Facebook TAO](https://www.vldb.org/pvldb/vol14/p3014-cheng.pdf) the frugal two level architecture for social graph (OLTP). Persistence/capacity layer is by [MySQL](https://www.usenix.org/system/files/conference/atc13/atc13-bronson.pdf), which instead uses [RocksDB](https://vldb.org/pvldb/vol13/p3217-matsunobu.pdf) as engine. QPS/cache layer is by Memcached, with a long thread of [works](https://www.usenix.org/conference/osdi20/presentation/berg) to improvement. For consistency, TAO supports 2PC cross shard write, and prevents fracture read (not ACID, not snapshot isolation). Query is optimized to fetch association.
 
-  * [FaRM A1](https://ashamis.github.io/files/A1-A-Distributed-In-Memory-Graph-Database.pdf). General purpose graph database used by Bing for knowledge graph. Vertices/edges are organized in linked structure objects, accessed with pointer addresses, and build optimistic concurrency control (OCC) transaction and MVCC (multi-version concurrency control) read via FaRM. Other contemporaries are [AWS Neptune](https://aws.amazon.com/neptune/); and [CosmosDB](https://azure.microsoft.com/en-us/blog/a-technical-overview-of-azure-cosmos-db/), which developed from [DocumentDB](https://www.vldb.org/pvldb/vol8/p1668-shukla.pdf), is a globally distributed (optional) strong consistency multi-model database, and uses Bw-tree with "Blind Incremental Update" instead of LSM-tree to absorb writes.
+  * [FaRM A1](https://ashamis.github.io/files/A1-A-Distributed-In-Memory-Graph-Database.pdf). General purpose graph database used by Bing for knowledge graph. Vertices/edges are organized in linked structure objects, accessed via pointer addresses, and build optimistic concurrency control (OCC) transaction and MVCC (multi-version concurrency control) read via FaRM. Other contemporaries include [AWS Neptune](https://aws.amazon.com/neptune/); and [CosmosDB](https://azure.microsoft.com/en-us/blog/a-technical-overview-of-azure-cosmos-db/), which developed from [DocumentDB](https://www.vldb.org/pvldb/vol8/p1668-shukla.pdf), is a globally distributed (optional) strong consistency multi-model database, and uses Bw-tree with "Blind Incremental Update" instead of LSM-tree to absorb writes.
 
 __Datalake__
 
@@ -518,7 +521,7 @@ __Stream processing__
 
   * [Kafka Transactional](https://assets.confluent.io/m/2aaa060edb367628/original/20210504-WP-Consistency_and_Completeness_Rethinking_Optimized_Distributed_Stream_Processing_in_Apache_Kafka-pdf.pdf) builds exactly-once transaction level consistency in messaging queue. This made stream processing reliable, to be the first-class citizen than database tables. This further enables [Kappa architecture](https://blog.twitter.com/engineering/en_us/topics/infrastructure/2021/processing-billions-of-events-in-real-time-at-twitter-) with transactional Spark, to replace the dual-cost Lambda architecture.
 
-  * [Spark](https://spark.apache.org/docs/latest/rdd-programming-guide.html) outperforms MapReduce by in-memory RDD and micro-batch process, and then extends to [stream processing](https://spark.apache.org/docs/latest/streaming-programming-guide.html). It is the de-factor Big Data computation framework. Other [contemporary](https://medium.com/@chandanbaranwal/spark-streaming-vs-flink-vs-storm-vs-kafka-streams-vs-samza-choose-your-stream-processing-91ea3f04675b) [Flink](https://flink.apache.org/) features in one-by-one streaming (rather than micro-batches), [checkpointed 2PC exactly-once](https://www.infoq.com/news/2021/11/exactly-once-uber-flink-kafka/), and [ack by XOR of path nodes](https://hps.vi4io.org/_media/teaching/wintersemester_2017_2018/bd1718-11-streams.pdf#20).
+  * [Spark](https://spark.apache.org/docs/latest/rdd-programming-guide.html) outperforms MapReduce by in-memory RDD and micro-batch process, and then extends to [stream processing](https://spark.apache.org/docs/latest/streaming-programming-guide.html). It is the de-factor Big Data computation framework. Among [contemporaries](https://medium.com/@chandanbaranwal/spark-streaming-vs-flink-vs-storm-vs-kafka-streams-vs-samza-choose-your-stream-processing-91ea3f04675b), [Flink](https://flink.apache.org/) features in one-by-one streaming (rather than micro-batches), [checkpointed 2PC exactly-once](https://www.infoq.com/news/2021/11/exactly-once-uber-flink-kafka/), and [ack by XOR of path nodes](https://hps.vi4io.org/_media/teaching/wintersemester_2017_2018/bd1718-11-streams.pdf#20).
 
 __Persistent memory__
 
@@ -534,6 +537,10 @@ __Cloud native__
 
   * [Service Mesh](https://istio.io/latest/about/service-mesh/) is a containerized micro-service infrastructure, where Sidecar proxies (e.g. [Envoy](https://istio.io/latest/docs/ops/deployment/architecture/)) adds traffic routing, Service Registry, Load Balancing, Circuit Breaker, health Checks, encryption, etc to Apps with little code change. The former [Spring Cloud](https://xie.infoq.cn/article/2baee95d42ed7f8dd83cec170) can be migrated to K8S and Service Mesh environment with effort.
 
+  * [Dominant Resource Fairness](https://cs.stanford.edu/~matei/papers/2011/nsdi_drf.pdf) is a typical [Cloud Resource Scheduling](https://www.researchgate.net/publication/293329163_A_Survey_on_Resource_Scheduling_in_Cloud_Computing_Issues_and_Challenges) algorithm, used in [YARN](https://mp.weixin.qq.com/s/9A0z0S9IthG6j8pZe6gCnw), that normalizes multi-dimensional resource allocation to follow the dominate one. Alternatively, [2DFQ](https://cs.brown.edu/~jcmace/papers/mace162dfq.pdf) achieves fairness by separating requests to threads according to their sizes; [Quasar](http://csl.stanford.edu/~christos/publications/2014.quasar.asplos.pdf) samples workload profile on a small cluster via Machine Learning, than goto the full cluster; Container/[CGroup](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html/managing_monitoring_and_updating_the_kernel/using-cgroups-v2-to-control-distribution-of-cpu-time-for-applications_managing-monitoring-and-updating-the-kernel) specifies quota/weight per user job, and the pattern is shared by [K8S scheduling](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/); Ceph QoS [employs](https://docs.ceph.com/en/latest/rados/configuration/mclock-config-ref/) d[mClock](https://www.usenix.org/legacy/event/osdi10/tech/full_papers/Gulati.pdf) that uses weighted reservation tags. Besides, [Leaky bucket](https://blog.51cto.com/leyew/860302) is the classic algorithm for throttling; [Heracles](https://static.googleusercontent.com/media/research.google.com/en//pubs/archive/43792.pdf) isolates resource for latency-sensitive jobs vs batch. In general, cloud introduced [Multitenancy](https://www.usenix.org/conference/fast21/presentation/pan) to depict a system shared by multiple users (tenants) and each assigned a group of virtualization, isolation, access control, and priority/quota policies. For cost estimation, a typical method is request count & size in smoothing window or outstanding queue; Cost Modeling](https://github.com/pingcap/tidb/blob/master/planner/core/task.go#L260) in DB query optimizer provides more [comprehensive methods](https://15721.courses.cs.cmu.edu/spring2020/schedule.html#apr-15-2020); examples can be found at paper [Access Path Selection](https://www.eecs.harvard.edu/~kester/files/accesspathselection.pdf) and [Optimal Column Layout](https://stratos.seas.harvard.edu/files/stratos/files/caspervldb2020.pdf).
+
+  * [Akkio](https://www.usenix.org/conference/osdi18/presentation/annamalai) used in Facebook migrates u-shards across geo-regional datacenters to maintain access locality. U-shards (in MBs), which represents the small actively access datasets determined by App-side knowledge, is way smaller than shards (GBs), thus incurs low migration cost. [Taiji](https://research.facebook.com/publications/taiji-managing-global-user-traffic-for-large-scale-internet-services-at-the-edge/) is another Facebook system that load balances users to datacenters based on [SocialHash](https://blog.acolyer.org/2016/05/25/socialhash-an-assignment-framework-for-optimizing-distributed-systems-operations-on-social-networks/), i.e. friendly groups are likely to access similar contents.
+
 __Secondary Indexing__
 
   * [Helios](http://www.vldb.org/pvldb/vol13/p3231-potharaju.pdf) builds global scale secondary index. Updates are ingested into shared logging, the single source of truth, and then build indexes asynchronously with eventual consistency. Index is built bottom-up by merging logs and uproll level by level, and stores at HDFS-compatible datalake. 3rd-party query engine can leverage the indexes to prune blocks. [Hyperspace](https://www.microsoft.com/en-us/research/publication/hyperspace-the-indexing-subsystem-of-azure-synapse/) is another indexing system on datalake, building index with Spark jobs; but publishes fine-grain index states, metadata, data, logs as plain files (with a spec) on datalake to achieve good interoperability.
@@ -542,17 +549,129 @@ __Secondary Indexing__
 
   * [HBase Secondary Index](http://ceur-ws.org/Vol-1810/DOLAP_paper_10.pdf) compares global index and local index, mentioned in the [LSM-tree survey](https://arxiv.org/pdf/1812.07527.pdf). Global index only needs one search but incurs high consistency cost upon updates. Local index colocates with each data partition, where consistency update is kept local, but a search needs to query all partitions.
 
+### Storage components breakdown
+
+To plot the architecture design space for distributed storage systems, we divide it by three different dimensions. They map to static/runtime views and non-functional goals of the architecture. Common components can be extracted from sources like "Reference architectures in storage areas". They may overlap, while I strive to separate them concise and clear.
+
+__Divide by storage areas__
+
+  * Cache
+  * Filesystem
+    * Distributed filesystem 
+  * Object/Block Storage
+  * Data deduplication
+  * Archival storage
+  * OLTP/OLAP database
+    * Shared logging
+  * In-memory database
+    * Manycore
+  * NoSQL database
+  * Graph database
+  * Datalake
+  * Stream processing
+  * Persistent memory
+  * Cloud native
+    * Cloud scheduling
+    * Geo Migration
+  * Secondary Indexing
+  * Query processing
+
+__Divide by static components__
+
+  * Metadata nodes  // Don't forgot consistent core
+  * Data nodes  // TODO OS filesystem, space allocation, FS indexing, journaling, durability. offloading computation
+  * Indexing
+  * Logging & journaling
+  * Transaction control
+  * Data layout  // TODO physical, logical
+  * Data compression
+  * Data deduplication
+  * Caching layer
+  * Cold/hot tiering
+  * Client
+  * Storage media
+  * Networking & Messaging   // TODO RDMA / PRC / Gossip
+  * Backup & disaster recovery
+  * Upgrade/deployment and restart
+  * Monitoring & alerting
+  * Configuration management
+  
+__Divide by runtime workflows__
+
+  * Read path
+  * Write path - append
+  * Write path - update
+  * Load balancing
+  * Data replication
+  * Data repair
+  * Data migration
+  * Garbage collection
+  * Data compaction
+  * Data scrubbing
+  * Failure recovery
+  * Node membership & failure detection
+  * Background jobs
+  * Clock synchronization
+  * Resource scheduling and quota/throttling 
+  * Overload control
+  * Offloading
+
+__Divide by system properties__
+
+  * Traffic pattern
+  * Query model
+  * Data partitioning & placement
+  * Data versioning
+  * Consistency
+  * Transaction & ACID
+  * High availability
+  * Scale-out
+  * Scale-up
+  * Data availability
+  * Data durability
+  * Data integrity  // scrubbing, end2end CRC. chained verification, heterogeneous verification.
+  * Concurrency
+  * Throughput & latency
+  * Cross geo-regions
+  * Operational ease
+  * Interoperability
+
+### Technology design spaces - metadata
+
+The following sections talk about technology design spaces. They root from "Reference architectures" listed above, and cover areas in "Storage components breakdown". Unlike breakdown, techniques and design patterns usually interleave multiple components and require co-design. Architecture design patterns, to also cover below, map to certain techniques to achieve desired system properties. When connected the dots, they expand to consecutive design spaces that enlighten more choices. 
+
+// TODO think in this aspect: 1) what is the driving factor and challenge, 2) what is the design space. 3) then boil down to discrete design patterns
 
 
+metadata, placement
+offloading
+replication
+append only, write path, write-in place + versioning
+caching
+Indexing, read optimized, write optimized, bw-tree append delta, etc
+Compaction, GC, the different tuning methods, and level or no level
+
+resource scheduling / throttling
+consistency, atomic update, WAL
+converged file/object/block/page, in functionality, in co-run process
+
+data layout, columnar, row-wise
+log is database
+partitioning
+Resource scheduling / throttling / quota
+upgrading/deployment
+Lots of small files
+Manycore, high concurrency
+Networking
+
+--
+
+filling the patterns in other categories
+examine that I covered all reference architectures
+check I included all things from notes
+explore the design space, draft like the design space
 
 
-
-
-
-
-
-
-// TODO next, to plot the per component, workflow, system properties design, for each of the technical areas
 
 
 
@@ -577,80 +696,14 @@ __Secondary Indexing__
 ------------------------------
 
 
-
-
-
-
-
-
-
-
-
 // TODO I should insert more pictures also in former parts to help reading. too many words 
-// TODO Add my materials in OneDrive to a zip and link to this article
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
--- Key system properties and their design patterns
-
-let's use consultant thinking to handle this chapter. systematic breakdown, and probe with structure
-
-
-
-e.g. concurrency of web services, concurrency of manycore
-读写分离、CAP
-
-
--- key db.cache, etc systems and their design spaces
-
-
-put the LSM tree paper here
-  constructing and analyzing the lsm compact design space
-  http://vldb.org/pvldb/vol14/p2216-sarkar.pdf
-  LSM-based Storage Techniques: A Survey
-  https://zhuanlan.zhihu.com/p/351241814
-  https://arxiv.org/pdf/1812.07527.pdf
-
-put disk data layout paper here
-  // TODO OK .. this section is basically following database each layers?
-  Check with CMU 15-721 courses, the structure is basically what I need
-
-Another design space example: Optimal Column Layout for Hybrid Workloads (presented at VLDB 2020)
-  https://www.youtube.com/watch?v=AsjqfidHNAQ
-  https://stratos.seas.harvard.edu/files/stratos/files/caspervldb2020.pdf
- 
-  For design space, also remember the Dostoevsky LSM paper
-    https://scholar.harvard.edu/files/stratos/files/dostoevskykv.pdf
-
-another design space example: Building Enclave-Native Storage Engines for Practical Encrypted Databases - use the table 1 for plotting
-  http://vldb.org/pvldb/vol14/p1019-sun.pdf
-
-
-Reference to Book Designing Data-Intensive Applications
-  https://www.oreilly.com/library/view/designing-data-intensive-applications/9781491903063/
-
-
+// TODO Add my materials to a zip and link to this article
 
 ------------
 
 metadata size and degree of freedom, the very good insight theory
+Small task/partition vs big task/partition. The smaller, the more easier to balance. The bigger, the less tracking cost
+
 
 Patterns of Distributed Systems - martinfowler
 https://martinfowler.com/articles/patterns-of-distributed-systems/
@@ -658,11 +711,3 @@ https://martinfowler.com/articles/patterns-of-distributed-systems/
   Add shared nothing, in web server, and concurrency design
 
 
-
------------
-
-Cost modeling involved in architecture design, examples
-  Casper: Optimal Column Layout for Hybrid Workloads: section 4.4
-    https://stratos.seas.harvard.edu/files/stratos/files/caspervldb2020.pdf
-  Access Path Selection in Main-Memory Optimized Data Systems: Should I Scan or Should I Probe?    [2017, 33 refs, CMU 15-721]
-    https://www.eecs.harvard.edu/~kester/files/accesspathselection.pdf

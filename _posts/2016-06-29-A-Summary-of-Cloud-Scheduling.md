@@ -68,7 +68,7 @@ I actually understand cloud scheduling as three complementary aspects
       
       * Another aspect is, since workload is time-varying, the resource container needs to dynamically respond to expand/shrink its bubble. So that all idle resource leftover by critical apps can be utilized by best-effort ones.
       
-      * Examples: [Google Heracles](http://csl.stanford.edu/~christos/publications/2015.heracles.isca.pdf)
+      * Examples: [Google Heracles](https://static.googleusercontent.com/media/research.google.com/en//pubs/archive/43792.pdf)
 
 The ideal is they co-work together as the complete cloud scheduling solution. In real world usually the later two are missing. More, to improve resource utilization, it is also possible to start from human/users, for example.
 

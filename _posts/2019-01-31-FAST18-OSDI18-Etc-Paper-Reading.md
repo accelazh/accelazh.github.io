@@ -798,6 +798,8 @@ Understanding Manycore Scalability of File Systems
 
 ```
 2. Understanding Manycore Scalability of File Systems    [2016, 33 refs]
+   https://taesoo.kim/pubs/2016/min:fxmark.pdf
+   https://taesoo.kim/pubs/2016/min:fxmark-slides.pdf
     1. FxMARK benchmark methods to observe and analyze the morden Fileystems hidden scalability bottlenecks in many IO-intensive applications.
        They key is to stress each individual building block, so we reveal each part of core# scalability. good methodology
        The "Summary of results" in slides, and the bottlenect "Table 3" in paper are very informative.
@@ -867,7 +869,7 @@ Silo: Speedy Transactions in Multicore In-Memory Databases
 
 ```
 4. Silo: Speedy Transactions in Multicore In-Memory Databases    [2013, 226 refs]
-   http://people.eecs.berkeley.edu/~stephentu/papers/silo.pdf
+   https://wzheng.github.io/silo.pdf
    https://www.youtube.com/watch?v=5g66rBmUKOw
     1. significant work in manycore scalable in-memory database.
        implement a variant of optimistic concurrency control in which transaction write their updates to shared memory only at commit time

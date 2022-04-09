@@ -1833,7 +1833,7 @@ tags: [storage, fast, paper]
                         to ensure such an action isn't repeated in the event of repeated restarts
 
 5. readings: ceph related papers
-    1. mClock: Handling Throughput Variability for Hypervisor IO Scheduling    [20110 OSDI VMWare, 155 refs]
+    1. mClock: Handling Throughput Variability for Hypervisor IO Scheduling    [2010 OSDI VMWare, 155 refs]
        https://www.usenix.org/legacy/event/osdi10/tech/full_papers/Gulati.pdf
         1. mClock supports proportional-share fairness subject to minimum reservations and maximum limits on the IO allocations for VMs
            dmclock in this paper is the cluster version
@@ -1947,7 +1947,7 @@ tags: [storage, fast, paper]
                            then ToleRAID becomes proactive until the slowdown of the offending drive is less than ST
 
 5. readings: ceph related papers
-    1. mClock: Handling Throughput Variability for Hypervisor IO Scheduling    [20110 OSDI VMWare, 155 refs]
+    1. mClock: Handling Throughput Variability for Hypervisor IO Scheduling    [2010 OSDI VMWare, 155 refs]
        https://www.usenix.org/legacy/event/osdi10/tech/full_papers/Gulati.pdf
         1. mClock supports proportional-share fairness subject to minimum reservations and maximum limits on the IO allocations for VMs
            dmclock in this paper is the cluster version
