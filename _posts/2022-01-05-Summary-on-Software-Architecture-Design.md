@@ -1,4 +1,4 @@
-<!-- ---
+---
 layout: post
 title: "Summary on Software Architecture Design"
 tagline : "Summary on Software Architecture Design"
@@ -6,9 +6,8 @@ description: "Summary on Software Architecture Design"
 category: "technology"
 tags: [cloud, engineering, architecture]
 ---
-{% include JB/setup %} -->
+{% include JB/setup %}
 
-// TODO get a good article name, also the innovation one
 
 The article summarizes my experiences on software architecture.
 
@@ -297,7 +296,7 @@ More recent architectures below. You can see architectures vary on: How to cut b
 
 // TODO pic: online,nearline,offline from Netflix chart: https://netflixtechblog.com/system-architectures-for-personalization-and-recommendation-e081aa94b5d8
 
-  * __Cloud native__. The system is designed to run exclusively on cloud infrastructure (but to be hybrid cloud). The typical example is [Snowflake](https://www.usenix.org/conference/nsdi20/presentation/vuppalapati) database. Key designs are: 1) Disk file persistence are offloaded to __S3__. 2) Memory caching, query processing, storage are __disaggregated__ and can independently scale-out and be elastic for traffic surge. 3) Read path and write path can separately scale, where typical users generate write contents in steady throughput and read traffic in spikes. 4) Different tiers of resources, since fully disaggregated, can accurately charge billing for how much a customer actually uses.  __Serverless__ is another topic, where all the heavy parts like database and programming runtime are shifted to cloud. Programmers focus on writing functions to do what business values, lightweighted and elastic to traffic.
+  * __Cloud native__. The system is designed to run exclusively on cloud infrastructure (but to be hybrid cloud). The typical example is [Snowflake](https://www.usenix.org/conference/nsdi20/presentation/vuppalapati) database. Key designs are: 1) Disk file persistence are offloaded to __S3__. 2) Memory caching, query processing, storage are __disaggregated__ and can independently scaleout and be elastic for traffic surge. 3) Read path and write path can separately scale, where typical users generate write contents in steady throughput and read traffic in spikes. 4) Different tiers of resources, since fully disaggregated, can accurately charge billing for how much a customer actually uses.  __Serverless__ is another topic, where all the heavy parts like database and programming runtime are shifted to cloud. Programmers focus on writing functions to do what business values, lightweighted and elastic to traffic.
 
 // TODO Add pic about Snowflake architecture
 
@@ -427,7 +426,7 @@ __Cache__
 
   * [Redis](https://redis.io/) is the opensource de-factor in-memory cache used in most Internet companies. Compared to Memcached, it supports rich data structures. It adds checkpoint and per operation logging for durability. Data can be shared to a cluster of primary nodes, then replicated to secondary nodes. [Tendis](https://cloud.tencent.com/developer/article/1815554) further improves cold tiering, and optimizations.
 
-  * [Kangaroo cache](https://www.pdl.cmu.edu/PDL-FTP/NVM/McAllister-SOSP21.pdf) (from long thread of Facebook work on [Memcached](https://www.usenix.org/conference/nsdi13/technical-sessions/presentation/nishtala), [CacheLib](https://www.usenix.org/conference/osdi20/presentation/berg), and [TAO cache consistency](https://www.usenix.org/system/files/conference/atc13/atc13-bronson.pdf)) features in in-memory cache with cold tier to flash. Big objects, small objects are separated. Small objects combines append-only logging and set-associative caching to achieve the optimal DRAM index size vs write amplification.
+  * [Kangaroo cache](https://www.pdl.cmu.edu/PDL-FTP/NVM/McAllister-SOSP21.pdf) (from long thread of Facebook work on [Memcached](https://www.usenix.org/conference/nsdi13/technical-sessions/presentation/nishtala), [CacheLib](https://www.usenix.org/conference/osdi20/presentation/berg), and [TAO cache consistency](https://www.usenix.org/system/files/conference/atc13/atc13-bronson.pdf)) features in in-memory cache with cold tier to flash. Big objects, small objects are separated. Small objects combines append-only logging and set-associative caching to achieve the optimal DRAM index size vs write amplification. Kangaroo also uses "partitioned index" to further reduce KLog's memory index size. 
 
 __(Distributed) Filesystem__
 
@@ -441,13 +440,13 @@ __(Distributed) Filesystem__
 
 __Object/Block Storage__
 
-  * [Ceph](https://www.ssrc.ucsc.edu/pub/weil-osdi06.html) for distributed block storage and object storage (and CephFS for distributed filesystem). Ceph made opensource scale-out storage possible, and [dominated](https://ubuntu.com/blog/openstack-storage) in OpenStack ecosystem. It features in CRUSH map to save metadata by hash-based placement. It converges all object/block/file serving in one system. Node metadata is managed by a Paxos quorum (Consistent Core) to achieve all CAP. Ceph stripes objects and update in-place, which yet introduced single node transaction. Ceph later built [BlueStore](https://mp.weixin.qq.com/s/dT4mr5iKnQi9-NEvGhI7Pg) that [customized](https://www.pdl.cmu.edu/PDL-FTP/Storage/ceph-exp-sosp19.pdf) filesystem, optimized for SSD, and solved the [double-write problem](http://accelazh.github.io/ceph/Ceph-Blue-Store-And-Double-Write-Issues). The double-write issues is solved by separating metadata (delegated to RocksDB), and key/value data (like [Wisckey](https://www.usenix.org/system/files/conference/fast16/fast16-papers-lu.pdf)); and big writes become append-only, small overwrites are merged to WAL (write-ahead logging).
+  * [Ceph](https://www.ssrc.ucsc.edu/pub/weil-osdi06.html) for distributed block storage and object storage (and CephFS for distributed filesystem). Ceph made opensource scaleout storage possible, and [dominated](https://ubuntu.com/blog/openstack-storage) in OpenStack ecosystem. It features in CRUSH map to save metadata by hash-based placement. It converges all object/block/file serving in one system. Node metadata is managed by a Paxos quorum (Consistent Core) to achieve all CAP. Ceph stripes objects and update in-place, which yet introduced single node transaction. Ceph later built [BlueStore](https://mp.weixin.qq.com/s/dT4mr5iKnQi9-NEvGhI7Pg) that [customized](https://www.pdl.cmu.edu/PDL-FTP/Storage/ceph-exp-sosp19.pdf) filesystem, optimized for SSD, and solved the [double-write problem](http://accelazh.github.io/ceph/Ceph-Blue-Store-And-Double-Write-Issues). The double-write issues is solved by separating metadata (delegated to RocksDB), and key/value data (like [Wisckey](https://www.usenix.org/system/files/conference/fast16/fast16-papers-lu.pdf)); and big writes become append-only, small overwrites are merged to WAL (write-ahead logging).
 
-  * [Azure Storage](https://azure.microsoft.com/en-us/blog/sosp-paper-windows-azure-storage-a-highly-available-cloud-storage-service-with-strong-consistency/) for industry level public cloud storage infrastructure. It is built on Stream layer, which a distributed append-only filesystem; and uses Table layer, which implements scale-out table schema, to support VM disk pages, object storage, message queue. Append-only simplifies update management but gets more challenge in Garbage Collection (GC). The contemporary [AWS S3](https://stackoverflow.com/questions/564223/amazon-s3-architecture) seems instead follows Dynamo, that is update in-place and shards by consistent hashing. For converging object/block/file converged, [Nutanix](https://www.nutanix.com/hyperconverged-infrastructure) shares similar thought to run storage and VM on one node (unlike remotely attached SAN/NAS).
+  * [Azure Storage](https://azure.microsoft.com/en-us/blog/sosp-paper-windows-azure-storage-a-highly-available-cloud-storage-service-with-strong-consistency/) for industry level public cloud storage infrastructure. It is built on Stream layer, which a distributed append-only filesystem; and uses Table layer, which implements scaleout table schema, to support VM disk pages, object storage, message queue. Append-only simplifies update management but gets more challenge in Garbage Collection (GC). The contemporary [AWS S3](https://stackoverflow.com/questions/564223/amazon-s3-architecture) seems instead follows Dynamo, that is update in-place and shards by consistent hashing. For converging object/block/file converged, [Nutanix](https://www.nutanix.com/hyperconverged-infrastructure) shares similar thought to run storage and VM on one node (unlike remotely attached SAN/NAS).
 
-  * [Tectonic](https://www.usenix.org/conference/fast21/presentation/pan) is similar with Azure Storage. It hash partitions metadata to scale-out. It employs [Copyset Placement](http://www.stanford.edu/~skatti/pubs/usenix13-copysets.pdf). It consolidates Facebook Haystack/F4 (Object storage) and Data Warehouse, and introduced much multitenancy and resource throttling. Another feature of Tectonic is to decouple common background jobs, e.g. data repair, migration, GC, node health, from metadata store, into background services. [TiDB](https://docs.pingcap.com/tidb/dev/tidb-architecture) shares similar thought if would have moved Placement Driver out of metadata server.
+  * [Tectonic](https://www.usenix.org/conference/fast21/presentation/pan) is similar with Azure Storage. It hash partitions metadata to scaleout. It employs [Copyset Placement](http://www.stanford.edu/~skatti/pubs/usenix13-copysets.pdf). It consolidates Facebook Haystack/F4 (Object storage) and Data Warehouse, and introduced much multitenancy and resource throttling. Another feature of Tectonic is to decouple common background jobs, e.g. data repair, migration, GC, node health, from metadata store, into background services. [TiDB](https://docs.pingcap.com/tidb/dev/tidb-architecture) shares similar thought if would have moved Placement Driver out of metadata server.
 
-  * [XtremIO](https://www.youtube.com/watch?v=lIIwbd5J7bE) to build full-flash block storage array with an innovative content-based hashing. The data placement is decided by content hash, thus deduplication is naturally supported. Though accesses are randomized, they run on flash. Write is acked after two copies in memory. Other contemporaries include [SolidFire](https://www.youtube.com/watch?v=AeaGCeJfNBg), which is also scale-out; and [Pure Storage](https://www.purestorage.com/products.html), which is scale-up and uses a dual-controller sharing disks.
+  * [XtremIO](https://www.youtube.com/watch?v=lIIwbd5J7bE) to build full-flash block storage array with an innovative content-based hashing. The data placement is decided by content hash, thus deduplication is naturally supported. Though accesses are randomized, they run on flash. Write is acked after two copies in memory. Other contemporaries include [SolidFire](https://www.youtube.com/watch?v=AeaGCeJfNBg), which is also scaleout; and [Pure Storage](https://www.purestorage.com/products.html), which is scale-up and uses a dual-controller sharing disks.
 
 __Data deduplication__
 
@@ -463,7 +462,7 @@ __Archival storage__
 
 __OLTP/OLAP database__
 
-  * [CockroachDB](https://dl.acm.org/doi/pdf/10.1145/3318464.3386134) builds the cross-regional SQL database that enables serializable ACID, an opensource version of [Google Spanner](https://static.googleusercontent.com/media/research.google.com/en//archive/spanner-osdi2012.pdf). It overcomes TrueTime dependency by instead use [Hybrid Logical Clock](https://www.cockroachlabs.com/docs/stable/architecture/transaction-layer.html). It maps SQL schema to key-value and stores in [RocksDB](https://www.cockroachlabs.com/blog/cockroachdb-on-rocksd/). It uses [Raft](https://www.cockroachlabs.com/docs/stable/architecture/replication-layer.html#raft) to replicate partition data. It built novel [Write Pipelining](https://www.cockroachlabs.com/blog/transaction-pipelining/) and [Parallel Commit](https://www.cockroachlabs.com/blog/parallel-commits/) to speedup transactions. Another contemporary is [YugabyteDB](https://blog.yugabyte.com/ysql-architecture-implementing-distributed-postgresql-in-yugabyte-db/), which reuses PostgreSQL for query layer and replaced RocksDB with DocDB, and [had](https://blog.yugabyte.com/yugabytedb-vs-cockroachdb-bringing-truth-to-performance-benchmark-claims-part-2/) an interesting [debate](https://www.zhihu.com/question/449949351) with [CockroachDB](https://www.cockroachlabs.com/blog/unpacking-competitive-benchmarks/).
+  * [CockroachDB](https://dl.acm.org/doi/pdf/10.1145/3318464.3386134) builds the cross-regional SQL database that enables serializable ACID, an opensource version of [Google Spanner](https://static.googleusercontent.com/media/research.google.com/en//archive/spanner-osdi2012.pdf). It overcomes TrueTime dependency by instead use [Hybrid Logical Clock](https://www.cockroachlabs.com/docs/stable/architecture/transaction-layer.html) (HLC). It maps SQL schema to key-value and stores in [RocksDB](https://www.cockroachlabs.com/blog/cockroachdb-on-rocksd/). It uses [Raft](https://www.cockroachlabs.com/docs/stable/architecture/replication-layer.html#raft) to replicate partition data. It built novel [Write Pipelining](https://www.cockroachlabs.com/blog/transaction-pipelining/) and [Parallel Commit](https://www.cockroachlabs.com/blog/parallel-commits/) to speedup transactions. Another contemporary is [YugabyteDB](https://blog.yugabyte.com/ysql-architecture-implementing-distributed-postgresql-in-yugabyte-db/), which reuses PostgreSQL for query layer and replaced RocksDB with DocDB, and [had](https://blog.yugabyte.com/yugabytedb-vs-cockroachdb-bringing-truth-to-performance-benchmark-claims-part-2/) an interesting [debate](https://www.zhihu.com/question/449949351) with [CockroachDB](https://www.cockroachlabs.com/blog/unpacking-competitive-benchmarks/).
 
   * [TiDB](https://www.vldb.org/pvldb/vol13/p3072-huang.pdf) is similar with CockroachDB. It focus on single region and serializes with timestamp oracle server. It implements transaction following [Percolator](https://github.com/pingcap/tla-plus/blob/master/Percolator/Percolator.tla). TiDB moved a step further to combine OLTP/OLAP (i.e. HTAP) by Raft replicating an extra columnar replica ([TiFlash](https://docs.pingcap.com/zh/tidb/dev/tiflash-overview)) from the baseline row format data. In [contemporaries](https://arxiv.org/pdf/2103.11080) to support both OLTP/OLAP, besides HyPer/MemSQL/Greenplum, Oracle Exadata (OLTP) improves OLAP performance by introducing NVMe flash, RDMA, and added in-memory columnar cache; AWS Aurora (OLTP) offloads OLAP to parallel processing on cloud; [F1 Lightning](http://www.vldb.org/pvldb/vol13/p3313-yang.pdf) replicas data from OLTP database (Spanner, F1 DB) and converts them into columnar format for OLAP, with snapshot consistency.
 
@@ -483,7 +482,7 @@ __In-memory database__
 
   * [ART tree](https://db.in.tum.de/~leis/papers/ART.pdf) is one of the popular index (e.g. HyPer) for in-memory databases (and also PMEM). It's essentially a radix tree with adaptive node sizes. Other contemporaries include [Masstree](https://pdos.csail.mit.edu/papers/masstree:eurosys12.pdf), which is a trie of B+trees and collective optimizing techniques; [Bw-tree](https://www.microsoft.com/en-us/research/publication/the-bw-tree-a-b-tree-for-new-hardware/); and [Be-tree](https://www.usenix.org/conference/fast15/technical-sessions/presentation/jannen), which uses per node buffer to absorb random updates, and can be used in [VMWare copy files](https://www.usenix.org/conference/fast20/presentation/zhan). For filtering, besides commonly used [BloomFilter](http://oserror.com/backend/bloomfilter/), [SuRF](https://db.cs.cmu.edu/papers/2018/mod601-zhangA-hm.pdf) additionally supports range query but with high update cost.
 
-  * [FaRM](https://www.microsoft.com/en-us/research/project/farm/) builds scale-out in-memory database with fast serializable transactions on RDMA and UPS protected PMEM. CPU bottleneck is overcome by reducing message count, one-sided RDMA reads/writes, and exploiting parallelism. Data is sharded. Distributed transaction is implemented with 2PC; lock is persisted in logs of primary nodes of each partition; read is lock-free; coordinator has no persistent state. Zookeeper is used to maintain node membership. Objects are accessed via keys (pointer address). Following work [A1](https://arxiv.org/abs/2004.05712) builds graph database atop FaRM, and handles RDMA congestion with [DCQCN](https://blog.csdn.net/hithj_cainiao/article/details/117292144).
+  * [FaRM](https://www.microsoft.com/en-us/research/project/farm/) builds scaleout in-memory database with fast serializable transactions on RDMA and UPS protected PMEM. CPU bottleneck is overcome by reducing message count, one-sided RDMA reads/writes, and exploiting parallelism. Data is sharded. Distributed transaction is implemented with 2PC; lock is persisted in logs of primary nodes of each partition; read is lock-free; coordinator has no persistent state. Zookeeper is used to maintain node membership. Objects are accessed via keys (pointer address). Following work [A1](https://arxiv.org/abs/2004.05712) builds graph database atop FaRM, and handles RDMA congestion with [DCQCN](https://blog.csdn.net/hithj_cainiao/article/details/117292144).
 
   * [Silo](https://wzheng.github.io/silo.pdf) builds OCC serializable transaction commit protocol by epoch-based group commit, indexed by Masstree. [Manycore](https://taesoo.kim/pubs/2016/min:fxmark.pdf) (40+ CPU cores) significantly changes concurrency design in HPC, in-memory, PMEM systems; e.g. Linux [Kernel](https://pdos.csail.mit.edu/papers/linux:osdi10.pdf) and [Filesystems](https://taesoo.kim/pubs/2016/min:fxmark-slides.pdf). Besides custom latching & fencing, techniques are frequently used such as [Epoch-based Reclamation](https://aturon.github.io/blog/2015/08/27/epoch/#epoch-based-reclamation) (e.g. in Masstree), [Sloppy Counter](https://pdos.csail.mit.edu/papers/linux:osdi10.pdf), [Flat Combining](https://www.cs.bgu.ac.il/~hendlerd/papers/flat-combining.pdf), Share Nothing. Epoch-based Reclamation groups frequent memory operations into larger infrequent epochs; threads work on local memory, except the GC one touches all after epoch inactive. [RCU](http://www.jmfaleiro.com/pubs/latch-free-cidr2017.pdf) is similar, that after all transaction passed low-watermark epoch, older DB record versions can be reclaimed. Sloppy Counter splits reference counting to a global counter and per-core counters, where most operation happens at thread-local. In Flat Combining, worker threads publish requests to thread-local, then compete for a global CAS (compare-and-set), and the only winner batches and executes all requests. Shared Nothing is the silver bullet for high concurrency, as long as the system can be designed this way ([comprehensive example](https://www.usenix.org/conference/osdi16/technical-sessions/presentation/curtis-maury)).
 
@@ -497,19 +496,19 @@ __NoSQL database__
 
   * [HBase](https://segmentfault.com/a/1190000019959411) is the opensource version of [Big Table](https://static.googleusercontent.com/media/research.google.com/en//archive/bigtable-osdi06.pdf). Table is range partitioned and metadata managed by [ZooKeeper](https://mikechen.cc/4657.html) (opensource version of Chubby, or Paxos + [Replicated State Machine](https://www.youtube.com/watch?v=TWp6H7mb09A) + Namespace indexing). Partition server employs LSM-tree to manage updates, with common parts like MemTable, HFile, Compaction. HBase features in variable column schema, retrieving values by timestamp versions, and per row atomic operations. Cross-partition transactions can be built atop with [Percolator](https://research.google/pubs/pub36726/). HBase becomes the de-factor big table schema database on HDFS, and serves as the backend for higher level systems serving SQL, time-series, block, etc. ByteDance has customized implementation of Big Table and Spanner [[1]](https://mp.weixin.qq.com/s/DvUBnWBqb0XGnicKUb-iqg)[[2]](https://mp.weixin.qq.com/s/oV5F_K2mmE_kK77uEZSjLg). Alibaba customized HBase and published [Lindorm](https://zhuanlan.zhihu.com/p/407175099).
 
-  * [Cassandra](https://www.cs.cornell.edu/projects/ladis2009/papers/lakshman-ladis2009.pdf) follows the peer-to-peer (P2P) cluster management from [Dynamo](http://docs.huihoo.com/amazon/Dynamo-Amazon-Highly-Available-Key-Value-Store.pdf) (while [DynamoDB](https://www.allthingsdistributed.com/2012/01/amazon-dynamodb.html) is AWS commercial that also follows Dynamo). It has no dedicated metadata quorum, but carries it in peer nodes and propagate with [Gossip](http://kaiyuan.me/2015/07/08/Gossip/) protocol. It supports big table schema where primary key is required. Keys are partitioned and placement-ed by [Consistent Hashing](https://www.toptal.com/big-data/consistent-hashing) to avoid data churn when node join/leaves. Cassandra employs quorum write/read (write N replicas, read N/2+1 replicas) to ensure durability and version consistency. Similar P2P cluster management can be found in [Service Fabric](https://dl.acm.org/doi/pdf/10.1145/3190508.3190546) which hosts micro-services and has extensive mechanisms for member node ring consistency.
+  * [Cassandra](https://www.cs.cornell.edu/projects/ladis2009/papers/lakshman-ladis2009.pdf) follows the peer-to-peer (P2P) cluster management from [Dynamo](http://docs.huihoo.com/amazon/Dynamo-Amazon-Highly-Available-Key-Value-Store.pdf) (while [DynamoDB](https://www.allthingsdistributed.com/2012/01/amazon-dynamodb.html) is AWS commercial that also follows Dynamo). It has no dedicated metadata quorum, but carries metadata in peer nodes and propagates with [Gossip](http://kaiyuan.me/2015/07/08/Gossip/) protocol. It supports big table schema where primary key is required. Keys are partitioned and placement-ed by [Consistent Hashing](https://www.toptal.com/big-data/consistent-hashing) to avoid data churn when node join/leaves. Cassandra employs quorum write/read (write N replicas, read N/2+1 replicas) to ensure durability and version consistency. Similar P2P cluster management can be found in [Service Fabric](https://dl.acm.org/doi/pdf/10.1145/3190508.3190546) which hosts micro-services and has extensive mechanisms for member node ring consistency.
 
-  * [ElasticSearch] originates from full-text search engine based on Apache Lucene, so popular, then evolves into the scalable database of JSON documents, logging, time-series, [geospatial data](https://www.baeldung.com/elasticsearch-geo-spatial) with strong search support. ElasticSearch manages [scale-out](https://www.cnblogs.com/sgh1023/p/15691061.html) with primary-secondary replications, and hash sharding. Previously ElasticSearch was also known by [ELK stack](https://www.elastic.co/what-is/elk-stack). 
+  * [ElasticSearch] originates from full-text search engine based on Apache Lucene, so popular, then evolves into the scalable database of JSON documents, logging, time-series, [geospatial data](https://www.baeldung.com/elasticsearch-geo-spatial) with strong search support. ElasticSearch manages [scaleout](https://www.cnblogs.com/sgh1023/p/15691061.html) with primary-secondary replications, and hash sharding. Previously ElasticSearch was also known by [ELK stack](https://www.elastic.co/what-is/elk-stack). 
 
   * [InfluxDB](https://www.influxdata.com/_resources/techpapers-new/) is a popular time-series database. Compared to SQL databases, time-series database exploits fixed data organization and query patterns. Metric dimensions can be aggregated to tackle with high ingress volume, re-sampled to tier data. Another contemporary is [OpenTSDB](https://zhuanlan.zhihu.com/p/111511463), which supports time-series atop HBase. Time-series database is frequently used in [monitoring](https://logz.io/blog/prometheus-influxdb/) and [IoT](https://www.influxdata.com/blog/how-influxdb-iot-data/).
 
 __Graph database__
 
-  * [Graphene](https://www.usenix.org/conference/fast17/technical-sessions/presentation/liu) builds the typical patterns for a graph databases. It speeds up queries by co-locating edges and vertices accessed together, managing small objects and fine-grained IOs. Former work traces back to [GraphLab](https://arxiv.org/ftp/arxiv/papers/1408/1408.2041.pdf). Other contemporaries include [Neo4J](https://neo4j.com/), which originates from saving OO graph in DB; [ArangoDB](https://www.arangodb.com/), which features in [JSON document graph](https://www.g2.com/categories/graph-databases) and multi-model; and [OrientDB](http://www.enotes.vip/index.php/tz_enotes/Article/showArticleReader.html?art_id=513) which is also a [multi-model](https://db-engines.com/en/system/ArangoDB%3BNeo4j%3BOrientDB) database. Graph databases are frequently used in Social Network mining and iterative Machine Learning.
+  * [Graphene](https://www.usenix.org/conference/fast17/technical-sessions/presentation/liu) builds the typical patterns for a graph databases, semi-external memory. It speeds up queries by co-locating edges and vertices accessed together, managing small objects and fine-grained IOs. Former work traces back to [GraphLab](https://arxiv.org/ftp/arxiv/papers/1408/1408.2041.pdf). Other contemporaries include [Neo4J](https://neo4j.com/), which originates from saving OO graph in DB (database); [ArangoDB](https://www.arangodb.com/), which features in [JSON document graph](https://www.g2.com/categories/graph-databases) and multi-model; and [OrientDB](http://www.enotes.vip/index.php/tz_enotes/Article/showArticleReader.html?art_id=513) which is also a [multi-model](https://db-engines.com/en/system/ArangoDB%3BNeo4j%3BOrientDB) database. Graph databases are frequently used in Social Network mining and iterative Machine Learning.
 
   * [Facebook TAO](https://www.vldb.org/pvldb/vol14/p3014-cheng.pdf) the frugal two level architecture for social graph (OLTP). Persistence/capacity layer is by [MySQL](https://www.usenix.org/system/files/conference/atc13/atc13-bronson.pdf), which instead uses [RocksDB](https://vldb.org/pvldb/vol13/p3217-matsunobu.pdf) as engine. QPS/cache layer is by Memcached, with a long thread of [works](https://www.usenix.org/conference/osdi20/presentation/berg) to improvement. For consistency, TAO supports 2PC cross shard write, and prevents fracture read (not ACID, not snapshot isolation). Query is optimized to fetch association.
 
-  * [FaRM A1](https://ashamis.github.io/files/A1-A-Distributed-In-Memory-Graph-Database.pdf). General purpose graph database used by Bing for knowledge graph. Vertices/edges are organized in linked structure objects, accessed via pointer addresses, and build optimistic concurrency control (OCC) transaction and MVCC (multi-version concurrency control) read via FaRM. Other contemporaries include [AWS Neptune](https://aws.amazon.com/neptune/); and [CosmosDB](https://azure.microsoft.com/en-us/blog/a-technical-overview-of-azure-cosmos-db/), which developed from [DocumentDB](https://www.vldb.org/pvldb/vol8/p1668-shukla.pdf), is a globally distributed (optional) strong consistency multi-model database, and uses Bw-tree with "Blind Incremental Update" instead of LSM-tree to absorb writes.
+  * [FaRM A1](https://ashamis.github.io/files/A1-A-Distributed-In-Memory-Graph-Database.pdf). General purpose graph database used by Bing for knowledge graph, all in-memory. Vertices/edges are organized in linked structure objects, accessed via pointer addresses, and build optimistic concurrency control (OCC) transaction and MVCC (multi-version concurrency control) read via FaRM. Other contemporaries include [AWS Neptune](https://aws.amazon.com/neptune/); and [CosmosDB](https://azure.microsoft.com/en-us/blog/a-technical-overview-of-azure-cosmos-db/), which developed from [DocumentDB](https://www.vldb.org/pvldb/vol8/p1668-shukla.pdf), is a globally distributed (optional) strong consistency multi-model database, and uses Bw-tree with "Blind Incremental Update" instead of LSM-tree to absorb writes.
 
 __Datalake__
 
@@ -625,22 +624,116 @@ __Divide by system properties__
   * Consistency
   * Transaction & ACID
   * High availability
-  * Scale-out
+  * scaleout
   * Scale-up
   * Data availability
   * Data durability
-  * Data integrity  // scrubbing, end2end CRC. chained verification, heterogeneous verification.
+  * Data integrity  // TODO scrubbing, end2end CRC. chained verification, heterogeneous verification.
   * Concurrency
   * Throughput & latency
   * Cross geo-regions
   * Operational ease
   * Interoperability
 
-### Technology design spaces - metadata
+### Technology design spaces & design patterns - Metadata
 
-The following sections talk about technology design spaces. They root from "Reference architectures" listed above, and cover areas in "Storage components breakdown". Unlike breakdown, techniques and design patterns usually interleave multiple components and require co-design. Architecture design patterns, to also cover below, map to certain techniques to achieve desired system properties. When connected the dots, they expand to consecutive design spaces that enlighten more choices. 
+The following sections talk about technology design spaces. They root in "Reference architectures" listed above, and cover areas in "Storage components breakdown". Unlike breakdown, techniques and design patterns usually interleave multiple components and require co-design. Architecture design patterns, to also cover below, map to certain techniques to achieve desired system properties. When connected the dots, they expand to a consecutive design space that enlightens more choices. 
+
+Key problems related to metadata are the size of metadata, how to scaleout, where to store, and consistency. Metadata size is closely related to data partitioning and placement. 
+
+__Metadata size__
+
+Essentially, the size of metadata is determined by __tracking granularity__ and __degree of freedom__ the per object
+
+  * __Tracking granularity__. Smaller partition size generally yields better balance, though more memory consuming. The same also works for multi-thread task scheduling. Think randomly tossing balls into bins; the smaller/more balls, the balancer per bin ball count. Different hot/cold tiers can uses different tracking granularity, e.g. cache blocks but store files, e.g. Akkio u-shards. 
+
+  * __Degree of freedom__. The fundamental reason that an object needs memory to track placement location is due to it has freedom to place at any slot. Limiting the possible slots generally reduces memory consumption, e.g. hash object id to map to a placement location. However, this makes placement inflexible and incurs cost on migration.
+
+Generally techniques and design patterns range from minimal metadata or more metadata for fine-grain control 
+
+  * __Hash-based placement__, the extreme of zero metadata. The typical example is Ceph CRUSH, or consistent hashing. A Ceph PG's placement calculated by a deterministic algorithm, which has no degree of freedom, thus, no metadata needed. The Pro is no metadata memory cost. The Con is excessive data migration when add/remove nodes; balanced placement for capacity but not for hotness; can hardly place when cluster near full. 
+
+  * __Track full placement__, the extreme of full metadata. An object is able to place at any node, and the location is tracked at memory. The Pro is easy to implement extensive migration and balancing for capacity, temperature, in fine-grain. The Con is large metadata size; but there are ways to reduce it or offload.
+
+  * __VNode__, the hybrid approach that limits object side. 2-levels, an object is first deterministically mapped to a VNode, then VNode is placement on any node. VNode increased tracking granularity, thus less metadata to track, but still enjoys placement freedom. The examples are DB placing partitions, which groups rows mapped by hash; Ceph's PG and Dynamo's VNode, which groups small objects (though then still use hash placement); Azure Storage's "extent", which groups small blocks from table layer.
+
+  * __Partitioned Index__, the hybrid approach that limits placement space. Used in Kangaroo KLog index. Rather than allowing an entry to place at any slot of a hashtable, hashtable is split into partitions and entry is allowed to place at a deterministic partition. Thus index space is reduce, and index/pointer memory is reduced. Another approach to limit placement space is [Copyset](https://www.usenix.org/conference/atc13/technical-sessions/presentation/cidon).
+
+  * __Overlay__, the hybrid approach that overlays freedom placement level over hash-based placement layer. Existing objects keeps the old hash-based placement. New objects are tracked in metadata and place in a different algorithm. Adding node won't force migrate existing objects. An example is [MAPX](https://www.usenix.org/conference/fast20/presentation/wang-li).
+
+__Metadata scaleout__
+
+The de-facto way to handle scaleout is partitioning (or call it sharding). But there are also simpler methods
+
+  * __Partitioning__. Metadata are cut by key ranges to serve at different Paxos rings, e.g. Tectonic. Objects can also hash the key to map. This approach solves scalability, requires implementation complexity, and incurs challenge on consistency.  
+
+  * __Decoupling__. Not all metadata are necessary to be stored in the central store. Less important ones can be decoupled to other stores that scale differently, e.g. Tectonic. This approach increases complexity, and incurs cost on messaging, especially for the previous tight memory scans.
+
+  * __Pushdown__. Metadata can be separated into two levels. The first level is still served in the central store. The second level is looked up on-demand, pushed down to many more data nodes, or pushed down to SSD. A typical example is to handle "Lots of small files": Small files are compacted into a big file, which also persists the index; [HDFS](https://vanducng.dev/2020/12/05/Compact-multiple-small-files-on-HDFS/) only knows the big file, and loads indexes on-demand.
+
+__Metadata where to store__
+
+Where to host metadata, a dedicated cluster, distributed on data nodes, generate on-fly, etc
+
+  * __Paxos cluster__ is the popular approach, e.g. Ceph, FaRM, TiDB, CockroachDB. They use a dedicated Paxos (variant) cluster to host metadata, or Etcd, ZooKeeper that is backed by Paxos (variant).
+
+  * __Peer-to-peer__. Systems originated from Dynamo doesn't use dedicated metadata cluster, but distribute the info across entire cluster. They use Gossip protocol to reach eventual consistency. Besides, Dynamo doesn't have much metadata to track because it uses consistent hashing placement.
+
+  * __Primary/Secondary__. HDFS uses a single Namenode to host all metadata and process transactions. It's simpler. HDFS adds a secondary standby backup nodes for HA.
+
+  * __God node__. You can see distributed DBs get transaction timestamp from one (Paxos quorum of) "timestamp oracle" node, or "sequencer" node, e.g. TiDB's PD, FoundationDB, CORFU. The sequencer node is stateless, can quickly recover by restart, and use epoch to separate old/new.
+
+__Metadata offloading__
+
+Metadata can be managed elsewhere to avoid managing the scaleout, consistency, and persistence.
+
+  * __Consistent Core__. App can manage metadata in Micro-service framework provided ZooKeeper, Etcd. In this way, each dimension of problems are offloaded elsewhere. The approach is popular.
+
+  * __In-memory DB__. Storage's metadata management can be offloaded to in-memory database. Examples are HopsFS, or Hekaton. The databases manages metadata partitioning, consistency, scaleout, and tiering cold ones to SSD. 
+
+  * __Cold Tiering__. Cold metadata can be offloaded to SSD. Which/when to offload need careful management, to avoid slowdown maintenance scan loops, especially when correlated node failures and critical data repair. It's also possible to compress cold memory entries, but which is CPU consuming.
+
+__Metadata consistency__
+
+Different areas can favor their terms, such as DB, Storage, Filesystem, which sometime brings confusion
+
+  * __Database__ area commonly use terms like strong consistency, external consistency, serializability, isolation levels, snapshot consistency. See [Distributed Transactions](http://accelazh.github.io/storage/Linearizability-Vs-Serializability-And-Distributed-Transactions).
+
+  * __Storage__ area and __distributed systems__ may terms like Linearizability, sequential consistency (see above article); and weaker ones like eventual consistency, casual consistency. Eventual consistency (well implemented) guarantees updates finish propagation in a time window, won't revert, and in certain direction. Casual consistency is frequently used in client messaging requiring to see what-you-change.
+
+  * __Filesystem__ area uses "journaling" for metadata logging, and "logging" for data logging. It talks about write atomicity, operation atomicity, and crash consistency. The example of write atomicity is, if a write changes both data and inode, they should either all succeed or all not. The example of operation atomicity is, rmdir, rename operations on a directory should never expose half state to user. Crash consistency means after node crash, the filesystem should restore a correct state, e.g. no half rmdir, rename exposed, e.g. no broken linked-list on PMEM.
+
+  * __VM__ and __Backup__ systems use terms like consistent snapshot. A DB can use compute VMs, cache VMs, storage VMs. When Hypervisor takes a consistent snapshot, it means all VMs are taken snapshot at a consistent point-in-time. The anti-example is, compute VM thinks an update is committed, but storage VM's snapshot is taken earlier and says no such commit.
+
+  * __Paxos__ algorithm use terms like consistent read, or quorum read. The issues comes that half of the voters can lag votes, or half of the replicas can lag execution, thus a client can read stale states from a replica. To overcome this issue, the client has to only read from Paxos leader (cannot distribute load, and may failover already), or use quorum read that touches more than half non-leader replicas, or switch to casual consistency instead.
+
+Metadata consistency and data consistency share common techniques, and metadata needs to update in consistent with data. I'll leave most to data consistency part. In general, metadata needs strong consistency, or weaker but versioned. 
+
+  * __Single node__, strong consistency. Putting all metadata at a single node is the old way, but extremely simple to implement. HA can be achieved by a secondary standby node, or simply rely on faster restart. Modern CPU ensures sequential consistency per core, and cross-core can achieve linearizability via locking. 
+
+  * __Paxos__, strong consistency, in quorum. Relying on Paxos quorum is the de-facto way to achieve string metadata consistency, e.g. Ceph, HBase. A popular variant is the [Raft](https://raft.github.io/) algorithm, originated from [RamCloud](https://ramcloud.atlassian.net/wiki/spaces/RAM/pages/6848671/RAMCloud+Papers), but becomes even more successful.
+
+  * __Casual consistency__, weaker consistency, propagating. When strong consistency is prohibitive, usually due to performance consideration, metadata can switch to weaker consistency. The most frequently used one is casual consistency, which captures the propagating constraints. It can be implemented by adding version numbers (simplified from [vector clocks](https://newbiettn.github.io/2014/05/03/lamport-clock-vs-vector-clock/)) to messages.
+
+  * __Snapshot consistency__, weaker consistency, versioning. Like causal consistency to constraint propagating, snapshot consistency constraints that within a version, all component states seen are at a consistent point-in-time. Usually both needs a version number, or a timestamp. In general, "weak" consistency is vague, while versioning provides instinctive way to measure and control.    
+
+
+
+
+
+
+Data consistency part
+// TODO soft update, shadow paging, journaling, 
+// TODO [Distributed Transactions](http://accelazh.github.io/storage/Linearizability-Vs-Serializability-And-Distributed-Transactions) covers many.   
+
+
+
 
 // TODO think in this aspect: 1) what is the driving factor and challenge, 2) what is the design space. 3) then boil down to discrete design patterns
+
+// TODO Let's check each project mentioned in reference architecture, and generate a table to say how they did in Storage components breakdown, and how they did in design patterns. This should generate the nice table chart. -> <design pattern, touching components, examples systems>
+
+
 
 
 metadata, placement
@@ -704,10 +797,9 @@ explore the design space, draft like the design space
 metadata size and degree of freedom, the very good insight theory
 Small task/partition vs big task/partition. The smaller, the more easier to balance. The bigger, the less tracking cost
 
+------------------------------
 
-Patterns of Distributed Systems - martinfowler
-https://martinfowler.com/articles/patterns-of-distributed-systems/
-  Add service registry
-  Add shared nothing, in web server, and concurrency design
 
+// TODO get a good article name, also the innovation one
+// TODO rename to the correct article date
 

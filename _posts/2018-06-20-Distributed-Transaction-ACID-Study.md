@@ -338,6 +338,7 @@ Further, different approaches to implement distributed transaction
         n. materials
             1. Compensating Transactions: When ACID is too much
                https://developer.jboss.org/wiki/CompensatingTransactionsWhenACIDIsTooMuch
+               https://developer.jboss.org/docs/DOC-48610
             2. smiliar
               https://zhuanlan.zhihu.com/p/25933039
               https://www.jianshu.com/p/716d3ec567c0
