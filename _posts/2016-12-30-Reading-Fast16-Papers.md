@@ -136,7 +136,7 @@ __[NOVA](http://github.com/NVSL/NOVA): [A Log-structured File System for Hybrid 
             4. the overhead of checking / verifying the backpointer everytime?
 
     2. Optimistic Crash Consistency    [2013, 55 refs]
-       http://research.cs.wisc.edu/adsl/Publications/optfs-sosp13.pdf
+       https://research.cs.wisc.edu/adsl/Publications/optfs-sosp13.pdf
         0. referenced in FAST16: NOVA: to optimize journaling (for atomic operations), it decoupse ordering from durability
         1. good paper to read. the analysis to crash consistency are good.
            same author with Consistency Without Ordering

@@ -9,7 +9,8 @@ tags: [cloud, engineering, architecture]
 {% include JB/setup %}
 
 
-The article summarizes my experiences on software architecture.
+The article summarizes my (many years of) experiences on software architecture. Architecture design is essentially driven by __philosophies__ as the generator engine that governs all knowledge. From the __organization view__, we can find why and how architecture design process and skills are required that way. Common __methodologies__ and __principles__, viewed from the philosophies, provide guidance to carry out architecture design with quality. An architect needs an armory of techniques for different __system properties__. I categorize __Reference architectures__ in each distributed storage area, summarize __architecture design patterns__ from them, and connect into __technology design spaces__.
+
 
 ## Software architecture - a philosophy perspective
 
@@ -32,6 +33,8 @@ Software architecture is a language, a modeling of the reality world, and a huma
 The question is not what software architecture itself is, nor to learn what software architecture has, but to understand the landscape of world and mind, where you see the hole that needs "software architecture" to fill. You __predict and design__ what "software architecture" should be, can be, and will be. There can be 3000 parallel worlds each with a different software architecture book; what we have here is just one.
 
 Besides, __knowledge and experience are themselves good designs__. They are essentially a domain language, a reusable piece of world modeling, thus also explains why they are useful across daily work and even substitutes design skills. Knowledge is not to learn, but to observe the art of design tested by human act.
+
+// TODO Add a pic about the triple mapping relation
 
 __Side notes: explaining with examples__
 
@@ -412,7 +415,7 @@ Good papers and surveys can enlighten the technology landscape and reveal design
 
 ![Dostoevsky: Better Space-Time Trade-Offs for LSM-Tree](/images/arch-design-space-dostoevsky.png "Dostoevsky: Better Space-Time Trade-Offs for LSM-Tree")
   
-  * [Latch-free Synchronization in Database Systems](http://www.jmfaleiro.com/pubs/latch-free-cidr2017.pdf) compared common lock/lock-free techniques, e.g. CAS, TATAS, xchgq, pthread, MCS， against different concurrency levels. It reveals the choice space while implementing effective B+-tree locking techniques.
+  * [Latch-free Synchronization in Database Systems](http://www.jmfaleiro.com/pubs/latch-free-cidr2017.pdf) compared common lock/lock-free techniques, e.g. CAS, TATAS, xchgq, pthread, MCS, against different concurrency levels. It reveals the choice space while implementing effective B+-tree locking techniques.
 
   * [Optimal Column Layout for Hybrid Workloads](https://stratos.seas.harvard.edu/files/stratos/files/caspervldb2020.pdf) models CRUD, point/range query, random/sequential read/write cost functions on how blocks are partitioned by partition size. It helps find the optimal block physical layout. 
 
@@ -426,7 +429,7 @@ __Cache__
 
   * [Redis](https://redis.io/) is the opensource de-factor in-memory cache used in most Internet companies. Compared to Memcached, it supports rich data structures. It adds checkpoint and per operation logging for durability. Data can be shared to a cluster of primary nodes, then replicated to secondary nodes. [Tendis](https://cloud.tencent.com/developer/article/1815554) further improves cold tiering, and optimizations.
 
-  * [Kangaroo cache](https://www.pdl.cmu.edu/PDL-FTP/NVM/McAllister-SOSP21.pdf) (from long thread of Facebook work on [Memcached](https://www.usenix.org/conference/nsdi13/technical-sessions/presentation/nishtala), [CacheLib](https://www.usenix.org/conference/osdi20/presentation/berg), and [TAO cache consistency](https://www.usenix.org/system/files/conference/atc13/atc13-bronson.pdf)) features in in-memory cache with cold tier to flash. Big objects, small objects are separated. Small objects combines append-only logging and set-associative caching to achieve the optimal DRAM index size vs write amplification. Kangaroo also uses "partitioned index" to further reduce KLog's memory index size. 
+  * [Kangaroo cache](https://www.pdl.cmu.edu/PDL-FTP/NVM/McAllister-SOSP21.pdf) (from long thread of Facebook work on [Memcached](https://www.usenix.org/conference/nsdi13/technical-sessions/presentation/nishtala), [CacheLib](https://www.usenix.org/conference/osdi20/presentation/berg), and [RAMP-TAO cache consistency](https://www.vldb.org/pvldb/vol14/p3014-cheng.pdf)) features in in-memory cache with cold tier to flash. Big objects, small objects are separated. Small objects combines append-only logging and set-associative caching to achieve the optimal DRAM index size vs write amplification. Kangaroo also uses "partitioned index" to further reduce KLog's memory index size. 
 
 __(Distributed) Filesystem__
 
@@ -462,7 +465,7 @@ __Archival storage__
 
 __OLTP/OLAP database__
 
-  * [CockroachDB](https://dl.acm.org/doi/pdf/10.1145/3318464.3386134) builds the cross-regional SQL database that enables serializable ACID, an opensource version of [Google Spanner](https://static.googleusercontent.com/media/research.google.com/en//archive/spanner-osdi2012.pdf). It overcomes TrueTime dependency by instead use [Hybrid Logical Clock](https://www.cockroachlabs.com/docs/stable/architecture/transaction-layer.html) (HLC). It maps SQL schema to key-value and stores in [RocksDB](https://www.cockroachlabs.com/blog/cockroachdb-on-rocksd/). It uses [Raft](https://www.cockroachlabs.com/docs/stable/architecture/replication-layer.html#raft) to replicate partition data. It built novel [Write Pipelining](https://www.cockroachlabs.com/blog/transaction-pipelining/) and [Parallel Commit](https://www.cockroachlabs.com/blog/parallel-commits/) to speedup transactions. Another contemporary is [YugabyteDB](https://blog.yugabyte.com/ysql-architecture-implementing-distributed-postgresql-in-yugabyte-db/), which reuses PostgreSQL for query layer and replaced RocksDB with DocDB, and [had](https://blog.yugabyte.com/yugabytedb-vs-cockroachdb-bringing-truth-to-performance-benchmark-claims-part-2/) an interesting [debate](https://www.zhihu.com/question/449949351) with [CockroachDB](https://www.cockroachlabs.com/blog/unpacking-competitive-benchmarks/).
+  * [CockroachDB](https://dl.acm.org/doi/pdf/10.1145/3318464.3386134) builds the cross-regional SQL database that enables serializable ACID, an opensource version of [Google Spanner](https://static.googleusercontent.com/media/research.google.com/en//archive/spanner-osdi2012.pdf). It overcomes TrueTime dependency by instead use [Hybrid-Logical Clock](https://www.cockroachlabs.com/docs/stable/architecture/transaction-layer.html) (HLC). It maps SQL schema to key-value and stores in [RocksDB](https://www.cockroachlabs.com/blog/cockroachdb-on-rocksd/). It uses [Raft](https://www.cockroachlabs.com/docs/stable/architecture/replication-layer.html#raft) to replicate partition data. It built novel [Write Pipelining](https://www.cockroachlabs.com/blog/transaction-pipelining/) and [Parallel Commit](https://www.cockroachlabs.com/blog/parallel-commits/) to speedup transactions. Another contemporary is [YugabyteDB](https://blog.yugabyte.com/ysql-architecture-implementing-distributed-postgresql-in-yugabyte-db/), which reuses PostgreSQL for query layer and replaced RocksDB with DocDB, and [had](https://blog.yugabyte.com/yugabytedb-vs-cockroachdb-bringing-truth-to-performance-benchmark-claims-part-2/) an interesting [debate](https://www.zhihu.com/question/449949351) with [CockroachDB](https://www.cockroachlabs.com/blog/unpacking-competitive-benchmarks/).
 
   * [TiDB](https://www.vldb.org/pvldb/vol13/p3072-huang.pdf) is similar with CockroachDB. It focus on single region and serializes with timestamp oracle server. It implements transaction following [Percolator](https://github.com/pingcap/tla-plus/blob/master/Percolator/Percolator.tla). TiDB moved a step further to combine OLTP/OLAP (i.e. HTAP) by Raft replicating an extra columnar replica ([TiFlash](https://docs.pingcap.com/zh/tidb/dev/tiflash-overview)) from the baseline row format data. In [contemporaries](https://arxiv.org/pdf/2103.11080) to support both OLTP/OLAP, besides HyPer/MemSQL/Greenplum, Oracle Exadata (OLTP) improves OLAP performance by introducing NVMe flash, RDMA, and added in-memory columnar cache; AWS Aurora (OLTP) offloads OLAP to parallel processing on cloud; [F1 Lightning](http://www.vldb.org/pvldb/vol13/p3313-yang.pdf) replicas data from OLTP database (Spanner, F1 DB) and converts them into columnar format for OLAP, with snapshot consistency.
 
@@ -577,7 +580,7 @@ __Divide by storage areas__
 
 __Divide by static components__
 
-  * Metadata nodes  // Don't forgot consistent core
+  * Metadata nodes
   * Data nodes  // TODO OS filesystem, space allocation, FS indexing, journaling, durability. offloading computation
   * Indexing
   * Logging & journaling
@@ -643,7 +646,7 @@ Key problems related to metadata are the size of metadata, how to scaleout, wher
 
 __Metadata size__
 
-Essentially, the size of metadata is determined by __tracking granularity__ and __degree of freedom__ the per object
+Essentially, the size of metadata is determined by __tracking granularity__ and __degree of freedom__ the per object. They are the key design space dimensions to consider
 
   * __Tracking granularity__. Smaller partition size generally yields better balance, though more memory consuming. The same also works for multi-thread task scheduling. Think randomly tossing balls into bins; the smaller/more balls, the balancer per bin ball count. Different hot/cold tiers can uses different tracking granularity, e.g. cache blocks but store files, e.g. Akkio u-shards. 
 
@@ -689,7 +692,7 @@ Metadata can be managed elsewhere to avoid managing the scaleout, consistency, a
 
   * __Consistent Core__. App can manage metadata in Micro-service framework provided ZooKeeper, Etcd. In this way, each dimension of problems are offloaded elsewhere. The approach is popular.
 
-  * __In-memory DB__. Storage's metadata management can be offloaded to in-memory database. Examples are HopsFS, or Hekaton. The databases manages metadata partitioning, consistency, scaleout, and tiering cold ones to SSD. 
+  * __In-memory DB__. Storage cluster-wide metadata management can be offloaded to in-memory database. Examples are HopsFS, or Hekaton. The databases manages metadata partitioning, consistency, scaleout, and tiering cold ones to SSD. At single data node level, Ceph BlueStore offloads metadata to RocksDB, and reuses the transaction. 
 
   * __Cold Tiering__. Cold metadata can be offloaded to SSD. Which/when to offload need careful management, to avoid slowdown maintenance scan loops, especially when correlated node failures and critical data repair. It's also possible to compress cold memory entries, but which is CPU consuming.
 
@@ -707,7 +710,7 @@ Different areas can favor their terms, such as DB, Storage, Filesystem, which so
 
   * __Paxos__ algorithm use terms like consistent read, or quorum read. The issues comes that half of the voters can lag votes, or half of the replicas can lag execution, thus a client can read stale states from a replica. To overcome this issue, the client has to only read from Paxos leader (cannot distribute load, and may failover already), or use quorum read that touches more than half non-leader replicas, or switch to casual consistency instead.
 
-Metadata consistency and data consistency share common techniques, and metadata needs to update in consistent with data. I'll leave most to data consistency part. In general, metadata needs strong consistency, or weaker but versioned. 
+Metadata consistency and data consistency share common techniques, and metadata needs to update in consistent with data. [Epoch](https://wongxingjun.github.io/2015/05/18/Paxos%E7%AE%97%E6%B3%95%E7%9A%84%E4%B8%80%E7%A7%8D%E7%AE%80%E5%8D%95%E7%90%86%E8%A7%A3/) and [fencing (token)](https://martin.kleppmann.com/2016/02/08/how-to-do-distributed-locking.html) are common techniques to expire stale metadata/data (after crash restart) and to exclude stale leaders. I'll leave most to data consistency part. In general, metadata needs strong consistency, or weaker but versioned. 
 
   * __Single node__, strong consistency. Putting all metadata at a single node is the old way, but extremely simple to implement. HA can be achieved by a secondary standby node, or simply rely on faster restart. Modern CPU ensures sequential consistency per core, and cross-core can achieve linearizability via locking. 
 
@@ -715,16 +718,85 @@ Metadata consistency and data consistency share common techniques, and metadata 
 
   * __Casual consistency__, weaker consistency, propagating. When strong consistency is prohibitive, usually due to performance consideration, metadata can switch to weaker consistency. The most frequently used one is casual consistency, which captures the propagating constraints. It can be implemented by adding version numbers (simplified from [vector clocks](https://newbiettn.github.io/2014/05/03/lamport-clock-vs-vector-clock/)) to messages.
 
-  * __Snapshot consistency__, weaker consistency, versioning. Like causal consistency to constraint propagating, snapshot consistency constraints that within a version, all component states seen are at a consistent point-in-time. Usually both needs a version number, or a timestamp. In general, "weak" consistency is vague, while versioning provides instinctive way to measure and control.    
+  * __Snapshot consistency__, weaker consistency, versioning. Like causal consistency to constraint propagating, snapshot consistency constraints that within a version, all component states seen are at a consistent point-in-time. Usually both needs a version number, or a timestamp. In general, "weak" consistency is vague, while versioning provides instinctive way to measure and control.  
 
 
+### Technology design spaces & design patterns - Consistency
 
+Consistency interleaves the core spine of distributed storage system design. The techniques have high variety and touch most components. I choose scale as the first level category to illustrate consistency design space: from single node level, datacenter level, to geo-regional level. In general, key design space dimensions to consider are below. See [Distributed Transactions](http://accelazh.github.io/storage/Linearizability-Vs-Serializability-And-Distributed-Transactions) for more. 
 
+  * __Point of sync__. When a piece of data is changed, there must be a point of time after which the change is made visible to end user. Call it point of sync. It must be atomic, i.e. no half stable in middle of invisible vs visible. It must keep promise, i.e. once passed point of sync, it cannot go back. It must reach consensus, i.e. components in the system will agree on the point of sync, according to which propagation it divides into strong consistency vs eventual consistency. For implementation, point of sync usually relies on [atomic disk sector write](https://www.sqlite.org/atomiccommit.html) (e.g. logging commit entry), [atomic memory pointer switch](https://stackoverflow.com/questions/78277/how-to-guarantee-64-bit-writes-are-atomic) (e.g. B+-tree), a another (group of) node that acts as the Consistent Core (e.g. leader participant).
 
+  * __Ensuring ordering__. The system must agree on what happens first or later. This is instinctive for append-only or WAL based systems, or where every operation can be serialized by a locking data structure. It becomes tricky when the system involve multiple nodes, or the logging has multiple parallel segments. Versioning (or timestamp) is introduced, where a total ordering maps to Serializable, partial ordering maps to Vector Clocks, and disjoint read/write versions map to Snapshot Isolation (Serializable requires same timestamp for read/write). The system resolved ordering may not be the same with realworld, requiring which it maps to External Consistency. How to handle ordering conflicts varies, where new comer wait maps to plain locking / pessimistic concurrency control, new comer retry maps to OCC, and preempting a lock maps to preemptive concurrency control or [wound-wait](https://cloud.google.com/spanner/docs/whitepapers/life-of-reads-and-writes). For implementation, usually CPU/memory level use locks/latches, and disk level uses flush or direct write.
 
-Data consistency part
-// TODO soft update, shadow paging, journaling, 
-// TODO [Distributed Transactions](http://accelazh.github.io/storage/Linearizability-Vs-Serializability-And-Distributed-Transactions) covers many.   
+  * __Separating ACID__. In transaction ACID, usually ACI is united with consistency, but D durability can potentially be separated. Majority of storage systems choose to implement them altogether, essentially because ordering on disk is done by flush or direct write that couples with persistence. We can see more techniques in the following that break the paradigm and improve performance (e.g. Soft Update, Journal Checksum).
+
+__Single node level consistency__
+
+At the __level of CPU/memory__, fundamentally single CPU core ensures sequential consistency (though both compiler and CPU reorder instructions). Multi-core programming involves instruction atomicity (e.g. Intel x64 arch guarantees [64-bit reads/writes are atomic](https://stackoverflow.com/questions/78277/how-to-guarantee-64-bit-writes-are-atomic)), memory operation ordering (e.g. load/store semantics), visibility of memory changes (e.g. volatile, cache invalidation); they can be summarized under [C++ memory model](https://www.youtube.com/watch?v=A_vAG6LIHwQ). CPU provides fine-grain instructions for locking/CAS (e.g. lock, xchg, cmpxchg), memory fencing (e.g. lfence, sfence, mfence), cache flush (e.g. CLFLUSH, CLWB). Going to higher level, they are used to build [programming locks](https://compas.cs.stonybrook.edu/~nhonarmand/courses/fa17/cse306/slides/11-locks.pdf), [lock-free algorithms](http://www.jmfaleiro.com/pubs/latch-free-cidr2017.pdf), and [PMEM commit protocols](https://www.usenix.org/system/files/login/articles/login_summer17_07_rudoff.pdf) (like O_DIRECT flushes to disk, CLFLUSH flushes cache to memory/PMEM). More advanced are developed for [B+-tree locking techniques](http://mysql.taobao.org/monthly/2018/09/01/) in database, and [Linux Kernel synchronization](https://mirrors.edge.kernel.org/pub/linux/kernel/people/christoph/gelato/gelato2005-paper.pdf). They are not a main topic for architecture design.
+
+Coming to storage, more concerns add to __memory/disk level__ and __crash recovery__ (i.e. system integrity). Write-ahead logging (WAL) is the de-facto solution for consistency (as well as write atomicity and durability in ACID), which becomes more dominating with the trend of append-only storage systems (e.g. LSM-tree). WAL (redo/undo log) is also the necessity to implement [database transactions](https://zhuanlan.zhihu.com/p/143173278). But there are more ways for consistency. 
+
+  * __Write-ahead logging__, consistency by sequential logging and commit entry. Metadata/data changes are made durable to disk by journaling/logging; where the journal/logging commit entry, sync flushed to disk, is the point of sync that changes are committed and visible. Logging is naturally totally-ordered, no excluding further use of versioning/timestamp. Database further employs redo logs and undo logs ([ARIES](https://zhuanlan.zhihu.com/p/143173278)), where redo logs is the common logging, and undo logs is introduced because of "No Force, Steal", i.e. a page can be flushed to disk even when a (large) transaction hasn't committed.
+
+  * __Shadow paging__, consistency by COW and atomic pointer switch. The example is BtrFS. New updates are copy-on-write (COW) added to new B+-tree pages. Upon committing, the point of sync is to atomically switch the pointer at the parent node to new pages. The same paradigm is used both in memory and on disk, which CPU/memory controls ordering with locks. The technique is beneficial with built-in support for snapshot, improves parallelism with COW, and won't be bottlenecked at serialized journal committing. However, a change at leaf node incurs change at parent node, and propagating further upper to root, which is expensive (unless employs a Page Mapping Table).
+
+  * __Soft update__, which tracks ordering in memory but without durability. The example is [FFS](https://www.ece.cmu.edu/~ganger/papers/usenix2000.pdf). Inodes tracks update dependency, and the system enforces it. Actual writes to disk can be delayed, and happen asynchronously, and improve parallelism. End user needs to wait notification for changes become durable. Soft update itself doesn't guarantee necessary metadata/data changes are durable upon crash, and careful implementation is needed to ensure crash consistency.
+
+  * __Transactional checksumming__, which tracks ordering on disk but without durability. The system starts writing block A/B in parallel, but expects block A is committed only after block B. Block A carries B's checksum; if a crash happened in middle, leaving B on disk but not A, the checksum can tell block A is invalid. The technique breaks the sequential bottleneck of logging, however determining the point of sync during failure recovery becomes more expensive. See [Optimistic Crash Consistency](https://research.cs.wisc.edu/adsl/Publications/optfs-sosp13.pdf) for more.
+
+Consistency between __metadata/data components__ also needs maintain (continued from the "Metadata" section). A typical storage system propagates visibility of new changes from disk data, to index, then to end user. The index here is the metadata, which tells where is the data, e.g. inode trees. From system internal, the propagation is usually of __eventual consistency__, e.g. allocating disk space, write data, then after some time to commit the journal. From the view of end user, it's __made atomic__ by the interface (hiding system internals) and notification (async) exposed by the write request. This same design pattern applies when metadata and data are separated to different groups of nodes.
+
+__Datacenter level consistency__
+
+After single node level consistency, we come to the distributed multi-node level. From strong to weak, modern distributed database typical implements distributed transactions for ACID at Serializable or Snapshot Isolation level. Storage systems builds strong consistency with data replication. NoSQL, caching, cross systems interactions typically employ weaker consistency models to reduce complexity and overhead on performance.
+
+  * __Distributed Transactions__. See the [article](http://accelazh.github.io/storage/Linearizability-Vs-Serializability-And-Distributed-Transactions) for more. Examples are Spanner, Percolator, CockroachDB, TiDB. The implementations vary at point of sync, how to enforce ordering, and lock conflict handling. Besides, database global secondary index, in strong consistency with user writes, also implements with distributed transaction.
+
+![Distributed transaction spectrum of strategies](/images/dist-transaction-strategy-spectrum.png "Distributed transaction spectrum of strategies")
+
+  * __Raft data replication__. Examples are CockroachDB, TiDB. Like running metadata in Paxos quorum, data partitions are replicated with Raft protocol (a Paxos variant). This ensures strong consistency, and reuses optimizations on Paxos e.g. [Out-of-order commit](https://www.zhihu.com/question/278984902). [Megastore](http://cidrdb.org/cidr2011/Papers/CIDR11_Paper32.pdf) provides comprehensive optimizations for Paxos replication.
+
+  * __3-way replication__. Examples are Ceph, and similarly the [Chain Replication](https://sigops.org/s/conferences/sosp/2011/current/2011-Cascais/printable/11-calder.pdf) used in Azure Storage. It's simpler and came earlier than Raft. The classic implementation selects a leader node via the Consistent Core (e.g. the metadata cluster) to drive follower nodes with strong consistency. Throughput can be optimized with pipelining.
+
+  * __Quorum read/write__. Examples are Dynamo, Cassandra. With N replicas in total, either read or write operations on > N/2 replicas, so they guarantee to intersect on the replica with the latest version. The implementation adds more complexity to handle read amplification (or simply return cached versions), version tracking, and node write failures.
+
+  * __Log is database__. Like WAL simplifies single node consistency, distribute system can build atop a shared logging service. Examples are FoundationDB, Helios Indexing. The idea can be expanded to build system atop any shared storage service that provides strong consistency and act as a single node, e.g. a distributed filesystem, a page store. Examples are AWS Aurora Multi-master, Azure Storage. The idea also extends to propagate changes in a synchronous of eventual consistency way, which naturally works with database WAL. Examples are Helios Indexing, [MySQL BinLog Replication](https://hevodata.com/learn/mysql-binlog-based-replication/).
+
+Above techniques build strong consistency. For weaker consistency
+
+  * __Eventual consistency__. Typically if a system doesn't do anything about consistency, and let changes propagate, it's eventual consistency. Better implementation provides versioning to measure propagation, and guarantees deadline for propagation.
+
+  * __Casual consistency__. Same with "Metadata" section's. It's compatible with Eventual consistency, and a client must see what it already sees. For implementation, client tracks the low watermark version it wants server to return.
+
+  * __Custom consistency level__. The example is RAMP-TAO, which checks local result set satisfies "read atomicity", and fetch missing versions from RefillLibrary. In general, wide spectrum of custom consistency model can be implemented by tracking versions with data, checking consistency constraints on the fly, and buffer necessary lookups in a cache.
+
+  * __Compensation Transaction__. See this [article](https://developer.jboss.org/docs/DOC-48610). It unites multiple systems to build (a pseudo) ACID transaction. Each system internally supports ACID transaction and idempotent operation. The client drives transaction, propagating changes across the multiple systems in an eventual consistency way in single direction, with at-least-once semantics and a clear completion time. If one system fails in middle, which breaks atomicity, client rollbacks by replaying "Compensation Transaction" at each system in reverse order. Hiding all complexity, the client exposes a seemingly ACID transaction interface. The techniques is handy to build booking service in large scale Internet companies. Additionally, a "reservation" step can be added to makes a system less easy to fail, which renders it more like 2PC (except other client can read middle states).
+
+__Geo-regional level consistency__ 
+
+When coming to cross-regional multi-datacenter level, the techniques are similar with single datacenter level. But the scale makes strong consistency or synchronous replication hard due to the latency overhead. Most implementations are eventual consistency, where disaster recovery area defines measure concepts
+
+  * __RTO (Recovery Time Objective)__. How long the system and application needs to recover at the second region, after a disaster happened at the first region. RTO can be long if the system startup, cache warm, DNS hand-off take time. 
+
+  * __RPO (Recovery Point Objective)__. Because cross-region replication is async, there is a delay from replicated data to the latest data. RPO defines the delay window. It maps how much recent data will be lost after recovery in the second region.
+
+Besides those duplicate with Datacenter level, common techniques are below. In compare, more optimization are for unstable links and low bandwidth in WAN. 
+
+  * __Geo-replication__. Databases commonly support async replication (eventual consistency) used for backup cross regions, typically by replicating logs, e.g. MySQL BinLog Replication, and [Redis](https://redis.io/docs/manual/replication/) primary/secondary replication via command stream. Async Geo-replication doesn't exclude sync replicate a small piece of critical metadata; and doesn't exclude a client to query the primary region to determine the latest version.
+
+  * __Incremental diff__. Ceph provides [RBD diff](https://ceph.io/en/news/blog/2013/incremental-snapshots-with-rbd/) that exports incremental snapshots, which can be used for geo-replication in a semi-automate way.
+
+  * __Log is database__. Most is already summarized above. Use logs to replicate changes in eventual consistency way. Examples are Helios Indexing, MySQL BinLog Replication.
+
+Above are eventual consistency replications. For strong consistency geo-replication, typically Paxos replication is employed (and optimized), while clock syncing for serializable transaction becomes a bigger problem.
+
+  * __Megastore Paxos__. [Google Megastore](http://cidrdb.org/cidr2011/Papers/CIDR11_Paper32.pdf) synchronous replicates across WAN using optimized Paxos protocol. Compared to primary/secondary replication, any Paxos replica at a nearby or less utilized datacenter can lead transaction to balance load. Write only needs > N/2 replicas to ack, which reduces cross-datacenter latency. Local datacenter reads are favored, by using a Coordinator to track which replica has latest versions. Writes use [Leader Paxos](http://accelazh.github.io/storage/Multi-Paxos-Raft-Multi-Raft-Parallel-Raft), where leader selection favors nearby replica. Witness replicas, which vote and replicate logs but won't execute logs to serve DB data, are introduced as to form quorum when too few participants. Read-only replicas, which don't vote but replay logs to serve DB data, are introduces to serve snapshot reads. Per implementation, Paxos cross-datacenters is essentially replicating logs, similarly "Log is database".
+
+  * __Spanner & TrueTime__. Like Megastore, [Google Spanner](https://cloud.google.com/spanner/docs/replication) stores replicas in different geo-regions, and employ Paxos replication. Distributed transaction is implemented by 2PC, whose liveness is guaranteed by HA of a participant's Paxos replicas. The special part is [TrueTime](https://static.googleusercontent.com/media/research.google.com/en//pubs/archive/45855.pdf), used to synchronize clocks across datacenters, thus to implement External Consistency via Commit Wait ([article](http://accelazh.github.io/storage/Linearizability-Vs-Serializability-And-Distributed-Transactions)). TrueTime relies on customized hardware, i.e. GPS receivers and atomic clocks, as time master nodes in each datacenter, to guarantee [< 7 ms clock drifts globally](https://static.googleusercontent.com/media/research.google.com/en//archive/spanner-osdi2012.pdf).
+
+  * __CockroachDB & Hybrid-Logical clock (HLC)__. Like Spanner, [CockroachDB](https://www.cockroachlabs.com/blog/geo-partitioning-one/) employs Paxos (Raft) data replication across regions, and 2PC for distributed transaction. Reads favor nearby replicas, and writes can choose nearby replicas in same region first and leave others in async. Different from Spanner TrueTime, CockroachDB uses [HLC](https://dl.acm.org/doi/pdf/10.1145/3318464.3386134) for cross-datacenter clocks. HLC provides causality tracking at its logical components, and monotonic increasing epochs at its physical component, and employs NTP as the software-only clock syncing protocol.
+
 
 
 
@@ -783,22 +855,12 @@ explore the design space, draft like the design space
 
 // TODO design space analysis
 
-
-
-
 ------------------------------
-
 
 // TODO I should insert more pictures also in former parts to help reading. too many words 
 // TODO Add my materials to a zip and link to this article
 
-------------
-
-metadata size and degree of freedom, the very good insight theory
-Small task/partition vs big task/partition. The smaller, the more easier to balance. The bigger, the less tracking cost
-
 ------------------------------
-
 
 // TODO get a good article name, also the innovation one
 // TODO rename to the correct article date
