@@ -12,7 +12,7 @@ tags: [cloud, engineering, architecture]
 The article summarizes my (many years of) experiences on software architecture. Architecture design is essentially driven by __philosophies__ as the generator engine that governs all knowledge. From the __organization view__, we can find why and how architecture design process and skills are required that way. Common __methodologies__ and __principles__, viewed from the philosophies, provide guidance to carry out architecture design with quality. An architect needs an armory of techniques for different __system properties__. I categorize __Reference architectures__ in each distributed storage area, summarize __architecture design patterns__ from them, and connect into __technology design spaces__.
 
 
-## Software architecture - a philosophy perspective
+# Software architecture - a philosophy perspective
 
 Software architecture is a modeling of the reality world, a language, and a human mind creation that to assist human mind. Language, is an interesting topic. The three together are deeply inter-connected, pointing why, what and how to handle software architecture.
 
@@ -56,7 +56,7 @@ For __predict and design what "software architecture" should be__. It can be exp
 // TODO Add a picture about the apple/desk cut
 
 
-## Why need software architecture
+# Why need software architecture
 
 There are various aspects why software architecture is necessary, besides technology. These aspects together define what software architecture should be, and correspondingly the methodology and knowledge landscape developed.
 
@@ -95,7 +95,7 @@ Process & Organization
 
 
 
-## Different architecture organization styles
+# Different architecture organization styles
 
 What an architect role does and means in real world industry are somehow puzzled. From my experience, this is due to architecture step is organized differently at different companies. At some, architect is the next job position of every software developer; at some others, I didn't even see an explicit architect job position. 
 
@@ -110,7 +110,7 @@ What an architect role does and means in real world industry are somehow puzzled
   * __Borrow and improve__. Usually seen at follower companies. If not edge cutting into no man's land, __reference architecture__ (top product's architecture) can usually be found to borrow from, to customize and improve. This is also benefited by the wide variety of opensource. Reference architecture, standing on the shoulder of giants, are widely used in software architecture processes, e.g. comparing peer works, which is another example of knowledge and experience themselves are good designs. Market technology investigation survey are high demand skills.
 
 
-## Key processes in software architecture
+# Key processes in software architecture
 
 As preparation, architecture design requires below knowledge and skills
 
@@ -159,7 +159,7 @@ The last point is about __driving the project__. The architect role is usually a
 // TODO add pic for the feedback loop of design->implement->evaluate
 
 
-## Key methodologies in software architecture
+# Key methodologies in software architecture
 
 Software architecture is a large topic that I didn't find a canonical structure. I divide it into process (above), methodologies (this chapter), principles, system properties and design patterns, technology design spaces. The article is organized as it.
 
@@ -265,7 +265,7 @@ There are more general architecture views more used for customer facing and sale
 Besides this section, I also found valuable experiences from [Kenneth Lee's blogs](https://gitee.com/Kenneth-Lee-2012/MySummary/tree/master/%E8%BD%AF%E4%BB%B6%E6%9E%84%E6%9E%B6%E8%AE%BE%E8%AE%A1)/[articles](https://www.zhihu.com/column/kls-software-arch-world)), the remarkable [On Designing and Deploying Internet-Scale Services](https://www.usenix.org/legacy/event/lisa07/tech/full_papers/hamilton/hamilton_html/); and from eBay's [[1]](https://mp.weixin.qq.com/s/bnhXGD7UhwTxL8fpddzAuw)[[2]](https://mp.weixin.qq.com/s/Xyvfx9mLKqquulnrhFi42Q), [Alibaba's](https://mp.weixin.qq.com/s?fontRatio=1&__biz=MzA5OTAyNzQ2OA==&mid=2649721202&idx=1&sn=97b3edaa344a1d901ee6ad4b8c4830e4), or [AWS's](https://mp.weixin.qq.com/s?__biz=MzI4OTc4MzI5OA==&mid=2247520243&idx=1&sn=dfce28433ff14ef188055dc5daf67bd7).
 
 
-## Common architecture styles
+# Common architecture styles
 
 This is the old topic, a generic design pattern on the scale of architecture. New recent technologies bring more paradigms, but the essence can be tracked back. Company-wide the architecture may eventually evolve to reflect the organization's communication structure ([Conway's Law](https://en.wikipedia.org/wiki/Conway%27s_law)), besides the technical aspects. 
 
@@ -312,7 +312,7 @@ More recent architectures below. You can see architectures vary on: How to cut b
 // TODO Add pic Reach-Redux architecture the workflow loop chart, which should find from the official site
 
 
-## General architecture principles
+# General architecture principles
 
 Most principles are already reflected in the above sections. At __architecture level__, the most mentioned principles are below [three](https://xie.infoq.cn/article/5e899856e29017c1079b3be86)
 
@@ -363,11 +363,11 @@ Continued from the above discussion about evaluating a piece of code is good des
   * __Prioritization__. Can the new code go production? Perf under goal, no. Production safty concerns, no. Bad OO design, OK. Thus, the design should first consider perf and safty, and then OO design. However, OO design naturally prioritizes design first, and __pushes off__ goals like performance, worst case handling, to future extension. Besides the priority inversion, extension may turn out hard after the interface is already running on production.
 
 
-## Technology design spaces, architecture design patterns, and system properties
+# Technology design spaces, architecture design patterns, and system properties
 
 Software architecture has common __system properties__, e.g. [CAP](https://www.educative.io/blog/what-is-cap-theorem). To achieve them, different techniques are invented and evolve into more general __architecture design patterns__. Plotting them on the map of various driving factors, they reveal the landscape of __technology design space__, that we explore and navigate for building new systems. I'll focus on __distributed storage__. 
 
-### Sources to learn from
+## Sources to learn from
 
 Articles, books, and courses teach design patterns and outlines the design spaces
 
@@ -421,7 +421,7 @@ Good papers and surveys can enlighten the technology landscape and reveal design
 
   * [Access Path Selection in Main-Memory Optimized Data Systems](https://www.eecs.harvard.edu/~kester/files/accesspathselection.pdf) models query cost using full scan vs B+-tree at different result selectivity and query sharing concurrency. The cost model shows how query optimizer choose physical plans.
 
-### Reference architectures in storage areas
+## Reference architectures in storage areas
 
 (Continued from the previous section.)
 
@@ -449,7 +449,7 @@ __Object/Block Storage__
 
   * [Tectonic](https://www.usenix.org/conference/fast21/presentation/pan) is similar with Azure Storage. It hash partitions metadata to scaleout. It employs [Copyset Placement](http://www.stanford.edu/~skatti/pubs/usenix13-copysets.pdf). It consolidates Facebook Haystack/F4 (Object storage) and Data Warehouse, and introduced much multitenancy and resource throttling. Another feature of Tectonic is to decouple common background jobs, e.g. data repair, migration, GC, node health, from metadata store, into background services. [TiDB](https://docs.pingcap.com/tidb/dev/tidb-architecture) shares similar thought if would have moved Placement Driver out of metadata server.
 
-  * [XtremIO](https://www.youtube.com/watch?v=lIIwbd5J7bE) to build full-flash block storage array with an innovative content-based hashing. The data placement is decided by content hash, thus deduplication is naturally supported. Though accesses are randomized, they run on flash. Write is acked after two copies in memory. Other contemporaries include [SolidFire](https://www.youtube.com/watch?v=AeaGCeJfNBg), which is also scaleout; and [Pure Storage](https://www.purestorage.com/products.html), which is scale-up and uses a dual-controller sharing disks.
+  * [XtremIO](https://www.youtube.com/watch?v=lIIwbd5J7bE) to build full-flash block storage array with an innovative content-based addressing. The data placement is decided by content hash, thus deduplication is naturally supported. Though accesses are randomized, they run on flash. Write is acked after two copies in memory. Other contemporaries include [SolidFire](https://www.youtube.com/watch?v=AeaGCeJfNBg), which is also scaleout; and [Pure Storage](https://www.purestorage.com/products.html), which is scale-up and uses a dual-controller sharing disks.
 
 __Data deduplication__
 
@@ -515,7 +515,7 @@ __Graph database__
 
 __Datalake__
 
-  * [Apache Hudi](https://zhuanlan.zhihu.com/p/450041140) to build datalake atop HDFS, Kafka, Spark, Hive. Compared to data warehouse, it allows update data via CopyOnWrite or MergeOnRead. Other [contemporaries](https://www.slideshare.net/databricks/a-thorough-comparison-of-delta-lake-iceberg-and-hudi) are [Delta Lake](https://databricks.com/wp-content/uploads/2020/08/p975-armbrust.pdf) which brings ACID to Spark, [Apache Iceberg](https://www.dremio.com/resources/guides/apache-iceberg-an-architectural-look-under-the-covers/) which features in high performance query. Combing datalake and data warehouse, you get [Lakehouse](https://databricks.com/blog/2020/01/30/what-is-a-data-lakehouse.html) pattern.
+  * [Apache Hudi](https://zhuanlan.zhihu.com/p/450041140) to build datalake atop HDFS, Kafka, Spark, Hive. Compared to data warehouse, it allows update data via CopyOnWrite or MergeOnRead. Other [contemporaries](https://www.slideshare.net/databricks/a-thorough-comparison-of-delta-lake-iceberg-and-hudi) are [Delta Lake](https://databricks.com/wp-content/uploads/2020/08/p975-armbrust.pdf) which brings ACID with Spark, [Apache Iceberg](https://www.dremio.com/resources/guides/apache-iceberg-an-architectural-look-under-the-covers/) which features in high performance query. Combing datalake and data warehouse, you get [Lakehouse](https://databricks.com/blog/2020/01/30/what-is-a-data-lakehouse.html) pattern.
 
   * [F1 Query](http://www.vldb.org/pvldb/vol11/p1835-samwel.pdf) connects multiple data sources like Spanner, BigTable, CSV, ColumnIO, Capacitor, ETL, to create the federated query engine. The former [F1](https://static.googleusercontent.com/media/research.google.com/en//pubs/archive/41344.pdf) was built atop Spanner and serves Google AdWords. F1 Query supports interactive SQL queries with joins, batch queries, and custom UDFs via the UDF Server. Query is executed as a DAG in parallel, where "dynamic range repartitioning" alleviates data skew. F1 Query use heuristic rules in query optimizer. Besides [F1 Lightning](http://www.vldb.org/pvldb/vol13/p3313-yang.pdf) adds support to HTAP by replicating extra columnar replica, and ensures snapshot consistency by tracking timestamp watermarks.  
 
@@ -529,6 +529,8 @@ __Persistent memory__
 
   * [NOVA](https://www.usenix.org/conference/fast16/technical-sessions/presentation/xu) sets up the design patterns for how to build filesystem on persistent memory (PMEM) with high concurrency. NOVA indexes by DRAM radix tree, and improves concurrency by per inode logging, per core free-list. Nova builds atomic file operations with logging, COW, `clwb` instruction on (customized) DAX-mmap. [ART and hash table](https://bigdata.uni-saarland.de/publications/ARCD15.pdf) are also frequently used index for PMEM storage.
 
+  * [Level Hashing](https://www.usenix.org/conference/osdi18/presentation/zuo). Though NOVA uses tree-based PMEM data structure (filesystem inode tree), another approach explores hashtable data structures on PMEM. It favors O(1) lookup. Level Hashing uses no logs. Resizing is done by two-level rotates. Crash consistency is guaranteed by carefully operating flag bits. However, hash-based PMEM data structure doesn't support range query. 
+
   * [Orion](https://www.usenix.org/system/files/fast19-yang.pdf) further speeds up PMEM filesystem by directly exposing memory access via RDMA to client, continued from [Octopus](https://www.usenix.org/conference/atc17/technical-sessions/presentation/lu). Remote PMEM becomes a pool, local PMEM is accessed via DAX. Besides, this [guide](https://www.usenix.org/system/files/login/articles/login_summer17_07_rudoff.pdf) is useful for PMEM programming.
 
   * [SplitFS](https://arxiv.org/abs/1909.10123), continues from to Orion, puts data path at userspace and metadata operations at kernel by Ext4-DAX. Data path speeds up by bypassing Kernel, while Kernel still manages critical operations affecting consistency and isolation. In this thread, [Kuco](https://www.usenix.org/conference/fast21/presentation/chen-youmin) introduces Ulib, collaborative indexing, and two-level locking, to offload more fine-grain operations to userspace. [ZoFS](https://ipads.se.sjtu.edu.cn/_media/publications/dongsosp19-rev.pdf) instead use MMU to isolate filesystems from different users, while per single user can operate both metadata/data in userspace (protected by MPK).
@@ -539,7 +541,7 @@ __Cloud native__
 
   * [Service Mesh](https://istio.io/latest/about/service-mesh/) is a containerized micro-service infrastructure, where Sidecar proxies (e.g. [Envoy](https://istio.io/latest/docs/ops/deployment/architecture/)) adds traffic routing, Service Registry, Load Balancing, Circuit Breaker, health Checks, encryption, etc to Apps with little code change. The former [Spring Cloud](https://xie.infoq.cn/article/2baee95d42ed7f8dd83cec170) can be migrated to K8S and Service Mesh environment with effort.
 
-  * [Dominant Resource Fairness](https://cs.stanford.edu/~matei/papers/2011/nsdi_drf.pdf) is a typical [Cloud Resource Scheduling](https://www.researchgate.net/publication/293329163_A_Survey_on_Resource_Scheduling_in_Cloud_Computing_Issues_and_Challenges) algorithm, used in [YARN](https://mp.weixin.qq.com/s/9A0z0S9IthG6j8pZe6gCnw), that normalizes multi-dimensional resource allocation to follow the dominate one. Alternatively, [2DFQ](https://cs.brown.edu/~jcmace/papers/mace162dfq.pdf) achieves fairness by separating requests to threads according to their sizes; [Quasar](http://csl.stanford.edu/~christos/publications/2014.quasar.asplos.pdf) samples workload profile on a small cluster via Machine Learning, than goto the full cluster; Container/[CGroup](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html/managing_monitoring_and_updating_the_kernel/using-cgroups-v2-to-control-distribution-of-cpu-time-for-applications_managing-monitoring-and-updating-the-kernel) specifies quota/weight per user job, and the pattern is shared by [K8S scheduling](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/); Ceph QoS [employs](https://docs.ceph.com/en/latest/rados/configuration/mclock-config-ref/) d[mClock](https://www.usenix.org/legacy/event/osdi10/tech/full_papers/Gulati.pdf) that uses weighted reservation tags. Besides, [Leaky bucket](https://blog.51cto.com/leyew/860302) is the classic algorithm for throttling; [Heracles](https://static.googleusercontent.com/media/research.google.com/en//pubs/archive/43792.pdf) isolates resource for latency-sensitive jobs vs batch. In general, cloud introduced [Multitenancy](https://www.usenix.org/conference/fast21/presentation/pan) to depict a system shared by multiple users (tenants) and each assigned a group of virtualization, isolation, access control, and priority/quota policies. For cost estimation, a typical method is request count & size in smoothing window or outstanding queue; Cost Modeling](https://github.com/pingcap/tidb/blob/master/planner/core/task.go#L260) in DB query optimizer provides more [comprehensive methods](https://15721.courses.cs.cmu.edu/spring2020/schedule.html#apr-15-2020); examples can be found at paper [Access Path Selection](https://www.eecs.harvard.edu/~kester/files/accesspathselection.pdf) and [Optimal Column Layout](https://stratos.seas.harvard.edu/files/stratos/files/caspervldb2020.pdf).
+  * [Dominant Resource Fairness](https://cs.stanford.edu/~matei/papers/2011/nsdi_drf.pdf) is a typical [Cloud Resource Scheduling](https://www.researchgate.net/publication/293329163_A_Survey_on_Resource_Scheduling_in_Cloud_Computing_Issues_and_Challenges) algorithm, used in [YARN](https://mp.weixin.qq.com/s/9A0z0S9IthG6j8pZe6gCnw), that normalizes multi-dimensional resource allocation to follow the dominate resource. Alternatively, [2DFQ](https://cs.brown.edu/~jcmace/papers/mace162dfq.pdf) achieves fairness by separating requests to threads according to their sizes; [Quasar](http://csl.stanford.edu/~christos/publications/2014.quasar.asplos.pdf) samples workload profile on a small cluster via Machine Learning, than goto the full cluster; Container/[CGroup](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html/managing_monitoring_and_updating_the_kernel/using-cgroups-v2-to-control-distribution-of-cpu-time-for-applications_managing-monitoring-and-updating-the-kernel) specifies quota/weight per user job, and the pattern is shared by [K8S scheduling](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/); Ceph QoS [employs](https://docs.ceph.com/en/latest/rados/configuration/mclock-config-ref/) d[mClock](https://www.usenix.org/legacy/event/osdi10/tech/full_papers/Gulati.pdf) that uses weighted reservation tags. Besides, [Leaky bucket](https://blog.51cto.com/leyew/860302) is the classic algorithm for throttling; [Heracles](https://static.googleusercontent.com/media/research.google.com/en//pubs/archive/43792.pdf) isolates resource for latency-sensitive jobs vs batch. In general, cloud introduced [Multitenancy](https://www.usenix.org/conference/fast21/presentation/pan) to depict a system shared by multiple users (tenants) and each assigned a group of virtualization, isolation, access control, and priority/quota policies. For cost estimation, a typical method is request count & size in smoothing window or outstanding queue; [Cost Modeling](https://github.com/pingcap/tidb/blob/master/planner/core/task.go#L260) in DB query optimizer provides more [comprehensive methods](https://15721.courses.cs.cmu.edu/spring2020/schedule.html#apr-15-2020); examples can be found at paper [Access Path Selection](https://www.eecs.harvard.edu/~kester/files/accesspathselection.pdf) and [Optimal Column Layout](https://stratos.seas.harvard.edu/files/stratos/files/caspervldb2020.pdf).
 
   * [Akkio](https://www.usenix.org/conference/osdi18/presentation/annamalai) used in Facebook migrates u-shards across geo-regional datacenters to maintain access locality. U-shards (in MBs), which represents the small actively access datasets determined by App-side knowledge, is way smaller than shards (GBs), thus incurs low migration cost. [Taiji](https://research.facebook.com/publications/taiji-managing-global-user-traffic-for-large-scale-internet-services-at-the-edge/) is another Facebook system that load balances users to datacenters based on [SocialHash](https://blog.acolyer.org/2016/05/25/socialhash-an-assignment-framework-for-optimizing-distributed-systems-operations-on-social-networks/), i.e. friendly groups are likely to access similar contents.
 
@@ -551,9 +553,9 @@ __Secondary Indexing__
 
   * [HBase Secondary Index](http://ceur-ws.org/Vol-1810/DOLAP_paper_10.pdf) compares global index and local index, mentioned in the [LSM-tree survey](https://arxiv.org/pdf/1812.07527.pdf). Global index only needs one search but incurs high consistency cost upon updates. Local index colocates with each data partition, where consistency update is kept local, but a search needs to query all partitions.
 
-### Storage components breakdown
+## Storage components breakdown
 
-To plot the architecture design space for distributed storage systems, we divide it by three different dimensions. They map to static/runtime views and non-functional goals of the architecture. Common components can be extracted from sources like "Reference architectures in storage areas". They may overlap, while I strive to separate them concise and clear.
+To plot the architecture design space for distributed storage systems, we divide it by three different dimensions. They map to static/runtime views and non-functional goals of the architecture. Common components can be extracted from sources like "Reference architectures in storage areas". They may overlap, while I strive to separate them concisely and clearly.
 
 __Divide by storage areas__
 
@@ -601,8 +603,7 @@ __Divide by static components__
 __Divide by runtime workflows__
 
   * Read path
-  * Write path - append
-  * Write path - update
+  * Write path - append/overwrite
   * Load balancing
   * Data replication
   * Data repair
@@ -632,15 +633,19 @@ __Divide by system properties__
   * Data availability
   * Data durability
   * Data integrity  // TODO scrubbing, end2end CRC. chained verification, heterogeneous verification.
+  * Read/write amplification
+  * Space amplification 
   * Concurrency
   * Throughput & latency
   * Cross geo-regions
   * Operational ease
   * Interoperability
 
-### Technology design spaces & design patterns - Metadata
+## Technology design spaces & design patterns
 
-The following sections talk about technology design spaces. They root in "Reference architectures" listed above, and cover areas in "Storage components breakdown". Unlike breakdown, techniques and design patterns usually interleave multiple components and require co-design. Architecture design patterns, to also cover below, map to certain techniques to achieve desired system properties. When connected the dots, they expand to a consecutive design space that enlightens more choices. 
+The following sections talk about technology design spaces (ordered by the importance). They root in "Reference architectures" listed above, and cover areas in "Storage components breakdown". Unlike breakdowns, techniques and design patterns usually interleave multiple components and require co-design. Architecture design patterns, also covered below, map to certain techniques to achieve desired system properties. When connected the dots, they expand to a consecutive design space that enlightens more choices. 
+
+### Metadata
 
 Key problems related to metadata are the size of metadata, how to scaleout, where to store, and consistency. Metadata size is closely related to data partitioning and placement. 
 
@@ -662,7 +667,7 @@ Generally techniques and design patterns range from minimal metadata or more met
 
   * __Partitioned Index__, the hybrid approach that limits placement space. Used in Kangaroo KLog index. Rather than allowing an entry to place at any slot of a hashtable, hashtable is split into partitions and entry is allowed to place at a deterministic partition. Thus index space is reduce, and index/pointer memory is reduced. Another approach to limit placement space is [Copyset](https://www.usenix.org/conference/atc13/technical-sessions/presentation/cidon).
 
-  * __Overlay__, the hybrid approach that overlays freedom placement level over hash-based placement layer. Existing objects keeps the old hash-based placement. New objects are tracked in metadata and place in a different algorithm. Adding node won't force migrate existing objects. An example is [MAPX](https://www.usenix.org/conference/fast20/presentation/wang-li).
+  * __Overlay__, the hybrid approach that overlays freedom placement level over hash-based placement layer. Existing objects keeps the old hash-based placement. New objects are tracked in metadata and place in a different algorithm. Adding nodes won't forcefully migrate existing objects. An example is [MAPX](https://www.usenix.org/conference/fast20/presentation/wang-li).
 
 __Metadata scaleout__
 
@@ -673,6 +678,8 @@ The de-facto way to handle scaleout is partitioning (or call it sharding). But t
   * __Decoupling__. Not all metadata are necessary to be stored in the central store. Less important ones can be decoupled to other stores that scale differently, e.g. Tectonic. This approach increases complexity, and incurs cost on messaging, especially for the previous tight memory scans.
 
   * __Pushdown__. Metadata can be separated into two levels. The first level is still served in the central store. The second level is looked up on-demand, pushed down to many more data nodes, or pushed down to SSD. A typical example is to handle "Lots of small files": Small files are compacted into a big file, which also persists the index; [HDFS](https://vanducng.dev/2020/12/05/Compact-multiple-small-files-on-HDFS/) only knows the big file, and loads indexes on-demand.
+
+  * __Levels of delegation__. Similar with Pushdown, the example is Big Table, think the cluster-wide B+-tree as the metadata. Metadata is essentially an index to lookup data, if in tree structure, it can be decomposed level by level, and naturally scaleout lower levels to whole cluster, where the top level is specially kept in a consistent Paxos quorum. 
 
 __Metadata where to store__
 
@@ -704,7 +711,7 @@ Different areas can favor their terms, such as DB, Storage, Filesystem, which so
 
   * __Storage__ area and __distributed systems__ may terms like Linearizability, sequential consistency (see above article); and weaker ones like eventual consistency, casual consistency. Eventual consistency (well implemented) guarantees updates finish propagation in a time window, won't revert, and in certain direction. Casual consistency is frequently used in client messaging requiring to see what-you-change.
 
-  * __Filesystem__ area uses "journaling" for metadata logging, and "logging" for data logging. It talks about write atomicity, operation atomicity, and crash consistency. The example of write atomicity is, if a write changes both data and inode, they should either all succeed or all not. The example of operation atomicity is, rmdir, rename operations on a directory should never expose half state to user. Crash consistency means after node crash, the filesystem should restore a correct state, e.g. no half rmdir, rename exposed, e.g. no broken linked-list on PMEM.
+  * __Filesystem__ area uses "journaling" for metadata logging, and "logging" for data logging. It talks about write atomicity, operation atomicity, and crash consistency. The example of write atomicity is, if a write changes both data and inode, they should either all succeed or all not. The example of operation atomicity is, `rmdir`, rename operations on a directory should never expose half state to user. Crash consistency means after node crash, the filesystem should restore a correct state, e.g. no half rmdir, rename exposed, e.g. no broken linked-list on PMEM.
 
   * __VM__ and __Backup__ systems use terms like consistent snapshot. A DB can use compute VMs, cache VMs, storage VMs. When Hypervisor takes a consistent snapshot, it means all VMs are taken snapshot at a consistent point-in-time. The anti-example is, compute VM thinks an update is committed, but storage VM's snapshot is taken earlier and says no such commit.
 
@@ -721,11 +728,11 @@ Metadata consistency and data consistency share common techniques, and metadata 
   * __Snapshot consistency__, weaker consistency, versioning. Like causal consistency to constraint propagating, snapshot consistency constraints that within a version, all component states seen are at a consistent point-in-time. Usually both needs a version number, or a timestamp. In general, "weak" consistency is vague, while versioning provides instinctive way to measure and control.  
 
 
-### Technology design spaces & design patterns - Consistency
+### Consistency
 
-Consistency interleaves the core spine of distributed storage system design. The techniques have high variety and touch most components. I choose scale as the first level category to illustrate consistency design space: from single node level, datacenter level, to geo-regional level. In general, key design space dimensions to consider are below. See [Distributed Transactions](http://accelazh.github.io/storage/Linearizability-Vs-Serializability-And-Distributed-Transactions) for more. 
+Consistency interleaves the core spine of distributed storage system design. The techniques have high variety and touch most components. I choose __scale__ as the first level category to illustrate consistency design space: from single node level, datacenter level, to geo-regional level. In general, key design space dimensions to consider are below. See [Distributed Transactions](http://accelazh.github.io/storage/Linearizability-Vs-Serializability-And-Distributed-Transactions) for more. 
 
-  * __Point of sync__. When a piece of data is changed, there must be a point of time after which the change is made visible to end user. Call it point of sync. It must be atomic, i.e. no half stable in middle of invisible vs visible. It must keep promise, i.e. once passed point of sync, it cannot go back. It must reach consensus, i.e. components in the system will agree on the point of sync, according to which propagation it divides into strong consistency vs eventual consistency. For implementation, point of sync usually relies on [atomic disk sector write](https://www.sqlite.org/atomiccommit.html) (e.g. logging commit entry), [atomic memory pointer switch](https://stackoverflow.com/questions/78277/how-to-guarantee-64-bit-writes-are-atomic) (e.g. B+-tree), a another (group of) node that acts as the Consistent Core (e.g. leader participant).
+  * __Point of sync__. When a piece of data is changed, there must be a point of time after which the change is made visible to end user. Call it point of sync. It must be atomic, i.e. no half state in middle of invisible vs visible. It must keep promise, i.e. once passed point of sync, it cannot go back. It must reach consensus, i.e. components in the system will agree on the point of sync, according to which propagation it divides into strong consistency vs eventual consistency. For implementation, point of sync usually relies on [atomic disk sector write](https://www.sqlite.org/atomiccommit.html) (e.g. logging commit entry), [atomic memory pointer switch](https://stackoverflow.com/questions/78277/how-to-guarantee-64-bit-writes-are-atomic) (e.g. B+-tree), or another (group of) node that acts as the Consistent Core (e.g. leader participant).
 
   * __Ensuring ordering__. The system must agree on what happens first or later. This is instinctive for append-only or WAL based systems, or where every operation can be serialized by a locking data structure. It becomes tricky when the system involve multiple nodes, or the logging has multiple parallel segments. Versioning (or timestamp) is introduced, where a total ordering maps to Serializable, partial ordering maps to Vector Clocks, and disjoint read/write versions map to Snapshot Isolation (Serializable requires same timestamp for read/write). The system resolved ordering may not be the same with realworld, requiring which it maps to External Consistency. How to handle ordering conflicts varies, where new comer wait maps to plain locking / pessimistic concurrency control, new comer retry maps to OCC, and preempting a lock maps to preemptive concurrency control or [wound-wait](https://cloud.google.com/spanner/docs/whitepapers/life-of-reads-and-writes). For implementation, usually CPU/memory level use locks/latches, and disk level uses flush or direct write.
 
@@ -745,7 +752,7 @@ Coming to storage, more concerns add to __memory/disk level__ and __crash recove
 
   * __Transactional checksumming__, which tracks ordering on disk but without durability. The system starts writing block A/B in parallel, but expects block A is committed only after block B. Block A carries B's checksum; if a crash happened in middle, leaving B on disk but not A, the checksum can tell block A is invalid. The technique breaks the sequential bottleneck of logging, however determining the point of sync during failure recovery becomes more expensive. See [Optimistic Crash Consistency](https://research.cs.wisc.edu/adsl/Publications/optfs-sosp13.pdf) for more.
 
-Consistency between __metadata/data components__ also needs maintain (continued from the "Metadata" section). A typical storage system propagates visibility of new changes from disk data, to index, then to end user. The index here is the metadata, which tells where is the data, e.g. inode trees. From system internal, the propagation is usually of __eventual consistency__, e.g. allocating disk space, write data, then after some time to commit the journal. From the view of end user, it's __made atomic__ by the interface (hiding system internals) and notification (async) exposed by the write request. This same design pattern applies when metadata and data are separated to different groups of nodes.
+Consistency between __metadata/data components__ also needs maintain (continued from the "Metadata" section). A typical storage system propagates visibility of new changes from disk data, to index, then to end user. The index here is metadata, which tells how to lookup data, e.g. inode trees. From system internal, the propagation is usually of __eventual consistency__, e.g. allocating disk space, write data, then after some time to commit the journal. From the view of end user, it's __made atomic__ by the interface (hiding system internals) and notification (async) exposed by the write request. This same design pattern applies when metadata and data are separated to different groups of nodes.
 
 __Datacenter level consistency__
 
@@ -761,7 +768,7 @@ After single node level consistency, we come to the distributed multi-node level
 
   * __Quorum read/write__. Examples are Dynamo, Cassandra. With N replicas in total, either read or write operations on > N/2 replicas, so they guarantee to intersect on the replica with the latest version. The implementation adds more complexity to handle read amplification (or simply return cached versions), version tracking, and node write failures.
 
-  * __Log is database__. Like WAL simplifies single node consistency, distribute system can build atop a shared logging service. Examples are FoundationDB, Helios Indexing. The idea can be expanded to build system atop any shared storage service that provides strong consistency and act as a single node, e.g. a distributed filesystem, a page store. Examples are AWS Aurora Multi-master, Azure Storage. The idea also extends to propagate changes in a synchronous of eventual consistency way, which naturally works with database WAL. Examples are Helios Indexing, [MySQL BinLog Replication](https://hevodata.com/learn/mysql-binlog-based-replication/).
+  * __Log is database__. Like WAL simplifies single node consistency, distribute system can build atop a shared logging service. Examples are FoundationDB, Helios Indexing. The idea can be expanded to build system atop any shared storage service that provides strong consistency and act as a single node, e.g. a distributed filesystem, a page store. Examples are AWS Aurora Multi-master, Azure Storage. The idea also extends to propagate changes in a synchronous or eventually consistent way, which naturally works with database WAL. Examples are Helios Indexing, [MySQL BinLog Replication](https://hevodata.com/learn/mysql-binlog-based-replication/).
 
 Above techniques build strong consistency. For weaker consistency
 
@@ -775,7 +782,7 @@ Above techniques build strong consistency. For weaker consistency
 
 __Geo-regional level consistency__ 
 
-When coming to cross-regional multi-datacenter level, the techniques are similar with single datacenter level. But the scale makes strong consistency or synchronous replication hard due to the latency overhead. Most implementations are eventual consistency, where disaster recovery area defines measure concepts
+When coming to cross-regional multi-datacenter level, the techniques are similar with single datacenter level. But the scale makes strong consistency or synchronous replication hard due to the latency overhead. Most implementations are eventually consistent, where disaster recovery area defines measure concepts
 
   * __RTO (Recovery Time Objective)__. How long the system and application needs to recover at the second region, after a disaster happened at the first region. RTO can be long if the system startup, cache warm, DNS hand-off take time. 
 
@@ -791,13 +798,127 @@ Besides those duplicate with Datacenter level, common techniques are below. In c
 
 Above are eventual consistency replications. For strong consistency geo-replication, typically Paxos replication is employed (and optimized), while clock syncing for serializable transaction becomes a bigger problem.
 
-  * __Megastore Paxos__. [Google Megastore](http://cidrdb.org/cidr2011/Papers/CIDR11_Paper32.pdf) synchronous replicates across WAN using optimized Paxos protocol. Compared to primary/secondary replication, any Paxos replica at a nearby or less utilized datacenter can lead transaction to balance load. Write only needs > N/2 replicas to ack, which reduces cross-datacenter latency. Local datacenter reads are favored, by using a Coordinator to track which replica has latest versions. Writes use [Leader Paxos](http://accelazh.github.io/storage/Multi-Paxos-Raft-Multi-Raft-Parallel-Raft), where leader selection favors nearby replica. Witness replicas, which vote and replicate logs but won't execute logs to serve DB data, are introduced as to form quorum when too few participants. Read-only replicas, which don't vote but replay logs to serve DB data, are introduces to serve snapshot reads. Per implementation, Paxos cross-datacenters is essentially replicating logs, similarly "Log is database".
+  * __Megastore Paxos__. [Google Megastore](http://cidrdb.org/cidr2011/Papers/CIDR11_Paper32.pdf) synchronously replicates across WAN using optimized Paxos protocol. Compared to primary/secondary replication, any Paxos replica at a nearby or less utilized datacenter can lead transaction to balance load. Write only needs > N/2 replicas to ack, which reduces cross-datacenter latency. Local datacenter reads are favored, by using a Coordinator to track which replica has latest versions. Writes use [Leader Paxos](http://accelazh.github.io/storage/Multi-Paxos-Raft-Multi-Raft-Parallel-Raft), where leader selection favors nearby replica. Witness replicas, which vote and replicate logs but won't execute logs to serve DB data, are introduced to form a quorum when too few participants. Read-only replicas, which don't vote but replay logs to serve DB data, are introduces to serve snapshot reads. Per implementation, Paxos cross-datacenters is essentially replicating logs, similarly "Log is database".
 
   * __Spanner & TrueTime__. Like Megastore, [Google Spanner](https://cloud.google.com/spanner/docs/replication) stores replicas in different geo-regions, and employ Paxos replication. Distributed transaction is implemented by 2PC, whose liveness is guaranteed by HA of a participant's Paxos replicas. The special part is [TrueTime](https://static.googleusercontent.com/media/research.google.com/en//pubs/archive/45855.pdf), used to synchronize clocks across datacenters, thus to implement External Consistency via Commit Wait ([article](http://accelazh.github.io/storage/Linearizability-Vs-Serializability-And-Distributed-Transactions)). TrueTime relies on customized hardware, i.e. GPS receivers and atomic clocks, as time master nodes in each datacenter, to guarantee [< 7 ms clock drifts globally](https://static.googleusercontent.com/media/research.google.com/en//archive/spanner-osdi2012.pdf).
 
   * __CockroachDB & Hybrid-Logical clock (HLC)__. Like Spanner, [CockroachDB](https://www.cockroachlabs.com/blog/geo-partitioning-one/) employs Paxos (Raft) data replication across regions, and 2PC for distributed transaction. Reads favor nearby replicas, and writes can choose nearby replicas in same region first and leave others in async. Different from Spanner TrueTime, CockroachDB uses [HLC](https://dl.acm.org/doi/pdf/10.1145/3318464.3386134) for cross-datacenter clocks. HLC provides causality tracking at its logical components, and monotonic increasing epochs at its physical component, and employs NTP as the software-only clock syncing protocol.
 
 
+### Write path
+
+The next big component in a distributed storage system is write path, following which you characterize how a system works. Append-only or update in-place fundamentally divides system styles and next level techniques. Write path touches almost every other components in a system, e.g. metadata, index, data organization, logging, replication, and many system properties, e.g. consistency, durability, amplification.
+
+__Append-only vs update in-place__
+
+The first driving dimension is append-only vs update in-place. Transitional single node filesystems usually update disk data in-place (except BtrFS). Later the quick adoption of LSM-tree leads the predominance of append-only systems, also known as log-structured systems. Not only HDD which benefits from sequential writes, SSD also favors append-only (e.g. RocksDB) due to internal FTL & GC. More, PMEM filesystems e.g. NOVA adopts append-only with per-inode logging; and in-memory systems e.g. Bw-tree adopts append-only with delta pages.
+
+  * __Update in-place__. Examples are EXT4, Ceph. If a piece of data is to be updated, it's overwritten on the same address on the disk, rather than written to a new address. Compared to append-only, address tracking is simpler, without needing extra memory metadata to track new addresses; and without extra costly GC to reclaim old data. The drawbacks are: the underlying HDD doesn't like random writes; with a fixed block-size, storing compressed results are tricky; double-write problem, where overwrites need transaction to protect against crash, thus new data gets an extra write in journaling.
+
+    * __Content-based addressing__. The example is XtremIO. Each piece of data has a fixed on-disk location (think about placement by data hash, but at disk block level). When the data block location is determined by data content hash, it can be used to auto dedup. Since data block location has zero degree of freedom, such system needs minimal metadata to track data location, and cannot be implemented by append-only.
+
+    * __Set-associative cache__. The example is Kangaroo and [Flashcache](https://github.com/facebookarchive/flashcache/blob/master/doc/flashcache-doc.txt). Entire SSD is used to map a large HDD space, just like how CPU cache maps memory. An HDD data block can be stored on SSD at a small set of blocks. The set is determined by hashing, within which a block is found with linear probing. Similarly, by limiting the data location degree of freedom, minimal memory metadata is needed.
+
+    * __Database paging__. A cleaner way to update in-place is to divide address space into pages, and use page as the atomic unit to transfer between disk and memory. The "page" here is like storage "blocks". However, the system additionally needs transaction logging to guarantee crash consistency. More, even only a few bytes updated, an entire page has to be switched; i.e. pages introduce both write amplification and space amplification.
+
+  * __Append-only__. Examples are LSM-tree or RocksDB, Log is database, Azure Storage. The system doesn't support modifying written data on-disk, thus updates need to append to new places, like a log. The main drawbacks of such systems are: Constant GC (or compaction) is needed to reclaim old data, which can contribute even 50% of system bandwidth; data location has high degree of freedom, thus the system either needs huge memory metadata to lookup, or incurs read amplification when scan through stale data. The benefits are: everything is simplified because written data is immutable; writes are sequential which HDD likes; transaction and crash consistency is at hand, because data is log. Over the years, after all, append-only proves successful.  
+
+    * __Sequential structure?__. The example is BtrFS. Not all append-only follows a sequential logging. In BtrFS, new data is copy-on-write to a new page, and then atomically linked to the B+-tree. Besides, optimizations like parallel multi-segment logging also breaks the default one sequential logging.
+
+    * __Cleanup inline of offline?__. Append-only needs to cleanup stale data; should it be done on the write path, or offline? GC/compaction chooses offline. Apache Hudi copy-on-write chooses inline of the write path. Besides, the cleanup can even be delayed to first user read, i.e. Apache Hudi merge-on-read.
+
+    * __Delta data__. The idea of append-only can be expanded to indexing, on PMEM (e.g. NOVA) or in-memory (e.g. Bw-tree). They exploit that appending delta data benefits high concurrency, simplifies lock handling, and avoids touching unrelated data like COW. In another perspective, immutable data can either be implemented by COW or appending delta, while COW forces compaction on write path.
+
+  * __Hybrid approach__. The example is Ceph BlueStore, where big writes are append-only, small writes touching no existing data is in-place, and small overwrites are merged to RocksDB WAL. This approach was invented to overcome Ceph double-write problem. It essentially bridges the old update in-place system to append-only.
+
+Thinking in higher level, the driving factor behind append-only vs update in-place is whether to delay __maintaining on-disk data organization__, to do it inline or offline, or a write-optimized data format vs a read-optimized data format.
+
+  * __Write path__ is efficient if it doesn't need to maintain on-disk data organization. Writes favor batching, sequential. This is what __append-only__ brings, except extra bandwidth spent for GC/compaction. Besides, writes favor less co-update components (in sync), e.g. fewer indexes, caching, less fragmented data.
+
+  * __Read path__ is efficient either if data has an index, or the location can be derived from the key, or well-sorted to favor full scan. Data should be less fragmented, preserves locality, and with fewer stale entries. Though __append-only__ generates fragmented delta data, GC/compaction can rewrite to optimize for reads. Though __update in-place__ saves GC/compaction traffic, read-optimized format may still need extra rewrite.
+
+    * __Data index__ is needed for efficient read path. __Update in-place__ reduces index size by limiting data location degree of freedom, though not applicable to secondary indexes, and by reducing tracking granularity, i.e. unlike __append-only__ which redirects small updates to a new page. This also means less ripple updates to index.
+
+  * __On-disk data organization__. The best read-optimized data format almost always require a full rewrite to generate, which explains why append-only is favorable, especially considering columnar compression (i.e. OLAP). More recent data, which can be separated by hot/cold tiering (or like the "levels" in LSM-tree), may still benefit from update in-place to reduce GC/compaction or churn to index (though in fact most also use append-only).  
+
+__Co-updating neighbor components__
+
+Besides on-disk data, write path touches almost a wide range of components to co-update together, e.g. metadata, index, checkpoint, logging, cache. 
+
+  * __Metadata, index__. The main concern here is propagation of visibility from data change to end user. This is mentioned before in __Consistency section__.
+
+  * __Checkpoint, logging__. New changes are first made atomically durable by WAL, where a typical technique is separating key/value (WiscKey). Durable changes can then be propagated to index and metadata to be made visible to user. Logging is a write-optimized format, while reads need structured data. The "structured data" is either periodically flushed from memory to disk, i.e. checkpointing, or by transferring database pages. Fragmented, overlapping checkpoints further need GC/compaction to rewrite to more read-optimized format (e.g. LSM-tree), and to reclaim deleted storage space.
+
+  * __Cache__ updates are async, usually be offline from write path; unless the write wants to invalidate stale data or immediately load new data.
+
+Besides writing locally, __data replication__ is also interleaved in write path. Driving by purpose, data replication has their variety
+
+  * __Durability replication__, e.g. Raft replication, 3-way replication, quorum writes, see __Consistency section__. Durability replication is usually synchronous with strong consistency.
+
+  * __Disaster-recovery replication__, e.g. backup, geo-replication__, see __Consistency section__. They can async with an agreement on RPO.
+
+  * __Locality replication__, e.g. geo-replication which moves data to user's local region, e.g. Akkio u-shards; and CDN that acts as static content cache and bridges across WAN provider.
+
+  * __Data layout replication__. Examples are TiFlash and F1 Lightning. The databases maintain main data copy as row-format to serve OLTP, which replicate an extra columnar layout copy for OLAP use. Raft protocol or fine-grained version tracking can be used to maintain consistency between replicas.
+
+  * __Hot/cold tiering replication__. Hot data can be copied cache. Cold data can be offloaded slow HDD or archival storage. Data formats between tiers can also be different, to favor access latency, storage efficiency, or compression. 
+
+  * __Data balance related__. Typically, data can be re-balanced to occupy empty new nodes, to spread out placement from correlated failure domains, or to balance hot/cold access on nodes.
+
+  * __Log is database__. Instead of replicating data or pages, logs which carry delta are replicated and propagated as the source of truth. See "Consistency" section.
+
+  * __Separating write path and read path__. The example is AnalyticDB, MySql primary/secondaries replication. The design originates from database community that uses one server as write primary, and replicates to multiple replicas to scale reads. It exploits social network access patterns that content generation rate (writes) is usually constant, but user views (reads) can burst high.
+
+Offline background jobs touching data can also be divided by purpose. They usually rewrite data copies, which is the main source of __write amplification__, but required to reduce __read amplification__ by generating an more optimized data layout.
+
+  * __Durability related__. Typically the data repair process, which comes when nodes or disks went bad. These background jobs require low detection time, and high priority bandwidth. Data repair efficiency can be improved by __involving more nodes__ to provide source data, e.g. Ceph which involves full cluster, copyset which involves a partition of cluster, and primary/secondary replication however which only involves a few secondaries.
+
+  * __Storage efficiency related__. Data compression can be run off the write path to avoid increasing user seen latency. Erasure coding can then further reduce storage space needed. GC runs periodically to reclaim deleted storage space.
+
+  * __Optimized data layout related__. E.g. RocksDB runs offline compaction, which removes stale data, sort out overlapping SST files, to make reads more efficient. E.g. AnalyticDB buffers new writes in incremental files, and then merge them to baseline data and build full index. Similar patterns of delta merging can also be found in Datalakes, e.g. Apache Hudi. W.r.t. data replication, the destination copy can be placed in another node or even another cloud service, while the computation can also be __offloaded to cloud__.
+
+  * __Data integrity related__. Storage systems typically employ offline data scrubbing to detect silent data corruption. End-to-end CRC can be stored along with data. Besides, invariant with different layers can be checked, e.g. index vs data, mapping constraints.
+
+__Write to different storage media__
+
+Write data flows through or eventually persists at one of the storage media: memory, PMEM, SSD, HDD, or archival tapes. Data structures and techniques vary according to the characteristics of storage media, and the workload access patterns. We will see more in "Index" section and "Data organization" section.
+
+  * __Memory tier__ does well with random access and provides the lowest latency compared to other storage tiers. The major concern is to improve concurrency, cache efficiency, and to pack more data in memory. Typical data structures can be plain pointer links (e.g. FaRM), skiplists (e.g. RocksDB) and Bw-tree which favor concurrency, [B+-tree](https://www.zhihu.com/question/516912481/answer/2403713321) whose bigger node benefits cache line than red-back tree, and hashtables for quick lookup. Memory compression and disk SWAP can be enabled (e.g. [TMO](https://www.cs.cmu.edu/~dskarlat/publications/tmo_asplos22.pdf)).
+
+  * __PMEM tier__ is [2x~3x slower](https://www.usenix.org/conference/fast20/presentation/yang) than DRAM, and doesn't like small random writes. The major concern is to improve concurrency, compensate with slow CPU, and maintain crash consistency while avoiding expensive cache flush instructions. RDMA and Kernel bypassing are usually used in company with write path. Tree-based append-only data structures, e.g. per inode logging in NOVA, are still favorable. Another approach uses hashtable data structure, e.g. Level Hashing.
+
+  * __SSD tier__. Except a few systems update in-place, most systems shift to append-only, e.g. RocksDB, and TiDB/Cockroach/MySQL which use RocksDB as engine, HBase/ClickHouse which employs LSM-tree (like) engine, or FoundationDB / Azure Storage which build atop shared logging. I.e. SST files and central logging are the common data structures on SSD. OLAP databases also favor append-only in batch and rewrite to compressed columnar layout. Some databases choose to build index for every column, while some others solely rely on full scan.
+
+  * __HDD__. Since both favor append-only, the data structure are similar on HDD or SSD, where most systems can interchangeably run on both. The difference is SSD one needs more CPU and parallelism allocated per device. 
+
+  * __Archival tapes__. Append-only is also the favored write style, thus no much diff from HDD or SSD ones. The data is usually deduplicated and appended in sequential structure, and relying on an index to lookup. Dedup fingerprints can be stored with data that preserves locality. Higher compression level and longer erasure coding codecs are used.
+
+In general, storage media tiers are chosen according to the price, scale, and performance targets of data. Different optimized techniques are applied to different tiers. Data movement across tiers yet need efficient temperature detection/prediction algorithms, which are usually LRU variants but more concerned in reducing tracking metadata size against the large data scale:
+
+  * __Exponential smoothing__. This is the standard academy method that averages now and history hotness with a weight, where older history is exponentially forgotten. The method doesn't mention how to implement efficiently. Hotness can be measured by data access IOs and bytes in a time window.
+
+  * __LRU__. Like exponential smoothing, LRU is the typical method that stems most temperature tiering algorithms, but doesn't specify how to implement. 
+
+  * __Bits per object__. The example is Kangaroo RRIParoo algorithm. Temperature is tracked by per object bits. A bit can be flipped when the object is accessed, or global eviction is needed (e.g. clock tick, cache full). If all bits match, the object can be evicted.
+
+  * __Objects in list__. Examples are linked list implemented LRU, or Linux Kernel [memory page swap](https://github.com/torvalds/linux/blob/master/mm/workingset.c). Temperature is tracked by object position in list. Objects are prompted to head when accessed, pushed to tail when cold, and evicted beyond tail. 
+
+  * __Offline classification__. Examples are Hekaton Siberia, [Google G-SWAP](https://research.google/pubs/pub48551/). When temperature tracking metadata is too large, the system can dump traffic records (may be sampled) to disk, and employs an offline periodical classification job or machine learning to categorize hot/cold data.
+
+  * __User tagging__. Expose interface for end user to explicitly tag whether a piece of data should be hot or cold. Simple, but user always knows better.
+
+
+
+
+
+// TODO data organization
+  caching tier
+  durability
+  db tier
+  extents, blocks, pages
+
+  point lookup
+  scan, etc.
 
 
 
