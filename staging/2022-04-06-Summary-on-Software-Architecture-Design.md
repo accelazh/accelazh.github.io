@@ -635,7 +635,7 @@ __Divide by system properties__
   * Data integrity  // TODO scrubbing, end2end CRC. chained verification, heterogeneous verification.
   * Read/write amplification
   * Space amplification 
-  * Concurrency
+  * Concurrency & parallelism
   * Throughput & latency
   * Cross geo-regions
   * Operational ease
@@ -845,25 +845,25 @@ __Co-updating neighbor components__
 
 Besides on-disk data, write path touches almost a wide range of components to co-update together, e.g. metadata, index, checkpoint, logging, cache. 
 
-  * __Metadata, index__. The main concern here is propagation of visibility from data change to end user. This is mentioned before in __Consistency section__.
+  * __Metadata, index__. The main concern here is the propagation of visibility from disk data change to end user. This is mentioned before in "Consistency" section.
 
   * __Checkpoint, logging__. New changes are first made atomically durable by WAL, where a typical technique is separating key/value (WiscKey). Durable changes can then be propagated to index and metadata to be made visible to user. Logging is a write-optimized format, while reads need structured data. The "structured data" is either periodically flushed from memory to disk, i.e. checkpointing, or by transferring database pages. Fragmented, overlapping checkpoints further need GC/compaction to rewrite to more read-optimized format (e.g. LSM-tree), and to reclaim deleted storage space.
 
   * __Cache__ updates are async, usually be offline from write path; unless the write wants to invalidate stale data or immediately load new data.
 
-Besides writing locally, __data replication__ is also interleaved in write path. Driving by purpose, data replication has their variety
+Besides writing locally, __data replication__ is also interleaved in write path. It achieves durability and many other purposes
 
-  * __Durability replication__, e.g. Raft replication, 3-way replication, quorum writes, see __Consistency section__. Durability replication is usually synchronous with strong consistency.
+  * __Durability__, e.g. Raft replication, 3-way replication, quorum writes, see "Consistency" section. Durability replication is usually synchronous with strong consistency.
 
-  * __Disaster-recovery replication__, e.g. backup, geo-replication__, see __Consistency section__. They can async with an agreement on RPO.
+  * __Disaster-recovery__, e.g. backup, geo-replication__, see "Consistency" section. They can async with an agreement on RPO.
 
-  * __Locality replication__, e.g. geo-replication which moves data to user's local region, e.g. Akkio u-shards; and CDN that acts as static content cache and bridges across WAN provider.
+  * __Locality__, e.g. geo-replication which moves data to user's local region, e.g. Akkio u-shards; and CDN that acts as static content cache and bridges across WAN provider.
 
-  * __Data layout replication__. Examples are TiFlash and F1 Lightning. The databases maintain main data copy as row-format to serve OLTP, which replicate an extra columnar layout copy for OLAP use. Raft protocol or fine-grained version tracking can be used to maintain consistency between replicas.
+  * __Data layout__. Examples are TiFlash and F1 Lightning. The databases maintain main data copy as row-format to serve OLTP, which replicate an extra columnar layout copy for OLAP use. Raft protocol or fine-grained version tracking can be used to maintain consistency between replicas.
 
-  * __Hot/cold tiering replication__. Hot data can be copied cache. Cold data can be offloaded slow HDD or archival storage. Data formats between tiers can also be different, to favor access latency, storage efficiency, or compression. 
+  * __Hot/cold tiering__. Hot data can be copied cache. Cold data can be offloaded slow HDD or archival storage. Data formats between tiers can also be different, to favor access latency, storage efficiency, or compression. 
 
-  * __Data balance related__. Typically, data can be re-balanced to occupy empty new nodes, to spread out placement from correlated failure domains, or to balance hot/cold access on nodes.
+  * __Data balance__. Typically, data can be re-balanced to occupy empty new nodes, to spread out placement from correlated failure domains, or to balance hot/cold access on nodes.
 
   * __Log is database__. Instead of replicating data or pages, logs which carry delta are replicated and propagated as the source of truth. See "Consistency" section.
 
@@ -871,33 +871,33 @@ Besides writing locally, __data replication__ is also interleaved in write path.
 
 Offline background jobs touching data can also be divided by purpose. They usually rewrite data copies, which is the main source of __write amplification__, but required to reduce __read amplification__ by generating an more optimized data layout.
 
-  * __Durability related__. Typically the data repair process, which comes when nodes or disks went bad. These background jobs require low detection time, and high priority bandwidth. Data repair efficiency can be improved by __involving more nodes__ to provide source data, e.g. Ceph which involves full cluster, copyset which involves a partition of cluster, and primary/secondary replication however which only involves a few secondaries.
+  * __Durability__. Typically the data repair process, which comes when nodes or disks went bad. These background jobs require low detection time, and high priority bandwidth. Data repair efficiency can be improved by __involving more nodes__ to provide source data, e.g. Ceph which involves full cluster, copyset which involves a partition of cluster, and primary/secondary replication however which only involves a few secondaries.
 
-  * __Storage efficiency related__. Data compression can be run off the write path to avoid increasing user seen latency. Erasure coding can then further reduce storage space needed. GC runs periodically to reclaim deleted storage space.
+  * __Storage efficiency__. Data compression can be run off the write path to avoid increasing user seen latency. Erasure coding can then further reduce storage space needed. GC runs periodically to reclaim deleted storage space.
 
-  * __Optimized data layout related__. E.g. RocksDB runs offline compaction, which removes stale data, sort out overlapping SST files, to make reads more efficient. E.g. AnalyticDB buffers new writes in incremental files, and then merge them to baseline data and build full index. Similar patterns of delta merging can also be found in Datalakes, e.g. Apache Hudi. W.r.t. data replication, the destination copy can be placed in another node or even another cloud service, while the computation can also be __offloaded to cloud__.
+  * __Data layout__. E.g. RocksDB runs offline compaction, which removes stale data, sort out overlapping SST files, to make reads more efficient. E.g. AnalyticDB buffers new writes in incremental files, and then merge them to baseline data and build full index. Similar patterns of delta merging can also be found in Datalakes, e.g. Apache Hudi. W.r.t. data replication, the destination copy can be placed in another node or even another cloud service, while the computation can also be __offloaded to cloud__.
 
-  * __Data integrity related__. Storage systems typically employ offline data scrubbing to detect silent data corruption. End-to-end CRC can be stored along with data. Besides, invariant with different layers can be checked, e.g. index vs data, mapping constraints.
+  * __Data integrity__. Storage systems typically employ offline data scrubbing to detect silent data corruption. End-to-end CRC can be stored along with data. Besides, invariant with different layers can be checked, e.g. index vs data, mapping constraints.
 
 __Write to different storage media__
 
 Write data flows through or eventually persists at one of the storage media: memory, PMEM, SSD, HDD, or archival tapes. Data structures and techniques vary according to the characteristics of storage media, and the workload access patterns. We will see more in "Index" section and "Data organization" section.
 
-  * __Memory tier__ does well with random access and provides the lowest latency compared to other storage tiers. The major concern is to improve concurrency, cache efficiency, and to pack more data in memory. Typical data structures can be plain pointer links (e.g. FaRM), skiplists (e.g. RocksDB) and Bw-tree which favor concurrency, [B+-tree](https://www.zhihu.com/question/516912481/answer/2403713321) whose bigger node benefits cache line than red-back tree, and hashtables for quick lookup. Memory compression and disk SWAP can be enabled (e.g. [TMO](https://www.cs.cmu.edu/~dskarlat/publications/tmo_asplos22.pdf)).
+  * __Memory tier__ does well with random access and provides the lowest latency compared to other storage tiers. The major concern is to improve concurrency, cache efficiency, and to pack more data in memory. Typical data structures can be plain pointer links (e.g. FaRM), skiplists (e.g. RocksDB) and Bw-tree which favor concurrency, [B+-tree](https://www.zhihu.com/question/516912481/answer/2403713321) whose bigger node benefits cache line than red-back tree, and hashtables for quick lookup (e.g. Memcached). Memory compression and disk SWAP can be enabled (e.g. [TMO](https://www.cs.cmu.edu/~dskarlat/publications/tmo_asplos22.pdf)).
 
   * __PMEM tier__ is [2x~3x slower](https://www.usenix.org/conference/fast20/presentation/yang) than DRAM, and doesn't like small random writes. The major concern is to improve concurrency, compensate with slow CPU, and maintain crash consistency while avoiding expensive cache flush instructions. RDMA and Kernel bypassing are usually used in company with write path. Tree-based append-only data structures, e.g. per inode logging in NOVA, are still favorable. Another approach uses hashtable data structure, e.g. Level Hashing.
 
   * __SSD tier__. Except a few systems update in-place, most systems shift to append-only, e.g. RocksDB, and TiDB/Cockroach/MySQL which use RocksDB as engine, HBase/ClickHouse which employs LSM-tree (like) engine, or FoundationDB / Azure Storage which build atop shared logging. I.e. SST files and central logging are the common data structures on SSD. OLAP databases also favor append-only in batch and rewrite to compressed columnar layout. Some databases choose to build index for every column, while some others solely rely on full scan.
 
-  * __HDD__. Since both favor append-only, the data structure are similar on HDD or SSD, where most systems can interchangeably run on both. The difference is SSD one needs more CPU and parallelism allocated per device. 
+  * __HDD tier__. Since both favor append-only, the data structure are similar on HDD or SSD, where most systems can interchangeably run on both. The difference is SSD one needs more CPU and parallelism allocated per device. 
 
-  * __Archival tapes__. Append-only is also the favored write style, thus no much diff from HDD or SSD ones. The data is usually deduplicated and appended in sequential structure, and relying on an index to lookup. Dedup fingerprints can be stored with data that preserves locality. Higher compression level and longer erasure coding codecs are used.
+  * __Archival tapes tier__. Append-only is also the favored write style, thus no much diff from HDD or SSD ones. The data is usually deduplicated and appended in sequential structure, and relying on an index to lookup. Dedup fingerprints can be stored with data that preserves locality. Higher compression level and longer erasure coding codecs are used.
 
 In general, storage media tiers are chosen according to the price, scale, and performance targets of data. Different optimized techniques are applied to different tiers. Data movement across tiers yet need efficient temperature detection/prediction algorithms, which are usually LRU variants but more concerned in reducing tracking metadata size against the large data scale:
 
   * __Exponential smoothing__. This is the standard academy method that averages now and history hotness with a weight, where older history is exponentially forgotten. The method doesn't mention how to implement efficiently. Hotness can be measured by data access IOs and bytes in a time window.
 
-  * __LRU__. Like exponential smoothing, LRU is the typical method that stems most temperature tiering algorithms, but doesn't specify how to implement. 
+  * __LRU (least recent used)__. Like exponential smoothing, LRU is the typical method that stems most temperature tiering algorithms, but doesn't specify how to implement. 
 
   * __Bits per object__. The example is Kangaroo RRIParoo algorithm. Temperature is tracked by per object bits. A bit can be flipped when the object is accessed, or global eviction is needed (e.g. clock tick, cache full). If all bits match, the object can be evicted.
 
@@ -919,6 +919,9 @@ In general, storage media tiers are chosen according to the price, scale, and pe
 
   point lookup
   scan, etc.
+
+  tiering, level, and GC/compaction
+  
 
 
 

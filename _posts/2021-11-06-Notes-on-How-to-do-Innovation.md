@@ -8,27 +8,27 @@ tags: [cloud, engineering, innovation]
 ---
 {% include JB/setup %}
 
-Here to summarize my experience on how to do innovation in the daily engineering work (distributed storage systems).
+Here to summarize my experience on how to do innovation in the daily engineering work (in distributed storage system area).
 
 First, why engineering work needs innovation?
 
-  * Incremental innovation. Our daily work is to build better systems. Every step is essentially __incremental innovation__. Some proposed new features enroll into next level __paradigm shift__, or even __disruptive innovation__. Compared to infrastructure systems, App development receives more drive from changing business needs. 
+  * Incremental innovation. Our daily work is to build better systems. The work is essentially composed of __incremental innovation__. Some proposed new features enroll into next level __paradigm shift__, or even __disruptive innovation__. Compared to infrastructure systems, App development receives more drive from changing business needs. 
 
-  * If the product aims as the __leader__ in a market unit, innovation is a must, to explore what's next, and more to construct the next market rules. If the product is a __follower__, the task of innovation is more shifted to learn from competitors and eco-systems, to keep up with "what others are playing", and to regularly attend in info sources.
+  * If the product aims as a __leader__ in a market unit, innovation is a must, to explore what's next, and more to construct the next market rules. If the product is a __follower__, the task of innovation is more shifted to learn from competitors and eco-systems, to keep up with "what others are playing", and to regularly attend in info sources.
 
   * Innovation is a __fundamental thought training__ (along with solving problems, broad reading & writing). Let it train our insight depth, sensitivity to subtle opportunities, grasp of the system overview, and knowledge to industry.
 
-The common sense innovation method is brainstorming and idea [addition/subtraction/multiplication/division](https://medium.com/swlh/the-secret-innovation-technique-behind-silicon-valleys-creativity-91fe6e7c1526). Usually most ideas will be filtered out, but one in ten can be shiny ones.
+The common sense innovation method is brainstorming and idea [addition/subtraction/multiplication/division](https://medium.com/swlh/the-secret-innovation-technique-behind-silicon-valleys-creativity-91fe6e7c1526). Usually most ideas will be filtered out, but the surviving one in ten can be shiny.
 
-  * Besides free style, brainstorm ideas but with structured categories and heuristics, mine ideas with [MECE](http://www.caseinterviewsecrets.com/), and comination iteration.
+  * Besides free style, brainstorm ideas but with structured categories and heuristics, mine ideas with [MECE](http://www.caseinterviewsecrets.com/), and comination iterations.
 
-  * Besides, sleep and forget. Let those ideas mutate and reform in our subconscious. When we come back and look again, there can be new discoveries.
+  * Besides, sleep and forget. Let those ideas mutate and reform in subconsciousness. When come back and look again, new discoveries emerge.
 
-The fundamental innovation method is to stand on the top and look one step further.
+The fundamental method of innovation is to stand on the mountain top and look one step further. Step two is easy.
 
-  * First. Understand the __cutting edge__ of our technology domain. Understand our product in depth. Understand the industry landscape and our position. Understand what academic knowledge and dynamics. This is non-trivial, and essentially asking we to become an expert/leader. [\[1\]](/technology/Roadmap-to-Technical-Leadership)[\[2\]](/storage/Build-My-Academic-Paper-Feedback-Network).
+  * Step one. Be the expert. Master the technology stack. We should know anything when asked. Know where the mountain top is, industry and academic, and the underwater momentum. Besides, understand the product in depth, the industry landscape, and our position. This is __non-trivial__, which should take years. [\[1\]](/technology/Roadmap-to-Technical-Leadership)[\[2\]](/storage/Build-My-Academic-Paper-Feedback-Network).
 
-  * Next, think what should be the __next__ for the industry and the product. __Review__ our product and think what are the __bottlenecks__ in the near future. What can be the threats. And what are the strength to enhance. These __gaps__ are where to find the innovation.
+  * Step two. think what should be the __next__ for the industry and the product. __Review__ our product and think what are the __bottlenecks__ in the near future. What can be the threats. And what are the strength to enhance. These __gaps__ are where to find the innovation. Apply vision and strategic thinking.
 
 Gaps are convenient source of innovation.
 
@@ -38,7 +38,7 @@ Gaps are convenient source of innovation.
 
   * __Min-Max analysis__. A gap maps to a problem. We may not solve every problem, but we should always be able to plot it on a continuum axis, and scope it with what we are the min-max. We can plot the __theory limits__ vs where we are to find the gaps. We can plot the __reaching scope__ by today's ability vs in following future, to identify what we should reach but didn't, what we cannot, and what to prepare in future.
 
-  * __Grid search__. Continued from Min-Max, we can unfold the properties we care into multi-dimensions of structured space. Use an exhaustive method to divide and categorize the space, and conduct the search. This also helps us find and look into possibilities.
+  * __Grid search__. Continued from Min-Max, we can unfold the properties we care into multi-dimensions of structured space. Use an exhaustive method to divide and categorize the space, and conduct the search. This also helps us find and look into possibilities. In another word, we should have the map, even we cannot reach every location, and we should plot grid axes on the map.
 
 Problems & missing parts in engineering working are source for innovation.
 
@@ -72,13 +72,15 @@ Team working is important for innovation
 
   * Help other people, and __answer questions__. Besides providing knowledge, answer questions provide chance to review our knowledge and product again, and understand how people see it from another perspective. This can usually find new gaps. And it broadens our scope and helps other people grow, eventually a positive feed for innovation.  
 
-Visions that help innovation
+Visions & strategic thinking that help innovation
 
   * Innovation can be inspired from vision thinking like, what are we doing for the next 1\~3 years, or 5\~10 years, what will our product be like, what are the __technology directions__, and our position in the industry, internally or externally.
 
   * In another perspective, in the next 3\~5 years, how are we doing __daily work__ and organize the team. What are the key driving factors behind, the bottleneck, and the growth space. 
 
   * What is the __lifecycle and position__ of our product, our technology domain, and our market. Innovation is generally having more opportunities in the emerging new domains, more challenging areas, and generally less easier in the mature and fading markets.
+
+  * Read in a systematically way and __compare__. It's comparing rather than linearly reading that reveals intrinsics. Innovation comes from the compare
 
 In the end, here attaches the __storage driving factors__ I summarized in scratch, which can help plot the innovation landscape.
 
@@ -136,18 +138,16 @@ In the end, here attaches the __storage driving factors__ I summarized in scratc
 
 Some tips for personal lifestyle
 
-  * Time to stay alone uninterrupted is extremely important. Be idle, do routine hand work (non-mental involving), or casual reading. 
+  * Time to stay alone uninterrupted is extremely important. It triggers active mind thoughtss when being idle, or do routine hand work (non-mental involving), or casual reading.
 
-  * Don't get too busy. Free relaxed time is important. Sleep more than enough to let your mind reorganize itself.
+  * Don't get too busy. Free relaxed time is important. Sleep more than enough to let your mind reorganize itself. To have a breakthrough idea, it doesn't take time, it takes space.
 
-  * Phone browsing gets updates but is time consuming. Separate your time to fragmented time and big block time. Only phone with fragmented time. Big block time should do big block thing.
+  * Phone browsing gets updates but is time consuming. Separate your time to fragmented time and big block time. Only phone with fragmented time. Big block time should do big block things.
 
-  * Changing the living environment works. Stay at a new place for a few days to get rid of stereotypes or fixed thinking mindsets.
+  * Changing the living environment helps. Stay at a new place for a few days to get rid of stereotypes or fixed thinking mindsets.
 
-Adding new points (2021-12-25)
+Useful tips from more sources
 
-  * Learn from history, understand upstream and downstream, stand on giant shoulders. Summarize and analyze down experiences and issues systematically (归纳和总结). Dig to bottom rather than solve case by case （治本而不是治标. 局部、全局，以及发散的眼光，前瞻未来的问题。 发现问题、眼光，定义问题。 [Architecture Thinkings by 阿里道延](https://mp.weixin.qq.com/s?fontRatio=1&__biz=MzA5OTAyNzQ2OA==&mid=2649721202&idx=1&sn=97b3edaa344a1d901ee6ad4b8c4830e4&scene=94&subscene=315)
+  * Learn from history, understand upstream and downstream, and stand on shoulders of giants. Summarize and analyze down experiences and issues systematically (归纳和总结). Dig to bottom rather than solve case by case (治本而不是治标). 局部、全局，以及发散的眼光，前瞻未来的问题。 发现问题、眼光，定义问题。 [Architecture Thinkings by 阿里道延](https://mp.weixin.qq.com/s?fontRatio=1&__biz=MzA5OTAyNzQ2OA==&mid=2649721202&idx=1&sn=97b3edaa344a1d901ee6ad4b8c4830e4&scene=94&subscene=315)
 
   * Practice writing and presenting to others. Clarify and make sure you only present what you understand, and make sure the audience can understand. Writing means clarifying your mind; Always try to write something – some of the best ideas will come to you by writing. [Instructions for PhD Students - Dimitris Papadias, HKUST](https://cse.hkust.edu.hk/~dimitris/Instructions%20for%20PhD%20Students.pdf)
-
-  * Read in systematically and compare. It's compare rather than read a thing that reveals its intrinsics. And innovation comes from the compare.
