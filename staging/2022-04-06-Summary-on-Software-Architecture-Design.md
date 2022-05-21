@@ -577,7 +577,7 @@ __Divide by storage areas__
   * Cloud native
     * Cloud scheduling
     * Geo Migration
-  * Secondary Indexing
+  * Secondary indexing
   * Query processing
 
 __Divide by static components__
@@ -587,7 +587,7 @@ __Divide by static components__
   * Indexing
   * Logging & journaling
   * Transaction control
-  * Data layout  // TODO physical, logical
+  * Data layout
   * Data compression
   * Data deduplication
   * Caching layer
@@ -605,32 +605,26 @@ __Divide by runtime workflows__
   * Read path
   * Write path - append/overwrite
   * Load balancing
-  * Data replication
-  * Data repair
-  * Data migration
-  * Garbage collection
-  * Data compaction
+  * Data replication/repair/migration
+  * GC/compaction 
   * Data scrubbing
   * Failure recovery
   * Node membership & failure detection
   * Background jobs
   * Clock synchronization
-  * Resource scheduling and quota/throttling 
+  * Resource scheduling & quota/throttling 
   * Overload control
   * Offloading
 
 __Divide by system properties__
 
-  * Traffic pattern
-  * Query model
+  * Traffic pattern, query model
   * Data partitioning & placement
-  * Data versioning
   * Consistency
   * Transaction & ACID
-  * High availability
   * scaleout
   * Scale-up
-  * Data availability
+  * High availability
   * Data durability
   * Data integrity  // TODO scrubbing, end2end CRC. chained verification, heterogeneous verification.
   * Read/write amplification
@@ -752,7 +746,7 @@ Coming to storage, more concerns add to __memory/disk level__ and __crash recove
 
   * __Transactional checksumming__, which tracks ordering on disk but without durability. The system starts writing block A/B in parallel, but expects block A is committed only after block B. Block A carries B's checksum; if a crash happened in middle, leaving B on disk but not A, the checksum can tell block A is invalid. The technique breaks the sequential bottleneck of logging, however determining the point of sync during failure recovery becomes more expensive. See [Optimistic Crash Consistency](https://research.cs.wisc.edu/adsl/Publications/optfs-sosp13.pdf) for more.
 
-Consistency between __metadata/data components__ also needs maintain (continued from the "Metadata" section). A typical storage system propagates visibility of new changes from disk data, to index, then to end user. The index here is metadata, which tells how to lookup data, e.g. inode trees. From system internal, the propagation is usually of __eventual consistency__, e.g. allocating disk space, write data, then after some time to commit the journal. From the view of end user, it's __made atomic__ by the interface (hiding system internals) and notification (async) exposed by the write request. This same design pattern applies when metadata and data are separated to different groups of nodes.
+Consistency between __metadata/data components__ also needs maintain (continued from the [Metadata section](.)). A typical storage system propagates visibility of new changes from disk data, to index, then to end user. The index here is metadata, which tells how to lookup data, e.g. inode trees. From system internal, the propagation is usually of __eventual consistency__, e.g. allocating disk space, write data, then after some time to commit the journal. From the view of end user, it's __made atomic__ by the interface (hiding system internals) and notification (async) exposed by the write request. This same design pattern applies when metadata and data are separated to different groups of nodes.
 
 __Datacenter level consistency__
 
@@ -774,7 +768,7 @@ Above techniques build strong consistency. For weaker consistency
 
   * __Eventual consistency__. Typically if a system doesn't do anything about consistency, and let changes propagate, it's eventual consistency. Better implementation provides versioning to measure propagation, and guarantees deadline for propagation.
 
-  * __Casual consistency__. Same with "Metadata" section's. It's compatible with Eventual consistency, and a client must see what it already sees. For implementation, client tracks the low watermark version it wants server to return.
+  * __Casual consistency__. Same with [Metadata section](.)'s. It's compatible with Eventual consistency, and a client must see what it already sees. For implementation, client tracks the low watermark version it wants server to return.
 
   * __Custom consistency level__. The example is RAMP-TAO, which checks local result set satisfies "read atomicity", and fetch missing versions from RefillLibrary. In general, wide spectrum of custom consistency model can be implemented by tracking versions with data, checking consistency constraints on the fly, and buffer necessary lookups in a cache.
 
@@ -811,41 +805,41 @@ The next big component in a distributed storage system is write path, following 
 
 __Append-only vs update in-place__
 
-The first driving dimension is append-only vs update in-place. Transitional single node filesystems usually update disk data in-place (except BtrFS). Later the quick adoption of LSM-tree leads the predominance of append-only systems, also known as log-structured systems. Not only HDD which benefits from sequential writes, SSD also favors append-only (e.g. RocksDB) due to internal FTL & GC. More, PMEM filesystems e.g. NOVA adopts append-only with per-inode logging; and in-memory systems e.g. Bw-tree adopts append-only with delta pages.
+The first driving dimension is __append-only__ vs __update in-place__. Transitional single node filesystems usually update disk data in-place (except BtrFS). Later the quick adoption of LSM-tree leads the predominance of append-only systems, also known as log-structured systems. Not only HDD which benefits from sequential writes, SSD also favors append-only (e.g. RocksDB) due to internal FTL & GC. More, PMEM filesystems e.g. NOVA adopts append-only with per-inode logging; and in-memory systems e.g. Bw-tree adopts append-only with delta pages.
 
-  * __Update in-place__. Examples are EXT4, Ceph. If a piece of data is to be updated, it's overwritten on the same address on the disk, rather than written to a new address. Compared to append-only, address tracking is simpler, without needing extra memory metadata to track new addresses; and without extra costly GC to reclaim old data. The drawbacks are: the underlying HDD doesn't like random writes; with a fixed block-size, storing compressed results are tricky; double-write problem, where overwrites need transaction to protect against crash, thus new data gets an extra write in journaling.
+  * __Update in-place__. Examples are EXT4, Ceph. If a piece of data is to be updated, it's overwritten on the same address on the disk, rather than written to a new address. Compared to append-only, address tracking is simpler, without needing extra memory metadata to track new addresses; and without extra costly GC to reclaim old data. The drawbacks are: 1) the underlying HDD doesn't like random writes. 2) With a fixed block-size, storing compressed results are tricky. 3) Double-write problem, where overwrites need transaction to protect against crash, thus new data gets an extra write in journaling.
 
     * __Content-based addressing__. The example is XtremIO. Each piece of data has a fixed on-disk location (think about placement by data hash, but at disk block level). When the data block location is determined by data content hash, it can be used to auto dedup. Since data block location has zero degree of freedom, such system needs minimal metadata to track data location, and cannot be implemented by append-only.
 
-    * __Set-associative cache__. The example is Kangaroo and [Flashcache](https://github.com/facebookarchive/flashcache/blob/master/doc/flashcache-doc.txt). Entire SSD is used to map a large HDD space, just like how CPU cache maps memory. An HDD data block can be stored on SSD at a small set of blocks. The set is determined by hashing, within which a block is found with linear probing. Similarly, by limiting the data location degree of freedom, minimal memory metadata is needed.
+    * __Set-associative cache__. The example is Kangaroo and [Flashcache](https://github.com/facebookarchive/flashcache/blob/master/doc/flashcache-doc.txt). Entire SSD is used to map a large HDD space, just like how CPU cache maps memory. An HDD data block can be stored on SSD, selecting from a small set of blocks. The set is determined by hashing, within which a block is found with linear probing. Similarly, by limiting the data location degree of freedom, minimal memory metadata is needed.
 
-    * __Database paging__. A cleaner way to update in-place is to divide address space into pages, and use page as the atomic unit to transfer between disk and memory. The "page" here is like storage "blocks". However, the system additionally needs transaction logging to guarantee crash consistency. More, even only a few bytes updated, an entire page has to be switched; i.e. pages introduce both write amplification and space amplification.
+    * __Database paging__. A cleaner way to update in-place is to divide address space into pages, and use page as the atomic unit of transfer. The "page" here is like storage "blocks". However, the system additionally needs transaction logging to guarantee crash consistency. More, even only a few bytes updated, an entire page has to be switched, i.e. write amplification. A page can have internal fragmentation that margin bytes cannot be utilized, i.e. space amplification. If page doesn't need to be equal-sized, it becomes "chunks", or "micro-partitions".
 
-  * __Append-only__. Examples are LSM-tree or RocksDB, Log is database, Azure Storage. The system doesn't support modifying written data on-disk, thus updates need to append to new places, like a log. The main drawbacks of such systems are: Constant GC (or compaction) is needed to reclaim old data, which can contribute even 50% of system bandwidth; data location has high degree of freedom, thus the system either needs huge memory metadata to lookup, or incurs read amplification when scan through stale data. The benefits are: everything is simplified because written data is immutable; writes are sequential which HDD likes; transaction and crash consistency is at hand, because data is log. Over the years, after all, append-only proves successful.  
+  * __Append-only__. Examples are LSM-tree or RocksDB, Log is database, Azure Storage. The systems don't support modifying written data on-disk, thus updates need to append to new places, like a log. The main drawbacks of such systems are: 1) Constant GC (or compaction) is needed to reclaim old data, which can eat up even 50% of system bandwidth. 2) Data location has high degree of freedom, thus the system either needs huge memory metadata to lookup, or incurs read amplification when scanning through stale data. The benefits are: 1) Everything is simplified because written data is immutable. 2) Writes are sequential which HDD favors. 3) Transaction and crash consistency is built-in, because data is log. Over the years, after all, append-only proves successful.  
 
-    * __Sequential structure?__. The example is BtrFS. Not all append-only follows a sequential logging. In BtrFS, new data is copy-on-write to a new page, and then atomically linked to the B+-tree. Besides, optimizations like parallel multi-segment logging also breaks the default one sequential logging.
+    * __Sequential structure or not__. The example is BtrFS. Not all append-only follows a sequential logging. In BtrFS, new data is copy-on-write to a new page, and then atomically linked to the B+-tree. Besides, optimization like parallel multi-segment logging also breaks the default one sequential logging.
 
-    * __Cleanup inline of offline?__. Append-only needs to cleanup stale data; should it be done on the write path, or offline? GC/compaction chooses offline. Apache Hudi copy-on-write chooses inline of the write path. Besides, the cleanup can even be delayed to first user read, i.e. Apache Hudi merge-on-read.
+    * __Cleanup inline or offline__. Append-only needs to cleanup stale data; should it be done on the write path, or offline? GC/compaction chooses offline. Apache Hudi copy-on-write chooses inline of the write path. Besides, the cleanup can even be delayed to the first user read, i.e. Apache Hudi merge-on-read.
 
-    * __Delta data__. The idea of append-only can be expanded to indexing, on PMEM (e.g. NOVA) or in-memory (e.g. Bw-tree). They exploit that appending delta data benefits high concurrency, simplifies lock handling, and avoids touching unrelated data like COW. In another perspective, immutable data can either be implemented by COW or appending delta, while COW forces compaction on write path.
+    * __Delta data__. The idea of append-only can be expanded to indexing, on PMEM (e.g. NOVA) or in-memory (e.g. Bw-tree). They exploit that appending delta data benefits high concurrency, simplifies lock handling, and avoids amplification like COW. In another perspective, immutable data can either be implemented by COW or appending delta, while COW forces compaction on write path.
 
-  * __Hybrid approach__. The example is Ceph BlueStore, where big writes are append-only, small writes touching no existing data is in-place, and small overwrites are merged to RocksDB WAL. This approach was invented to overcome Ceph double-write problem. It essentially bridges the old update in-place system to append-only.
+  * __Hybrid approach__. The example is Ceph BlueStore, where big writes are append-only, small writes overlapping no existing data is in-place, and small overwrites are merged to RocksDB WAL. This approach was invented to overcome Ceph double-write problem. It essentially bridges the old in-place update to append-only.
 
 Thinking in higher level, the driving factor behind append-only vs update in-place is whether to delay __maintaining on-disk data organization__, to do it inline or offline, or a write-optimized data format vs a read-optimized data format.
 
-  * __Write path__ is efficient if it doesn't need to maintain on-disk data organization. Writes favor batching, sequential. This is what __append-only__ brings, except extra bandwidth spent for GC/compaction. Besides, writes favor less co-update components (in sync), e.g. fewer indexes, caching, less fragmented data.
+  * __Write path__ is efficient if it doesn't need to maintain on-disk __data organization__ (see next [section](.)). Writes favor batching, sequential. This is what __append-only__ brings, except extra bandwidth spent for GC/compaction. Besides, writes favor less co-update components (in sync), e.g. fewer indexes, caching, less fragmented write locations.
 
-  * __Read path__ is efficient either if data has an index, or the location can be derived from the key, or well-sorted to favor full scan. Data should be less fragmented, preserves locality, and with fewer stale entries. Though __append-only__ generates fragmented delta data, GC/compaction can rewrite to optimize for reads. Though __update in-place__ saves GC/compaction traffic, read-optimized format may still need extra rewrite.
+  * __Read path__ is efficient either if data has an index, or the location can be derived from the key, or well-sorted to favor full scan. Data should be less fragmented, preserve locality, and with fewer stale entries. Though __append-only__ generates fragmented deltas, GC/compaction can rewrite them to optimized read formats. Though __update in-place__ saves GC/compaction traffic, more read-optimized formats may still need extra rewrites.
 
-    * __Data index__ is needed for efficient read path. __Update in-place__ reduces index size by limiting data location degree of freedom, though not applicable to secondary indexes, and by reducing tracking granularity, i.e. unlike __append-only__ which redirects small updates to a new page. This also means less ripple updates to index.
+    * __Data index__ is usually needed for efficient read path. __Update in-place__ reduces index size by limiting data location degree of freedom, though not applicable to secondary indexes; and by preserving tracking granularity, i.e. unlike __append-only__ which redirects small updates to a new page. This also means less ripple updates to index.
 
   * __On-disk data organization__. The best read-optimized data format almost always require a full rewrite to generate, which explains why append-only is favorable, especially considering columnar compression (i.e. OLAP). More recent data, which can be separated by hot/cold tiering (or like the "levels" in LSM-tree), may still benefit from update in-place to reduce GC/compaction or churn to index (though in fact most also use append-only).  
 
 __Co-updating neighbor components__
 
-Besides on-disk data, write path touches almost a wide range of components to co-update together, e.g. metadata, index, checkpoint, logging, cache. 
+Besides on-disk data, write path touches a wide range of components to co-update together, e.g. metadata, index, checkpoint, logging, cache. 
 
-  * __Metadata, index__. The main concern here is the propagation of visibility from disk data change to end user. This is mentioned before in "Consistency" section.
+  * __Metadata, index__. The main concern here is the propagation of visibility from disk data change to end user. This is mentioned before in [Consistency section](.).
 
   * __Checkpoint, logging__. New changes are first made atomically durable by WAL, where a typical technique is separating key/value (WiscKey). Durable changes can then be propagated to index and metadata to be made visible to user. Logging is a write-optimized format, while reads need structured data. The "structured data" is either periodically flushed from memory to disk, i.e. checkpointing, or by transferring database pages. Fragmented, overlapping checkpoints further need GC/compaction to rewrite to more read-optimized format (e.g. LSM-tree), and to reclaim deleted storage space.
 
@@ -853,9 +847,9 @@ Besides on-disk data, write path touches almost a wide range of components to co
 
 Besides writing locally, __data replication__ is also interleaved in write path. It achieves durability and many other purposes
 
-  * __Durability__, e.g. Raft replication, 3-way replication, quorum writes, see "Consistency" section. Durability replication is usually synchronous with strong consistency.
+  * __Durability__, e.g. Raft replication, 3-way replication, quorum writes, see [Consistency section](.). Durability replication is usually synchronous with strong consistency.
 
-  * __Disaster-recovery__, e.g. backup, geo-replication__, see "Consistency" section. They can async with an agreement on RPO.
+  * __Disaster-recovery__, e.g. backup, geo-replication__, see [Consistency section](.). They can async with an agreement on RPO.
 
   * __Locality__, e.g. geo-replication which moves data to user's local region, e.g. Akkio u-shards; and CDN that acts as static content cache and bridges across WAN provider.
 
@@ -865,13 +859,13 @@ Besides writing locally, __data replication__ is also interleaved in write path.
 
   * __Data balance__. Typically, data can be re-balanced to occupy empty new nodes, to spread out placement from correlated failure domains, or to balance hot/cold access on nodes.
 
-  * __Log is database__. Instead of replicating data or pages, logs which carry delta are replicated and propagated as the source of truth. See "Consistency" section.
+  * __Log is database__. Instead of replicating data or pages, logs which carry delta are replicated and propagated as the source of truth. See [Consistency section](.).
 
-  * __Separating write path and read path__. The example is AnalyticDB, MySql primary/secondaries replication. The design originates from database community that uses one server as write primary, and replicates to multiple replicas to scale reads. It exploits social network access patterns that content generation rate (writes) is usually constant, but user views (reads) can burst high.
+  * __Separating write path and read path__. The example is AnalyticDB, MySql primary/secondaries replication. The design originates from database community that uses one server as write primary, and replicates to multiple replicas to scale reads. It exploits the pattern that social network generates content (writes) in a relatively constant rate, but user views (reads) can burst high.
 
-Offline background jobs touching data can also be divided by purpose. They usually rewrite data copies, which is the main source of __write amplification__, but required to reduce __read amplification__ by generating an more optimized data layout.
+Offline background jobs touching data can also be divided by purpose. They usually rewrite data copies, which is the main source of __write amplification__, but necessary to reduce __read amplification__ by generating a more optimized data layout.
 
-  * __Durability__. Typically the data repair process, which comes when nodes or disks went bad. These background jobs require low detection time, and high priority bandwidth. Data repair efficiency can be improved by __involving more nodes__ to provide source data, e.g. Ceph which involves full cluster, copyset which involves a partition of cluster, and primary/secondary replication however which only involves a few secondaries.
+  * __Durability__. Typically the data repair process, which comes when nodes or disks went bad. These background jobs require low detection time, and high priority bandwidth. Data repair efficiency can be improved by __involving more nodes__ to provide source data, e.g. Ceph which involves full cluster, Copyset which involves a partition of cluster, and primary/secondary replication however which only involves a few secondaries.
 
   * __Storage efficiency__. Data compression can be run off the write path to avoid increasing user seen latency. Erasure coding can then further reduce storage space needed. GC runs periodically to reclaim deleted storage space.
 
@@ -881,19 +875,21 @@ Offline background jobs touching data can also be divided by purpose. They usual
 
 __Write to different storage media__
 
-Write data flows through or eventually persists at one of the storage media: memory, PMEM, SSD, HDD, or archival tapes. Data structures and techniques vary according to the characteristics of storage media, and the workload access patterns. We will see more in "Index" section and "Data organization" section.
+Write data flows through or eventually persists at one of the storage media: memory, PMEM, SSD, HDD, or archival tapes. Data structures and techniques vary according to the characteristics of storage media, and the workload access patterns. We will see more in [Data indexing section](.) and [Data organization section](.).
 
   * __Memory tier__ does well with random access and provides the lowest latency compared to other storage tiers. The major concern is to improve concurrency, cache efficiency, and to pack more data in memory. Typical data structures can be plain pointer links (e.g. FaRM), skiplists (e.g. RocksDB) and Bw-tree which favor concurrency, [B+-tree](https://www.zhihu.com/question/516912481/answer/2403713321) whose bigger node benefits cache line than red-back tree, and hashtables for quick lookup (e.g. Memcached). Memory compression and disk SWAP can be enabled (e.g. [TMO](https://www.cs.cmu.edu/~dskarlat/publications/tmo_asplos22.pdf)).
 
-  * __PMEM tier__ is [2x~3x slower](https://www.usenix.org/conference/fast20/presentation/yang) than DRAM, and doesn't like small random writes. The major concern is to improve concurrency, compensate with slow CPU, and maintain crash consistency while avoiding expensive cache flush instructions. RDMA and Kernel bypassing are usually used in company with write path. Tree-based append-only data structures, e.g. per inode logging in NOVA, are still favorable. Another approach uses hashtable data structure, e.g. Level Hashing.
+  * __PMEM tier__ is [2x~3x slower](https://www.usenix.org/conference/fast20/presentation/yang) than DRAM, and doesn't like small random writes. The major concern is to improve concurrency, compensate with slow CPU, and maintain crash consistency while avoiding expensive cache flush instructions. RDMA and Kernel bypassing are common techniques. Tree-based append-only data structures, e.g. per inode logging in NOVA, are still favorable. Another approach uses hashtable data structure, e.g. Level Hashing.
 
   * __SSD tier__. Except a few systems update in-place, most systems shift to append-only, e.g. RocksDB, and TiDB/Cockroach/MySQL which use RocksDB as engine, HBase/ClickHouse which employs LSM-tree (like) engine, or FoundationDB / Azure Storage which build atop shared logging. I.e. SST files and central logging are the common data structures on SSD. OLAP databases also favor append-only in batch and rewrite to compressed columnar layout. Some databases choose to build index for every column, while some others solely rely on full scan.
 
   * __HDD tier__. Since both favor append-only, the data structure are similar on HDD or SSD, where most systems can interchangeably run on both. The difference is SSD one needs more CPU and parallelism allocated per device. 
 
-  * __Archival tapes tier__. Append-only is also the favored write style, thus no much diff from HDD or SSD ones. The data is usually deduplicated and appended in sequential structure, and relying on an index to lookup. Dedup fingerprints can be stored with data that preserves locality. Higher compression level and longer erasure coding codecs are used.
+  * __Archival tapes tier__. Append-only is also the favored write style, e.g. Data Domain, thus no much diff from HDD or SSD ones. The data is usually deduplicated and appended in sequential structure, and relying on an index to lookup. Dedup fingerprints can be stored with data that preserves locality. Higher compression level and longer erasure coding codecs are used.
 
-In general, storage media tiers are chosen according to the price, scale, and performance targets of data. Different optimized techniques are applied to different tiers. Data movement across tiers yet need efficient temperature detection/prediction algorithms, which are usually LRU variants but more concerned in reducing tracking metadata size against the large data scale:
+  * __Computation tier__. The above tiers sort by data size. Computation tier is special that, in certain cases there is no data needs to store, and all can be derived from calculation. In another word, "store" data in calculation.
+
+In general, storage media tiers are chosen according to the price, scale, and performance targets of data. Each tier has their own optimization techniques. Data movement across tiers yet need efficient temperature detection/prediction algorithms, which are usually LRU variants but more concerned in reducing tracking metadata size against the large data scale:
 
   * __Exponential smoothing__. This is the standard academy method that averages now and history hotness with a weight, where older history is exponentially forgotten. The method doesn't mention how to implement efficiently. Hotness can be measured by data access IOs and bytes in a time window.
 
@@ -903,25 +899,229 @@ In general, storage media tiers are chosen according to the price, scale, and pe
 
   * __Objects in list__. Examples are linked list implemented LRU, or Linux Kernel [memory page swap](https://github.com/torvalds/linux/blob/master/mm/workingset.c). Temperature is tracked by object position in list. Objects are prompted to head when accessed, pushed to tail when cold, and evicted beyond tail. 
 
-  * __Offline classification__. Examples are Hekaton Siberia, [Google G-SWAP](https://research.google/pubs/pub48551/). When temperature tracking metadata is too large, the system can dump traffic records (may be sampled) to disk, and employs an offline periodical classification job or machine learning to categorize hot/cold data.
+  * __Offline classification__. Examples are Hekaton Siberia, [Google G-SWAP](https://research.google/pubs/pub48551/). When temperature tracking metadata is too large, the system can dump traffic records (may be sampled) to disk, and employs an offline periodical classification job or __Machine Learning__ to categorize hot/cold data.
 
   * __User tagging__. Expose interface for end user to explicitly tag whether a piece of data should be hot or cold. Simple, but user always knows better.
 
 
+### Data Organization
+
+Traditionally "data organization" talks about physical columnar/row-wise data layout in databases. I choose to view data organization from a broader perspective which is divided by purposes.
+
+  * __Durability tier__. The basic need to organize data in a storage system is to make it durable. __Replication__ is common, on the cost of storage efficiency, yet vulnerable as corruption can be simultaneously replicated. Replication also couples with performance tier, as extra replicas balance reads. __Erasure Coding (EC)__ reduces storage space, improves durability, on the cost of data reconstruct. __Consistency__ is an accompanied problem with replication. __End-to-end CRC__ and __periodical scrubbing__ are necessary to protect against corruption happened on write path or silent data at reset. __Backup__, __geo-replication__ are stand setups for disaster recovery, while __time travel__ is handy to recover manual errors to any earlier version.
+
+  * __Query tier__. Disk data needs to support reads and update. Common accesses are __sequential/random reads__, __appends__, __updates (or read-modify-write)__ talked in storage systems, and __point/range queries__, __scans__, __inserts__, __updates (or after read query)__ talked in databases. Traditionally, disk data serves as both the durability tier and query tier, which incurs cost in write path to maintain read-optimized format. Separating read path and write path can help, or move read path entirely to __performance tier__, e.g. in-memory database. Query tier can further specialize for __OLTP__, __OLAP__ and __Datalake__ that share many techniques but distinct on query patterns, consistency, data scales, structured data or not. 
+
+  * __Performance tier__. Commonly this is extra data copies to balance reads, an SSD tier that act as only cache (or also serve part of durability), PMEM as a staging area to merge random writes and sequentialize them, plain memory cache, or in-memory DB that moves all computation in memory. When used as cache, SSD or memory can target small blocks rather than entire objects from disk, see [Caching section](.). Data organized in memory is more attached to indexes, unlike on disk, see [Data indexing section](.).
+
+  * __Scaleout tier__. To cope with increasing volume or higher throughput target, data is __partitioned__, replicated, and placement-ed to serve from more machines. Resource scheduling for heterogeneous job sizes, __load balancing__, and __migration__ follows the needs. See [Data partitioning section](.). __Consistency__ is always a problem. On single node it can easily rely on CPU cache coherence, but scaleup is bottlenecked by CPU power/heat and cache coherence between too many cores. Went to distributed systems, consistency of distributed transaction incurs high networking cost, unless relax it with App level agreement.
+
+Essentially, query tier carries the most DB techniques when it wants to be performant, while durability/scaleout tier are orthogonal from it and can be offloaded to a shared storage system, and performance tier is usually addressed by caching.
+
+__Durability tier__
+
+We covered replication in [Consistency section](.). We will see more about CRC and scrubbing in [Data integrity section](.). Below we briefly expand the design space for Erasure Coding (EC).
+
+  * __Storage overhead__. The main goal of an EC codec is save data with same level of durability but less storage space, compared to plain replication.
+
+  * __Durability__. Data must be recoverable, if a set of disks went bad. Data must be available (with reconstruct) to user reads, if a set of nodes went offline. 
+
+  * __Performance__. Compared to 3-replica, reading on EC data incurs significant cost when part of data is offline, especially tail latency. With less storage copies, total bandwidth able to serve is capped. 
+
+EC codec has great richness in schema variety, especially combined with cluster layouts and user traffic patterns. Briefly, main schemas can be found in below classes
+
+  * __Reed-Solomon Codes__. The textbook standard form where each data symbol is involved in each parity symbol. The code is MDS, which means it can recover the most loss patterns in the given storage overhead.
+
+  * __Local-reconstruct Codes__. To reduce the bandwidth needed in reconstruct reads or data repair, part of parity symbols choose to reduce involved data symbols. In another word, the schema improves performance in the cost of recoverable loss patterns.
+
+  * __Regenerating Codes__. Another approach to reduce bandwidth needed in reconstruction. MSR codes reach low bandwidth bound without penalty on storage overhead. The code construction is usually more complex, and involves more computation.
+
+__Data layout for query tier__
+
+In high level, we first capture the desired __goals__ of a data layout. Ideally we want every goal to reach optimal, which by far is impossible. Trading off between goals composes the design space. Space related goals are critical to Cloud Storage COGS which sells by capacity.
+
+  * __Read amplification__. To return the desired value, how many extra data reads needed? Locating the data starts from index lookup. Without fine-grain index, read may need to scan through entire chunk. If chunks host overlapping ranges, stale data also adds to the scan. Ideally, if any data can be located accurately, scan is not even needed. Read amplification is possible to be __amortized by batching__, at a cost of latency.
+
+  * __Write amplification__. To write a piece of data, how many extra writes (and reads) needed? In-place update in an array may incur ripple data movements if the slot is big enough. Append-only system needs background writes for GC/compaction. Background jobs also do rewrites. Write amplification is possible to be __pushed off to offline__ from write path, at a cost of space amplification. (I treat Delete as a special type of write, omitted here.) 
+
+  * __Space amplification__. Compared to only user data, how much extra storage space spent for query tier? This includes unclaimed stale values, deleted values, tombstones, empty slots left for inserts in-place, internal fragmentation insides pages/chunks, external fragmentation that fails allocation. Space amplification can naively be reduced by running reclamation more frequently, at a cost of read/write amplification.
+
+  * __Sequential reads__. HDD favors sequential reads. We want the next read hit the previous one's prefetch. We want multiple reads can be batched in one bigger read. We want range query to map to sequential on-disk reads. We want __data locality__ to be preserved. 
+
+  * __Sequential writes__. HDD/SSD favor sequential writes. Append-only systems can make all writes sequential. In-place updates are harder, but possible with pre-allocated empty slots.
+
+  * __Compression__. Compression is critical to storage efficiency at query tier. It also reduces amplification by transferring less data in reads and writes. Compression needs to work with encryption, where CBC (chained block cipher) can randomize identical blocks. Compression is more efficient by packing similar data together (i.e. columnar layout). Transfer overhead can be reduced by directly querying on and passing compressed blocks (i.e. [late materialization](https://web.stanford.edu/class/cs245/win2020/readings/c-store-compression.pdf)). Queries can efficient with [SIMD vectorization and JIT compile](https://15721.courses.cs.cmu.edu/spring2020/papers/16-vectorization2/p2209-kersten.pdf). 
+
+  * __Index lookup__. An ideal data layout should be easy for index lookup to serve reads or find write locations. Index structure and traversal can be built in part of data organization, or data clustered into the index. Given limited index size or granularity, data chunks can have a second level min-max sketching, zone map, or bloomfilter.
+
+Next, we define the __data unit__, e.g. how big is a block, chunk, file. We need to think properties are enforced at which data unit level, indexing happens at which granularity, data placement & migration unit size, etc. Listing data units from small to big
+
+  * __Individual key-value__. Or only value if the key can be derived, e.g. incremental row id in columnar layout. This is the smallest data unit. Usually indexing every key-value at this layer is prohibitively expensive.
+
+  * __Row group__. A file can have multiple row groups. It may still be too small for indexing, but carries itself min-max sketching and aggregation statistics. The example is [Parquet](https://github.com/apache/parquet-format), or AnalyticDB row-column layout. A row group contains all columns for a set of rows, while inside the row group data is organized columnar.
+
+  * __Chunk__. I use "Chunk" to universally donate the smallest data unit to index. An example is the "SST file" in RocksDB, where read first locates a chunk (think of a "shabby" index here) and then full scan it (can be optimized by per row group sketching). Another example is the "page" in B+-tree index (such systems usually don't have row group), where we need to consider record layout inside a page. The next example is the "block" is filesystems, which is indexed by inode tree; or "extent", where allocator assigns a larger space than asked to append future writes.
+
+  * __Partition__. The smallest unit to choose which server to host. It's where data starts to participant in a distributed system, and as the unit for placement, replication and migration.
+
+  * __Data unit for classification__. Storage systems need to decide a data unit as the level for __tracking and classification__. Classification is a common problem in storage systems for efficient GC/compaction, temperature tiering, and various background jobs. __Machine Learning__ can but not much used mainly due to the metadata size and computation cost for vast tracking units. The unit of classification can either be bigger or much smaller than a partition, given the tracking cost willing to pay. 
+
+    * __Generation__. I.e. the "level" in LSM-tree or RocksDB. It marks how many GC/compaction rounds the data has went through. It __classifies__ how likely the data won't be deleted/overwritten in longer time. LSM-tree couples more properties with generation, e.g. chunk size, sort runs, compaction strategies; which is a design choice but not a necessity. 
+
+    * __Temperature tiering__. A tag with statistics to __classify__ how likely the data will be accessed in future with certain traffic. Efficient ways to offload cold data to cheaper storage media is critical to storage space efficiency, while the (asymmetric) data unit of transfer yet needs quick response on sudden user reads. Separating GC/compaction strategies between cold/hot also benefits.
+
+    * __Workload streams__. The storage system is serving a mixed users workloads. "Stream" here means to separate out the data operations from a single workload. The concept came from [NVMe protocol](https://www.seagate.com/files/www-content/product-content/ssd-fam/nvme-ssd/nytro-xf1440-ssd/_shared/docs/an-introduction-to-nvme-tp690-1-1605us.pdf), and an example is [FStream](https://www.usenix.org/conference/fast18/presentation/rho). Practically, "stream" group similar data together to yield better compression, dedup, to share close lifecycle in GC/compaction, and temperature. 
+
+In the next level, we abstract the __properties__ of a data layout. They constraint the physical data organization intra/inter a data unit, to which writes pay to maintain, and reads benefit from to speedup. Below lists properties from small data units to big, map properties to high level goals, and discuss the techniques composing the design space
+
+  * At key-value level, common techniques are to __separate keys and values__ (WiscKey). Most compaction happens at keys, thus saved rewrite amplification on values (which are big).  Another technique is to __dedup common key prefixes__ which saves storage space. Examples are "column family" in HBase, and trie trees.
+
+  * At row group level, a notable property is whether data is stored in __columnar or row format__. OLTP database favors row format, where data is organized as rows, and row piles in a page. OLAP database favors columnar format, where data is organized as columns, values from one column is stored consecutively in a row group, and then to the next column. 
+
+    * __Columnar format__. Since column packs similar data, compression is more effective thus reduces storage space, and less read data when scan. Common OLTP workload can hardly generate columnar format on start, thus needs to pay write amplification for batch and rewrite. Querying one column and then lookup another column in one row, however incurs extra IOs, non-sequential reads, because columns are stored at different locations. Common columnar format examples are Parquet, Apache ORC. 
+
+    * __Row format__. Scans involve unnecessary columns, i.e. a read amplification. Compression are less efficient compared to columnar format, and also cost reads. But updating/inserting can directly operate on the unit of rows. Looking up all columns in one row cost only one read. 
+
+Continue with data layout __properties__. __At chunk level__, many properties are covered such as whether data is __sorted__ (or half sorted), __overlapping__ between chunks, __cross chunk linking__, allowing __in-place updates__. They further couples with intra chunk or inter chunk. Much of LSM-tree compaction optimization is talking about this level. 
+
+  * __Sorted, intra chunk__. Examples are RocksDB SST files, column values in columnar format, which stores records sorted. Sorting favors lookups to locate the record, allows sequential reads in range queries, ease building external index or packing index internal of the file. However, since user writes in any order, sorted data cannot be obtained from start, unless either buffer in memory, or pay write amplification for rewrite. Besides, sorted data allows more efficient compression algorithm, e.g. Run-length Encoding (RLE).
+
+    * __In-place updates__. Maintaining both intra chunk sorted and in-place update is hard. Giving up internal sorted, sort property can be __pushed off to inter chunk level__, so that read amplification is still capped, and index at chunk granularity can still be built. To absorb inserts, a chunk can pay storage space to pre-allocate empty slots, or page extra writes to move records out.
+
+    * __Index sort order vs data sort order__. Databases records can appear to be sorted by index (e.g. traversal B+-tree in order), but random on-disk. Though range query saves lookup by leveraging index sort order, on-disk scan still incurs random reads. To also keep on-disk data in sort order, it can pay write amplification for a rewrite. Or, let index leaf have larger chunks that, sequential read inside a chunk, and then jump to the next chunk. However, secondary indexes can hardly achieve data sort order by secondary key, while this can be compensated by [Z-Order](https://zhuanlan.zhihu.com/p/491256487) at a cost of read amplification.
+
+  * __Sorted, inter chunks__. The example is ["tiering" vs "leveling"](https://zhuanlan.zhihu.com/p/112574579) in RocksDB. "Leveling" requires chunks are __non-overlapping__, i.e. a sorted run, or chunks have a total sort order. It favors read to quickly locate only one chunk that needs scan. However, maintaining the inter chunk sort property requires paying write amplification in compaction.  In "tiering", chunks can have __overlapping__ key ranges. Breaking "sorted" property relaxes writes, but read may need to scan multiple chunks.  
+
+    * __Overlapping chunks__. Can chunks have overlapping key ranges? This is another way to say whether inter chunk sort property is supported.
+
+    * __Half sorted, inter chunks__. The example is ["Guards"in PebblesDB](https://vigourtyy-zhg.blog.csdn.net/article/details/109005795). A guard contains multiple chunks which can overlap, but cross guards there is no overlapping. It creates a tunable balance read/write amplification.
+
+    * __Key assignment to chunks__ matters when maintaining the sort/overlapping property inter chunks. By partitioning keys into non-overlapping ranges (or hashing) and assigning to different chunks, it can ensure chunks non-overlapping.  You can see __data partitioning__ is not for scaleout, but also a method to __separate conflict space__ that eases algorithm handling. Besides, it also __separates addressing space__, which reduces metadata size, as you see in [Metadata section](.). 
+
+    * __Fixed/variable sized blocks__. Chunks of SST files are variable sized, database pages are fixed size, and storage system may either use fixed sized or variable sized blocks. Fixed size blocks are commonly seen in traditional filesystems, updated in-place, where size variety is however handled by allocator (which can be tricky to be robust). Internal fragmentation can waste space inside blocks.  Variable sizes blocks favor append-only systems and compression that yields unpredictable size. Index metadata has to be larger, as no fixed size of tracking units.  In balance of the two: 1) The system can take a __minimal write size__ e.g. 4KB, so index metadata size is reduced even for variable sized blocks. 2) Allocate by a large "extent" rather than individual blocks, so that inside the extent it can append fixed sized block and reduce external fragmentation. 
+
+    * __Compensation by index__. Having an index can ease chunk maintenance. If the chunk means B+-tree index pages, it needs to maintain both non-overlapping and fixed sized block property. This is done by __key assignment to chunks__ guarded by the index itself.  With overlapping chunks, instead of scanning all matched ones, a global tree/hash index can tell whether certain key exists in a chunk, so as bloomfilters (which is commonly used). 
+
+  * __Cross chunk linking__. The example is __Forwarding pointers__ in LSM-tree that level L-1 chunks can embed pointers to level L chunks. When a read scanned level L-1 but didn't find matching record, following up the forwarding pointer costs less reads than start over scanning on level L. Essentially, the method is to __embed an index__ at inter chunk level (note we also mentioned __indexing at chunk internal__, or a separate __external index__). Conceptually, index leverages __connections between data__ to build, this right happens when chunks have overlapping key ranges across LSM-tree levels.
+
+  * __Data locality__. Data to be accessed together should be located physically close, so that a read can prefetch all. They can also be placed in the same chunk/block, to be fetched and cached together. Examples are graph databases where  
+
+Other data layout __properties__ at partition data unit and classification data unit:
+
+  * __Partition level__. It maps to chunk level to serve individual queries. There are few other "larger scale" properties
+
+    * __Replication__ and __placement__ affects how queries are served at distributed system level, but more proper to discuss at [Data partitioning section](.). __Colocation__ places data used together on same node to benefit prefetching and save coordination cost.
+
+    * __Interoperability__. Datalake, e.g. Delta Lake, uses open formats (Parquet, Apache ORC, JSON, CSV) for both its internal data and metadata logs. This allows any other apps to interoperate, and allows launching a new server any other where at cloud to resume processing.
+
+  * __Classification level__. It maps to individual or a group of similar chunks as the tracking unit. The grouping can either be physical, i.e. locate chunks together, or logical, i.e. track similar chunks in metadata. 
+
+We can summarize data layout __properties__ by exploring two extremes, a write-optimized layout and a read-optimized layout. We can tune properties to watch the transition between the two.
+
+  * __Write-optimized layout__. Newly update/inserted data are sequentially appended to the end of log without any special handling. Write path has the lowest cost. 
+
+  * __Read-optimized layout__. Chunks are fully indexed to key-value level. Chunks are internally sorted. Chunks are non-overlapping. Chunks are large enough to avoid fragmented IOs by range query. Columnar layout if not too many cross-column lookup. 
+
+  * __Transition from write-optimized to read-optimized layout__. There are three trends: 1) introduce sort order, 2) reduce tracking granularity, 3) group similar data together
+
+    * __Introduce sort order__. Queries need to exploit sort order to locate data more quickly and skip unrelated. On-disk access also benefit from sequential reads. Sorting also benefits compression such as RLE. Chunk internal sort is done by rewrite. Inter chunk sort order is more relaxed, which can be dialed from loose to tight, by directing records via guards or index.
+
+    * __Reduce tracking granularity__. The benefits come from indexing and skipping. With smaller granularity located and more unrelated data filtered out, queries save more reads. Metadata overhead is always a trade off, where low level part can be embedded in chunks, rather than pinned in memory. Chunks can be cut smaller, with chunk size more balanced, and embed variety in row groups. 
+
+    * __Group similar data together__. Examples are, separating keys and values, columnar format the groups values from a single column, generation or LSM-tree levels that group data in lifecycle, temperature tiering that groups cold/hot, workload streams that group similar data from a single workload. Such classification, either based on type rules, statistics, of Machine Learning, are effectively useful at everywhere, e.g. compression, scanning, GC/compaction, lifecycle related movement.
+
+More about optimized layouts
+
+  * __Space-optimized layout__. Space amplification is important to Cloud Storage COGS, but less attended. Write-optimized layout hurts space efficiency due to unclaimed stale values. Read-optimized layout hurts space efficiency, if it keeps internal fragmentation in pages, blocks, or pre-allocated empty slots. Efficient compression is also required. Space-optimized layout can be a columnar layout with closely packed records, which seems can be achieved together with read-optimized layout, if we accept rewrites, thus we also allow newly ingested data to use write-optimized layout.   
+
+  * __Balanced-optimized layout__. Considering the cost of GC/compaction, we can hardly achieve both write/read-optimized simultaneously. A balanced layout is worthwhile, and it is only __optimized__ when tailored against the dedicated App workload, which is essentially a __Machine Learning__ problem. Paper [Optimal Column Layout](https://stratos.seas.harvard.edu/files/stratos/files/caspervldb2020.pdf) did this for update in-place (binary linear optimization). 
+
+// TODO add a pic chart to link how properties connect to goals, and each concrete design pattern techniques
+
+__Garbage collection (GC) / Compaction__
+
+GC/compaction are common in append-only or LSM-tree systems and quite bandwidth consuming. Update in-place systems may also need compaction if a data rewrite is needed to generate more read-optimized layout; or GC is needed if some new values are temporarily written out-of-place. I choose to mix the notation of GC/compaction because both reclaim stale/deleted values, and GC along can be used without compaction, if index, bloomfilter, or versioning along can tell which key is stale.
+
+Typical design goals of effective GC/compaction are below. They also map to the goals of data layout.
+
+  * Be timely enough to reduce __read amplification__ on user reads.
+
+  * Be timely enough to reduce __space amplification__.
+
+  * Pay less for __write amplification__ either inline write path or offline in background.
+
+  * Arrange __sequential reads__ and __sequential writes__ when possible.
+
+  * Spend reasonable amount of __CPU__ and __memory__.
+
+The design space of GC/compaction consists of a series of "knobs" choosing when and how to run
+
+  * __Size granularity__. Which data unit is selected to run GC/compaction? It can be an individual chunk, a group of chunks, or compact with all chunks in a LSM-tree sorted run or level. A chunk can either be small or large. Essentially, enforcing sort order on a wider range implies correspondingly larger compaction granularity, which benefits reads but is more costly. A large granularity costs less tracking metadata but incurs more rewrite on unnecessary data.
+
+  * __Selecting candidates__. Which chunk to GC/compact with which other chunks. A GC/compaction run is more efficient if it removes the most stale values, or when chunks having more possible overlapping. A new-born chunk can also be pushed off layer so to accumulate more stale values. Proper indexing and statistics tracking can be spent here. Selecting best candidates improve GC/compaction efficiency.
+
+  * __When to trigger__. When to start run GC/compaction? It can be when storage space is filled up, certain LSM-tree level reached max size, a chunk accumulated enough old stale keys, periodical timer triggered, recent read/write cost reached alarm or stalled due to pending GC/compaction, user traffic is low enough. They aim to proactively maintain system properties while minimally impact user activity.
+
+  * __Where to run__. Traditionally GC/compaction need to run in local node to save network/disk transfer. However in shared storage, chunks can be loaded by other nodes to scaleout the computation. They can have extra replicated copies to balance reads, or smart SSDs to compute in hardware. More, GC/compaction can store data in cloud storage, disaggregate storage components (e.g. Snowflake), and offload computation to cloud (e.g. Remote Compaction).
+
+Base on data unit for classification (mentioned previously), e.g. generation, temperature, workload streams, different GC/compaction strategies (the above) can be applied.
+
+  * __Generation__. I.e. the level 0, 1, 2, .. N in LSM-tree or RocksDB. Each level is typically configured with different max sizes, chunk size, GC/compaction frequency. They can also use different tiering vs leveling strategy. An example is Lazy Leveling in Dostoevsky. Roughly, lower levels incurs more write amplification because they compact more frequently, while higher levels incur more read amplification because chunks are large.
+
+  * __Temperature tiering__. It's beneficial to delay hot data, which may accumulate more stale values to be GC/compacted in one run, and keep them in memory. Cold data should be separated from hot data, to avoid getting polluted and need rewrite altogether. GC/compaction can run more infrequently on cold data because they have less activity. An example is [TRIAD](https://github.com/epfl-labos/TRIAD).
+
+  * __Workload streams__. It groups data which have similar temperature hot/cold level. The correlated data with similar lifecycle are more likely to be deleted or updated together, so that can be reclaimed in one GC/compaction run. The example is files in Google Drive, where a file is deleted as a whole, but mixing blocks from different files in one chunk results in fragmented lifecycle. 
+
+__Compression__
+
+Columnar format organizes data in compressed way. The compression algorithms yet allows reading records directly without decompression. The below [algorithm selection taxonomy](https://www.cs.umd.edu/~abadi/talks/Column_Store_Tutorial_VLDB09.pdf) not only reflects what are the common properties in data, and how data should be organized in compression to query efficiently.
+
+![What compression schema to use in columnar format](/images/arch-design-columnar-compress-taxonomy.png "What compression schema to use in columnar format")
+
+
+### Data indexing
 
 
 
-// TODO data organization
-  caching tier
-  durability
-  db tier
-  extents, blocks, pages
 
-  point lookup
-  scan, etc.
+### Caching
 
-  tiering, level, and GC/compaction
-  
+
+
+
+
+### Data partitioning
+
+
+Mostly, data sharding is a synonym of data partitioning. 
+
+// TODO and data placement
+// TODO Resource scheduling for heterogeneous job sizes, __load balancing__, and __migration__ 
+
+
+
+### Data integrity
+
+
+### Resource scheduling
+
+and priority, quota/throttling, background jobs
+Overload control
+Manycore
+
+
+### Concurrency & parallelism
+
+### Networking
+
+### More storage components, workflows, and system properties 
+
+To cover all remaining ones I didn't bother to write
+
+
+
+
+
 
 
 

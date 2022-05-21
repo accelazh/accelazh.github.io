@@ -26,9 +26,9 @@ The common sense innovation method is brainstorming and idea [addition/subtracti
 
 The fundamental method of innovation is to stand on the mountain top and look one step further. Step two is easy.
 
-  * Step one. Be the expert. Master the technology stack. We should know anything when asked. Know where the mountain top is, industry and academic, and the underwater momentum. Besides, understand the product in depth, the industry landscape, and our position. This is __non-trivial__, which should take years. [\[1\]](/technology/Roadmap-to-Technical-Leadership)[\[2\]](/storage/Build-My-Academic-Paper-Feedback-Network).
+  * Step one. Be the expert. Master the technology stack. We should be able to answer anything when asked. Know where the mountain top is, industry and academic, and the underwater momentum. Besides, understand the product in depth, the industry landscape, and our position. This is __non-trivial__, which should take years. [\[1\]](/technology/Roadmap-to-Technical-Leadership)[\[2\]](/storage/Build-My-Academic-Paper-Feedback-Network).
 
-  * Step two. think what should be the __next__ for the industry and the product. __Review__ our product and think what are the __bottlenecks__ in the near future. What can be the threats. And what are the strength to enhance. These __gaps__ are where to find the innovation. Apply vision and strategic thinking.
+  * Step two. think what should be the __next__ for the industry and the product. __Review__ our product and think what are the __bottlenecks__ in the near future. What can be the threats. And what are the strength to enhance. These __gaps__ are where to find the innovation. Apply visions and strategic thinking.
 
 Gaps are convenient source of innovation.
 
@@ -40,9 +40,9 @@ Gaps are convenient source of innovation.
 
   * __Grid search__. Continued from Min-Max, we can unfold the properties we care into multi-dimensions of structured space. Use an exhaustive method to divide and categorize the space, and conduct the search. This also helps us find and look into possibilities. In another word, we should have the map, even we cannot reach every location, and we should plot grid axes on the map.
 
-Problems & missing parts in engineering working are source for innovation.
+Problems & missing parts in engineer working are source of innovation.
 
-  * Online service and operation issues. Apply __systematical thinking__ and in depth. An issue to happen usually reflex missing functionalities, gaps to fill, and opportunities for paradigm shift. __"5 whys"__ is useful method, e.g. why the failure is not detected before impact, why auto mitigation not working, why it is captured now rather than at an earlier stage, etc.
+  * Online service and operation issues. Apply __systematical thinking__ and in depth. An issue to happen usually reflex missing functionalities, gaps to fill, and opportunities for paradigm shift. __"5 whys"__ is useful method from [Critical Thinking](https://microsoft.sharepoint.com/sites/infopedia/cela/pages/critical-thinking.aspx), e.g. why the failure is not detected before impact, why auto mitigation not working, why it is captured now rather than at an earlier stage, etc.
 
   * __Don't repeat yourself__. If we are working with repeated issues, with repeated manual operations, with repeated coding, that usually identifies tooling innovations, paradigm shift how we work, or opportunities to change how we share and reuse.
 
@@ -62,7 +62,7 @@ There are wiser views to manage product and scope to help innovation
 
 Team working is important for innovation
 
-  * Keeping updated and following up all technology directions are non-trivial work. If we have a team, where each member __covers different directions__, and do regular shares like a seminar. It will be helpful.
+  * It's non-trival work to keep updated and follow up all technology directions. Build a team, where each member __covers a different direction__, and do regular share sessions like seminars. It will more efficient.
 
   * __Teamwork helps inspire__ new ideas, e.g. brainstorm is not running on individual. Ideas passing back-forth, listened and reflected, can usually generate much more.
 
@@ -74,13 +74,13 @@ Team working is important for innovation
 
 Visions & strategic thinking that help innovation
 
-  * Innovation can be inspired from vision thinking like, what are we doing for the next 1\~3 years, or 5\~10 years, what will our product be like, what are the __technology directions__, and our position in the industry, internally or externally.
+  * Innovation can be inspired from vision thinking, e.g., what are we doing for the next 1\~3 years, and 5\~10 years, what will our product be like, what are the __technology directions__ and our position, internally or externally.
 
-  * In another perspective, in the next 3\~5 years, how are we doing __daily work__ and organize the team. What are the key driving factors behind, the bottleneck, and the growth space. 
+  * In another perspective, in the next 3\~5 years, how we will be doing __daily work__ and organize the team. What are the key driving factors behind, the bottleneck, and the growth space. 
 
   * What is the __lifecycle and position__ of our product, our technology domain, and our market. Innovation is generally having more opportunities in the emerging new domains, more challenging areas, and generally less easier in the mature and fading markets.
 
-  * Read in a systematically way and __compare__. It's comparing rather than linearly reading that reveals intrinsics. Innovation comes from the compare
+  * Read in a systematically way and __compare__. It's comparing rather than linear reading that reveals intrinsics. Innovation comes from the compare
 
 In the end, here attaches the __storage driving factors__ I summarized in scratch, which can help plot the innovation landscape.
 
