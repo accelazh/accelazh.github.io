@@ -30,7 +30,7 @@ The fundamental method of innovation is to stand on the mountain top and look on
 
   * Step two. think what should be the __next__ for the industry and the product. __Review__ our product and think what are the __bottlenecks__ in the near future. What can be the threats. And what are the strength to enhance. These __gaps__ are where to find the innovation. Apply visions and strategic thinking.
 
-Gaps are convenient source of innovation.
+Gaps analysis are convenient source of innovation.
 
   * Observe what people are complaining about, what are the problems open not solved, what are we today and we want to be. These __map to gaps__. Analyze into the gaps, explore solving problems, usually bring innovation
 
@@ -40,7 +40,7 @@ Gaps are convenient source of innovation.
 
   * __Grid search__. Continued from Min-Max, we can unfold the properties we care into multi-dimensions of structured space. Use an exhaustive method to divide and categorize the space, and conduct the search. This also helps us find and look into possibilities. In another word, we should have the map, even we cannot reach every location, and we should plot grid axes on the map.
 
-Problems & missing parts in engineer working are source of innovation.
+Problems & missing parts in engineering daily work are source of innovation.
 
   * Online service and operation issues. Apply __systematical thinking__ and in depth. An issue to happen usually reflex missing functionalities, gaps to fill, and opportunities for paradigm shift. __"5 whys"__ is useful method from [Critical Thinking](https://microsoft.sharepoint.com/sites/infopedia/cela/pages/critical-thinking.aspx), e.g. why the failure is not detected before impact, why auto mitigation not working, why it is captured now rather than at an earlier stage, etc.
 
