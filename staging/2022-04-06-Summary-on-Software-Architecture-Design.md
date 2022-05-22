@@ -722,7 +722,9 @@ Metadata consistency and data consistency share common techniques, and metadata 
 
   * __Casual consistency__, weaker consistency, propagating. When strong consistency is prohibitive, usually due to performance consideration, metadata can switch to weaker consistency. The most frequently used one is casual consistency, which captures the propagating constraints. It can be implemented by adding version numbers (simplified from [vector clocks](https://newbiettn.github.io/2014/05/03/lamport-clock-vs-vector-clock/)) to messages.
 
-  * __Snapshot consistency__, weaker consistency, versioning. Like causal consistency to constraint propagating, snapshot consistency constraints that within a version, all component states seen are at a consistent point-in-time. Usually both needs a version number, or a timestamp. In general, "weak" consistency is vague, while versioning provides instinctive way to measure and control.  
+  * __Snapshot consistency__, weaker consistency, versioning. Like causal consistency to constraint propagating, snapshot consistency constraints that within a version, all component states seen are at a consistent point-in-time. Usually both needs a version number, or a timestamp. In general, "weak" consistency is vague, while versioning provides instinctive way to measure and control.
+
+  * __Gossip__. A common way to propagate metadata across nodes is gossiping, in another word to piggyback metadata in common communications between nodes. An example is Ceph. The method is also commonly used in heartbeats, node health and membership detection. __Eventual consistency__ can be achieved with version tracking. Usually a node also needs to periodically refresh suspected stale metadata from the Consistent Core.
 
 
 ### Consistency
@@ -1181,7 +1183,7 @@ We discuss a few secondary topics here about data index
     * __Local secondary index__ builds an index locally on each data node. Per index only covers the local space, while different data nodes can have duplicated secondary keys but not known by the index. It only needs a local transaction to consistently update with local data. However, looking up a secondary key needs to query each data node. Running parallel queries may not be that bad, considering there are also databases who choose hash partitioning each row. A node can skip query if its bloomfilter tells keys non-exist.
 
 
-### Caching
+### Data caching
 
 memory caching, basically hashtable or indexing
 ssd caching
