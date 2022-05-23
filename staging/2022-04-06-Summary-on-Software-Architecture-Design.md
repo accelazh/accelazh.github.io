@@ -724,8 +724,6 @@ Metadata consistency and data consistency share common techniques, and metadata 
 
   * __Snapshot consistency__, weaker consistency, versioning. Like causal consistency to constraint propagating, snapshot consistency constraints that within a version, all component states seen are at a consistent point-in-time. Usually both needs a version number, or a timestamp. In general, "weak" consistency is vague, while versioning provides instinctive way to measure and control.
 
-  * __Gossip__. A common way to propagate metadata across nodes is gossiping, in another word to piggyback metadata in common communications between nodes. An example is Ceph. The method is also commonly used in heartbeats, node health and membership detection. __Eventual consistency__ can be achieved with version tracking. Usually a node also needs to periodically refresh suspected stale metadata from the Consistent Core.
-
 
 ### Consistency
 
@@ -1183,7 +1181,27 @@ We discuss a few secondary topics here about data index
     * __Local secondary index__ builds an index locally on each data node. Per index only covers the local space, while different data nodes can have duplicated secondary keys but not known by the index. It only needs a local transaction to consistently update with local data. However, looking up a secondary key needs to query each data node. Running parallel queries may not be that bad, considering there are also databases who choose hash partitioning each row. A node can skip query if its bloomfilter tells keys non-exist.
 
 
-### Data caching
+### Caching
+
+
+
+  * __Gossip__. A common way to propagate metadata across nodes is gossiping, in another word to piggyback metadata in common communications between nodes. An example is Ceph. The method is also commonly used in heartbeats, node health and membership detection. __Eventual consistency__ can be achieved with version tracking. Usually a node also needs to periodically refresh suspected stale metadata from the Consistent Core.
+
+
+
+Still,  add metadata cachine in section, move gossipe propagation there. 
+Include both metadata caching and data caching. Give metadata caching simple
+
+Categories
+  Cache interface
+  Cache media
+  DB block cache,  row cache,  symtanx query cache,  chunk file cache
+  S3 and snowflake empherial cache
+  And aslo even use a db on ssd as caching. check paper why rocksdb not work
+  And materialized views are also cache
+  Computation caching. Query caching
+
+Differenr cache tiers
 
 memory caching, basically hashtable or indexing
 ssd caching
@@ -1192,7 +1210,8 @@ ssd caching
   kangaroo, separating big,small objects, https://zhuanlan.zhihu.com/p/430451374
   some design goals and system properties
 
-  // TODO write reference architecture for B+tree.
+
+
 
 
 
