@@ -431,7 +431,7 @@ __Cache__
 
   * [Kangaroo cache](https://www.pdl.cmu.edu/PDL-FTP/NVM/McAllister-SOSP21.pdf) (from long thread of Facebook work on [Memcached](https://www.usenix.org/conference/nsdi13/technical-sessions/presentation/nishtala), [CacheLib](https://www.usenix.org/conference/osdi20/presentation/berg), and [RAMP-TAO cache consistency](https://www.vldb.org/pvldb/vol14/p3014-cheng.pdf)) features in in-memory cache with cold tier to flash. Big objects, small objects are separated. Small objects combines append-only logging and set-associative caching to achieve the optimal DRAM index size vs write amplification. Kangaroo also uses "partitioned index" to further reduce KLog's memory index size.
 
-  * [BCache](https://bcache.evilpiepirate.org/BcacheGuide/) is a popular SSD block cache used in [Ceph](https://segmentfault.com/a/1190000038448569). Data is allocated in "extents" (like filesystem), and organized in buckets. Extent is the unit of compression. A bucket is sequentially appended to full and is the unit of GC reclaim. Values are indexed by B+-tree (unlike KLog in Kangaroo using hashtables). The B+-tree uses large 256KB nodes. Node internal is modified by appending log structured. B+-tree structural change is done by COW and may recursively rewrite every node up to the root. Journaling is not a necessity because of COW, but used as an optimization to batch and sequentialize small updates.
+  * [BCache](https://bcache.evilpiepirate.org/BcacheGuide/) is a popular SSD block cache used in [Ceph](https://segmentfault.com/a/1190000038448569). Data is allocated in "extents" (like filesystem), and then organized to bigger buckets. Extent is the unit of compression. A bucket is sequentially appended to full and is the unit of GC reclaim. Values are indexed by B+-tree (unlike KLog in Kangaroo using hashtables). The B+-tree uses large 256KB nodes. Node internal is modified by appending log structured. B+-tree structural change is done by COW and may recursively rewrite every node up to the root. Journaling is not a necessity because of COW, but used as an optimization to batch and sequentialize small updates.
 
 __(Distributed) Filesystem__
 
@@ -493,7 +493,7 @@ __In-memory database__
 
 __NoSQL database__
 
-  * [RocksDB](http://rocksdb.org/) is the de-factor LSM-tree implementation of single node key-value store. It is commonly used as the KV backend for [many](https://en.wikipedia.org/wiki/RocksDB) systems, e.g. [MySQL](https://vldb.org/pvldb/vol13/p3217-matsunobu.pdf), [CockroachDB](https://www.cockroachlabs.com/blog/cockroachdb-on-rocksd/), [TiDB](https://docs.pingcap.com/tidb/dev/rocksdb-overview/), [BlueStore](http://www.yangguanjun.com/2018/10/25/ceph-bluestore-rocksdb-analyse/). It is also frequently [used](http://rocksdb.org/docs/support/faq.html) at Internet companies. RocksDB features in [Universal Compaction](https://github.com/facebook/rocksdb/wiki/Universal-Compaction), SSD optimization, and [Remote Compaction](https://zhuanlan.zhihu.com/p/419766888) (offload compaction to cloud based on shared storage).
+  * [RocksDB](http://rocksdb.org/) is the de-factor LSM-tree implementation of single node key-value store. It is commonly used as the KV backend for [many](https://en.wikipedia.org/wiki/RocksDB) systems, e.g. [MySQL](https://vldb.org/pvldb/vol13/p3217-matsunobu.pdf), [CockroachDB](https://www.cockroachlabs.com/blog/cockroachdb-on-rocksd/), [TiDB](https://docs.pingcap.com/tidb/dev/rocksdb-overview/), [BlueStore](http://www.yangguanjun.com/2018/10/25/ceph-bluestore-rocksdb-analyse/). It is also frequently [used](http://rocksdb.org/docs/support/faq.html) at Internet companies. RocksDB features in [Universal Compaction](https://github.com/facebook/rocksdb/wiki/Universal-Compaction), SSD optimization, and [Remote Compaction](https://zhuanlan.zhihu.com/p/419766888) (offload compaction to cloud based on shared storage). In tiering approach, [PebblesDB](https://www.cs.utexas.edu/~vijay/papers/pebblesdb-sosp17-slides.pdf) inserts increasingly more ["Guards"](https://vigourtyy-zhg.blog.csdn.net/article/details/109005795) in each LSM-tree level, which works like a skip list to constraint and index SST files key ranges, thus to reduce read amplification. 
 
   * [FoundationDB](https://www.foundationdb.org/files/fdb-paper.pdf) to support ACID transaction in distributed KV store. The transaction implementation is backed by the shared logging system. Control Plane, Transaction, Shared Logging, Storage Systems are decoupled. FoundationDB also builds fast recovery leveraging the shared log. Besides, FoundationDB features in Deterministic Simulation Testing built by Flow.
 
@@ -904,6 +904,8 @@ In general, storage media tiers are chosen according to the price, scale, and pe
 
   * __Objects in list__. Examples are linked list implemented LRU, or Linux Kernel [memory page swap](https://github.com/torvalds/linux/blob/master/mm/workingset.c). Temperature is tracked by object position in list. Objects are prompted to head when accessed, pushed to tail when cold, and evicted beyond tail. 
 
+  * __Last accessed and expire__. Usually seen when App is operating cache aside. Simply, the last accessed item from DB is also put into cache. The oldest item is evicted if the cache is full. Cache items also expire by a timeout.
+
   * __Offline classification__. Examples are Hekaton Siberia, [Google G-SWAP](https://research.google/pubs/pub48551/). When temperature tracking metadata is too large, the system can dump traffic records (may be sampled) to disk, and employs an offline periodical classification job or __Machine Learning__ to categorize hot/cold data.
 
   * __User tagging__. Expose interface for end user to explicitly tag whether a piece of data should be hot or cold. Simple, but user always knows better.
@@ -987,7 +989,7 @@ In the next level, we abstract the __properties__ of a data layout. They constra
 
     * __Row format__. Scans involve unnecessary columns, i.e. a read amplification. Compression are less efficient compared to columnar format, and also cost read transfers. But updating/inserting can directly operate in unit of rows. Looking up all columns in one row costs only one read. 
 
-Continue with data layout __properties__. __At chunk level__, many properties are covered such as whether data is __sorted__ (or half sorted), __overlapping__ between chunks, __cross chunk linking__, allowing __in-place updates__. They further couple with intra chunk or inter chunk. Much of LSM-tree compaction optimization is talking about this level. 
+Continue with data layout __properties__. __At chunk level__, many properties are covered such as whether data is __sorted__ (or partially sorted), __overlapping__ between chunks, __cross chunk linking__, allowing __in-place updates__. They further couple with intra chunk or inter chunk. Much of LSM-tree compaction optimization is talking about this level. 
 
   * __Sorted, intra chunk__. Examples are RocksDB SST files, column values in columnar format, which stores records sorted. Sorting favors lookups to locate the record, allows sequential reads in range queries, ease building external index or embedding index inside file. However, since user writes in any order, sorted data cannot be obtained from start, unless either buffer in memory, or pay write amplification for rewrite. Besides, sorted data enables more efficient compression algorithm, e.g. Run-length Encoding (RLE).
 
@@ -999,7 +1001,7 @@ Continue with data layout __properties__. __At chunk level__, many properties ar
 
     * __Overlapping__. Can chunks have overlapping key ranges? This is another way to say whether inter chunk sort property is enforced.
 
-    * __Half sorted, inter chunks__. The example is ["Guards"in PebblesDB](https://vigourtyy-zhg.blog.csdn.net/article/details/109005795). A guard contains multiple chunks which can overlap, but cross guards there is no overlapping. It creates a tunable balance between read/write amplification.
+    * __Partially sorted, inter chunks__. The example is "Guards"in PebblesDB. A guard contains multiple chunks which can overlap, but cross guards there is no overlapping. It creates a tunable balance between read/write amplification.
 
     * __Key assignment to chunks__ matters when maintaining the sort/overlapping property inter chunks. By partitioning keys into non-overlapping ranges (or hashing) and assigning to different chunks, it ensures chunks non-overlapping. You can see __data partitioning__ is not only for scaleout, but also a method to __separate conflict spaces__ that eases algorithm handling. Besides, it also __separates addressing space__, which reduces metadata size, as you see in [Metadata section](.). 
 
@@ -1098,7 +1100,7 @@ We can summarize common properties in data indexes. They compose the design spac
 
   * __Point lookup__. All data indexes support point lookup, typically ranging time cost from O(1) to O(log(n)). Essentially, there is a trade off with memory size: 1) If entire key space can be put in memory, we simply need a huge array to map any key to its value. 2) Hashtable collapses the mapping space, with hash as the mapping kernel, thus smaller memory size needed. The new space has to be sparse, due to the unpredictable degree of balance in the mapping (unless [perfect hashing](https://en.wikipedia.org/wiki/Perfect_hash_function)). 3) Coming to trees, keys are indexed by inter connections, rather than address mapping, thus yet more smaller memory size needed. 
 
-  * __Range query__. Data indexes that preserve sort order can support range query, typically trees. Otherwise it has to be a full scan, unless applying guard/segmentation to preserve half sorted, where skiplist can be seen as an example. Another way to understand range query is that a data index must support looking up a key's neighbors, even the key itself doesn't exist.
+  * __Range query__. Data indexes that preserve sort order can support range query, typically trees. Otherwise it has to be a full scan, unless applying guard/segmentation to preserve partially sorted, where skiplist can be seen as an example. Another way to understand range query is that a data index must support looking up a key's neighbors, even the key itself doesn't exist.
 
   * __Update/insert/deletion cost__. An index is essentially a constraint on how data is organized, which implies cost must be spent in write path to maintain such constraint structure. Linked structures are easier to insert, while packed arrays have to move data if no empty slots left. Besides, a second extra cost can be spent in/off the write path to: 1) Rebalance data structure to reduce tail latency (E.g. Red-back tree rotates). 2) Handling addressing conflicts (e.g. hashtable). 3) Space expansion or shrink (e.g. expand 2x array size when hashtable is full, or shrink likewise). 4) Garbage Collection / GC (e.g. epoch-based memory reclamation) 5) Compact deltas (e.g. Bw-tree page deltas).
 
@@ -1179,6 +1181,28 @@ We discuss a few secondary topics here about data index
     * __Global secondary index__ builds index on the global space of the secondary key. It needs a distributed transaction to update consistently. However, if treating it as a plain database table, reusing the code is easy.
 
     * __Local secondary index__ builds an index locally on each data node. Per index only covers the local space, while different data nodes can have duplicated secondary keys but not known by the index. It only needs a local transaction to consistently update with local data. However, looking up a secondary key needs to query each data node. Running parallel queries may not be that bad, considering there are also databases who choose hash partitioning each row. A node can skip query if its bloomfilter tells keys non-exist.
+
+
+
+
+
+Add below two points to sections
+
+// TODO read/write coleacing: read can batch with read, write can batch with write - Where should I insert the phrase?
+        read is also a path for write, because the query searching process is essentially building the index. don't throw it away. https://zhuanlan.zhihu.com/p/357024916
+          OK index building can also be offload to write path, or offline secondary background job writes.
+          The above can be seen as amortizing to read path.
+          We can also amortize data re-organization to read path when scan is needed too.
+        write is also a path for read, because newly written data can be buffered into memory for recent reads. and cache invalidation and reinsert.
+
+
+// TODO   6. 通过数据组织加速大规模数据分析
+     https://zhuanlan.zhihu.com/p/354334895
+    1. Data Clustering是指数据按照读取时的IO粒度紧密聚集，而Data Skipping则根据过滤条件在读取时跳过不相干的数据，
+       Data Clustering的方式以及查询中的过滤条件共同决定了Data Skipping的效果
+
+
+
 
 
 ### Caching
