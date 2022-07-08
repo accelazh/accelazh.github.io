@@ -68,7 +68,7 @@ Team working is important for innovation
 
   * __Idea polishing needs teamwork__. A new idea needs to be verified. It needs to be extended. It needs to be patched for weakness. Sometime it needs to be turned into another way, or brought into a new level. This usually happen across a team, which idea passing back-forth, interactively, challenge and get challenged. Everyone has the unique experience to help idea grow, to avoid it stuck in a deadend.
 
-  * Besides working in office, innovation also needs __info feed from the external world__. We can participant regularly in meetups, summits, etc, to meet guys from different places and how they solve related problems. This is usually key to know our industry position, catch up and ensure we are not hitting in a wrong direction. 
+  * Besides working in office, innovation also needs __info feed from the external world__. We can participant regularly in meetups, summits, etc, to meet guys from different places and how they solve related problems. This is usually key to know our industry position, catch up and ensure we are not hitting in a wrong direction.
 
   * Help other people, and __answer questions__. Besides providing knowledge, answer questions provide chance to review our knowledge and product again, and understand how people see it from another perspective. This can usually find new gaps. And it broadens our scope and helps other people grow, eventually a positive feed for innovation.  
 
@@ -81,6 +81,8 @@ Visions & strategic thinking that help innovation
   * What is the __lifecycle and position__ of our product, our technology domain, and our market. Innovation is generally having more opportunities in the emerging new domains, more challenging areas, and generally less easier in the mature and fading markets.
 
   * Read in a systematically way and __compare__. It's comparing rather than linear reading that reveals intrinsics. Innovation comes from the compare
+
+  * Following __industry trends__, watch big market __vendor/leader moves__, study __venture capital__ news. This helps find emerging but proven technologies on the climbing curve.
 
 In the end, here attaches the __storage driving factors__ I summarized in scratch, which can help plot the innovation landscape.
 

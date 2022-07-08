@@ -959,7 +959,7 @@ In high level, we first capture the desired __goals__ of a data layout. Ideally 
 
   * __Compression__. Compression is critical to storage efficiency at query tier. It also reduces amplification by transferring less data in reads/writes. Compression needs to work with encryption, where CBC (chained block cipher) can randomize identical blocks. Packing similar data together makes compression more efficient (i.e. columnar layout). Transfer overhead can be reduced by directly querying and passing compressed blocks ([late materialization](https://web.stanford.edu/class/cs245/win2020/readings/c-store-compression.pdf)). Queries become even more efficient with [SIMD vectorization and JIT compile](https://15721.courses.cs.cmu.edu/spring2020/papers/16-vectorization2/p2209-kersten.pdf). 
 
-  * __Index lookup__. An ideal data layout should be easy for index lookup to serve reads or find write locations. Index structure and traversal can embed in data units, or data clustered into index. Given limited index size and granularity, data chunks can have a second level min-max sketching, zone maps, or bloomfilters.
+  * __Index lookup__. An ideal data layout should be easy for index lookup to serve reads or find write locations. Index structure and traversal can embed in data units, or data clustered into index. Given limited index size and granularity, data chunks can have a second level min-max sketching, zone maps, or bloomfilters. Data can also be compressed, support range query, without a separated index; see [Succinct data structures](https://www2.eecs.berkeley.edu/Pubs/TechRpts/2019/EECS-2019-141.pdf).
 
 Next, we define the __data unit__, e.g. how big a block is, chunks, files. We need to think properties are enforced at which level of data unit, indexing happens at which granularity, data placement & migration unit size, etc. Listing data units from small to big:
 
@@ -1200,6 +1200,15 @@ Add below two points to sections
      https://zhuanlan.zhihu.com/p/354334895
     1. Data Clustering是指数据按照读取时的IO粒度紧密聚集，而Data Skipping则根据过滤条件在读取时跳过不相干的数据，
        Data Clustering的方式以及查询中的过滤条件共同决定了Data Skipping的效果
+
+
+
+
+// TODO a trick to reduce metadata size. Metadata bloat due to 1) small objects 2) inter-connect mapping. We can use piggyback to attach small objects to other objects that need lookup together, parent-child pattern. In this way, we saved the two.
+
+
+// TODO Upper level generally has more variety at API. Thus more easy to spin up Apps and instances of architectures. More chance to spin brand new product.
+        Lower level has simpler API. Less software instances, less new instances of Architectures. More dense in vertical tech.
 
 
 
