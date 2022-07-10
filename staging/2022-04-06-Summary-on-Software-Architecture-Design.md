@@ -930,13 +930,15 @@ Though write/write and read/read coalescing are common techniques, write/read an
 
 __Offloading__
 
-Inline or offline from write path, FPGA and ASIC are commonly used in offloading from CPU, e.g. compression/encryption, and multi-tenant cloud virtual network processing.
+Inline or offline from write path, FPGA and ASIC are commonly used in offloading from CPU, e.g. compression/encryption, and multi-tenant cloud virtual network processing. Offloading relieves CPU from growing IO hardware throughput, while pushdown shortens data transfer path.
 
   * FPGA features in reconfiguration, which favors flexibility and early experiments. ASIC are dedicated circuits, hard to change, but once shipped they are much more efficient than FPGA. FPGA had successful usecases like [Project Catapult](https://www.microsoft.com/en-us/research/wp-content/uploads/2016/02/Catapult_ISCA_2014.pdf). [SmartNICs](https://www.microsoft.com/en-us/research/project/azure-smartnic/) also went popular.
 
-  * Compression/encryption are typical offload usecases because the logic is fixed, few exception handling, and data pipeline oriented. Network processing is similar. Besides, nowadays high speed RDMA is much more demanding for CPU, and cloud virtual networking involves more layers of redirecting.
+  * Compression/encryption are typical offload usecases because the logic is fixed, few exception handling, and data pipeline oriented. Network processing is similar. Besides, nowadays high speed RDMA is much more demanding for CPU, and cloud virtual networking involves more layers of redirections.
 
   * The more recent [IPU](https://www.forbes.com/sites/karlfreund/2021/08/02/nvidia-dpu--intel-ipu-game-changers-or-just-smart-nics/) (Infrastructure Processing Unit) was proposed following DPU, to offload common datacenter infrastructure functionalities to processing chips other than CPU.
+
+  * [Smart SSD](https://www.youtube.com/watch?v=_8gEmK1L4EY) adds computation chips to SSD. Query filtering or GC/Compaction can be pushed down to SSD internal, without involving the longer data transfer path across PCIe.
 
 
 ### Data Organization
@@ -961,7 +963,7 @@ We covered replication in [Consistency section](.). We will see more about CRC a
 
   * __Durability__. Data must be recoverable, if a set of disks went bad. Data must be available (with reconstruct) to user reads, if a set of nodes went offline. 
 
-  * __Performance__. Compared to plain replication, reading (reconstruct) EC data incurs significant cost when part of data is offline, especially the tail latency. With less storage copies, total bandwidth to serve aggregately is capped. 
+  * __Performance__. Compared to plain replication, reading (reconstruct) EC data incurs significant cost when part of data is offline, especially the tail latency. With less storage copies, total aggregated bandwidth to serve is capped. 
 
 EC codecs have great richness in schema variety, especially combined with cluster layouts and user traffic patterns. Briefly, main schemas come from below classes
 
@@ -1268,29 +1270,148 @@ This section focuses on caching data, but we also briefly mention metadata cachi
   * Secondary indexes of data can be seen as a type of metadata. Per implementation, they are usually treated as plain data or tables, that share the same caching facility as mentioned in prior sections. As index, they may set higher priority to pin in memory.
 
 
-### Data partitioning
+### Data partitioning & placement
 
+Data partitioning is the fundamental paradigm to __scaleout__ data serving in a distributed system. It has more design properties, that many also resemble those in [Data organization section](.), where you can find partitioning across nodes is like co-locating data in chunks. Data sharding is mostly a synonym of data partitioning.
 
-Mostly, data sharding is a synonym of data partitioning. 
+  * __Scaleout__. Data partition maps data space to partitions, so that each partition can be served on a different node to scaleout system capacity. The system is __dynamic__, that an individual partition will grow or shrink in size or hotness, which yet introduced the needs to __split or merge partitions__.
 
-// TODO and data placement
-// TODO Resource scheduling for heterogeneous job sizes, __load balancing__, and __migration__ 
+  * __Access locality__. Data accessed together should be put into a single partition. E.g. a partition includes consecutive data ranges and preserves __sort order__ to favor range query. E.g. different tables frequently grouped in one __transaction__ are co-located in one partition. E.g. A partition includes different objects or table columns that are __frequently accessed together__. E.g. a single object can be __broken into different components__, that each partitioned differently according to access patterns. Access patterns are __dynamic__, which means either partition or placement need to change by time. Finding the best partitioning can either act greedily on recent metrics, or by __Machine Learning__ optimizing on history behaviors. 
 
+  * __Granularity of units__. Partition can be small for fine-grained scheduling, and still preserve locality by __co-locating__ multiple partitions on one node. However more metadata can be paid as growth of data volume. Existing partition granularity can also be __adaptive__ to future growth/shrink by employing merge/split. However, a hash-based partitioning needs careful deign to avoid excessive data migration. 
+
+  * __Balance of capacity__. How to ensure each node receives similar data capacity? Either this is achieved by equalizing data partitioning, or to rely on balancing data placement. Partition growth/shrink in size further introduces needs to manage merge/split and migration.
+
+  * __Balance of hot/cold__. How to ensure each node receives similar IOPS/throughput? Hotness is the second dimension other than capacity that requires balancing. The balancing is either embedded in data partitioning level, or rely on data placement. Adaptive data migration is needed to deal with future traffic pattern change.
+
+  * __Shuffle__. Computation may need a different partition key compared to the existing one. This happens frequently in MapReduce/Spark pipeline that data needs to be aggregated by a different partition key, and in database join operating not on primary keys. Usually the solution is __reshuffle__ that sends data via new key, or sometime a small table can be completely replicated to each destination.
+
+Data placement is the next step that decides which node to place a partition. Usually data partitioning and placement are joined together to solve the above design properties. Data placement has more design properties.
+
+  * __Data migration__. The first source of migration is balancing, that comes from the asymmetric growth of capacity, change of hotness, change of access locality. Another source is nodes join or exit, that empty nodes need fill up and dead nodes need to place data elsewhere. Hash-based placement usually needs careful design to avoid excessive data migration. The topic is closely related to __load balancing__, while __resource scheduling__ more focuses on placing jobs with multiple dimensions of constraints such as CPU, memory, IO, latency.
+
+  * __Metadata size__. It helps balancing and reduce migration to allow full freedom of object placement, and to have a fine-grained tracking unit. However, both requires spending more metadata size. Metadata itself can also be partitioned and scaleout, see [Metadata section](.).
+
+  * __Failure domains__. Co-related data, e.g. 3-replica or EC symbols, needs to avoid placed into the same failure domain. Failure domain hierarchically consists of disk, node, TOR, datacenter row, T2 switch, and region DNS. Upgrading schedule adds another layer of failure domain. 
+
+__Common techniques__
+
+Common data partitioning techniques for key-value structures are hash and range based partitioning. It gets more flexibility for Filesystem inode trees, and graph vertices/edges. Data partition & placement techniques closely relate to [Metadata section](.).
+
+  * __Ranges__. Frequently seen in DB to support range query, e.g. CockroachDB, HBase. A table is horizontally partitioned by consecutive row key ranges. Ranges are usually dynamically managed by split/merge. A table can additionally vertically partition by columns frequently accessed together.
+
+  * __VNode__. Keys are hash mapped to buckets called "VNodes". VNodes are the input for further placement. Compared to directly placing each key, VNode reduces the granularity of tracking, and balances hot/cold. The number of VNodes in a system is usually pre-configured, hard to change. We mentioned VNode before.
+
+    * __Hash partitioning__ Databases, e.g. YugabyteDB, can support hash partitioning. Each partition is like a VNode. Rows are assigned to them via row key hash mapping. A distributed Memcached can also scaleout by hash partitioning. While hashing automatically balances hotness across nodes, IOPS can be significantly increased as a range query involves all nodes.
+
+  * __Filesystem inode trees__. Like range vs hash, trees can also be partitioned by sub-structure vs hash randomness.
+
+    * __Subtree__ based. E.g. CephFS features in "dynamic subtree partitioning", that an entire subtree can be migrated to different MDS nodes according to hotness. Subtree based partitioning preserves access locality but is prune to hotness skew.
+
+    * __Hash__ based. E.g. HopsFS partitions inodes by parent inode ID to localize operations of `dir` commands. Hashing favors load balancing but breaks access locality.
+
+    * __Break into different components__. E.g. [InfiniFS](https://zhuanlan.zhihu.com/p/492210459). Inode metadata is decoupled into access attributes and content attributes. Each has different access locality, thus each is partitioned differently. The method enhances locality for hash based partitioning.
+
+  * __Graph partitioning__ is challenging because inter-connections between graph components are irregular. Besides, computation on graph usually can hardly be localized to partitions, e.g. Deep Learning needs Parameter Server.
+
+    * __Hash/range partitioning__. E.g. FaRM A1 applies hash partitioning to favor randomness. E.g. Facebook TAO is backed by MySQL and assigned a shard_id for partitioning. Adjacent edges are packed to their vertices due to always accessed together.
+
+    * __[Clique](https://en.wikipedia.org/wiki/Clique_(graph_theory))__ identifies a group of vertices that have dense internal communication but sparse outside. Facebook Taiji partitions data via [Social Hashing](https://blog.acolyer.org/2019/11/15/facebook-taiji/), i.e. to partition by groups of friends, geo domains, organization units, etc. Expensive partitioning can be calculated offline via Machine Learning.
+
+    * __Replication__. E.g. Facebook TAO. Some partitions can be frequently needed by computations happened in other partitions. The traffic is expensive if cross region. Such partitions can be replicated to all consumer nodes to favor access locality. 
+
+Techniques about data placement follows similar categories with data partitioning.
+
+  * __Metadata tracking__. Use Consistent Core to track the placement of each partition. It costs metadata size. The placement of a partition have full degree of freedom. All sorts of algorithms can be explored for fine-grain arrangement on capacity/hotness. No excessive migration is needed for node join/exit. Examples are HDFS/HBase, Tectonic.
+
+  * __Consistent hashing__. Hash methods save metadata size. Naively a partition can hash map its placement to a node, but a node join/exit can churn all existing placement thus cause excessive data migration. Consistent hashing is introduced to stabilize the churn that, only neighbor VNodes are touched. Examples are Cassandra, Dynamo. We mentioned consistent hashing before.
+
+    * __CRUSH__. Ceph invented CRUSH algorithm which is a hash based placement algorithm. It generate random but deterministic placement, and limits excessive migration during node membership change. Compared to consistent hashing, CRUSH supports hierarchical failure domains organized as a tree, and different weights of devices.
+
+  * __Content-based addressing__. Placement is determined by the hash of the data block content, so that dedup is automatic. The example is XtremeIO. We mentioned it before.
 
 
 ### Data integrity
 
+Data integrity is critical. A storage system can be slow, feature less, non-scalable, but it should never lose data. There are several failure patterns affecting data integrity.
+
+  * __Durability loss__. Enough disk is down that a piece of data cannot be recovered. In compare, __Availability loss__ means a serving node is down, but data is still recoverable offline from the disks. At hardware level, entire disk failure usually maps to power unit or disk encapsulation, while corruption usually maps to individual sector failures. [RAIDShield](https://www.usenix.org/system/files/conference/fast15/fast15-paper-ma.pdf) points out that climbing reallocated sectors is a good predictor for incoming disk failures.
+
+  * __Disk error on read__. Disk read can generate transient or persistent read errors. It may or may not map to the underlying bad sector. The rate can be measured by bit error rate, or [UBER](https://www.jedec.org/standards-documents/dictionary/terms/uncorrectable-bit-error-rate-uber).
+
+  * __Silent disk corruption__. A disk sector can go corrupted without notice. The disk hardware may not discover it until the first read. Or the disk read is successful but software level CRC verification finds mismatch.
+
+  * __Memory corruption__. Memory bits can corrupt time to time and generates incorrect calculation results. This includes ECC memory.
+
+  * __Unexpected data deletion bugs__. A high ingress storage system needs timely reclaim deleted space. But a programming bug can unexpectedly delete valid data. This can be infrequent with careful rollout, but once happened much more data can be impacted than plain disk failures.
+
+  * __Incorrect metadata bugs__. Metadata needs to be frequently updated with data changes. A programming bug can easily incorrectly update metadata, thus loses the track of data location or states. It's more error prone to handle version incompatible upgrades.
+
+  * __Bugs propagated through replication__. It's not uncommon to see a full sets of replica corrupted, due to a bug is replicated too. Replication is effective to protect against hardware corruptions, but not so helpful for software bugs.
+
+Plain techniques are used to improve data integrity.
+
+  * __Replication based__. Replicate the data or apply EC. Replicate the metadata too in case one copy is corrupted. Perform periodical backup, including to another geo location, and to an offline system to prevent bug propagation.  
+
+  * __CRC__ is pervasively used to verify a piece of data matches verification, with a computation cost of polynomial on finite fields. Compared to cryptographic hash, CRC is reversible to recover wrong bits. CRC algorithm [satisfies linear function](https://en.wikipedia.org/wiki/Cyclic_redundancy_check), which can be used for optimization. A 32-bit CRC is [able to detect](https://www.cs.princeton.edu/courses/archive/spring18/cos463/lectures/L08-error-control.pdf) any 2 bit errors, burst errors of length <= 31, any double bit errors, or any odd number of errors.
+
+The techniques should be used with thoughtful methodologies. See more in this [article](http://accelazh.github.io/storage/Reliability-Against-Bugs-And-Corruption).
+
+  * __CRC should be end-to-end__. User client generates the CRC, and the CRC is persisted in the last level of system. Data is verified with CRC before returned to user. CRC calculated in the middle of processing is less reliable because the input data may already be corrupted. The more general principle is, __end-to-end verification is necessary__.
+
+  * __Any data transform needs verify__. Replication, EC, buffer copy, compression, network send, format change, store/load from disk, etc. Any data transform should compare CRC before/after, in case any memory corruption happens in middle. The more general principle is, __each incremental step needs verification__.
+
+  * __Save metadata twice__. Metadata is too critical that, it can be saved one time in Consistent Core, and keeps another copy on data nodes. The two copies are updated with different workflows. If metadata corruption happens in Consistent Core, they are still recoverable from data nodes. The more general principle is, __heterogeneous verification__, that critical data or computation should be persisted or verified by two different workflows, so that corruption at one side can be recovered from the other side. 
+
+  * __Data ordering needs verify__. Distributed system can receive packets in inconsistent order. When data is being appended, their overall ordering should be verified that no change happened in middle.
+
+  * __Periodical disk scrubbing__. This is common on distributed storage, e.g. Ceph, that disk needs periodical scrub to prevent from silent corruptions. To finish scrubbing on schedule, it requires enough throughput and deadline scheduling. 
+
+  * __Verification pushdown__. A storage system can be organized by multiple layers. Verification computation can be pushed down to the bottom layer, to shorten the data transfer path. It is applicable because verification logic is usually fixed, few exception handling, and data pipeline oriented. They also also be offloaded to hardware accelerators chips or smart hardware.
+
+  * __Chaos engineering__. Periodical inject failures and corruptions in the system to test system ability to detect and recover. Periodically drill the engineering operations of data recovery.
+
+__High availability__
+
+I choose the combine HA in this section because it's related to durability, most contents already covered before, and the fundamental goal of integrity is to ensure correct data is always available. Availability issue is usually transient and gone after node recovered, but durability issue means data lost availability in all infinite future.
+
+  * __Replication__. The fundamental technique for data/metadata HA is to persistent multiple copies. Once copy to recover another, and 2 in 3 copies can vote out 1 incorrect data. Synchronized replication acks client only after all copies done updating, while __geo-replication__ or backup can be employed with an RPO.
+
+  * __Active-active__. The fundamental technique for computation/service HA is to run multiple instances of services and allow failover. __Active-standby__ saves computation resource at the standby machine, but suffers from an RTO delay for the standby to startup. __Paxos__ is the pervasively active-active algorithm where the majority quorum arbitrates a split-brain. Active-active can be extended to multi-datacenter or multi-region, either by Paxos/sync or async replication. 
+
+    * __Cell architecture__ partitions data and encapsulates depended services into cells. Each cell specifies only one active primary datacenter, while all datacenters run active cells. So that all datacenters are active-active, no standby datacenter. Data can be sync/async/not replicated across datacenters. Datacenter failover needs caution to avoid overloading alive ones.
+
+    * __Multi-zone services__. [AWS](https://cloud.netapp.com/blog/aws-availability-using-single-or-multiple-availability-zones) and [Azure](https://docs.microsoft.com/en-us/azure/storage/common/storage-redundancy) divides disaster failure domains in a geo region into availability zones. A services can span multiple zones that a single datacenter disaster won't impact availability. Zones are active-active.   
+
+  * __Two geo locations three datacenters__ (两地三中心) are commonly used in banks. One city deploys two datacenter with synchronized replication, and a second city deploys the third datacenter with async replication for disaster recovery.
+
+__Durability__ usually share similar techniques with HA, except more emphasis on disk failures/corruptions and integrity verification. They have already been mentioned before. Reliability modeling is commonly used, where [exponential distribution](http://web.stanford.edu/~lutian/coursepdf/unit1.pdf) satisfies most needs.
+
 
 ### Resource scheduling
 
-and priority, quota/throttling, background jobs
-Overload control
-Manycore
+Multi-dimensional resource scheduling on cloud is a big topic, see  DRF/2DFQ etc mentioned in [Reference architectures](.). In this section I cover design properties in a typical storage system. 
 
+  * __Priority__. A user/background job/request should be handled first or delayed, with maximum or minimal resources. Priority are also reflected as weights on different user jobs. Usually, critical system traffic e.g. data repair > user latency sensitive workloads -> user batch workloads > background system jobs. 
 
+  * __Throttling__. A user/background job/request should not use more resources than its __quota__. Throttling also means to isolation the propagation of impact from one user to another, where shared resources like CPU, network, IO bandwidth, latency can easily become the channel. Typical throttling algorithms are token-based Leaky bucket, or a simple queue limit on request count/size.
 
+  * __Elastic__ has multiple meanings: 1) A service can timely expand to more resources in respond to the growing load. 2) A background job can borrow unused resource for faster processing, even temporarily exceed its quota. 3) A low priority job can timely shrink itself, if a high priority job suddenly demand more resources. Elasticity involves quick startup or growing resources, predicting usage with Machine Learning, instantly enforced quota, and probing growth, that sometime resembles __congestion control__ in networking protocols.
 
-### High availability, durability
+    * __Resource utilization__ should eventually be improved, without impacting latency sensitive workloads. This also benefits __energy efficiency__, which is a main datacenter operating cost. CPU can dial down frequency. Vacant nodes can shutdown.
+
+  * __Fairness__. Commonly mentioned in locking or resource allocating. User jobs should be given similar chances to get resources, proportional to their priorities/weights, rather than being biased or starved.
+
+    * __Anti-starvation__ is the other side of coin. Low priority background jobs should not be delayed too much, e.g. GC/compaction to release capacity. It resembles important but non-urgent quadrant in time management. It requires detection of starved jobs and apply mitigation.
+
+    * __Priority inversion__ is another issue. High priority can be waiting on the resource held by another low priority job, e.g. a lock. Dependency link should be traced to bump priority, or preemptive kill and retry.  
+
+There are a few system properties to consider when designing resource scheduling.
+
+  * __Job granularity__. Small jobs generally benefits resource schedule balance. Think randomly tossing balls into bins; the smaller/more balls, the balancer per bin ball count. The method is widely used for multi-core processing, i.e. async multi-stage pipeline. While small job granularity is beneficial, it costs metadata, increases IOPS, and disks still favors batches.
+
+  * __Overload control__. System overload and then cascaded failures are not uncommon, e.g. synced massive cache expire, retry count amplified across layers, node failure repair/retry than bringing down more nodes, CPU/memory/network exhausted and propagating the churn, crash failover then crash again, etc. Operation control knobs, graceful degradation, circuit breaker are necessary.
+
 
 ### Performance
 
@@ -1299,6 +1420,7 @@ Performance vs feature richness. simply remove all logging
 Scaleout, 同态多副本
 
     ### Concurrency & parallelism
+
 
 ### Networking
 
@@ -1318,7 +1440,7 @@ To cover all remaining ones I didn't bother to write
 
 // TODO Let's check each project mentioned in reference architecture, and generate a table to say how they did in Storage components breakdown, and how they did in design patterns. This should generate the nice table chart. -> <design pattern, touching components, examples systems>
 
-
+// TODO mark all referenced example architectures in italic font. 
 
 
 metadata, placement
