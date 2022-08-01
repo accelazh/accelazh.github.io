@@ -23,3 +23,7 @@ Just to keep record of my several ways to read a book
   * Multi-threaded minds reading. Firstly, I'm reading. The second thread of mine is actively predicting what the book is going to tell, and use that as a buffer to accelerate my reading. The third thread of mine is watching the previous two, and think about what I'm doing, what's the value, and what to improve. I look forward to know what it feels to have the fourth thread ...
 
   * The plain ordinary way to read a book and know its content.
+
+Update 20220731.
+
+  * Find and follow the reference links in the article/paper/book. They describe the background knowledge set of the author, and some time reveal even better reading materials. Yet it's not only to read the article/paper/book, but also to read the generator of the literature. By back deducting the generators, I get order-1, order-2, order-3 etc worlds, that link into the philosophy presence or minds and physical.

@@ -42,7 +42,7 @@ There are a few common practices when start working on the live production issue
 
     * Production logs/metrics are sources for investigation. But beware they can also have bugs (or less known pitfalls), thus lead to wrong path of investigation. Involving multiple people troubleshooting together helps avoid hanging in one dead tree, dipping into a local optimal rather than a global optimized.
 
-    * And beware not to introduce more failures in the mitigation steps, especially node restarting.
+    * A risky mitigation should first be baked on test, staging, canary tenants, before go to the real busy production tenants. Mitigation is also a change that should follow Safe Deployment Process. And beware not to introduce more failures in the mitigation steps, especially node restarting.
 
   * The mitigation steps should be shared and passed on to following teams. E.g. the next duty shift or other teams possible to hit the same issue again. It can become a team heads up or notice broadcast.
 

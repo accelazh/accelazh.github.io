@@ -1214,6 +1214,40 @@ We discuss a few secondary topics here about data index
 
     * __Local secondary index__ builds an index locally on each data node. Per index only covers the local space, while different data nodes can have overlapping secondary keys but not known by the index. The index only needs a local transaction to consistently update with local data. However, looking up a secondary key needs to query all data nodes. Running parallel queries may not be that bad, considering there are also databases who choose hash partitioning per row. A node can skip query if its bloomfilter tells the key doesn't exist.
 
+__Succinct data structures__
+
+Succinct represents a family of data compression algorithms with interesting "__self-indexing__" property. See below. I add a special section for it. They quite match the usecase for DNA indexing & searching. They can also be used for in-memory indexing, and compressing in-memory data while supporting DB queries.
+
+  * The compressed size is [close to the entropy limit](https://en.wikipedia.org/wiki/Succinct_data_structure). I.e. the compression ratio is near the classic block-based compression.
+
+  * Supports point/range query, and especially text search, __in-place__ on the compressed data. There is NO separated index, but the performance is close to using an index, much faster than a full scan. Supporting text search is handy for DNA sequencing.
+
+    * I.e. Succinct can be used to replace in-memory index, especially a secondary index. Besides, succinct also compresses your data.
+
+  * Querying/lookup in Succinct data structure usually involves several address jumps in its internal data structure (e.g. Compressed Suffix Array). This is OK for in-memory indexing/compression, but may not be as handy for on-disk data compression.
+
+  * Succinct data structure is usually slow to build, compared to classic block-based compression. Once built, it is usually hard to modify. Though supporting various queries, succinct data structure can be slow for sequential scan.
+
+    * In column-oriented DB, common columnar compression algorithms (e.g. RLE) make powerful alternatives to Succinct data structure. Columnar compression algorithms also support directly executing DB queries. They are also easier and faster to modify. They get much wider adopted in DB.
+
+There are a few most commonly used Succinct data structures
+
+  * [FM-index](https://www.youtube.com/watch?v=kvVGj5V65io) is one popular and versatile succinct data structure. It is based on [Burrows-Wheeler Transform](https://www.youtube.com/watch?v=4n7NPk5lwbI) (BWT). How it works is close to CSA.
+
+  * [Compressed Suffix Array](https://www.usenix.org/conference/nsdi15/technical-sessions/presentation/agarwal) (CSA) is built from a different knowledge set. But it eventually converges to a very similar data structure like FM-index and BWT. Essentially, it tracks the suffixes of the input string and sort them. Tail char and prev char are extracted from each suffix, and sufficient to rebuild the original input string. The chars extracted are sorted, thus can be efficiently compressed. Text search is based on matching these chars. When point lookup needs address offsets, CSA needs to store them, but uses sampling to reduce the storage overhead.
+
+  * [Succinct Trie](https://www.cs.cmu.edu/~huanche1/publications/surf_paper.pdf) is a Trie Tree encoded in bits. Rank & Select primitives are used to traverse tree parents/children. The primitives can be optimized to execute faster. Succinct Trie is typically used as a compressed index.
+
+There are several notable adoptions of Succinct data structures
+
+  * Compressed index in [TerakaDB/ToplingDB](https://www.zhihu.com/question/46787984/answer/103639893). ToplingDB uses Succinct Trie (CO-Index) to index RocksDB keys, while on-disk data is compressed by PA-ZIP. PA-ZIP supports random access to compressed data, without decompressing the entire block. PA-ZIP is not using succinct. 
+
+  * [Spark RDD](https://databricks.com/blog/2015/11/10/succinct-spark-from-amplab-queries-on-compressed-rdds.html) added an Succinct based implementation. It is compressed, and supports text search and text occurrence count. It published [GitHub AMPLab/Succinct](https://github.com/amplab/succinct) and a [SuccinctStore paper](https://www.usenix.org/conference/nsdi15/technical-sessions/presentation/agarwal). 
+
+  * [GitHub simongog/sdsl-lite](https://github.com/simongog/sdsl-lite) is an well-known opensource implementation for succinct data structures. The implementation is efficient and is mostly used for researching. 
+
+  * DNA sequencing. Searching a sub-sequence in a huge compressed DNA database is handy, and right matches what Succinct does. See an [example paper](https://academic.oup.com/bioinformatics/article/27/21/2979/217176?view=extract). [LZ-End](https://drops.dagstuhl.de/opus/volltexte/2017/7847/pdf/LIPIcs-ESA-2017-53.pdf) is also a well-known algorithm.
+
 
 ### Data caching
 
@@ -1306,7 +1340,7 @@ Common data partitioning techniques for key-value structures are hash and range 
 
   * __Filesystem inode trees__. Like range vs hash, trees can also be partitioned by sub-structure vs hash randomness.
 
-    * __Subtree__ based. E.g. CephFS features in "dynamic subtree partitioning", that an entire subtree can be migrated to different MDS nodes according to hotness. Subtree based partitioning preserves access locality but is prune to hotness skew.
+    * __Subtree__ based. E.g. CephFS features in "dynamic subtree partitioning", that an entire subtree can be migrated to different MDS nodes according to hotness. Subtree based partitioning preserves access locality but is prune to hotness skew. When accessing a deep FS path, each middle node is subject to a metadata fetch, where Subtree partitioning helps localize all them in one node. 
 
     * __Hash__ based. E.g. HopsFS partitions inodes by parent inode ID to localize operations of `dir` commands. Hashing favors load balancing but breaks access locality.
 
@@ -1411,6 +1445,8 @@ There are a few system properties to consider when designing resource scheduling
   * __Job granularity__. Small jobs generally benefits resource schedule balance. Think randomly tossing balls into bins; the smaller/more balls, the balancer per bin ball count. The method is widely used for multi-core processing, i.e. async multi-stage pipeline. While small job granularity is beneficial, it costs metadata, increases IOPS, and disks still favors batches.
 
   * __Overload control__. System overload and then cascaded failures are not uncommon, e.g. synced massive cache expire, retry count amplified across layers, node failure repair/retry than bringing down more nodes, CPU/memory/network exhausted and propagating the churn, crash failover then crash again, etc. Operation control knobs, graceful degradation, circuit breaker are necessary.
+
+  * __Cost modeling__. Read/write size is the common practical cost modeling in storage systems. Together they compose queue count and queue size. The most comprehensive cost modeling as a reference can be found in DB in [query optimizers](https://mp.weixin.qq.com/s?__biz=MzI5Mjk3NDUyNA==&mid=2247483895&idx=1&sn=05b687a465f5e705dbebfdccaf478f4b&chksm=ec787b24db0ff). The predicted IO cost can be combined with deadline to early cancel those requests that cannot finish in time or resource limits.
 
 
 ### Performance
