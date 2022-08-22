@@ -1369,15 +1369,15 @@ Techniques about data placement follows similar categories with data partitionin
 
 Data integrity is critical. A storage system can be slow, feature less, non-scalable, but it should never lose data. There are several failure patterns affecting data integrity.
 
-  * __Durability loss__. Enough disk is down that a piece of data cannot be recovered. In compare, __Availability loss__ means a serving node is down, but data is still recoverable offline from the disks. At hardware level, entire disk failure usually maps to power unit or disk encapsulation, while corruption usually maps to individual sector failures. [RAIDShield](https://www.usenix.org/system/files/conference/fast15/fast15-paper-ma.pdf) points out that climbing reallocated sectors is a good predictor for incoming disk failures.
+  * __Durability loss__. Enough disk is down that a piece of data cannot be recovered. In compare, __Availability loss__ means a serving node is down, but data is still recoverable offline from the disks. At hardware level, an entire disk failure usually maps to power unit or disk encapsulation, while corruption usually maps to individual sector failures. [RAIDShield](https://www.usenix.org/system/files/conference/fast15/fast15-paper-ma.pdf) points out that climbing reallocated sectors is a good predictor for incoming disk failures.
 
-  * __Disk error on read__. Disk read can generate transient or persistent read errors. It may or may not map to the underlying bad sector. The rate can be measured by bit error rate, or [UBER](https://www.jedec.org/standards-documents/dictionary/terms/uncorrectable-bit-error-rate-uber).
+  * __Disk error on reads__. Disk read can generate transient or persistent read errors. It may or may not map to the underlying bad sector. The rate can be measured by bit error rate, or [UBER](https://www.jedec.org/standards-documents/dictionary/terms/uncorrectable-bit-error-rate-uber).
 
-  * __Silent disk corruption__. A disk sector can go corrupted without notice. The disk hardware may not discover it until the first read. Or the disk read is successful but software level CRC verification finds mismatch.
+  * __Silent disk corruption__. A disk sector can go corrupted without notice. The disk hardware may not discover it until the first read. Or the disk read is successful but software level CRC verification finds a mismatch.
 
-  * __Memory corruption__. Memory bits can corrupt time to time and generates incorrect calculation results. This includes ECC memory.
+  * __Memory corruption__. Memory bits can corrupt time to time and generates incorrect calculation results. This includes ECC memory. What's worse is a corrupted pointer, that may tamper a wide range of memory unpredictably.
 
-  * __Unexpected data deletion bugs__. A high ingress storage system needs timely reclaim deleted space. But a programming bug can unexpectedly delete valid data. This can be infrequent with careful rollout, but once happened much more data can be impacted than plain disk failures.
+  * __Unexpected data deletion bugs__. A high ingress storage system needs to timely reclaim deleted space. But a programming bug can unexpectedly delete valid data. This can be infrequent with careful rollouts, but once happened, much more data can be impacted than plain disk failures.
 
   * __Incorrect metadata bugs__. Metadata needs to be frequently updated with data changes. A programming bug can easily incorrectly update metadata, thus loses the track of data location or states. It's more error prone to handle version incompatible upgrades.
 
@@ -1387,66 +1387,66 @@ Plain techniques are used to improve data integrity.
 
   * __Replication based__. Replicate the data or apply EC. Replicate the metadata too in case one copy is corrupted. Perform periodical backup, including to another geo location, and to an offline system to prevent bug propagation.  
 
-  * __CRC__ is pervasively used to verify a piece of data matches verification, with a computation cost of polynomial on finite fields. Compared to cryptographic hash, CRC is reversible to recover wrong bits. CRC algorithm [satisfies linear function](https://en.wikipedia.org/wiki/Cyclic_redundancy_check), which can be used for optimization. A 32-bit CRC is [able to detect](https://www.cs.princeton.edu/courses/archive/spring18/cos463/lectures/L08-error-control.pdf) any 2 bit errors, burst errors of length <= 31, any double bit errors, or any odd number of errors.
+  * __CRC__ is pervasively used to verify a piece of data matches verification, with a cost of computing polynomials on finite fields. Compared to cryptographic hash, CRC is reversible to recover wrong bits. CRC algorithm [satisfies linear function](https://en.wikipedia.org/wiki/Cyclic_redundancy_check), which can be used for optimization. A 32-bit CRC is [able to detect](https://www.cs.princeton.edu/courses/archive/spring18/cos463/lectures/L08-error-control.pdf) any 2 bit errors, burst errors of length <= 31, any double bit errors, or any odd number of errors.
 
 The techniques should be used with thoughtful methodologies. See more in this [article](http://accelazh.github.io/storage/Reliability-Against-Bugs-And-Corruption).
 
   * __CRC should be end-to-end__. User client generates the CRC, and the CRC is persisted in the last level of system. Data is verified with CRC before returned to user. CRC calculated in the middle of processing is less reliable because the input data may already be corrupted. The more general principle is, __end-to-end verification is necessary__.
 
-  * __Any data transform needs verify__. Replication, EC, buffer copy, compression, network send, format change, store/load from disk, etc. Any data transform should compare CRC before/after, in case any memory corruption happens in middle. The more general principle is, __each incremental step needs verification__.
+  * __Any data transform needs verify__. Replication, EC, buffer copy, compression, network send, format change, store/load from disk, etc. Any data transformation should compare CRC before/after, in case any memory corruption happens in middle. The more general principle is, __each incremental step needs verification__.
 
   * __Save metadata twice__. Metadata is too critical that, it can be saved one time in Consistent Core, and keeps another copy on data nodes. The two copies are updated with different workflows. If metadata corruption happens in Consistent Core, they are still recoverable from data nodes. The more general principle is, __heterogeneous verification__, that critical data or computation should be persisted or verified by two different workflows, so that corruption at one side can be recovered from the other side. 
 
   * __Data ordering needs verify__. Distributed system can receive packets in inconsistent order. When data is being appended, their overall ordering should be verified that no change happened in middle.
 
-  * __Periodical disk scrubbing__. This is common on distributed storage, e.g. Ceph, that disk needs periodical scrub to prevent from silent corruptions. To finish scrubbing on schedule, it requires enough throughput and deadline scheduling. 
+  * __Periodical disk scrubbing__. This is common on distributed storage, e.g. Ceph, that disk needs periodical scrub to prevent from silent corruptions. To finish scrubbing on schedule, it requires enough throughput and deadline scheduling.
 
-  * __Verification pushdown__. A storage system can be organized by multiple layers. Verification computation can be pushed down to the bottom layer, to shorten the data transfer path. It is applicable because verification logic is usually fixed, few exception handling, and data pipeline oriented. They also also be offloaded to hardware accelerators chips or smart hardware.
+  * __Verification pushdown__. A storage system can be organized by multiple layers. Verification computation can be pushed down to the bottom layer, to shorten the data transfer path. It is applicable because verification logic is usually fixed, few exception handling, and data pipeline oriented. They can also also be offloaded to hardware accelerators chips or smart hardware.
 
-  * __Chaos engineering__. Periodical inject failures and corruptions in the system to test system ability to detect and recover. Periodically drill the engineering operations of data recovery.
+  * __Chaos engineering__. Periodically inject failures and corruptions in the system to test system ability of error detection and recovery. Periodically drill the engineering operations of data recovery. The more risky activities should be carried out more frequently.
 
 __High availability__
 
-I choose the combine HA in this section because it's related to durability, most contents already covered before, and the fundamental goal of integrity is to ensure correct data is always available. Availability issue is usually transient and gone after node recovered, but durability issue means data lost availability in all infinite future.
+I choose to combine HA in this section because it's related to durability, most contents already covered before, and the fundamental goal of integrity is to ensure the correct data is always available. Availability issue is usually transient and gone after node recovery, but durability issue means data lost availability in infinite future.
 
   * __Replication__. The fundamental technique for data/metadata HA is to persistent multiple copies. Once copy to recover another, and 2 in 3 copies can vote out 1 incorrect data. Synchronized replication acks client only after all copies done updating, while __geo-replication__ or backup can be employed with an RPO.
 
-  * __Active-active__. The fundamental technique for computation/service HA is to run multiple instances of services and allow failover. __Active-standby__ saves computation resource at the standby machine, but suffers from an RTO delay for the standby to startup. __Paxos__ is the pervasively active-active algorithm where the majority quorum arbitrates a split-brain. Active-active can be extended to multi-datacenter or multi-region, either by Paxos/sync or async replication. 
+  * __Active-active__. The fundamental technique for computation/service HA is to run multiple instances of services and allow failover. __Active-standby__ saves computation resource at the standby machine, but suffers from an RTO delay for standby startup. __Paxos__ is the pervasively active-active algorithm where the majority quorum arbitrates a split-brain. Active-active can be extended to multi-datacenter or multi-region, either by Paxos/sync or async replication. 
 
-    * __Cell architecture__ partitions data and encapsulates depended services into cells. Each cell specifies only one active primary datacenter, while all datacenters run active cells. So that all datacenters are active-active, no standby datacenter. Data can be sync/async/not replicated across datacenters. Datacenter failover needs caution to avoid overloading alive ones.
+    * __Cell architecture__ partitions data and encapsulates depended services into cells. Each cell specifies only one active primary datacenter, while all datacenters run active cells. So that all datacenters are active-active, no standby datacenter. Data can be sync/async/not-replicated across datacenters. Datacenter failover needs caution to avoid overloading alive ones.
 
-    * __Multi-zone services__. [AWS](https://cloud.netapp.com/blog/aws-availability-using-single-or-multiple-availability-zones) and [Azure](https://docs.microsoft.com/en-us/azure/storage/common/storage-redundancy) divides disaster failure domains in a geo region into availability zones. A services can span multiple zones that a single datacenter disaster won't impact availability. Zones are active-active.   
+    * __Multi-zone services__. [AWS](https://cloud.netapp.com/blog/aws-availability-using-single-or-multiple-availability-zones) and [Azure](https://docs.microsoft.com/en-us/azure/storage/common/storage-redundancy) divide disaster failure domains in a geo region into availability zones. A services can span multiple zones that a single datacenter disaster won't impact availability. Zones are active-active.   
 
-  * __Two geo locations three datacenters__ (两地三中心) are commonly used in banks. One city deploys two datacenter with synchronized replication, and a second city deploys the third datacenter with async replication for disaster recovery.
+  * __Two geo locations three datacenters__ are commonly used in banks. One city deploys two datacenter with synchronized replication, and a second city deploys the third datacenter with async replication for disaster recovery.
 
-__Durability__ usually share similar techniques with HA, except more emphasis on disk failures/corruptions and integrity verification. They have already been mentioned before. Reliability modeling is commonly used, where [exponential distribution](http://web.stanford.edu/~lutian/coursepdf/unit1.pdf) satisfies most needs.
+__Durability__ usually share similar techniques with HA, except more emphasis on disk failures/corruptions and integrity verification. They have already been covered before. Reliability modeling is commonly used, where [exponential distribution](http://web.stanford.edu/~lutian/coursepdf/unit1.pdf) satisfies most needs.
 
 
 ### Resource scheduling
 
-Multi-dimensional resource scheduling on cloud is a big topic, see  DRF/2DFQ etc mentioned in [Reference architectures](.). In this section I cover design properties in a typical storage system. 
+Multi-dimensional resource scheduling on cloud is a big topic, see DRF/2DFQ etc mentioned in [Reference architectures](.). In this section I cover design properties in a typical storage system. 
 
-  * __Priority__. A user/background job/request should be handled first or delayed, with maximum or minimal resources. Priority are also reflected as weights on different user jobs. Usually, critical system traffic e.g. data repair > user latency sensitive workloads -> user batch workloads > background system jobs. 
+  * __Priority__. A user/background job/request should be handled first or delayed, with maximum or minimal resources. Priority are also reflected as weights on different user jobs. Usually, critical system traffic e.g. data repair > user latency sensitive workloads > user batch workloads > background system jobs. 
 
   * __Throttling__. A user/background job/request should not use more resources than its __quota__. Throttling also means to isolation the propagation of impact from one user to another, where shared resources like CPU, network, IO bandwidth, latency can easily become the channel. Typical throttling algorithms are token-based Leaky bucket, or a simple queue limit on request count/size.
 
-  * __Elastic__ has multiple meanings: 1) A service can timely expand to more resources in respond to the growing load. 2) A background job can borrow unused resource for faster processing, even temporarily exceed its quota. 3) A low priority job can timely shrink itself, if a high priority job suddenly demand more resources. Elasticity involves quick startup or growing resources, predicting usage with Machine Learning, instantly enforced quota, and probing growth, that sometime resembles __congestion control__ in networking protocols.
+  * __Elastic__ has multiple meanings: 1) A service can timely expand to more resources in respond to the growing load. 2) A background job can borrow unused resource for faster processing, even temporarily exceeds its quota. 3) A low priority job can timely shrink itself, if a high priority job suddenly demands more resources. Elasticity involves quick startup or growing resources, predicting usage with Machine Learning, instantly enforced quota, and probing growth, that sometime resembles __congestion control__ in networking protocols.
 
     * __Resource utilization__ should eventually be improved, without impacting latency sensitive workloads. This also benefits __energy efficiency__, which is a main datacenter operating cost. CPU can dial down frequency. Vacant nodes can shutdown.
 
   * __Fairness__. Commonly mentioned in locking or resource allocating. User jobs should be given similar chances to get resources, proportional to their priorities/weights, rather than being biased or starved.
 
-    * __Anti-starvation__ is the other side of coin. Low priority background jobs should not be delayed too much, e.g. GC/compaction to release capacity. It resembles important but non-urgent quadrant in time management. It requires detection of starved jobs and apply mitigation.
+    * __Anti-starvation__ is the other side of coin. Low priority background jobs should not be delayed too much, e.g. GC/compaction to release capacity. It resembles important but non-urgent quadrant in time management. It requires detecting starved jobs and apply mitigation.
 
-    * __Priority inversion__ is another issue. High priority can be waiting on the resource held by another low priority job, e.g. a lock. Dependency link should be traced to bump priority, or preemptive kill and retry.  
+    * __Priority inversion__ is another issue. High priority can be waiting on the resource held by another low priority job, e.g. a lock. Dependency link should be traced to bump priority, or preemptively kill and retry.  
 
 There are a few system properties to consider when designing resource scheduling.
 
-  * __Job granularity__. Small jobs generally benefits resource schedule balance. Think randomly tossing balls into bins; the smaller/more balls, the balancer per bin ball count. The method is widely used for multi-core processing, i.e. async multi-stage pipeline. While small job granularity is beneficial, it costs metadata, increases IOPS, and disks still favors batches.
+  * __Job granularity__. Small jobs generally benefits resource schedule balance. Think randomly tossing balls into bins: the smaller and more balls, the balancer per bin's final ball count. The method is widely used for multi-core processing, i.e. async multi-stage pipeline. While small job granularity is beneficial, it costs metadata, increases IOPS, and disks still favor batches.
 
   * __Overload control__. System overload and then cascaded failures are not uncommon, e.g. synced massive cache expire, retry count amplified across layers, node failure repair/retry than bringing down more nodes, CPU/memory/network exhausted and propagating the churn, crash failover then crash again, etc. Operation control knobs, graceful degradation, circuit breaker are necessary.
 
-  * __Cost modeling__. Read/write size is the common practical cost modeling in storage systems. Together they compose queue count and queue size. The most comprehensive cost modeling as a reference can be found in DB in [query optimizers](https://mp.weixin.qq.com/s?__biz=MzI5Mjk3NDUyNA==&mid=2247483895&idx=1&sn=05b687a465f5e705dbebfdccaf478f4b&chksm=ec787b24db0ff). The predicted IO cost can be combined with deadline to early cancel those requests that cannot finish in time or resource limits.
+  * __Cost modeling__. Read/write size is the common practical cost modeling in storage systems. Together they compose queue count and queue size. The most comprehensive cost modeling as a reference can be found in DB [query optimizers](https://mp.weixin.qq.com/s?__biz=MzI5Mjk3NDUyNA==&mid=2247483895&idx=1&sn=05b687a465f5e705dbebfdccaf478f4b). The predicted IO cost can be combined with deadline to early cancel requests that cannot finish in time or resource limits.
 
 
 ### Performance
