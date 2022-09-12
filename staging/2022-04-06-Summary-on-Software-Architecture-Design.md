@@ -1224,7 +1224,7 @@ Succinct represents a family of data compression algorithms with interesting "__
 
     * I.e. Succinct can be used to replace in-memory index, especially a secondary index. Besides, succinct also compresses your data.
 
-  * Querying/lookup in Succinct data structure usually involves several address jumps in its internal data structure (e.g. Compressed Suffix Array). This is OK for in-memory indexing/compression, but may not be as handy for on-disk data compression.
+  * Querying/lookup in Succinct data structure usually involves several address jumps in its internal data structure (e.g. Compressed Suffix Array). This is OK for in-memory indexing/compression, but may not be as handy for on-disk data compression. Besides, sequential read throughput / reading a large block may also be a concern.
 
   * Succinct data structure is usually slow to build, compared to classic block-based compression. Once built, it is usually hard to modify. Though supporting various queries, succinct data structure can be slow for sequential scan.
 
@@ -1438,7 +1438,9 @@ Multi-dimensional resource scheduling on cloud is a big topic, see DRF/2DFQ etc 
 
     * __Anti-starvation__ is the other side of coin. Low priority background jobs should not be delayed too much, e.g. GC/compaction to release capacity. It resembles important but non-urgent quadrant in time management. It requires detecting starved jobs and apply mitigation.
 
-    * __Priority inversion__ is another issue. High priority can be waiting on the resource held by another low priority job, e.g. a lock. Dependency link should be traced to bump priority, or preemptively kill and retry.  
+    * __Priority inversion__ is another issue. High priority can be waiting on the resource held by another low priority job, e.g. a lock. Dependency link should be traced to bump priority, or preemptively kill and retry.
+
+    * __Preempting__. It defines the strategies whether higher priority jobs should stop/pause lower ones to take up its resources. Besides job scheduling, preempting is also seen in transaction scheduling and deadlock resolving. It varies whether younger jobs should preempt older ones, or vice visa. The cost to preempt a long live transaction can be high. OCC can also be seen as first win jobs preempts slower ones, where frequent retry can cost high.
 
 There are a few system properties to consider when designing resource scheduling.
 
