@@ -557,6 +557,10 @@ __Secondary Indexing__
 
   * [HBase Secondary Index](http://ceur-ws.org/Vol-1810/DOLAP_paper_10.pdf) compares global index and local index, mentioned in the [LSM-tree survey](https://arxiv.org/pdf/1812.07527.pdf). Global index only needs one search but incurs high consistency cost upon updates. Local index colocates with each data partition, where consistency update is kept local, but a search needs to query all partitions.
 
+__Content distribution network (CDN)__
+
+  * [Facebook Owl](https://www.facebook.com/atscaleevents/videos/2897218060568137/?t=739) runs a decentralized peer-to-peer data layer (like BitTorrent), while maintaining a centralized control plan with sharded Trackers per region. P2P architecture efficiently scales out and achieves a very high traffic growth v.s. server growth ratio. Content distribution is chunk by chunk, while each chunk follows a different ephemeral distribution tree composed dynamically. Besides preset policies for peer selection and caching, an Emulation framework uses Random-restart Hill Climbing to search for the best policy settings. CDN can also be seen as a special type of distributed cache.
+
 ## Storage components breakdown
 
 To plot the architecture design space for distributed storage systems, we divide it by three different dimensions. They map to static/runtime views and non-functional goals of the architecture. Common components can be extracted from sources like section [Reference architectures in storage areas](.). They may overlap, while I strive to separate them concisely and clearly.
@@ -1421,7 +1425,17 @@ I choose to combine HA in this section because it's related to durability, most 
 
   * __Two geo locations three datacenters__ are commonly used in banks. One city deploys two datacenter with synchronized replication, and a second city deploys the third datacenter with async replication for disaster recovery.
 
-__Durability__ usually share similar techniques with HA, except more emphasis on disk failures/corruptions and integrity verification. They have already been covered before. Reliability modeling is commonly used, where [exponential distribution](http://web.stanford.edu/~lutian/coursepdf/unit1.pdf) satisfies most needs.
+HA relies on robust detection of failures, where the major issue is [Observational difference](https://www.microsoft.com/en-us/research/wp-content/uploads/2017/06/paper-1.pdf) caused gray failures. Examples are dead App but heartbeat thread still working, network link degradation only at a high percentile, inconsistently reported heathy status, intermittent failures. Common techniques to overcome such issues are stemmed from __Metadata consistency__:
+
+  * __Synchronized locksteps__ between heartbeat and application progress, e.g. use request execution count as heartbeat, or use expiring fencing token / lease.
+
+  * __Gossip protocol__ that multiple peers can participate in observing failures, and an ask request can go confirm with multiple peers.
+
+  * __Quorum decision__ that important events such as node failure or node membership change should engage a consistency quorum to make the final decision.
+
+__Durability__
+
+Durability usually share similar techniques with HA, except more emphasis on disk failures/corruptions and integrity verification. They have already been covered before. Reliability modeling is commonly used, where [exponential distribution](http://web.stanford.edu/~lutian/coursepdf/unit1.pdf) satisfies most needs.
 
 
 ### Resource scheduling
