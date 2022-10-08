@@ -591,7 +591,7 @@ __Divide by storage areas__
 __Divide by static components__
 
   * Metadata nodes
-  * Data nodes  // TODO OS filesystem, FS indexing, journaling, durability. offloading computation
+  * Data nodes
   * Indexing
   * Logging & journaling
   * Transaction control
@@ -603,7 +603,7 @@ __Divide by static components__
   * Cold/hot tiering
   * Client
   * Storage media
-  * Networking & Messaging   // TODO RDMA / PRC / Gossip
+  * Networking & Messaging
   * Backup & disaster recovery
   * Upgrade/deployment and restart
   * Monitoring & alerting
@@ -631,11 +631,11 @@ __Divide by system properties__
   * Data partitioning & placement
   * Consistency
   * Transaction & ACID
-  * scaleout
+  * Scaleout
   * Scale-up
   * High availability
   * Data durability
-  * Data integrity  // TODO scrubbing, end2end CRC. chained verification, heterogeneous verification.
+  * Data integrity
   * Read/write amplification
   * Space amplification 
   * Concurrency & parallelism
@@ -957,7 +957,7 @@ Traditionally "data organization" talks about physical columnar/row-wise data la
 
   * __Performance tier__. Commonly they are extra data copies to balance reads, an SSD tier for caching (or also serves part of durability), PMEM staging area to absorb and sequentialize repeated random writes, plain memory caching, or in-memory DB that moves all computation to memory. When used as cache, SSD or memory can target small blocks rather than entire chunks from disk, see [Data caching section](.). Data organized in memory is more attached to indexes, unlike on disk, see [Data indexing section](.).
 
-  * __Scaleout tier__. To cope with increasing volume and high throughput targets, data is __partitioned__, __replicated__, and work with __placement__ to serve from more machines. __Resource scheduling__ for heterogeneous job sizes, __load balancing__, and __migration__ follow the needs. See [Data partitioning section](.). __Consistency__ is always a problem. On single node it easily relies on CPU cache coherence, but scaleup is bottlenecked by CPU power/heat and cache coherence cost between too many cores. Coming to distributed systems, consistency of distributed transaction still incurs high networking cost, unless relaxing it with App level agreement.
+  * __Scaleout tier__. To cope with increasing volume and high throughput targets, data is __partitioned__, __replicated__, and work with __placement__ to serve from more machines. __Resource scheduling__ for heterogeneous job sizes, __load balancing__, and __migration__ follow the needs. See [Data partitioning section](.). __Consistency__ is always a problem. On single node it easily relies on CPU cache coherence, but scale-up is bottlenecked by CPU power/heat and cache coherence cost between too many cores. Coming to distributed systems, consistency of distributed transaction still incurs high networking cost, unless relaxing it with App level agreement.
 
 Essentially, query tier carries the most DB techniques when it wants to be performant, while durability/scaleout tiers are orthogonal from it and can be offloaded to a shared storage system, and performance tier is usually addressed by caching. We focus on query tier for data organization, and discuss performance/scaleout tiers in other sections.
 
@@ -1493,9 +1493,9 @@ Though running the system fast is the most typical meaning of performance, perfo
 
     * __[Instruction per cycle]__ (IPC). While latency/throughput are useful to measure IO systems, what are the concepts extended to CPU-cache-memory area, or in-memory processing systems? The typical measures are IPC, __cache misses__, __memory stalls__, from CPU statistics. A well designed program increases IPC by reducing mis-predicted branch jumps, making efficient use of CPU cache, pipeline and prefetch memory; as well as to reduce the cache invalidation, cache line locking, process lock wait due to concurrency control algorithms.
 
-  * __[Predictable performance](https://www.usenix.org/conference/atc22/presentation/elhemali)__. A higher requirement for latency/throughput is, they should be consistent among requests, among time, and among any scale. A typical anti-example is SSD performance varies time to time due to background GC is running, where the term "__Deterministic latency__" is often used. Another anti-example is SSD performance starts to drop after over-provisioned space is used up, where the term "__Sustainable performance__" is often used. People also expects Cloud storage to provide consistent latency from request to request, i.e. to shorten the gap between P50 and P99; and to ensure a stable performance during App/VM is running for days and being migrated.
+  * __[Predictable performance](https://www.usenix.org/conference/atc22/presentation/elhemali)__. A higher requirement for latency/throughput is, they should be consistent among requests, among time, and among any scale. A typical anti-example is SSD performance varies time to time due to background GC is running, where the term "__Deterministic latency__" is often used. Another anti-example is SSD performance starts to drop after over-provisioned space is used up, where the term "__Sustainable performance__" is often used. People also expects Cloud storage to provide consistent latency from request to request, i.e. to shorten the __gap between P50 and P99__; and to ensure a stable performance during App/VM is running for days and being migrated.
 
-    * __Factors affecting predictable performance__. Background maintenance job like GC/Compaction can easily block user requests with a large read/write request at the head of queue. Workloads have changing hotspots, while load balancing and migration may not kick in in time. Customer TPS/Capacity can grow rapidly, with bursts, while auto scaling is not responsive enough, and the switching is not smooth. Migrating itself also consumes resources. A VM can run with noisy neighbors, where co-locating is necessary for resource efficiency, but quota/throttling isn't perfect. Cache can miss, while cold restart or traffic churn can cause cascade failures. Switching between cache hit/miss, or anything similar, is a behavior of __[bi-modality](https://www.usenix.org/conference/atc22/presentation/elhemali)__, that is a fundamental cause of performance variances. DBs may have schema changes at background. __Adaptive execution__ can switch strategies, data structures, and indexes being used in middle, more efficient, but can create a non-smooth jump of performance. Networking can also have burps, congestion, and incast problems. Overall, achieving predictable performance is still one of the challenges in cloud storage. 
+    * __Factors affecting predictable performance__. Background maintenance job like GC/Compaction can easily block user requests with a large read/write request at the head of queue. Workloads have changing hotspots, while load balancing and migration may not kick in in time. Customer TPS/Capacity can grow rapidly, with bursts, while auto scaling is not responsive enough, and the switching is not smooth. Migrating itself also consumes resources. A VM can run with noisy neighbors, where co-locating is necessary for resource efficiency, but quota/throttling isn't perfect. Cache can miss, while cold restart or traffic churn can cause cascade failures. Switching between cache hit/miss, or anything similar, is a behavior of __[Bi-modality](https://www.usenix.org/conference/atc22/presentation/elhemali)__, that is a fundamental cause of performance variances. DBs may have schema changes at background. __Adaptive execution__ can switch strategies, data structures, and indexes being used in middle, more efficient, but can create a non-smooth jump of performance. Networking can also have burps, congestion, and incast problems. Overall, achieving predictable performance is still one of the challenges in cloud storage. 
 
     * __Service-level Agreements__ (SLA) / __Service-level Objectives__ (SLO). Cloud storage offer customers with SLA, a money insured guarantee about performance and availability/durability, while SLO gives more rigid measured numbers. Offering a predicable performance is even more important to customers than simply saying we are fast. What may also overweight fast is to offer a rich feature set, trustworthy customer service, helpful troubleshooting and visualization, and extreme data safety & security.
 
@@ -1503,7 +1503,9 @@ Though running the system fast is the most typical meaning of performance, perfo
 
     * __Quota/throttling/admission control/deadline__. These words have overlapped meanings. Customer accounts or allocated objects are provisioned with quota, and these quotas are further used for job scheduling. Throttling is the common need in cloud storage with multi-tenancy, that enforces resources used by quota, protects from system overloading, and avoid affecting latency by noisy neighbors. Soft quota are usually allowed to share between customer objects, or between different customers, to temporarily absorb bursts. Longterm or periodical traffic changes can be learned by Machine Learning to proactively scale up/out on-demand. Throttle can be dialed with incremental feedback control loop, and interference measured with runtime micro experiments ([NyxCache paper](https://www.usenix.org/conference/fast22/presentation/wu)).
 
-  * __Scalability__. The fundamental way to concur a scale problem is to __divide and concur__. With the fast growth of modern hardware, being efficient in __Scaleup__ is also necessary, e.g. to work with __manycore__ CPU with efficiency concurrency, to handle large memory with NUMA, to respond fast with RDMA networking, PMEM, NVM SSD. __Scaleout__ is the classic cloud storage solution, with infinite scale (in theory), but every step in the distributed consistency and communication charges your COGS.
+    * __Cold restart__ is a typical issue that if a cache node restarted, it cannot serve requests well until filled up again. This can easily introduce a churn during batch upgrade, overload the system, kill more nodes, and bring a cascaded failure. AWS Redshift introduced [Warmpools](https://assets.amazon.science/93/e0/a347021a4c6fbbccd5a056580d00/sigmod22-redshift-reinvented.pdf) to provision pre-warmed cache nodes.
+
+  * __Scalability__. The fundamental way to concur a scale problem is to __divide and concur__. With the fast growth of modern hardware, being efficient in __Scale-up__ is also necessary, e.g. to work with __manycore__ CPU with efficiency concurrency, to handle large memory with NUMA, to respond fast with RDMA networking, PMEM, NVM SSD. __Scaleout__ is the classic cloud storage solution, with infinite scale (in theory), but every step in the distributed consistency and communication charges your COGS.
 
     * __Partitioning__ & __Replication__. Partitioning scales out the performance for the overall data space, while Replication scales out the performance for a specific data unit. They can work at different and non-symmetric fine-grain levels. Caching can also be seen as a case of replication, which leverage more expensive hardware to increase performance within space/temporal locality.
 
@@ -1537,77 +1539,95 @@ Though running the system fast is the most typical meaning of performance, perfo
 
 __Concurrency & parallelism__
 
-Key techniques to improve performance are exploiting concurrency & parallelism. This section covers those techniques. We mainly focus optimizing a single node here with multi-core, while distributed scaleout is put to the later section. In general, parallel means happening at the same time (need hardware support), while concurrency means happening together but not necessarily at the same time (a scheduling matter). 
+Exploiting concurrency & parallelism is the key technique to improve performance. This section covers those techniques. We mainly focus optimizing a single node here with multi-core, while distributed scaleout systems are put to the later section. In general, parallel means happening at the same time (need hardware support), while concurrency means happening together but not necessarily at the same time (by interleaved scheduling). 
 
-The fundamental ability of parallelism comes from __Hardware parallelism__. E.g. CPU cache chip can be designed to lookup all cache lines in parallel, while software hashtable has to resort to various multi-threading techniques backed by CPU multi-core. The best performance comes from utilizing all parallel units, with minimal coordination/synchronization overheads.
+The fundamental ability of parallelism comes from __Hardware parallelism__. E.g. CPU cache chip can be designed to lookup every cache lines all at the same time, while software hashtable has to resort to various multi-threading techniques backed by CPU multi-core. The best performance comes from utilizing all parallel units, with minimal coordination/synchronization overheads.
 
   * __Typical hardware parallelism to exploit__ are listed here. First, the most commonly CPU socket -> CPU cores -> CPU hyper-threading. Next, NUMA and [DRAM banks](https://zhuanlan.zhihu.com/p/539717599). SSD built-in [parallelism at Plane level](https://blog.51cto.com/alanwu/1544227) (Chip -> Die -> Plane -> Block -> Page -> Cell). PMEM may have similar internal parallelism like SSD.
 
-  * __SIMD, vectorized execution__ are common DB techniques to exploit the data parallelism per instruction. Column scan is essentially scanning vectors. Further, Code Generation and JIT are used to produce more CPU efficient physical plans. AWS Redshift further uses external cache to save the repeated compilation effort.
+  * __SIMD, vectorized execution__ are common DB techniques to exploit the data parallelism per instruction. Column scan is treated as operating (bit) vectors. Further, Code Generation and JIT are used to produce more CPU efficient execution plans. AWS Redshift further looks up recent compilation in external caches.
 
-  * __ASIC, FPGA, TPU, GPU__ Specialized hardware can further boost parallelism and efficiency for the target workload. For FPGA, essentially how large is the chip area, how many computation units can be programmed, and how many can work in parallel. More chips can be interconnected with high bandwidth link (e.g. NVLink) to compose an HPC cluster.
+  * __ASIC, FPGA, TPU, GPU__ Specialized hardware can further boost parallelism and efficiency for the target workload. For FPGA, how large the chip area is, how many computation units can be programmed, and thus how many can work in parallel. More chips can be interconnected with high bandwidth link (e.g. NVLink) to compose an HPC cluster.
 
 __Load balancing__ is critical to achieve max efficiency among multiple hardware units being utilized in parallel. This is just like a scaleout distributed system.
 
-  * Tasks cutting into smaller units are easier to balance, just like tossing smaller balls to bins. This explains why storage engines can benefit from __Multi-staged Pipeline__. It resembles to the partition size in distributed systems. Besides cutting tasks, __pipelining__ overlaps task execution to improve utilization of the underlying resources. __Prefetching__ or __[Speculative execution](https://www.usenix.org/conference/fast22/presentation/lv)__ further overlap future with now.
+  * Tasks cutting into smaller units are easier to balance, just like tossing smaller balls to bins. This explains why storage engines can benefit from __Multi-staged Pipeline__. It resembles to smaller partition size in a distributed system. Besides cutting tasks, __Pipelining__ overlaps task execution to improve utilization of the underlying resources. __Prefetching__ and __[Speculative execution](https://www.usenix.org/conference/fast22/presentation/lv)__ further overlap future with now.
 
-  * __Work stealing__ is another common technique that, the cost of scheduling tasks are automatically amortized to more idle threads. It's a resemble of job __migration__ in distributed systems
+  * __Work stealing__ is another common technique. Idle thread seize jobs from busy threads. The cost of scheduling tasks are automatically amortized to more idle threads. It resembles to job __migration__ in distributed systems.
 
-__Reduce communication__ is the most important topic. Locking and synchronization are the top area in concurrency & parallelism. They are used to coordination communication. But the best system is designed to rather NOT requiring communication, thus the most simplified.
+__Reduce communication__ is the most important topic. Locking and synchronization are the top area in concurrency & parallelism. They are used to coordination communication. But the best system is designed to rather NOT requiring communication, thus the most simplified. This same applies both in a distributed scaleout system, or a single node scale-up system with manycore.
 
-  * __Symmetric parallel copies__ (同态多副本). The data and tasks are sharded into multiple copies. Each copy process in exactly the same way. They don't need any interaction. E.g. processing requests from different customers in a Cloud storage systems. E.g. Ceph OSD that each thread exclusively owns a disk. E.g. Networking switch that one core schedules tasks to all other cores doing plain packet processing.
+  * __Symmetric parallel copies__ (同态多副本). The data and tasks are sharded into multiple copies. Each copy processes in exactly the same way. Copies don't need any interaction. E.g. processing requests from different customers in a Cloud storage systems. E.g. Ceph OSD that each thread exclusively owns a disk. E.g. Networking switch that one core schedules tasks to all other cores doing plain packet processing.
 
-  * __The communication map__. Locking/latching, reading another thread's thread local, accessing shared memory/cache address are all communication. Plot the communication connections by each CPU core. How frequent are such communication done? What's the connection fan-out? What's the webbing density? A good algorithm should reduce all them.
+  * __The communication map__. Locking/latching, reading another thread's thread local, and accessing shared memory/cache address are all communication. Plot the communication connections by each CPU core. How frequent are such communication done? What's the connection fan-out? What's the webbing density? A good algorithm should reduce all three.
 
-    * __Lock/latch free algorithms__ usually have high communication cost in manycore condition. The communication point is usually a CAS operation which underlyingly locks CPU cache line. All cores race on the lock, creating a N-to-N communication map, which is frequently triggered, high fan-out, high webbing density. The algorithms can result in less efficient, not counting in the OCC retry cost, as pointed out by HyPer [Scalable MVCC GC paper](http://www.vldb.org/pvldb/vol13/p128-bottcher.pdf).
+    * __Lock/latch free algorithms__ usually have high communication cost in manycore condition, as pointed out by HyPer [Scalable MVCC GC paper](http://www.vldb.org/pvldb/vol13/p128-bottcher.pdf). The communication point is usually a CAS operation which underlyingly locks CPU cache line. All cores race on the lock, creating an N-to-N communication map, which is frequently triggered, high fan-out, and thus high webbing density.
 
-    * __Flat Combining__, and also the __Thread Local__ technique used in the above HyPer paper. Each thread only works in its thread local, and a leader thread consults all other threads to do coordination work. This reduces to communication fan-out to 1-N, and thus reduced webbing density.
+    * __Flat Combining__, and also the __Thread Local__ technique used in the above HyPer paper. Each thread only works in its thread local, and a leader thread consults all other threads to do coordination work. This reduces communication to a fan-out of 1-N, and thus reduces webbing density.
 
-    * __Epoch based reclamation__ further reduces the communication frequency. Only when epoch passed and each thread local is away from the shared resource, the leader thread will do the coordination, i.e. cleanup. Similar idea applies, and generates techniques like Sloppy Counters, delayed async updates with batching, etc.
+    * __Epoch based reclamation__ further reduces the communication frequency. Only when epoch passed and each thread local is away from the shared resource, the leader thread will do the coordinated resource cleanup. Similar idea applies for techniques like Sloppy Counters, delayed batched async updates, etc.
 
-  * __Reducing competing resource__. Avoid race on resources when it shouldn't. A typical example is __False Sharing__ that CPU cores race on a cache line, which dependency is not required by App, but introduced by compiler packing memory objects.
+  * __Reduce competing resources__. Avoid racing on resources when it's not necessary. A typical example is __False Sharing__ that CPU cores race on a cache line, whose dependency is not required by the App, but introduced by compiler packing memory objects.
 
-    * __Partitioning, reducing lock granularity__. Typically, partition the hashtable, and each lock only owns a shard. This partitions the communication web to reduce connection density. Also, typical programming courses teach about making fine-grain locking. This reduces the duration of each communication connection, similar with reducing frequency, and may also reduce the connection fan-out.
+    * __Partitioning and reducing lock granularity__. A typical technique is to partition the hashtable, and each lock only owns a shard. This partitions the communication web to reduce connection density. Also, typical programming courses teach about fine-grain locking. This reduces the duration of communication connection, similar with reducing frequency, and may also reduce the connection fan-out.
 
-    * __B+-tree lock coupling__ steps lock through tree parent/child nodes with limited lock span, like a crab. Compared to locking the whole sub-tree, it also reduces the lock scope, thus reduced the competing resource. Acquiring lock in the same order is related, that by pre-building coordination in fixed rules, deadlock can be avoided.
+    * __B+-tree lock coupling__ steps lock through tree parent/child nodes with limited lock span, like a crab. Compared to locking the whole sub-tree, it also reduces the lock scope, thus reduced the competing resource. It's another example of fine-grained locks. Acquiring lock in the same order is related, that by pre-building coordination with fixed rules, deadlock can be avoided.
 
-    * __Copy-on-write, immutable data objects, shadow paging, delta updates__ are related techniques. Instead of working the original data, updates work on a copy, or only write deltas. In this way, the updaters avoid racing on the original data. Besides, __immutability__ usually greatly simplify system design, but yet post pressure on later Garbage Collection.
+    * __Copy-on-write, immutable data objects, shadow paging, and delta updates__ are related techniques. Instead of working on the original data, updates work on a copy, or only write deltas. In this way, the updaters avoid racing on the original data. Besides, __Immutability__ can greatly simplify system design, but yet poses pressure on later GC.
 
-    * __Concurrency by scheduling__. The example is [NetApp WAFL filesystem](https://www.usenix.org/system/files/conference/osdi16/osdi16-curtis-maury.pdf). Accesses to disjoint files and address partitions can be safely parallelized. Instead of programming low level locking, NetApp uses a top level scheduler to ensure racing accesses won't be issued.  
+    * __Concurrency by scheduling__. The example is [NetApp WAFL filesystem](https://www.usenix.org/system/files/conference/osdi16/osdi16-curtis-maury.pdf). Accesses to disjoint files and address partitions can be safely parallelized. Instead of programming low level locks, NetApp uses a top level scheduler to ensure racing accesses won't be scheduled.  
 
-Here also mention __Engineering aspects__ of concurrency & parallelism. I categorize coroutine, thread, process here.
+Here also to mention __Engineering aspects__ of concurrency & parallelism. I categorized coroutine in this part.
 
-  * __Coroutine, thread, process__. In theory, they should be able to achieve the same level of performance or parallelism, except coroutine allows bypassing the Kernel, and threads are more lightweighted to share resource/memory than processes. However, a nice programming API does matter, that by which coroutine quickly gains adoption. Threading are left to give developers more control on concurrency & parallelism, where the thread execution pool can be tricky; while processes are better at resource/fault isolation.
+  * __Coroutine, thread, and process__. In theory, they should be able to achieve the same level of performance or parallelism, except coroutine allows bypassing the Kernel, and threads are more lightweighted to share resource/memory than processes. However, a nice programming API does matter, that by which coroutine quickly gains adoption. Threading are left to give developers root control on concurrency & parallelism, where the thread execution pool can be tricky; while processes are better at resource/fault isolation.
 
-  * __Synchronized, Async__. In theory, they should be able to achieve the same level of performance or parallelism. But Async programming is easier to overlap CPU time with IO time to improve efficiency (e.g. epoll), and more easily cut long function into smaller tasks to benefit load balancing.
+  * __Sync & Async__. In theory, they should be able to achieve the same level of performance or parallelism. But Async programming is easier to overlap CPU time with IO time to improve efficiency (e.g. epoll), and more easily cut long function into smaller tasks to benefit load balancing.
 
-  * __Lock, preempting__. A simple lock is first comer wins, and later comers are blocked. But it can be implemented to either let first/later comer win, either block/non-block, and with OCC retry. Such techniques can be used to optimize DB transactions, especially those mixed short live OLTP transactions with long running OLAP transactions.
+  * __Lock and preempting__. A simple lock let first comer win and blocks later comers. But it can be implemented differently to either let first/later comer win, either block/non-block, and with OCC retry. Such techniques can be used to optimize DB transactions, especially those mixed short live OLTP transactions with long running OLAP transactions.
 
-  * __Testing the correctness__ of a complex concurrency program is important for Cloud storage. C# [Coyote] search through the large execution ordering space to find potential bugs. FoundationDB also equips with Deterministic Simulation Testing built by Flow. Besides, TLA+ can be used externally model the state machine to provide liveness & invariant checking. 
+  * __Testing the correctness__ of a complex concurrency program is not easy and important for Cloud storage. C# [Coyote] searches through the large execution ordering space to find potential bugs. FoundationDB also equips with Deterministic Simulation Testing built by Flow. Besides, TLA+ is used to model the state machine aside to verify liveness and invariants. 
 
 __CPU-cache and in-memory__
 
-Code generation, SIMD, external compilation/caching
+Performance optimization can be broken into several aspects
 
-Compression
+  * __CPU, cache, and memory__. They usually overlap with __Scale-up__ topics and optimizing a single node, i.e. how to efficiently utilize them after stacked more CPU cores and large memory. We'll cover below.
 
+  * __IO and networking__. They usually overlap with __Scaleout__ topics, where a distributed system interconnects many nodes. Also, disk IO and networking traditionally are slower than the CPU, cache, and memory plane. We'll cover in the next section.
 
+Per optimizing __CPU, cache, and memory__ plane, there are a few aspects below
+
+  * __Concurrency & parallelism__, as we covered in the previous section.
+
+  * __Memory wall__. Today CPU is much faster than DRAM ([1ns vs 100ns](https://colin-scott.github.io/personal_website/research/interactive_latency.html)), which relies on Cache as the middle bridge. Efficiency can be measured by __IPC__ (instruction per cycle), __Memory stall__, and __Cache miss__ counters. A good algorithm needs to 1) exploit locality for caching 2) pipelining with cache prefetching 3) avoid racing on the same cache line 4) avoid extra memory writes while keeping most operations in CPU register and cache.
+
+  * __Branch mis-predict__ is costly for CPU speculative execution. An efficient data processing program should avoid too many if branches which are not deterministic. Such principles become yet more important for GPU, who has minimal control units and most chip area is dedicated for synced data operations.
+
+  * __Do less things__ will always make the program faster. DB query __Code Generation__ and __JIT__ can be seen as an example, where highly customized code is compiled for each specific query SQL to improve CPU efficiency. Though the code is either unfriendly for human programmer, or there are too many combinations for handcraft. 
 
 __Scaleout systems__
 
-Tail latency paper
-  The power of two
-load balance
-Cold restart, Warmpools
+In this section we focus on optimizing performance at the distributed scaleout system plane. The previous section already covered most topics, such as __Load balancing__, __Tail latency__, and __Pipelining__, etc. More former sections discussed about __Sequentialize IOs__. The majority of performance improvement comes from scaleout itself, and carefully optimizing single node performance. We add a few bullets not covered by the above
 
+  * __Compression__ is a seemly separated topic but can significantly improve performance because fewer data are transferred across IO devices. We have talked much about it in previous sections.
 
 
 ### Networking
 
+// TODO
 
-### More storage components, workflows, and system properties 
 
-To cover all remaining ones I didn't bother to write
+### More topics 
+
+Compared to section "Storage components breakdown", there are a few topics I didn't cover.
+
+  * __Allocator__ It refers the to disk space allocator by a single node filesystem. There are mature and off-the-shelf solutions in production filesystems. A distributed storage usually directly leverage them by building atop the local node filesystems. On the other hand, "Allocator" in a multi-node case is the __Data placement__ we covered before.
+
+  * __Upgrade/deployment__. Safe and incremental upgrading on a large scale distributed storage system with atomic rollback can be complex and with many engineering practices. But they are too much off the topic so I didn't cover in this article.
+
+  * __Configuration management__. __[CMDB](https://en.wikipedia.org/wiki/Configuration_management_database)__ is an interesting topic. E.g. you need a database to manage the many baremetal nodes in a large scale cloud. However they are too much off the topic so I didn't cover in this article.
+
+  * __Operational ease__. It's an interesting topic to design a system that makes daily operation smooth, safe, and to avoid human errors. However they are too much off the topic so I didn't cover in this article.
 
 
 
@@ -1617,59 +1637,12 @@ To cover all remaining ones I didn't bother to write
 // TODO We should have a overall picture for all techniques. It can be a similar to: https://mapsontheweb.zoom-maps.com/post/143896346898/a-map-of-mathematics
         We should have a typical storage system picture with each components and data flow. At each components, we put the technique breakdown there.
 
+// TODO Wrap and mapping to Reference architectures.
+
+// TODO design space analysis
 // TODO think in this aspect: 1) what is the driving factor and challenge, 2) what is the design space. 3) then boil down to discrete design patterns
 
 // TODO Let's check each project mentioned in reference architecture, and generate a table to say how they did in Storage components breakdown, and how they did in design patterns. This should generate the nice table chart. -> <design pattern, touching components, examples systems>
-
-// TODO mark all referenced example architectures in italic font. 
-
-
-metadata, placement
-offloading
-replication
-append only, write path, write-in place + versioning
-caching
-Indexing, read optimized, write optimized, bw-tree append delta, etc
-Compaction, GC, the different tuning methods, and level or no level
-
-resource scheduling / throttling
-consistency, atomic update, WAL
-converged file/object/block/page, in functionality, in co-run process
-
-data layout, columnar, row-wise
-log is database
-partitioning
-Resource scheduling / throttling / quota
-upgrading/deployment
-Lots of small files
-Manycore, high concurrency
-Networking
-
---
-
-filling the patterns in other categories
-examine that I covered all reference architectures
-check I included all things from notes
-explore the design space, draft like the design space
-
-
-
-
-
-
-// TODO system property design patterns, integrate architecture design patterns in Mattflower's blog
-  1. use 质素分布 to derive a continuous graph: metadata/data consistency, data layout, scaleout, availability, durability, 
-                            components: metadata, data node, allocator, compression, memory, indexing
-  2. for a continuous space cut, I first talk about component division, then goto workflow (read, write), then go to system properties division
-       this should be able to cover all typical systems, e.g. storage, (distributed) filesystem, graphdb, OLAP/TP/HP databases, data lakes, etc
-    1. next, system properties maps to design goals and usecase scenarios. this is where I should apply different technique spaces. Use technique spaces to achieve system goals and usecase scenarios.
-       the applied technique space then affects on the component division and workflow division, thus affects the designs
-    2. I should be able to plot a table then to summarize the above. to put each typical product onto one of the component division, and workflow division plot. and then predict new type by combining different combos
-
-    3. Show the important source of such design patterns, and also mention the highly interleaved.
-       papers, reference archs, books, mattflower design pattens, 
-
-// TODO design space analysis
 
 ------------------------------
 
@@ -1680,4 +1653,3 @@ explore the design space, draft like the design space
 
 // TODO get a good article name, also the innovation one
 // TODO rename to the correct article date
-
