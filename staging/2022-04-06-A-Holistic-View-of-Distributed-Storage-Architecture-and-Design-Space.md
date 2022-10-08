@@ -1,10 +1,10 @@
 ---
 layout: post
-title: "Summary on Software Architecture Design"
-tagline : "Summary on Software Architecture Design"
-description: "Summary on Software Architecture Design"
+title: "A Holistic View of Distributed Storage Architecture and Design Space"
+tagline : "A Holistic View of Distributed Storage Architecture and Design Space"
+description: "A Holistic View of Distributed Storage Architecture and Design Space"
 category: "technology"
-tags: [cloud, engineering, architecture]
+tags: [cloud, storage, architecture]
 ---
 {% include JB/setup %}
 
@@ -1648,8 +1648,3 @@ Compared to section "Storage components breakdown", there are a few topics I did
 
 // TODO I should insert more pictures also in former parts to help reading. too many words 
 // TODO Add my materials to a zip and link to this article
-
-------------------------------
-
-// TODO get a good article name, also the innovation one
-// TODO rename to the correct article date
