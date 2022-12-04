@@ -18,7 +18,7 @@ Software architecture is a modeling of the reality world, a language, and a huma
 
 The next and following chapters tell about knowledge in software architecture. But this first chapter tells about the engine that generates the knowledge.
 
-__Reality, language, human mind__
+__Reality, language, and human mind__
 
 Firstly, __the modeling of the world is human language__. Human language evolved for thousands of years, enriched by distinctive civil culture, polished by daily interaction among population, and tested by full industry use and creation. Grab a dictionary, you learn the world and mankind. 
 
@@ -122,9 +122,9 @@ As preparation, architecture design requires below knowledge and skills
 
   * Internally, __understand your existing systems__. Understand the existing system to make designs that actually work, and to correctly prioritize what helps a lot and what helps little. Learn from past design history, experience, and pitfalls, to reuse and go the right path. 
 
-  * Organizationally, __broaden your scope__. Architecture design involves interacting with multiple external systems and stakeholders. Besure to broaden your scope and get familiar with them. Communicate with more people. Solid soft skills are needed for cross team / BU collaboration, to break barrier and build consensus, and to convey with action-oriented points, concise, big picture integrated with detailed analysis.
+  * Organizationally, __broaden your scope__. Architecture design involves interacting with multiple external systems and stakeholders. Be sure to broaden your scope and get familiar with them. Communicate with more people. Solid soft skills are needed for cross team / BU collaboration, to break barrier and build consensus, and to convey with action-oriented points, concise, big picture integrated with detailed analysis.
 
-I lean more to peer-to-peer architect style mentioned above. Many can be sensed from [GXSC's answer](https://www.zhihu.com/question/24614033/answer/497338972). At each step, besure to engage __talk with different persons__ which significantly improves design robustness. Rather than the design results, it's problem analysis and alternative trade-off analysis that weight most.
+I lean more to peer-to-peer architect style mentioned above. Many can be sensed from [GXSC's answer](https://www.zhihu.com/question/24614033/answer/497338972). At each step, be sure to engage __talk with different persons__ which significantly improves design robustness. Rather than the design results, it's problem analysis and alternative trade-off analysis that weight most.
 
   * Firstly, __problem analysis__. Design proposal starts from [innovation](/technology/Notes-on-How-to-do-Innovation). Finding the correct problem to solve is half-way to success. The cost and benefit should be translated to the final __market money__ (Anti-example: we should do it because the technology is remarkable. Good-example: we adopt this design because it maps to $$$ annual COGS saving). The __problem scope__ should be complete, e.g. don't miss out upgrading and rollout scenarios, ripple effect to surrounding systems, or exotic traffic patterns that are rare but do happen in large scale deployment. __Risk__ should be identified; internally from technology stacks, externally from cross teams, market, and organization. __The key of management is to peace out risks__, same with managing the design.
 
@@ -516,6 +516,8 @@ __Graph database__
   * [Facebook TAO](https://www.vldb.org/pvldb/vol14/p3014-cheng.pdf) the frugal two level architecture for social graph (OLTP). Persistence/capacity layer is by [MySQL](https://www.usenix.org/system/files/conference/atc13/atc13-bronson.pdf), which instead uses [RocksDB](https://vldb.org/pvldb/vol13/p3217-matsunobu.pdf) as engine. QPS/cache layer is by Memcached, with a long thread of [works](https://www.usenix.org/conference/osdi20/presentation/berg) to improvement. For consistency, TAO supports 2PC cross shard write, and prevents fracture read (not ACID, not snapshot isolation). Query is optimized to fetch association.
 
   * [FaRM A1](https://ashamis.github.io/files/A1-A-Distributed-In-Memory-Graph-Database.pdf). General purpose graph database used by Bing for knowledge graph, all in-memory. Vertices/edges are organized in linked structure objects, accessed via pointer addresses, and build optimistic concurrency control (OCC) transaction and MVCC (multi-version concurrency control) read via FaRM. Other contemporaries include [AWS Neptune](https://aws.amazon.com/neptune/); and [CosmosDB](https://azure.microsoft.com/en-us/blog/a-technical-overview-of-azure-cosmos-db/), which developed from [DocumentDB](https://www.vldb.org/pvldb/vol8/p1668-shukla.pdf), is a globally distributed (optional) strong consistency multi-model database, and uses Bw-tree with "Blind Incremental Update" instead of LSM-tree to absorb writes.
+
+  * [ByteGraph](https://www.vldb.org/pvldb/vol15/p3306-li.pdf) builds graph database atop RocksDB ([TerarkDB](https://www.zhihu.com/question/46787984)) with widely compatible [Gremlin API](https://tinkerpop.apache.org/gremlin.html). Weighted consistent hash ring shards vertex & adjacent edges to one node. RocksDB easily represents vertex and edges in KV, support in-memory/on-disk tiering, and single node transaction. Large edge list is implemented by edge-tree (B-tree), and further supports secondary index. ByteGraph also supports geo replication (eventual consistency), distributed transaction (2PC), and cost-based query optimizer.
 
 __Datalake__
 
@@ -1495,7 +1497,7 @@ Though running the system fast is the most typical meaning of performance, perfo
 
   * __[Predictable performance](https://www.usenix.org/conference/atc22/presentation/elhemali)__. A higher requirement for latency/throughput is, they should be consistent among requests, among time, and among any scale. A typical anti-example is SSD performance varies time to time due to background GC is running, where the term "__Deterministic latency__" is often used. Another anti-example is SSD performance starts to drop after over-provisioned space is used up, where the term "__Sustainable performance__" is often used. People also expects Cloud storage to provide consistent latency from request to request, i.e. to shorten the __gap between P50 and P99__; and to ensure a stable performance during App/VM is running for days and being migrated.
 
-    * __Factors affecting predictable performance__. Background maintenance job like GC/Compaction can easily block user requests with a large read/write request at the head of queue. Workloads have changing hotspots, while load balancing and migration may not kick in in time. Customer TPS/Capacity can grow rapidly, with bursts, while auto scaling is not responsive enough, and the switching is not smooth. Migrating itself also consumes resources. A VM can run with noisy neighbors, where co-locating is necessary for resource efficiency, but quota/throttling isn't perfect. Cache can miss, while cold restart or traffic churn can cause cascade failures. Switching between cache hit/miss, or anything similar, is a behavior of __[Bi-modality](https://www.usenix.org/conference/atc22/presentation/elhemali)__, that is a fundamental cause of performance variances. DBs may have schema changes at background. __Adaptive execution__ can switch strategies, data structures, and indexes being used in middle, more efficient, but can create a non-smooth jump of performance. Networking can also have burps, congestion, and incast problems. Overall, achieving predictable performance is still one of the challenges in cloud storage. 
+    * __Factors affecting predictable performance__. Background maintenance job like GC/Compaction can easily block user requests with a large read/write request at the head of queue. Workloads have changing hotspots, while load balancing and migration may not kick in in time. Customer TPS/Capacity can grow rapidly, with bursts, while auto scaling is not responsive enough, and the switching is not smooth. Migrating itself also consumes resources. A VM can run with noisy neighbors, where co-locating is necessary for resource efficiency, but quota/throttling isn't perfect. Cache can miss, while cold restart or traffic churn can cause cascade failures. Switching between cache hit/miss, or anything similar, is a behavior of __[Bi-modality](https://www.usenix.org/conference/atc22/presentation/elhemali)__, that is a fundamental cause of performance variances. DBs may have schema changes at background. __Adaptive execution__ switches strategies, data structures, and indexes being used in middle according to traffic pattern, more efficient, but can create a non-smooth jump of performance. Networking can also have burps, congestion, and incast problems. Overall, achieving predictable performance is still one of the challenges in cloud storage. 
 
     * __Service-level Agreements__ (SLA) / __Service-level Objectives__ (SLO). Cloud storage offer customers with SLA, a money insured guarantee about performance and availability/durability, while SLO gives more rigid measured numbers. Offering a predicable performance is even more important to customers than simply saying we are fast. What may also overweight fast is to offer a rich feature set, trustworthy customer service, helpful troubleshooting and visualization, and extreme data safety & security.
 
@@ -1559,7 +1561,7 @@ __Reduce communication__ is the most important topic. Locking and synchronizatio
 
   * __Symmetric parallel copies__ (同态多副本). The data and tasks are sharded into multiple copies. Each copy processes in exactly the same way. Copies don't need any interaction. E.g. processing requests from different customers in a Cloud storage systems. E.g. Ceph OSD that each thread exclusively owns a disk. E.g. Networking switch that one core schedules tasks to all other cores doing plain packet processing.
 
-  * __The communication map__. Locking/latching, reading another thread's thread local, and accessing shared memory/cache address are all communication. Plot the communication connections by each CPU core. How frequent are such communication done? What's the connection fan-out? What's the webbing density? A good algorithm should reduce all three.
+  * __Communication density__. Locking/latching, reading another thread's thread local, and accessing shared memory/cache address are all communication. Plot the communication connections by each CPU core. How frequent are such communication done? What's the connection fan-out? What's the webbing density? A good algorithm should reduce all three.
 
     * __Lock/latch free algorithms__ usually have high communication cost in manycore condition, as pointed out by HyPer [Scalable MVCC GC paper](http://www.vldb.org/pvldb/vol13/p128-bottcher.pdf). The communication point is usually a CAS operation which underlyingly locks CPU cache line. All cores race on the lock, creating an N-to-N communication map, which is frequently triggered, high fan-out, and thus high webbing density.
 
@@ -1615,6 +1617,33 @@ In this section we focus on optimizing performance at the distributed scaleout s
 ### Networking
 
 // TODO
+
+__Datacenter networking architecture__
+
+__Load balancing__
+
+google maglev
+ECMP
+
+https://cloud.google.com/load-balancing/docs/load-balancing-overview
+
+nginx
+
+Direct Response
+https://docs.bluecatnetworks.com/r/DNS-Edge-Deployment-Guide/How-DSR-load-balancing-works
+
+
+BGP reroute
+
+
+__Application layer__
+
+__TCP layer__
+
+__IP layer__
+
+__Data link layer__
+
 
 
 ### More topics 

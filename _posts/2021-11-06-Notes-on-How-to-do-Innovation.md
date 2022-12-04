@@ -40,6 +40,12 @@ Gaps analysis are convenient source of innovation.
 
   * __Grid search__. Continued from Min-Max, we can unfold the properties we care into multi-dimensions of structured space. Use an exhaustive method to divide and categorize the space, and conduct the search. This also helps us find and look into possibilities. In another word, we should have the map, even we cannot reach every location, and we should plot grid axes on the map.
 
+Essence analysis is another way of innovation.
+
+  * Breakdown idea, strip away the unnecessary part. What are left are the essence. Essence are transformed mapping of the original problem. Essence reflect the core info and properties that are passing around while holding the invariant and equivalent.
+
+  * Recombination of the essence will generate new ideas. Add, subtract, multiple, division happen here to combine them. 
+
 Problems & missing parts in engineering daily work are source of innovation.
 
   * Online service and operation issues. Apply __systematical thinking__ and in depth. An issue to happen usually reflex missing functionalities, gaps to fill, and opportunities for paradigm shift. __"5 whys"__ is useful method from [Critical Thinking](https://microsoft.sharepoint.com/sites/infopedia/cela/pages/critical-thinking.aspx), e.g. why the failure is not detected before impact, why auto mitigation not working, why it is captured now rather than at an earlier stage, etc.

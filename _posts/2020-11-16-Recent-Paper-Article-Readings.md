@@ -77,7 +77,7 @@ Recent paper / articles reading. Search "very good", "good", "interesting", "use
                https://www.slideshare.net/PouyanRezazadeh/write-behind-logging
                 1. good paper. WBL persist changes to DB instead of logging, to reduce the double-write overhead.
                    WBL requires MVCC and group commit to work. flushing to DB generates more sequential writes, WBL exploits NVM better random writes
-                   Actually the same WBL algorithm can be used on tranditional DB even without NVM (but slower).
+                   Actually the same WBL algorithm can be used on transitional DB even without NVM (but slower).
                    replication has a problem because there is no WAL logging available now.
                 2. highlights
                     1. useful illustration for WAL (Write-ahead logging) as the compare base
@@ -96,7 +96,7 @@ Recent paper / articles reading. Search "very good", "good", "interesting", "use
                         1. must work with MVCC DB
                             1. so that, update an tuple "in-place" is done by delete+insert. the old value is never lost
                         2. must work with group commit
-                            1. so that, timestamp Cp and Cd. Before Cp are all commited.
+                            1. so that, timestamp Cp and Cd. Before Cp are all committed.
                                Within Cp and Cd are dirty, which should be forgotten during failure restart
                             2. DB must determine visibility of tuples within Cp and Cd.
                                Garbage Collection cleans up dirty tuples, thus shrink Cp and Cd gap
@@ -111,25 +111,42 @@ Recent paper / articles reading. Search "very good", "good", "interesting", "use
                             1. there are two places to persist changes, database itself or logging
                                 1. WAL chooses logging, WBL chooses database itself
                             2. MVCC makes sure old data is never overwritten, new data is appended with an increment version
-                                1. so that WBL doesn't need undo, becuase old data is not lost
+                                1. so that WBL doesn't need undo, because old data is not lost
                                new data is made available by advance the version
                                 1. this done by group commit. commit <=> version increment
                                    so there is no database states lagging behind, so WBL doesn't need redo
-                            3. writting to logging vs writting to database itself
-                                1. WBL chooses writting to database itself, this implies more random writes compared to logging
+                            3. writing to logging vs writing to database itself
+                                1. WBL chooses writing to database itself, this implies more random writes compared to logging
                                    it underlying relies on NVM's better random writes support, rather logging to exploit sequential writes
-                                   the benefit is no duplicated writtings again in logging
+                                   the benefit is no duplicated writings again in logging
                                 2. actually, the whole stuff doesn't necessary need NVM, it works on traditional MVCC group commit DB too
                             4. questions
-                                1. actually, WBL only writes metadata to logging. it doesn't exploit the fast writting of NVM w.r.t. logging
-                                2. also, the byte-addresable property of NVM is not exploit
+                                1. actually, WBL only writes metadata to logging. it doesn't exploit the fast writing of NVM w.r.t. logging
+                                2. also, the byte-addressable property of NVM is not exploit
                 3. questions
                     1. the NVRAM devices is done by an emulator ..
                        this can vary way far from real 3DXpoint/Optane
+                    2. if a transaction can commit safely even without WBL written to NVM, can we only commit transaction changes but don't write WBL at all? It seems this should work, but contradictory that why WBL is needed?
+                       More specifically, if a Tx modifies two tables, it changed one and persisted on disk. Then system crash, no WBL written. How should the system recover?
+                       Or the paper is saying, every time the Tx finished modifying one table, it must flush the WBL to disk, before move to change the next table? And table is B+-tree, which can do shadow paging to ensure change atomicity and preserve old pages
+                    3. before ack user Tx committed, it needs WBL flushed to disk? Than what's the advantage left compared to WAL? Both needs to commit logs first before ack user, but WAL can do steal & no force
+                       so the key advantage of WBL is still the faster recovery speed .. because it doesn't need redo, which is because it forces table change to flush to disk before WBL flush to disk before ack to user 
+                    4. Why WBL can do fast recovery? The essential is it force DB table to update itself first, and then WBL is NOT a log but a completion mark.
+                       Compared to WAL, DB table update is first written to log, and then async flush to table itself. so that write twice overhead, and recovery has replay overhead.
+                       What about log-structured DB? table updates is still first written to log, and then checkpoint has the second write. and checkpoint has to be merged to compose the table B+-tree itself. log-structured DB has the most times of writing.
+                       So, the CORRECT PROBLEM TO UNDERSTAND write-behind logging is, CAN WE ONLY WRITE DB TABLE UPDATES ONE TIME? That's where all saving comes
+                        1. The system doesn't need redo, because it forces dirty pages to flush before ack user Tx completes
+                           The system doesn't need undo, because MVCC DB ensures non-committed timestamp versions are not visible
+                    5. Why WBL is suitable for NVM but not HDD/SSD?
+                        1. "With WBL, the DBMS writes out the changes to locations spread across the durable storage device. For example, if a transaction updates tuples stored in two tables, then the DBMS must flush the updates to two locations in the durable storage device. This design works well for NVM as it supports fast random writes. But it is not a good choice for slower devices that incur expensive seeks to handle random writes"
+                
                 n. related materials
                     1. Book: Non-Volatile Memory Database Management Systems
                        https://books.google.com/books?id=386HDwAAQBAJ&pg=PA55&lpg=PA55&dq=MVCC+DB+obviates+the+need+for+an+undo+phase&source=bl&ots=jlfJTft6sk&sig=ACfU3U2Iu0VUqBSx6dVe6JNkD-C-yuBkhA&hl=zh-CN&sa=X&ved=2ahUKEwi52dui2LfqAhWCeisKHfGcDCQQ6AEwAHoECA0QAQ#v=onepage&q=MVCC%20DB%20obviates%20the%20need%20for%20an%20undo%20phase&f=false
                         1. The author Joy Arulraj wrote many papers about NVM database and also this book
+                    2. Write-Behind Logging 论文介绍 - 庄泽超
+                       https://zhuanlan.zhihu.com/p/47369609
+                        1. good article. it explains most things, a nice translation
 
     3. Non-Volatile Memory File Systems: A Survey    [2019, 2 refs]
        http://repositorio.pucrs.br/dspace/bitstream/10923/15232/2/Non_Volatile_Memory_File_Systems_A_Survey.pdf
