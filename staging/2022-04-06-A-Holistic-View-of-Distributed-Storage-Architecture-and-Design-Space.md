@@ -1620,9 +1620,12 @@ In this section we focus on optimizing performance at the distributed scaleout s
 
 __Datacenter networking architecture__
 
+
+// TODO Also mention SDN, e.g. Google Orin, Openstack Neutron here 
+
 __Load balancing__
 
-google maglev
+Google maglevle
 ECMP
 
 https://cloud.google.com/load-balancing/docs/load-balancing-overview

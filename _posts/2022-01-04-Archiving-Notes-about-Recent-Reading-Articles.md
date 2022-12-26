@@ -2555,7 +2555,7 @@ More results in the timeline
                     1. Data Center TCP (DCTCP) (Microsoft Research)    [2010, 909 refs]
                        https://www.microsoft.com/en-us/research/publication/data-center-tcp-dctcp/
                        https://habr.com/en/post/474282/
-                        1. good paper. this is the classic TCP improvment, supported by commodity switches, to address TCP incast, queue buildup, buffer pressure problems
+                        1. good paper. this is the classic TCP improvement, supported by commodity switches, to address TCP incast, queue buildup, buffer pressure problems
                            the results looks quite good: 10X background traffic, while 10X foreground traffic does not cause any timeouts
                             1. referenced as [3] in "Jupiter Rising: A Decade of Clos Topologies and Centralized Control in Google's Datacenter Network"
                         2. key points
@@ -2573,11 +2573,36 @@ More results in the timeline
                                     1. switch buffer occupancies need to be persistently low, while maintaining high throughput for the long flows.
                                        DCTCP is designed to do exactly this
                             3. The TCP literature is vast, and there are two large families of congestion control protocols that attempt to control queue lengths
-                                (i) Delay-based protocols use increases in RTT measurements as a sign of growing queueing delay, and hence of congestion.
+                                (i) Delay-based protocols use increases in RTT measurements as a sign of growing queuing delay, and hence of congestion.
                                     These protocols rely heavily on accurate RTT measurement, which is susceptible to noise in the very low latency environment of data centers.
                                     Small noisy fluctuations of latency become indistinguishable from congestion and the algorithm can over-react.
                                 (ii) Active Queue Management (AQM) approaches use explicit feedback from congested switches.
                                      The algorithm we propose is in this family
+                        n. related materials
+                            1. DCTCP（背景和原理）
+                               https://zhuanlan.zhihu.com/p/430215470
+                                1. problems to solve
+                                    1. Incast：对于查询流而言，mant-to-one的通信模式导致在聚集交换机处发生拥塞
+                                    2. Queue buildup：长流对缓存区的占用，导致短流排队
+                                    3. Buffer pressure：共享的缓存区，导致其他端口的长流影响本端口的短流的传输
+                                2. Algorithms
+                                    1. 交换机处简单标记
+                                       我们在交换机处设置阈值K，如果数据包达到交换机时，其队列占用值大于，则在CE点标记该数据包。
+                                        1. This is the same with DCQCN
+                                    2. 接收者回传ECN信息
+                                       接收端收到ECN标记的数据包后，回传带有ECE（ECN-echo）标记的ACK给发送端，发送端根据规则调节发送窗口，实现拥塞避免。
+                                        1. DCQCN sends back CNP rather than ECN back to sender side. DCQCN ensures at most send one CNP in a given time window
+                                        2. The RoCEv2 standard defines explicit Congestion Notification Packets (CNP) for this purpose. Processing a marked packet, and generating the CNP are expensive operations, so we minimize the activity for each marked packet
+                                    3. 发送方拥塞控制
+                                       发送方根据到达的标记的包的比例，来调整拥塞窗口的大小。DCTCP的核心是拥塞程度a的估计， 在每次发送完一个窗口后（一个RTT）更新
+                                        1. DCQCN's version is more fine grained
+                            2. HPCC和DCTCP的性能对比
+                               https://zhuanlan.zhihu.com/p/368727972
+                            3. Datacenter TCP, Incast Problem & Partition-agg timing | Network Traffic Analysis Ep. 17 | CS4558
+                               https://www.youtube.com/watch?v=BoJrQ5mvLec
+                                1. useful illustration.
+                                   the key is to use a small switch buffer (queue length) so latency is low, but also maintain high throughput without easily cause congestion
+                                   setting a large switch buffer is bad for latency
 
         7. 网络产品及硬件架构
            http://mp.weixin.qq.com/s/MC5sHlHdvVat0iNi7qpF2g
