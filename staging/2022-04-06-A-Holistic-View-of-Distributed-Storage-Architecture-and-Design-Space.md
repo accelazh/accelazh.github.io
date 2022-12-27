@@ -1621,7 +1621,7 @@ In this section we focus on optimizing performance at the distributed scaleout s
 __Datacenter networking architecture__
 
 
-// TODO Also mention SDN, e.g. Google Orin, Openstack Neutron here 
+// TODO Also mention SDN, e.g. Google Orin, Openstack Neutron here, OVS. SDN at control plane and data plane. 
 
 __Load balancing__
 
