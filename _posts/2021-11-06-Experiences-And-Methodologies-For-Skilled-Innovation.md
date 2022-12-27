@@ -1,8 +1,8 @@
 ---
 layout: post
-title: "Notes on How to do Innovation"
-tagline : "Notes on How to do Innovation"
-description: "Notes on How to do Innovation"
+title: "Experiences and Methodologies for Skilled Innovation"
+tagline : "Experiences and Methodologies for Skilled Innovation"
+description: "Experiences and Methodologies for Skilled Innovation"
 category: "technology"
 tags: [cloud, engineering, innovation]
 ---
