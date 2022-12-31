@@ -754,4 +754,293 @@ Archiving notes about recent reading articles. Many.
     1. Summit video links
        https://www.openstack.org/videos/summits/berlin-2022
        https://openinfra.dev/summit/berlin-2022/summit-schedule
+
+3. Reading: recent articles piled up: AWS Clean Room
+    1. Deploying a Privacy-Safe Data Clean Room on AWS with Snowflake
+       https://aws.amazon.com/blogs/industries/deploying-a-privacy-safe-data-clean-room-on-aws-with-snowflake/
+        1. generally, it's outputing user table parquet files to a S3 bucket
+           but how is federated learning done, that preserving privacy and security, with multi-party computation (MPC)
+            1. see FATE: https://github.com/FederatedAI/FATE
+            2. Data protection protocols including Homomorphic Encrytion (HE), MultiParty Computation (MPC) and Differential Privacy (DP)
+               https://www.jmlr.org/papers/volume22/20-815/20-815.pdf
+    
+    2. AWS Clean Rooms Features
+       https://aws.amazon.com/clean-rooms/features/
+        1. With AWS Clean Rooms, customers can easily collaborate with hundreds of thousands of companies already using AWS without needing to maintain a copy of their data outside of their AWS environment or load it into another platform.
+           When customers run queries, AWS Clean Rooms reads data where it lives and applies analysis rules to help customers maintain control over their data
+           AWS Clean Rooms provides a broad set of configurable data access controls—including query controls, query output restrictions, and query logging—that allow companies to customize restrictions on the queries run by each clean room participant
+           AWS Clean Rooms also includes advanced cryptographic computing tools that keep data encrypted, even as queries are processed, to comply with stringent data handling policies
+        2. OK .. this pages says it clear. The main feature is to exchange data inside S3, without extra copy, without copying out.
+           It supports rich rules to config restrictions, e.g. which queries, aggregations, max count to return. 
+           By far I didn't see technologies like FATE
+    
+    3. Amazon attempts to simplify data clean rooms with AWS tools
+       https://www.marketingdive.com/news/amazon-aws-data-clean-rooms-cookies/637839/
+        1. "Amazon said it will also release identity resolution solutions in the coming months, which like the clean rooms service, position the platform for the expected deprecation of third-party cookies next year and the growing focus on data privacy"
+        2. "One problem addressed by clean rooms is how the old-school way of sharing data — having one partner throw open the vault doors to another — relies on contractual agreements to prevent misuse, which requires a great deal of trust and is mostly a reactive strategy that deals with breaches after they’ve happened"
+
+
+4. Reading: Recent articles piled up
+    1. MatrixOne数据库——架构重塑之路
+       https://www.bilibili.com/video/BV1Ne4y12724
+       https://zhuanlan.zhihu.com/p/563890318
+        1. 分布式云原生HSTAP数据库, S - Stream processing. 超融合，极致性能
+        2. highlights
+            1. Share nothing. Column store. Append only engine. Raft data replication.
+               MPP SQL processor on the same node of data node
+            2. improving
+                1. HTAP, Rebalancing, 读写不分离 (bad), 负载不隔离 (bad), 3x of everything (bad) 
+                2. LogStore
+                3. Transactional Analytical Engine
+                4. 存算分离，读写分离，冷热分离，负载隔离
+
+    2. ATC'22顶会论文RunD：高密高并发的轻量级 Serverless 安全容器运行时
+       https://zhuanlan.zhihu.com/p/566313443
+        1. "上述分析揭示了在 host、MicroVM、guest 三层架构栈中实现高并发启动和高密度部署的瓶颈。为此，我们提出了 RunD，一个整体的安全容器解决方案，解决了跨容器的重复数据、每个虚拟机的高内存占用和 host 端 cgroup 的高开销问题"
+
+    3. SOC片上互联设计 - 北极星
+       https://zhuanlan.zhihu.com/p/555962119
+    4. 写工业级别代码是种怎样的体验？ - 阿莱克西斯
+       https://www.zhihu.com/question/49759408/answer/117834064
+    5. 一些关于DPU的思考 - Simpo
+       https://zhuanlan.zhihu.com/p/576234159
+    
+    6. RisingWave的2022年年终复盘与展望
+       https://zhuanlan.zhihu.com/p/593169897
+        1. RisingWave - an opensource Cloud Native Streaming Database that uses SQL as the interface
+           https://www.risingwave.dev/docs/current/intro/
+
+    7. 分布式数据库存储透析：B-TREE和LSM-TREE的性能差别
+       https://zhuanlan.zhihu.com/p/579003202
+    8. AWS 15 年（1）：从 Serverful 到 Serverless - 世民谈云计算
+       https://mp.weixin.qq.com/s/TAaDmD8FmtZs5bnuhXX9ug
+    9. AWS启示录：创新作帆，云计算的征途是汪洋大海 - 世民谈云计算
+       https://mp.weixin.qq.com/s/pc6A-eQ3hzB8rgNH6gN6kg
+    10. 电网数据对于电力系统是怎样的存在？为什么需要重视电网数据管理？
+        https://www.zhihu.com/question/545955188/answer/2616222551
+    11. 基于RDMA的PostgreSQL主备日志复制优化 - Dase314-周华辉
+        https://zhuanlan.zhihu.com/p/580626337
+
+    12. 分布式事务，理论与实践 - Wonder
+        https://zhuanlan.zhihu.com/p/573680047
+    13. 从混合云到分布式云 （上篇/下篇) - 世民谈计算
+        https://mp.weixin.qq.com/s/rH96HuBgNLBqJjICJL2UJQ
+        https://mp.weixin.qq.com/s?__biz=MzU5NTY5NDk4MA==&mid=2247484725&idx=1&sn=6bd924056fc939c824cc945c43f07ab3&chksm=fe6f41dec918c8c88328b905d1ccc6ad7127e0495ea37f3eff2d7ad32f17e8f4201773511c8b
+
+    14. TLA+规约的组合模型检验技术(SRDS'22最佳论文奖) - 黄宇
+        https://zhuanlan.zhihu.com/p/580744043
+        1. Compositional Model Checking of Consensus Protocols Specified in TLA+ via Interaction-Preserving Abstraction    [2022, 1 refs, SRDS22 Best Paper]
+           https://arxiv.org/abs/2202.11385
+            // TODO
+    
+    15. An Introduction to HyperDex and the Brave New World of High Performance, Scalable, Consistent, Fault-tolerant Data Stores
+        https://www.usenix.org/system/files/login/articles/escriva12-06.pdf
+        0. NoSQL KV.
+        1. new object placement method, called hyperspace hashing
+            1. My questions: Compared to Z-Order?
+            2. In compare, previous existing arts are
+                1) consistent hashing
+                2) partition the keyspace into contiguous regions
+               The benefit of hyperspace hashing
+                1. "By leveraging on hyperspace hashing, HyperDex can handle partial searches very efficiently. On the other hand, maintaining indexes does introduce additional costs on the execution of inserts and updates"
+            3. Paper: Optimizing Hyperspace Hashing via Analytical Modelling and Adaptation    [2014, 6 refs]
+               https://www.gsd.inesc-id.pt/~romanop/files/papers/ACR14.pdf
+                // TODO
+        2. a new replication protocol called value-dependent chaining
+        3. quantify HyperDex’s performance using the industry-standard YCSB benchmark against Cassandra and MongoDB
+
+    16. Google Spanner中TrueTime的after和before是如何实现的？ - 阿莱克西斯
+        https://www.zhihu.com/question/333289699/answer/743305320
+    17. 系统稳定性治理最佳实践（万字长文）
+        https://mp.weixin.qq.com/s/XLb-2B9F7PJXVTEDV-Ch3Q
+    18. BlueStore-先进的用户态文件系 - tom-sun
+        https://zhuanlan.zhihu.com/p/45084771
+        https://zhuanlan.zhihu.com/p/46362124
+    19. 打开股票量化的黑箱(自己动手写一个印钞机)
+        https://zhuanlan.zhihu.com/p/23256636
+    20. 论文阅读: Tutorial Summary: Paxos Explained from Scratch
+        https://zhuanlan.zhihu.com/p/582579474
+    
+    21. 04-SILK: RocksDB 长尾延迟降低 2 个数量级 - 胡明
+        https://zhuanlan.zhihu.com/p/585227442
+        1. 根据用户负载动态分配内部操作的带宽
+        2. 内部操作实现优先级
+        3. 客户端请求调度
+        n. related materials
+            1. SILK： Preventing Latency Spikes in Log-Structured Merge Key-Value Stores阅读笔记 - 你好
+               https://zhuanlan.zhihu.com/p/586671735
+                1. Lessons learned from experiement
+                    1. 产生较高尾延迟的原因是Write操作被Immutable memtable充满而阻塞了，产生这种现象主要有两个原因：
+                        1. 在磁盘上的L0满了，导致Flush操作被阻塞了，这种满了的情况是因为L0到L1的Compaction操作不能及时发生导致的。
+                        2. 大量Compaction并发发生，导致大量IO带宽占用，进而导致Flush操作无法执行
+                    2. 限制Internal ops的IO带宽并没有解决这一问题，而是增加了后续大量Compaction发生的可能性，也就是增加了未来出现大尾延迟的可能性。
+                    3. 近些年的一些LSM优化的方法提出为了提升吞吐，将Compaction下沉到更高层来做，这在短期内能够收获较为稳定的延时以及较高的吞吐，但是在跑了很长一段时间之后就会出现大量的Compaction抢占系统资源的问题，从而导致Client qps stall。
+                2. SILK design principle
+                    1. 在Low load的时候，给Internal Operation分配更多的Bandwidth，在High Load的时候，给Client operation分配更多的带宽，这样可以保证Compaction在适当的时候也能得到更多的处理，减少read放大和空间放大。这个策略是基于实际Client operation操作的分布而考虑的，实际的Client operation不会一直是High load，下图给出了一个比较真实的Workload的变化规律。
+                    2. 对LSM-Tree的Internal ops进行优先级调整。SILK将Internal ops分成三种不同的类型，进而赋予三种优先级，这三种类型分别为Flush、L0->L1 Compaction、Higher Level Compaction，从名字上就很容易能看明白这三种操作是什么意思。该策略具体如下：
+                        1. SILK确保Flush足够快，即Flush的优先级最高。从而为内存中的write-buffer接受客户端的请求留下足够的空间。Flush的速度是直接影响客户端的长尾延时问题。
+                        2. SILK 将L0 -> L1 Compaction的速度放在第二优先级，确保L0不会达到它的容量上限，从而保证Flush能够有足够的空间完成操作。
+                        3. SILK 将Higher Level Compaction的优先级设置为最低，因为这些Compactions的目的是为了维持LSM的形状，并不会短期内对Client的长尾延时造成影响。
+                    3. Preempting Compactions：支持抢占式Compaction，也就是高优先级的compaction可以抢占低优先级的Compaction，这个在后续会讲。
+
+    22. FAST 2022 有哪些值得关注的论文？ - zhanglistar
+        Photon: A Fast Query Engine for Lakehouse Systems
+        https://www.zhihu.com/question/506490624/answer/2478524307
+
+    23. VLDB'22 HiEngine极致RTO论文解读 - 华为云社区, 云数据库创新Lab
+        https://zhuanlan.zhihu.com/p/562917743
+        1. 提出了结合HiEngine Indirection array结构特点的dataless checkpoint和indexed logging恢复技术 
+
+    24. 图计算在交叉性金融风险管理的创新 - Ultipa
+        https://mp.weixin.qq.com/s/rJB2yPj5sDku9m-CZ_hxww
+    25. 深入内存/主存：解剖DRAM存储器 - 加一茶匙快乐
+        https://zhuanlan.zhihu.com/p/561501585
+    
+    26. CockRoachDB 过去两年都做了些什么？ - Wonder
+        https://zhuanlan.zhihu.com/p/586787346
+        1. CockRoachDB 不再强调「分布式数据库技术」，而是用技术去解决近几年出现的「全球部署」带来的问题。把自己和「全球部署」、「地理分区」等这些定位绑在一起。
+        2. 跨 region 部署的一些性能优化
+            1. 全球一致性检查
+            2. Locality Optimized Search
+            3. Stale Reads
+            4. Global Transaction 降低强一致性读的延迟
+
+    27. 【论文解读】漫谈图上的分布外泛化：不变性视角下的求解 - Qitian
+        https://zhuanlan.zhihu.com/p/580112987
+    28. 一文搞懂 Redis 架构演化之路 - 鹅厂架构师
+        https://zhuanlan.zhihu.com/p/543953543
+    29. 字节跳动数据湖索引演进
+        https://zhuanlan.zhihu.com/p/580624904
+
+    30. PolarFS中的ParallelRaft
+        https://zhuanlan.zhihu.com/p/56768089
+        1. ParallelRaft引入了一种新型的数据结构look behind buffer来解决乱序apply中的问题
+        2. ParallelRaft在Leader选举阶段额外引入了一个Merge阶段来填补Leader中log的空洞
+
+    31. 点评yugabytedb 对RocksDB改进 - Kooo
+        https://zhuanlan.zhihu.com/p/587863486
+        1. 对raft协议的优化
+            1. Leader leases: 提高线性一致性下的读性能，不必每次读确认leader身份
+            2. Group commits: 批量提交，提高写性能
+            3. Leader balancing: 提高节点利用率，可以提高读写性能
+            4. Affinitized Leaders: 将leader放置在地理上更靠近业务的区域来提高读写性能
+            5. Configurable missed heartbeats: 在高延迟的混合云部署环境，可配置心跳丢失多少次才认为leader故障
+            6. Integrating Hybrid Logical Clocks: HLC相关的优化，Enables cross-shard transactions as a building block for a software-defined atomic clock for a cluster.
+            7. MVCC Fencing: 事务相关Guarantee safety of writes in leader failure scenarios.
+            8. Non-Voting Observer Nodes: learner节点
+        2. 对RocksDB的优化
+            1. yugabytedb使用的是DocDB->raft group->RocksDB 实例1:1:1
+            2. doc_boundary_values_extractor使得 YugabyteDB 能够优化范围谓词查询，例如通过最小化需要查找的 SSTable 文件的数量
+            3. 使用全局BlockCache
+            4. 服务器全局 memtable限制
+            5. Separate Queues for Large & Small Compactions
+
+    32. 一文囊括Ceph所有利器(含ceph性能分析&资源分析) - hongsong wu
+        https://zhuanlan.zhihu.com/p/588086579
+
+    33. 江泽民同志出的五角星五点共圆几何题解 - magic2728
+        1. 给定圆内一弦，该弦的任何对角的角度相等
+        2. 圆内四边形的两对角之和为180度
+
+    34. 05-阿里云的新 KV 存储 ArkDB: 更细粒度的 LSM Tree Compaction - 胡明
+        https://zhuanlan.zhihu.com/p/586880650
+        1. ArkDB 主要想解决的是传统 LSM Tree 的写放大和 Compaction 带来的性能抖动问题。LSM Tree 的优化比较困难，主要原因是 Compaction 的粒度比较大，一次 Compaction 占用的系统资源较多。
+            1. ArkDB 参考了 Bw Tree 的设计，把 Compaction 的粒度控制在单个 Page 内部。
+        2. ArkDB 并没有借鉴 Bw Tree 的无锁实现，只用 Page Table 来实现 Log Stuctured 的写入。在 ArkDB 看来，一个 Page 就是一个小的 LSM Tree，对 Page 内部数据的整理过程就是 Page 的Compaction。
+           我们可以认为 Page Compaction 与 LSM Tree 的 Compaction 没有什么区别，只是粒度更小。
+
+    35. 当 Rust 成为“巨坑”：拖慢开发速度、员工被折磨数月信心全无，无奈还得硬着头皮继续 - 作者｜Matt Welsh，译者｜核子可乐
+        https://mp.weixin.qq.com/s/5thI9VO-Sh6yp-gIJ7luYw
+    36. MySQL 是怎么加行级锁的？为什么一会是 next-key 锁，一会是间隙锁，一会又是记录锁？
+        https://zhuanlan.zhihu.com/p/583229019
+    37. 云数仓 Firebolt《Assembling a Query Engine From Spare Parts》Paper 总结 - LakeShen
+        https://zhuanlan.zhihu.com/p/588734824
+    38. AWS re:Invent 2022数据库内核视角摘要 - zhoutall
+        https://zhuanlan.zhihu.com/p/591406895
+    39. 数据库优化方法论 - bluesky
+        https://zhuanlan.zhihu.com/p/589462949
+    40. 中国OpenStack往事 - 大数网头牌吴老湿
+        https://mp.weixin.qq.com/s/oB8lGNR7Gh52I85TyqYWqQ
+        中国OpenStack往事回望 - 吴玉征
+        https://mp.weixin.qq.com/s/IoH8uJTtaRbSfRVA08qoQg
+    41. AWS reInvent 2022讲了什么 - 贝联珠贯毕玄
+        https://mp.weixin.qq.com/s/WL2HlmlHhQDE2ZrSEL7SuA
+        AWS re:Invent2022 Aurora 发布了啥 - 陈宗志
+        https://zhuanlan.zhihu.com/p/590576660
+
+    42. PolarDB 双日志流合并——Binlog in Redo - zeromean
+        https://zhuanlan.zhihu.com/p/582575542
+        1. AWS Aurora enhanced Binlog
+            1. enhanced Binlog 的 在事务进行中，将已经产生的 binlog events 不再缓存在计算节点，而是直接发给存储，存储来进行感知并缓存。
+               而提交时，存储有能力将指定事务缓存的 binlog 内容快速链接到 binlog 文件后面，只需要一个 link 操作，这是远快于将全部数据从计算节点 copy 到存储节点
+            2. PolarDB 采用的思路是logical redo log, 通过将redo log IO 和binlog IO 合并成一次进行优化, 具体可以看这个介绍
+        2. POLARDB 核心的技术是使用 InnoDB Redolog 物理复制替代了 MySQL 原生的 Binlog 逻辑复制，并且在物理复制的基础上构建了一写多读的共享存储架构
+            1. MySQL · 引擎特性 · 基于InnoDB的物理复制实现
+               http://mysql.taobao.org/monthly/2016/05/01/
+                1. MySQL 原生复制的优缺点
+                    1. "MySQL的每条读写事务都需要维持两份日志，一份是redo log，一份是binary log。MySQL使用两阶段提交协议，只有当redo 和binlog都写入磁盘时，事务才算真正的持久化了。如果只写入redo，未写入binlog，这样的事务在崩溃恢复时需要回滚掉。MySQL通过XID来关联InnoDB的事务和binlog。
+
+                    MySQL的原生事务日志复制有一些显著的优点： 首先，相比InnoDB的redo log而言，Binary Log更加可读，有成熟的配套工具来进行解析；由于记录了行级别的更改。我们可以通过解析binlog，转换成DML语句来将数据变更同步到异构数据库。另外一种典型的做法是使用Binlog来失效构建在前端的cache。事实上，基于Binlog的数据流服务在阿里内部使用的非常广泛，也是最重要的基础设施之一。
+
+                    其次由于Binary log是一种统一的日志格式，你可以在主备上使用不同的存储引擎，例如当你需要测试某种新的存储引擎时，你可以搭建一个备库，将所有表alter到新引擎，然后开启数据复制进行观察。
+
+                    此外基于Binary Log你还可以构建起非常复杂的复制拓扑结构，尤其是在引入了GTID之后，这种优势尤为明显: 如果设计妥当，你可以实现相当复杂的复制结构。甚至可以做到多点写入。总体使用起来非常灵活。
+
+                    然而，也正是这种日志架构可能会带来一些问题：首先MySQL需要记录两份日志：redo及binlog，只有当两份日志都fsync到磁盘，我们才能认为事务是持久化的，而众所周知，fsync是一种开销非常昂贵的操作。更多的日志写入还增加了磁盘IO压力。这两点都会影响到响应时间和吞吐量。
+
+                    Binlog复制还会带来复制延迟的问题。我们知道只有主库事务提交后，日志才会写入到binlog文件并传递到备库，这意味着备库至少延迟一个事务的执行时间。另外有些操作例如DDL，大事务等等，由于在备库需要继续保持事务完整性，这些执行时间很长的操作会长时间占用某个worker线程，而协调线程会碰到复制同步点，导致后续的任务无法分发到其他空闲的worker线程。"
+                2. Why Phsyical Replication
+                    1. "首先最重要的原因就是性能！当我们事先了物理复制后，就可以关闭binlog和gtid，大大减少了数据写盘量。这种情况下，最多只需要一次fsync既可以将事务持久化到磁盘。实例整体的吞吐量和响应时间都得到了非常大的提升。
+
+                    另外，通过物理复制，我们能获得更加理想的物理复制性能。事务在执行过程中产生的redo log只要写到文件中，就会被传送到备库。这意味着我们可以同时在主备库上执行事务，而无需等待主库上执行完成。我们可以基于(space_id, page_no)来进行并发apply，同一个page上的变更也可以做到合并写操作，相比传统复制，具有更好的并发性。最重要的是，基于物理变更的复制，可以最大程度保证主备的数据总是一致的。
+
+                    当然物理复制不是银弹，当启用该特性后，我们将只能支持InnoDB存储引擎；我们也很难去设计多点写复制拓扑。物理复制无法取代原生复制，而是应对特定的场景，例如需求高并发DML性能的场景。"
+    
+    43. clickhouse到底有哪些吊炸天的优化？ - satanson
+        https://www.zhihu.com/question/446288242/answer/2796304387
+        1. "现在大家都知道olap的执行引擎需要搞MPP, 向量化和多核scale调度. 向量化我感受最深刻的一点是，很多olap开发者基本上知道codegen+编译器的autovectorization功能，包括很多不在一线搞olap引擎研发的，单纯从技术insight角度出发的人，都知道这点. 但是，个人浅见是codegen解决一些表达式运算(尤其是算数运算，cast表达式和部分谓词计算)是OK的, 但是到了复杂的表达式，算子和函数 , 就没法搞codegen或者即使搞codegen, 对性能的提升也有限. 那么怎么提升计算的性能呢？ CK其实提供了一种可靠的，可持续优化提升性能的，根本的人肉的工程方法-抽象泄露, 即不断地给函数或者算子的局部逻辑增加更多的变种实现, 以提升在特定情形下的性能. 比如:
+            1. 根据不同数据类型选择不同的算法.
+            2. 根据常量和变量选择不同的算法.
+            3. 根据基数的高低选择不同的算法.
+            4. 总之, 利用一切可以利用信息, 给具体的场景提供最契合的实现."
+
+    44. ByteHTAP 论文阅读笔记 - 李喆
+        https://zhuanlan.zhihu.com/p/569972931
+    45. 透过leveldb感悟存储工程实践 - RejudgeX
+        https://zhuanlan.zhihu.com/p/516566364
+    46. 美团公开外卖订单分配算法，详解算法如何判断一个骑手的时间宽裕程度和顺路程度，有哪些值得关注的信息？ - 王源
+        https://www.zhihu.com/question/496861462/answer/2210858886
+    47. ChatGPT进化的秘密 - OpenFlow
+        https://zhuanlan.zhihu.com/p/593519656
+    48. eBPF介绍 - 陈皓
+        https://mp.weixin.qq.com/s/jU-6f4FsDSsYSBc-pWenmg
+    49. 深入解读应用可观测性（万字长文） - 孔凡勇
+        https://mp.weixin.qq.com/s/wbEoBLM4GtvviwbGvCmZuQ
+
+    50. 主流超融合厂商分布式存储系统对比，各有什么优缺点？ - SmartX
+        https://www.zhihu.com/question/449747044/answer/2388637888
+        1. 超融合主流厂商的存储系统如Nutanix 、VSAN 、道熵铁力士、华为FusionStorage、深信服，都使用了各自的分布式存储，请教他们都有什么优缺点
+
+    51. 经典论文解读——Cache 替换算法 - 腾讯技术工程
+        https://zhuanlan.zhihu.com/p/591436083
+        1. 其中，古典算法主要利用数据的最近访问时间和访问频率作为替换的判断依据，是基于 Recency/Frequency 的平衡策略。现代算法将缓存替换建模成机器学习任务，基于历史访问记录，利用机器学习技术训练模型，使用习得的模型做出替换决策
+
+    52. OSDI 2022 论文评述-0x4：Storage - IPAD-SYS
+        https://zhuanlan.zhihu.com/p/541642397
+    52. MySQL分析型执行引擎HeatWave
+        https://zhuanlan.zhihu.com/p/386109853
+    53. 分布式哈希表-Chord的Golang实现
+        https://zhuanlan.zhihu.com/p/593419115
+    54. 基于ZNS的数据管理策略 - Lancer
+        https://zhuanlan.zhihu.com/p/593572006
+    55. 多核心CPU Split lock滥用的攻防 - Litrin
+        https://zhuanlan.zhihu.com/p/588584568
+    
+    56. Facebook开源的Velox，到底长什么样，浅读VLDB 2022 velox paper
+        https://zhuanlan.zhihu.com/p/571253422
+        1. Introducing Velox: An open source unified execution engine
+           https://engineering.fb.com/2022/08/31/open-source/velox/
+
+    57. 高性能数据库之高效Hash Join - 不要叫醒我
+        https://zhuanlan.zhihu.com/p/589601705
 ```

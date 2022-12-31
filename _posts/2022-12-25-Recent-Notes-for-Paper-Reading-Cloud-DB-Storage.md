@@ -1,8 +1,8 @@
 ---
 layout: post
-title: "Recent Notes for Paper Reading: Cloud, DB, Storage, Networking"
-tagline : "Recent Notes for Paper Reading: Cloud, DB, Storage, Networking"
-description: "Recent Notes for Paper Reading: Cloud, DB, Storage, Networking"
+title: "Recent Notes for Paper Reading: Cloud, DB, Storage"
+tagline : "Recent Notes for Paper Reading: Cloud, DB, Storage"
+description: "Recent Notes for Paper Reading: Cloud, DB, Storage"
 category: "storage"
 tags: [storage, paper, database]
 ---
@@ -1230,104 +1230,6 @@ Tracking recent paper reading notes. For a better view, paste the notes into a t
             1. 2021年技术盘点-Serverless架构
                https://zhuanlan.zhihu.com/p/459994252
                 1. "在加速镜像的分发速度方面，常见的业界成熟的 P2P 方案没有做到 function 级别的感知，并且集群内的拓扑逻辑大多为全连接的网络模式，对机器的性能提出了一定需求，这些前置设定不适配 FC ECS 的系统实现，为此设计并提出了一个具有高伸缩性的轻量级系统中间件FaaSNet，FaaSNet利用到镜像加速格式进行容器分发，目标作用场景是 FaaS 中突发流量下的大规模容器镜像启动（函数冷启动），FaaSNet 的核心组件包含 Function Tree (FT)，是一个去中心化的、自平衡的二叉树状拓扑结构，树状拓扑结构中的所有节点全部等价。FaaSNet 可以根据 workload 的动态性实现实时组网已达到 function-awareness，无须做预先的 workload分析与预处理，进而帮助Serverless平台解锁高伸缩性和快速的镜像分发速度技术瓶颈，赋能自定义容器镜像场景的更为深入和广泛的应用"
-
-
-2. Reading: Recent papers piled up: Datacenter networking
-    1. Congestion Control for Large-Scale RDMA Deployments    [2015, 452 refs]
-       https://conferences.sigcomm.org/sigcomm/2015/pdf/papers/p523.pdf
-        1. The recognized datacenter networking technology for RDMA RoCEv2, following up from the recognized DCTCP 
-        2. highlights
-            1. problems of prior arts
-                1. Priority-based Flow Control (PFC) does not distinguish between flows. 
-                2. DCTCP and iWarp include a slow start phase
-                3. Head-of-line blocking problems, PAUSE unfair, parking-lot problem
-            2. DCQCN solution
-                1. based on QCN
-                2. flow-level congestion control defined by src/dest MAC address and a flow id field
-                3. CP Algorithm (switch side, congestion point) - same with DCTCP
-                   RP Algorithm (sender side, reaction point) - FastRecovery, HyperIncrease, AddictiveIncrease
-                   NP Algorithm (receiver side , notification point) - NIC generates at most one CNP every N us
-            3. Buffer settings
-                1. PFC is not triggered too early, and PFC not triggered too late to cause packet loss due to buffer overflow
-        n. related materials
-            1. DCQCN+QCN+DCTCP
-               https://blog.csdn.net/hithj_cainiao/article/details/117292144
-            2. DCQCN：Congestion Control for Large-Scale RDMA Deployments
-               https://www.jianshu.com/p/44dd54142f46
-    
-    2. Clos topology for data center networks (Part 1).
-       https://www.youtube.com/watch?v=XrnATy3AvpA
-       https://www.youtube.com/watch?v=7-qYILgg5js
-        1. CLOS - LEAF to SPINE are full connection
-                  ECMP - Equal cost multi-path
-        2. Low cost
-            1. cheap fix form-factor boxes
-               inexpensive offering
-               expand by simply adding boxes and links
-            2. So, CLOS is in compare to the old single cross bar solution
-               CLOS is horizontal scalable with inexpensive devices 
-        n. related materials
-            1. What is Clos Architecture or Clos Network?
-               https://ipwithease.com/clos-architecture/
-            2. Clos Networks: What's Old Is New Again
-               https://www.networkworld.com/article/2226122/clos-networks-what-s-old-is-new-again.html
-                1. "In this Clos topology, every lower-tier switch is connected to each of the top-tier switches in a full-mesh topology"
-                2. "The advantage of the Clos network is you can use a set of identical and inexpensive devices to create the tree and gain high performance and resilience that would otherwise cost must more to construct."
-                3. "To prevent any one uplink path from being chosen, the path is randomly chosen so that the traffic load is evenly distributed between the top-tier switches. If one of the top tier switches were to fail, it only slightly degrades performance through the data center."
-            3. Introduction to Clos Networks
-               https://web.stanford.edu/class/ee384y/Handouts/clos_networks.pdf
-                1. "The advantage of such network is that connection between a large number of input and output ports can be made by using only small-sized switches"
-            4. What is a Clos network?
-               https://www.quora.com/What-is-a-Clos-network
-                1. "The key advantage of Clos networks is that the number of cross points required (which compose each crossbar switch) can be far fewer than would be the case if the entire switching system were implemented with one large crossbar switch."
-                2. MLAG - "Multi-Chassis Link Aggregation Group (MLAG or MCLAG) is still available on the server side. Servers can be connected to two different leaf or TOR switches in order to have redundancy and load balancing capability."
-            5. Demystifying DataCenter CLOS networks
-               https://www.youtube.com/watch?v=GVT3KeAa9xw&t=1847s
-
-    3. Google Datacenter Network Design, How Google Datacenters scale 100s thousands of Servers!
-       https://www.youtube.com/watch?v=kythGOICErQ&t=1244s
-        1. Customer requests and responses need little bandwidth. DB queries and responses are larege. So, intra-datacenter network needs large bandwidth, but external internet bandwidth doesn't need that much
-        2. Google starts with CLOS network, and later are all CLOS network, including Jupiter.
-        3. Later the network architecture went to Flattened Butterfly. It uses Infinband + RDMA, and TCP RPCs on massive Ethernet. Never used RDMA on Ethernet.
-
-    4. Jupiter Evolving: Transforming Google's Datacenter Network via Optical Circuit (TS 1, SIGCOMM'22)
-       https://www.youtube.com/watch?v=Hfl-i56hZUg
-        1. very good. many revolutionary network architecture redesign.
-           30% reduction in network CapEx and 40% in power consumption. 10x faster fabric-wide topology reconfiguration with OCS. 10% improvement in flow completion time (FC) and 30% in throughput
-           direct-connect jupiter architecture, serving production for more than 5 years
-        2. highlights
-            1. OCS - Optical Circuit Switches - as the interconnection layer for Jupiter
-                1. data rate agnostic, no need to upgrade when the rest of network transit from 40GB to 60GB etc
-                2. no more Clos. removed spine layer. to direct connect jupiter architecture
-                    1. heterogeneous network bandwidth, because old and newly added hardware. old spine becomes performance bottleneck
-                        1. the data link between 200G aggregation block immediately get to 200GB (though OCS, which is data rate agnostic), without needing spine layer to be upgraded
-                    2. spines are expensive, composes 40% of fabric cost and power consumption
-                    3. Clos is great when traffic pattern is unknown, 
-                       but Jupiter block-level traffic is predictable (gravity model), traffic between A-B is ~ to A * B
-                    4. power efficiency doesn't decrease with hardware generation evolve now, so architectural/structural cost reduction becomes more important for COGS saving
-            2. Use SDN to adapt topology and routing to traffic variation
-                1. traffic engineering: dynamically adapting routing to traffic
-                    1. split traffic among multiple shortest and non-shortest paths while observing link capacity, realtime communication patterns
-                       the traffic topology change reaction control loop operates at seconds to minutes
-                    2. variable hedging as a configurable strategy
-                        1. reduce spikes due to prediction overfit
-                2. Topology engineering adapts to slow-moving changes
-                    1. traffic-aware topology change for managing heterogeneous speed
-                       operates on days and doesn't respond to short-lived conditions like failures and drains
-                    2. hitless topology reconfiguration - no application impact
-                        1. Minimal Rewiring [NSDI'19]
-                        2. incremental reconfiguration to minimize unavailable capacity and limit blast radius
-
-        n. related materials
-            1. Ultrafast optical circuit switching for data centers using integrated soliton microcombs    [2021, 21 refs, microsoft]
-               https://www.youtube.com/watch?v=UDCdDHJcaAU
-               https://arxiv.org/pdf/2010.10984.pdf
-                1. sub-nano second transmit
-                   // TODO
-
-            2. Orion: Google's Software-Defined Networking Control Plane    [2021, 33 refs, NSDI]
-               https://www.usenix.org/conference/nsdi21/presentation/ferguson 
-                // TODO
 
 
 10. Reading: Recent papers piled up: Power saving erasure coding and storage systems

@@ -20,7 +20,7 @@ First, why engineering work needs innovation?
 
 The common sense innovation method is brainstorming and idea [addition/subtraction/multiplication/division](https://medium.com/swlh/the-secret-innovation-technique-behind-silicon-valleys-creativity-91fe6e7c1526). Usually most ideas will be filtered out, but the surviving one in ten can be shiny.
 
-  * Besides free style, brainstorm ideas but with structured categories and heuristics, mine ideas with [MECE](http://www.caseinterviewsecrets.com/), and comination iterations.
+  * Besides free style, brainstorm ideas but with structured categories and heuristics, mine ideas with [MECE](http://www.caseinterviewsecrets.com/), and combination iterations.
 
   * Besides, sleep and forget. Let those ideas mutate and reform in subconsciousness. When come back and look again, new discoveries emerge.
 
@@ -68,7 +68,7 @@ There are wiser views to manage product and scope to help innovation
 
 Team working is important for innovation
 
-  * It's non-trival work to keep updated and follow up all technology directions. Build a team, where each member __covers a different direction__, and do regular share sessions like seminars. It will more efficient.
+  * It's non-trivial work to keep updated and follow up all technology directions. Build a team, where each member __covers a different direction__, and do regular share sessions like seminars. It will more efficient.
 
   * __Teamwork helps inspire__ new ideas, e.g. brainstorm is not running on individual. Ideas passing back-forth, listened and reflected, can usually generate much more.
 
@@ -146,7 +146,7 @@ In the end, here attaches the __storage driving factors__ I summarized in scratc
 
 Some tips for personal lifestyle
 
-  * Time to stay alone uninterrupted is extremely important. It triggers active mind thoughtss when being idle, or do routine hand work (non-mental involving), or casual reading.
+  * Time to stay alone uninterrupted is extremely important. It triggers active mind thoughts when being idle, or do routine hand work (non-mental involving), or casual reading.
 
   * Don't get too busy. Free relaxed time is important. Sleep more than enough to let your mind reorganize itself. To have a breakthrough idea, it doesn't take time, it takes space.
 
