@@ -407,32 +407,32 @@ Papers about persistent memory filesystem, outlining recent directions
                 1. as far as I see, it's
                     1) cannot reuse kernel API e.g. page cache, journaling etc
                     2) even IO path is in userspace, the memory management, paging, and processes are still in kernel. this means the FS process mixes different user requests in same memory paging and process, potential breach.
-                        1. e.g. virutal memory address cannot be used
+                        1. e.g. virtual memory address cannot be used
                            essentially, this is still that userspace impl cannot leverage kernel provided management abilities / or API
                     3) file mode/owner/perm change, still handled by kernel
-                        1. question: but how that is passed to userspace FS to respect the permissmion
+                        1. question: but how that is passed to userspace FS to respect the permission
                 2. if the user is using a clientlib to operate PMEM and shared memory to operate filesystem
                     1. OK .. that's really easy to leak attacks to other users.
                        the write must goes through something middle server to do protection
                        then an extra layer of delay
         3. re-reading the paper
-            1. There are different approaches to handle the protection of metadata per userspcae PMEM filesystem
+            1. There are different approaches to handle the protection of metadata per userspace PMEM filesystem
                 1. Aerie[56] uses a dedicated process to audit metadata modifications, user side FS libraries need to send requests to the server via IPC
                 2. Strata[31] user side FS lib record updates in PMEM log, kernel does digestion and apply
                 3. this paper approach, ZoFS
                     1. only userspace FS lib, no audit central process, the lib runs at user permission and user control
                     2. the PMEM pages are grouped in to Coffer, and mmap to userspace to the user's app, user app has full control
-                       the mapping process is done by Kernel. mapping uses virutal memory management MMU, i.e. hardware MMU, to achieve isolation from other Coffers
+                       the mapping process is done by Kernel. mapping uses virtual memory management MMU, i.e. hardware MMU, to achieve isolation from other Coffers
                        user side FS lib has full control to the Coffer, userspace lib does a uFS in the Coffer, including both data path and metadata management
                     3. how to protect Stray Writes? - using Intel MPK
                         1. Stray Write - the user app or FS lib bug can write in unexpected place / unexpected time, to corrupt the metadata (or data)
-                           using MPK to achieve (MPK can be controlled by user app userspace, no need kernel or previlieged access)
+                           using MPK to achieve (MPK can be controlled by user app userspace, no need kernel or privileged access)
                              G1 - A coffer can be accessible only when the uFS is accessing the coffer
                         2. MPK register is per thread, so concurrent thread cannot exploit the window opened by this thread
                         3. Fault Isolation
                             1. G2 - At any time, at most one coffer is accessible in userspace for each thread
                             2. at most 15 coffers can be mapped to a user app, because Intel MPK has 16 pairs in total
-                                1. question: as paper mentioned, this also blocks user app iteself from using Intel MPK
+                                1. question: as paper mentioned, this also blocks user app itself from using Intel MPK
                         4. Metadata security - when two users are sharing the same coffer
                             1. attacker to corrupt local data in shared coffer is OK
                                the paper identified the only needed protection is a file metadata is tampered to point to another coffer, this breaks the isolation
@@ -445,7 +445,7 @@ Papers about persistent memory filesystem, outlining recent directions
 
 ```
 
-Papers about cross datacenter earsure coding
+Papers about cross datacenter erasure coding
 
 ```
 1. AZ-Code: An Efficient Availability Zone Level Erasure Code to Provide High Fault Tolerance in Cloud Storage Systems   [Alibaba 2019, 13 refs]

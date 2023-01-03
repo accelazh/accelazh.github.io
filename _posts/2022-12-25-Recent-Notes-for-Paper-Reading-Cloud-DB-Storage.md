@@ -99,7 +99,7 @@ Tracking recent paper reading notes. For a better view, paste the notes into a t
         2. Highlighs
             1. Testing needs
                 1. Bug Replay
-                2. Coverage of the interleaving spcae
+                2. Coverage of the interleaving space
                 3. Controlling the interleaving space
             2. Case Memcached
                 1. found 4 new concurrency bugs. even Memcached is so mature now
