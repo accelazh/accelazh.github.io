@@ -1521,7 +1521,7 @@ Though running the system fast is the most typical meaning of performance, perfo
 
     * __Kernel bypassing__. Intel __[DPDK](https://www.dpdk.org/)__ went popular with RDMA that require faster CPU processing, where Linux Kernel networking stack is relatively slower so they get bypassed. __RDMA__ can also be seen as a bypassing of server CPU. The approach then gets adopted at Intel __[SPDK](https://spdk.io/)__ that Kernel bypassing makes faster CPU processing for PMEM and NVM SSD. __DPU__ further bypasses host CPU to take over common storage infrastructure. Ceph also built BlueStore which underlyingly implements customized [BlueFS](https://zhuanlan.zhihu.com/p/46362124) that bypassed many functionalities compared to the original Linux Filesystems. Kernel bypassing is another example of __Do less things__: shorten call path, less jump nodes, direct access, direct return.
 
-  * __Hardware acceleration/offloading__. While CPU is general purpose, the same (or less) money spent on specific purpose chips can yield even higher computation throughput at a low energy consumption. Besides, CPU itself is becoming harder to catch up with rapidly growing processing speed required by modern IO devices like PMEM, RDMA networking, and Deep Learning / Machine Learning.
+  * __Hardware acceleration/offloading__. While CPU is general purpose, the same (or less) money spent on specific purpose chips can yield even higher computation throughput at a low energy consumption. Besides, CPU itself is becoming harder to catch up with rapidly growing processing speed required by modern IO devices like PMEM, RDMA networking, and Deep Learning / Machine Learning. Offloading is easier when computation is more standardized, e.g. network packet processing, compression/encryption; while disk IO is usually more complex and interleaved with variable data formats and exception handling.
 
     * __ASIC__ based compression/encryption cards are common. __AWS Nitro__ / __Microsoft Catapult__ are successful business cases that ASIC/FPGA boost virtual cloud networking, as well as compression/encryption, etc. 
 
@@ -1616,9 +1616,12 @@ In this section we focus on optimizing performance at the distributed scaleout s
 
 ### Networking
 
-// TODO
+// TODO What are the key factors of networking? performance, latency, stability, cost, upgrade datacenter mgmt, throughput capacity
+// TODO what makes networking diff is, no persistence, switch HA architecture by born (clos) (but not TOR), logic is standardized so easier to offload to lower level hardware (SmartNIC, FPGA, RDMA), quickly growing speed which is much faster than CPU core.
+
 
 __Networking architecture__
+
 
 
 __Load balancing__
@@ -1658,6 +1661,19 @@ Compared to section "Storage components breakdown", there are a few topics I did
   * __Configuration management__. __[CMDB](https://en.wikipedia.org/wiki/Configuration_management_database)__ is an interesting topic. E.g. you need a database to manage the many baremetal nodes in a large scale cloud. However they are too much off the topic so I didn't cover in this article.
 
   * __Operational ease__. It's an interesting topic to design a system that makes daily operation smooth, safe, and to avoid human errors. It involves monitoring, safe config/deployment procedure, throttling & degradation, and Interoperability with Devops systems. However they are too much off the topic so I didn't cover in this article.
+
+
+# Conclusion
+
+// TODO First, summary what we have converged, and the top highlights. Next, get to the "higher" parts
+
+// TODO architecture design is perceiving the property space, from discrete factors to connect Continuum smooth transforms, and find the optimal curve point in the hypercube. human language is a best cut into tool and and modeling battled tested.
+
+// TODO talk about how to practice and improve the skills 
+
+// TODO In the end, plot the big picture covering all property factors
+
+
 
 
 

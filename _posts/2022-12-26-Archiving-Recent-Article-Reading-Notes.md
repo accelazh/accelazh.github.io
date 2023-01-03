@@ -831,7 +831,7 @@ Archiving notes about recent reading articles. Many.
         https://zhuanlan.zhihu.com/p/580744043
         1. Compositional Model Checking of Consensus Protocols Specified in TLA+ via Interaction-Preserving Abstraction    [2022, 1 refs, SRDS22 Best Paper]
            https://arxiv.org/abs/2202.11385
-            // TODO
+            1. Logged in paper section
     
     15. An Introduction to HyperDex and the Brave New World of High Performance, Scalable, Consistent, Fault-tolerant Data Stores
         https://www.usenix.org/system/files/login/articles/escriva12-06.pdf
@@ -845,7 +845,7 @@ Archiving notes about recent reading articles. Many.
                 1. "By leveraging on hyperspace hashing, HyperDex can handle partial searches very efficiently. On the other hand, maintaining indexes does introduce additional costs on the execution of inserts and updates"
             3. Paper: Optimizing Hyperspace Hashing via Analytical Modelling and Adaptation    [2014, 6 refs]
                https://www.gsd.inesc-id.pt/~romanop/files/papers/ACR14.pdf
-                // TODO
+                1. Logged in paper section
         2. a new replication protocol called value-dependent chaining
         3. quantify HyperDex’s performance using the industry-standard YCSB benchmark against Cassandra and MongoDB
 

@@ -1,8 +1,8 @@
 ---
 layout: post
-title: "Experiences and Methodologies for Skilled Innovation"
-tagline : "Experiences and Methodologies for Skilled Innovation"
-description: "Experiences and Methodologies for Skilled Innovation"
+title: "Methodologies for Skilled Innovation"
+tagline : "Methodologies for Skilled Innovation"
+description: "Methodologies for Skilled Innovation"
 category: "technology"
 tags: [cloud, engineering, innovation]
 ---

@@ -471,4 +471,45 @@ Networking is another pillar for distributed storage systems.
                             1. System performance: Flow control between components
                             2. Availability: Robust reachability for master election
                             3. Scale: Hierarchical topology abstraction
+
+        8. BBR: congestion-based congestion control    [2016, 779 refs, Google]
+           https://research.google/pubs/pub45646/
+           [译] [论文] BBR：基于拥塞（而非丢包）的拥塞控制（ACM, 2017）
+           http://arthurchiao.art/blog/bbr-paper-zh/
+            1. DCTCP/DCQCN are recognized datacenter networking congestion control protocols. What are counter techniques for WAN networking?
+               TCP BBR is the congestion control protocol by Google B4. By 2016 all B4 TCP traffic goes through BBR. YouTube Edge also deployed BBR.
+               "TCP BBR 不再使用丢包作为拥塞的信号，也不使用 “加性增，乘性减” 来维护发送窗口大小，而是分别估计极大带宽和极小延迟，把它们的乘积作为发送窗口大小。" "在有一定丢包率的网络链路上充分利用带宽"
+            2. highlights
+                1. key diff between datacenter networking vs WAN networking
+                    1. WAN has more frequent packet loss. while datacenter usually only loss packet when switch buffer overflowed
+                    2. WAN latency is much higher. there are more switches and buffers in middle. latency is affected by switch buffering.
+            n. related materials
+                1. Linux Kernel 4.9 中的 BBR 算法与之前的 TCP 拥塞控制相比有什么优势？ - 李博杰
+                   https://www.zhihu.com/question/53559433
+                    1. "网络内尚未被确认收到的数据包数量 = 网络链路上能容纳的数据包数量 = 链路带宽 × 往返延迟"
+                       "TCP 维护一个发送窗口，估计当前网络链路上能容纳的数据包数量"
+                       "标准 TCP 的这种做法有两个问题："
+                            "“加性增，乘性减” 的拥塞控制算法要能正常工作，错误丢包率需要与发送窗口的平方成反比"
+                            "标准 TCP 是通过 “灌满水管” 的方式来估算发送窗口的 .. 这个问题被称为 bufferbloat（缓冲区膨胀）"
+                                "缓冲区膨胀有两个危害："
+                                    "增加网络延迟。buffer 里面的东西越多，要等的时间就越长"
+                                    "共享网络瓶颈的连接较多时，可能导致缓冲区被填满而丢包。很多人把这种丢包认为是发生了网络拥塞，实则不然"
+                    2. "TCP BBR 是怎样解决以上两个问题的呢？"
+                        1. "既然不容易区分拥塞丢包和错误丢包，TCP BBR 就干脆不考虑丢包。"
+                        2. "既然灌满水管的方式容易造成缓冲区膨胀，TCP BBR 就分别估计带宽和延迟，而不是直接估计水管的容积。" "带宽和延迟的乘积就是发送窗口应有的大小"
+                        3. "TCP BBR 解决带宽和延迟无法同时测准的方法是：交替测量带宽和延迟；用一段时间内的带宽极大值和延迟极小值作为估计值。"
+                    3. "TCP BBR 采用类似标准 TCP 的慢启动"
+                        1. "标准 TCP 遇到任何一个丢包就会立即进入拥塞避免阶段"
+                        2. "TCP BBR 则是根据收到的确认包，发现有效带宽不再增长时，就进入拥塞避免阶段"
+                        3. "慢启动结束后，为了把多占用的 2 倍带宽 × 延迟消耗掉，BBR 将进入排空（drain）阶段，指数降低发送速率，此时 buffer 里的包就被慢慢排空，直到往返延迟不再降低"
+                    4. "TCP BBR 不再使用丢包作为拥塞的信号，也不使用 “加性增，乘性减” 来维护发送窗口大小，而是分别估计极大带宽和极小延迟，把它们的乘积作为发送窗口大小。"
+                        "BBR 解决了两个问题："
+                            1. "在有一定丢包率的网络链路上充分利用带宽。非常适合高延迟、高带宽的网络链路。"
+                            2. "降低网络链路上的 buffer 占用率，从而降低延迟。非常适合慢速接入网络的用户。"
+                            3. "TCP 拥塞控制算法是数据的发送端决定发送窗口，因此在哪边部署，就对哪边发出的数据有效。
+                                如果是下载，就应在服务器部署；如果是上传，就应在客户端部署。"
+                    5. "
+                    这篇论文并没有讨论（仅有拥塞丢包情况下）TCP BBR 与标准 TCP 的公平性。
+                    也没有讨论 BBR 与现有拥塞控制算法的比较，如基于往返延迟的（如 TCP Vegas）、综合丢包和延迟因素的（如 Compound TCP、TCP Westwood+）、基于网络设备提供拥塞信息的（如 ECN）、网络设备采用新调度策略的（如 CoDel）。"
+                       "实测结果这么好，也是因为大多数人用的是 TCP Cubic (Linux) / Compound TCP (Windows)，在有一定丢包率的情况下，TCP BBR 更加激进，抢占了更多的公网带宽。因此也是有些不道德的感觉。）"
 ```
