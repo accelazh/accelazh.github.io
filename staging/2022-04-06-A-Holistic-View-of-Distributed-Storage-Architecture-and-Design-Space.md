@@ -14,7 +14,7 @@ The article summarizes my (years of) experiences on software architecture. Archi
 
 # Software architecture - a philosophy perspective
 
-Software architecture is a modeling of the reality world, a language, and a human mind creation that to assist human mind. Language, is an interesting topic. The three together are deeply inter-connected, pointing why, what and how to handle software architecture.
+Software architecture is a modeling of the reality world, a language, and a human mind creation that to assist human mind. Language, is an interesting topic. The three together are deeply interconnected, pointing why, what and how to handle software architecture.
 
 The next and following chapters tell about knowledge in software architecture. But this first chapter tells about the engine that generates the knowledge.
 
@@ -91,7 +91,7 @@ Process & Organization
   * __Tracks and lanes__. The architect role usually builds the framework, and then the many team members quickly contribute code under given components. It sets tracks and lanes where the code can grow and where not, i.e. the basis of intra-team collaboration. Future, the tracks and lanes are visions for future roadmap, and standards for team to daily co-work.
 
 
-// TODO Add a pic about architect role, that inter-connects project PM, dev teams, customer requirements, key technology decisions. and like Management (risk, critical path).
+// TODO Add a pic about architect role, that interconnects project PM, dev teams, customer requirements, key technology decisions. and like Management (risk, critical path).
 
 
 
@@ -557,7 +557,7 @@ __Secondary Indexing__
 
   * [SLIK](https://www.usenix.org/system/files/conference/atc16/atc16_paper-kejriwal.pdf) builds global secondary index for [RAMCloud](https://ramcloud.atlassian.net/wiki/spaces/RAM/pages/6848671/RAMCloud+Papers). It partitions B+tree index that is represented as objects in underlying Key-value store. SLIK avoids the cost of distributed transaction by relax index consistency to satisfy common usecases.
 
-  * [HBase Secondary Index](http://ceur-ws.org/Vol-1810/DOLAP_paper_10.pdf) compares global index and local index, mentioned in the [LSM-tree survey](https://arxiv.org/pdf/1812.07527.pdf). Global index only needs one search but incurs high consistency cost upon updates. Local index colocates with each data partition, where consistency update is kept local, but a search needs to query all partitions.
+  * [HBase Secondary Index](http://ceur-ws.org/Vol-1810/DOLAP_paper_10.pdf) compares global index and local index, mentioned in the [LSM-tree survey](https://arxiv.org/pdf/1812.07527.pdf). Global index only needs one search but incurs high consistency cost upon updates. Local index co-locates with each data partition, where consistency update is kept local, but a search needs to query all partitions.
 
 __Content distribution network (CDN)__
 
@@ -724,7 +724,7 @@ Different areas can favor their terms, such as DB, Storage, Filesystem, which so
 
   * __Paxos__ algorithm use terms like consistent read, or quorum read. The issues comes that half of the voters can lag votes, or half of the replicas can lag execution, thus a client can read stale states from a replica. To overcome this issue, the client has to only read from Paxos leader (cannot distribute load, and may failover already), or use quorum read that touches more than half non-leader replicas, or switch to casual consistency instead.
 
-Metadata consistency and data consistency share common techniques, and metadata needs to update in consistent with data. [Epoch](https://wongxingjun.github.io/2015/05/18/Paxos%E7%AE%97%E6%B3%95%E7%9A%84%E4%B8%80%E7%A7%8D%E7%AE%80%E5%8D%95%E7%90%86%E8%A7%A3/) and [fencing (token)](https://martin.kleppmann.com/2016/02/08/how-to-do-distributed-locking.html) are common techniques to expire stale metadata/data (after crash restart) and to exclude stale leaders. I'll leave most to data consistency part. In general, metadata needs strong consistency, or weaker but versioned. 
+Metadata consistency and data consistency share common techniques, and metadata needs to update in consistent with data. [Epoch](https://wongxingjun.github.io/2015/05/18/Paxos%E7%AE%97%E6%B3%95%E7%9A%84%E4%B8%80%E7%A7%8D%E7%AE%80%E5%8D%95%E7%90%86%E8%A7%A3/) and [fencing token](https://martin.kleppmann.com/2016/02/08/how-to-do-distributed-locking.html) are common techniques to expire stale metadata/data (after crash restart) and to exclude stale leaders. I'll leave most to data consistency part. In general, metadata needs strong consistency, or weaker but versioned. 
 
   * __Single node__, strong consistency. Putting all metadata at a single node is the old way, but extremely simple to implement. HA can be achieved by a secondary standby node, or simply rely on faster restart. Modern CPU ensures sequential consistency per core, and cross-core can achieve linearizability via locking. 
 
@@ -1368,7 +1368,7 @@ Common data partitioning techniques for key-value structures are hash and range 
 
     * __Break into different components__. E.g. [InfiniFS](https://zhuanlan.zhihu.com/p/492210459). Inode metadata is decoupled into access attributes and content attributes. Each has different access locality, thus each is partitioned differently. The method enhances locality for hash based partitioning.
 
-  * __Graph partitioning__ is challenging because inter-connections between graph components are irregular. Besides, computation on graph usually can hardly be localized to partitions, e.g. Deep Learning needs Parameter Server.
+  * __Graph partitioning__ is challenging because interconnections between graph components are irregular. Besides, computation on graph usually can hardly be localized to partitions, e.g. Deep Learning needs Parameter Server.
 
     * __Hash/range partitioning__. E.g. FaRM A1 applies hash partitioning to favor randomness. E.g. Facebook TAO is backed by MySQL and assigned a shard_id for partitioning. Adjacent edges are packed to their vertices due to always accessed together.
 
@@ -1527,7 +1527,7 @@ Though running the system fast is the most typical meaning of performance, perfo
 
     * __SmartNIC__ builds virtualization, RDMA, processor offloading in NIC. CPU work can be offloaded to NIC level, with shorter roundtrip path. While __SmartSSD__ (or [Computational SSD drives](https://www.usenix.org/system/files/fast22-qiao.pdf)) builds query processing at SSD level, bypassing PCIe for early filtering data.
 
-    * __GPU__/__TPU__ are leading Machine Learning acceleration, dedicated for FLOPS in thirty Deep Learning training. __IPU__/__DPU__ try to consolidate datacenter infrastructure into more COGS efficient chips. More advanced GPU inter-connection like [NVLink](https://ieeexplore.ieee.org/document/7924274) are being developed, composing an HPC cluster.
+    * __GPU__/__TPU__ are leading Machine Learning acceleration, dedicated for FLOPS in thirty Deep Learning training. __IPU__/__DPU__ try to consolidate datacenter infrastructure into more COGS efficient chips. More advanced GPU interconnection like [NVLink](https://ieeexplore.ieee.org/document/7924274) are being developed, composing an HPC cluster.
 
     * __HPC__ is another area that high-end hardware, usually with customized accelerators, and manycore, are used for scientific processing. The accelerators usually then gain maturity and enter the market of commodity servers, like RDMA.
 
@@ -1616,26 +1616,96 @@ In this section we focus on optimizing performance at the distributed scaleout s
 
 ### Networking
 
-Networking is usually orthogonal to storage design. It affects performance factors like latency and stability, max throughput, and the total capacity the cluster can scaleout to. It is more attached to datacenter construction and hardware equipment upgrade and management. Networking has several key differences compared to other parts of storage.
+Networking is usually orthogonal to storage design. It is more attached to datacenter construction and hardware equipment. In general, it affects storage system in a few aspects: 
+
+  * __Performance plane__. Networking affects the latency between node communication. The network links, considering oversubscription and path routing, affects max throughput of data transfer. The datacenter design affects the total capacity a storage cluster can grow to now and in future.
+
+  * __Cost of ownership__. The power consumption of networking devices costs money per month, and doubles by cooling ([Power component comparison](https://www.researchgate.net/figure/Power-consumption-of-CPU-memory-network-and-disk-for-various-computing-processes-19_fig1_327203171)). Resource utilization affects how efficient the money is spent, considering traffic engineering and CPU/network bottleneck.
+
+  * __Upgrade management__. Network speed is quickly growing. Old/new switches with different bandwidth need to co-work efficiently. Upgrade needs to be carried out without interrupting live services, and with minimal traffic degradation. Construction of a new datacenter can take years.
+
+Compared to the other parts in a storage system, networking has several key differences:
 
   * __Non-persistent__. The whole storage stack is built around durability, but networking doesn't need to worry about that. It relieves upgrading and design complexity, and allows shifting more focus to standardized interchange protocols and high performance switching.
 
-  * __HA architecture__. Today's datacenter networking is usually based on [Clos architecture](https://www.youtube.com/watch?v=XrnATy3AvpA). TORs, leaves and spine switches are connected in full-mesh, which naturally supports HA when one device goes down. Switches (usually merged router functionality) dynamically update routes with protocols like [OSPF](https://www.youtube.com/watch?v=KjNYEzEBRD8). Flows choose paths in an HA manner, with multi-pathing protocols like [ECMP](https://en.wikipedia.org/wiki/Equal-cost_multi-path_routing), [WCMP](https://www.researchgate.net/publication/266657103_WCMP_Weighted_cost_multipathing_for_improved_fairness_in_data_centers).
+  * __HA architecture__. Today's datacenter networking is usually based on [Clos network architecture](https://www.youtube.com/watch?v=XrnATy3AvpA). TORs, leaves and spine switches are connected in full-mesh, which naturally supports HA when one device goes down. Switches (usually merged router functionality) dynamically update routes with protocols like [OSPF](https://www.youtube.com/watch?v=KjNYEzEBRD8). Flows choose paths in an HA manner, with multipathing protocols like [ECMP](https://en.wikipedia.org/wiki/Equal-cost_multi-path_routing), [WCMP](https://www.researchgate.net/publication/266657103_WCMP_Weighted_cost_multipathing_for_improved_fairness_in_data_centers).
 
-  * 
+  * __Standardized logic__. Comparing to disk IO which involves custom data formats and exception handling, networking functionalities are more standardized and stateless. Networking in fact converges to cross-vendor protocols and published specifications. Functionalities are frequently offloaded to lower level components, e.g. SmartNIC, FPGA/ASIC, RDMA.
 
-
-
-
-// TODO What are the key factors of networking? performance, latency, stability, cost, upgrade datacenter mgmt, throughput capacity
-// TODO what makes networking diff is, no persistence, switch HA architecture by born (clos) (but not TOR), logic is standardized so easier to offload to lower level hardware (SmartNIC, FPGA, RDMA), quickly growing speed which is much faster than CPU core.
-
+  * __Quick growing speed__. Networking speed is quickly growing these years, from 10Gbps, 40Gbps, to 100Gbps, even 200Gbps. Though NIC works well with small packets, CPU core can hardly catch up (Given 100Gbps and 1KB packet size, a core has only 80ns to process each packet). 
 
 __Networking architecture__
 
+The fundamental level is networking architecture. It defines how datacenter networking infrastructure is constructed, which constraints the baseline performance and scalability.
 
+  * __Clos network__ is the commonly used networking architecture. Compared to its ancestor, a huge "single switch bar", Clos is built by connecting small switches. The advantages are allowing expansion by adding individual switches, and tolerates individual switches offline. It consists of multiple tiers, e.g. T0 (TOR), T1 (Leaf layer), T2 (Spine layer). Each tier is a group of switches. Neighbor tiers are bipartite connected in full-mesh. Realworld deployments can have customization:
+
+    * __Oversubscription__. To save cost, higher tiers may have sparser links and lower aggregated bandwidth the lower tiers. It assumes __locality__ that denser computation is constraint in lower tiers. Similar patterns can be seen in databases to pushdown query filtering to Smart SSD, MapReduce to co-locate worker job to the data node, and [ECWide](https://www.usenix.org/conference/fast21/presentation/hu) to reduce T1 traffic by leveraging intra rack repair.
+
+    * __Sub domains__. In [Google Jupiter Rising](https://conferences.sigcomm.org/sigcomm/2015/pdf/papers/p183.pdf), instead of full-mesh connecting T1 to T2, T1 is cut into disjoint domains called "__Aggregation block__". Separating domains reduces link density. "Aggregation block" is also the controller domain for failure isolation in [Google Orion SDN](https://www.usenix.org/conference/nsdi21/presentation/ferguson). [Dragonfly topology](https://static.googleusercontent.com/media/research.google.com/en//pubs/archive/34926.pdf) shows similar idea called "Subnetwork" / "Group".  Internal of an Aggregation block is "two layers of switches bipartite connected". It aggregates traffic before routing through T2. It acts as a mini Clos network, or a __virtual switch with high radix__ (many ports). Similar idea also shows in [Dragonfly+ topology](https://www.researchgate.net/profile/Eitan-Zahavi/publication/313341364_Dragonfly_Low_Cost_Topology_for_Scaling_Datacenters/links/5a30c4baaca27271ec8a1201/Dragonfly-Low-Cost-Topology-for-Scaling-Datacenters.pdf).
+
+    * __Sidelinks__. In standard Clos, a switch cannot directly connect to another switch in the same tier. It must go through a high tier. Instead, [Google B4 After](https://dl.acm.org/doi/pdf/10.1145/3230543.3230545) (WAN networking) introduces Sidelink that adds connection within the same tier (within same datacenter). It exploits the asymmetry that Sidelink is cheaper than links that are across tiers (cross datacenter WAN). If every possible Sidelink is added, the Clos network degenerates into a symmetric full-mesh connection (like the group-to-group connection in Dragonfly+). 
+
+    * __[Optical Circuit Switch](https://research.google/pubs/pub51587/) (OCS)__. [Google Jupiter Evolving](https://research.google/pubs/pub51587/) replaced the spine layer with OCS. Besides lower latency, OCS is data rate agnostic (it simply reflects colored lights with tiny motored mirrors). When old electrical switches are upgraded with faster ones, OCS needs no change to support higher bandwidth. Internal of OCS needs to reprogram virtual optical circuits, which is done by Google Orion SDN. OCS takes bidirectional optical links, which is converted from electrical cables, via optical circulator & transceiver.
+
+  * __Routing__. Today datacenter switches usually merge router functionality. Standard routing protocols updates dynamically based on neighbor advertisements, e.g. OSPF (Link state based), [RIP](https://www.youtube.com/watch?v=KjNYEzEBRD8) (Distance vector based). However, datacenter networking architecture is mostly static. Google Jupiter networking instead relies on Orion SDN, a centralized control plane, to refresh the routing and pass down to switches via [OpenFlow](https://medium.com/@fiberoptics/openvswitch-and-openflow-what-are-they-whats-their-relationship-d0ccd39b9a5c) protocol.
+
+    * [SDN](https://en.wikipedia.org/wiki/Software-defined_networking) enables __[Traffic Engineering](https://www.youtube.com/watch?v=Hfl-i56hZUg&loop=0)__, which realtime collects metrics, split flows across heterogeneous switches with WCMP multipathing, and react to temporal traffic churns and device failures.
+
+  * __Control plane__. Traditionally, network admin configures each switch with individual terminals. Nowadays the trend shifts to a centralized control plane, which is usually combined with SDN. The centralized controller collects and aggregate metrics to show in one place for network admin. Configurations and routing are determined with global view, and push down to end switches. OpenFlow is the de-factor protocol to communicate both sides.
+
+    * Besides Google Orion, there are other SDN controllers like [OpenDaylight](https://www.fiber-optic-transceiver-module.com/openstack-vs-opendaylight-vs-openflow-vs-openvswitch-whatre-their-relations.html), [Openstack Neutron](https://docs.openstack.org/neutron/latest/). SDN can do useful things like virtual distributed router, VM private networks.
+
+  * __Data plane__. Besides commercial switches, [Open vSwitch](https://en.wikipedia.org/wiki/Open_vSwitch) (OVS) is one of the most known SDN data plane software that can be installed on commodity switches (i.e. Linux). They follow OpenFlow protocol to co-work with SDN controller. Though typical datacenter networking data plane follows Clos, CDN can use P2P architecture. E.g. Facebook Owl neighbor nodes exchange data copies, while still maintaining a centralized control plane.
+
+  * __Cross datacenters__. The above mainly focus on networking within a datacenter. Global datacenters can be interconnected with tunnel protocols (e.g. VPN) running on WAN. WAN is composed of Autonomous Systems (e.g. Internet ISP, company networks), where [BGP](https://www.youtube.com/watch?v=KjNYEzEBRD8) becomes the typical routing protocol.
+
+    * [Google B4 Experience](https://dl.acm.org/doi/pdf/10.1145/2486001.2486019) follows a consistent approach with Jupiter. It uses Google Orion as the SDN controller and applies traffic engineering. It adds one "Aggregation Block" in Jupiter network, but for external facing traffic, and called "FBR supernode". [Google datacenter network](https://www.youtube.com/watch?v=kythGOICErQ&t=1244s) says internal facing traffic (large DB queries & responses) is much heavier than external facing ones (customer web requests & responses).
 
 __Load balancing__
+
+The next level of networking is load balancer. It's the gate for requests to enter datacenter. It distributes traffic to proper nodes. It also merges with handful of utility functions. It's not a necessary part of distribute storage system, but usually servers as the frontend.
+
+  * __Global load balancing__ is the first stop. A customer request should go to the nearby datacenter within the same geo location. The load balancing is usually done by DNS resolving. The same website domain name is translated into different IP addresses. Each IP address maps to the nearby datacenter to route to.
+
+  * __Datacenter load balancer__. The load balancer at the gate of datacenter. There are many types categorized by hardware or software, single node or distributed.
+
+    * A __commercial load balancer__, e.g. [F5](https://www.f5.com/glossary/load-balancer), is typically a hardware box (with a backup node) deployed at the gate of datacenter. Load balancer exposes a VIP (Virtual IP) to customers and hides the group of internal servers with physical IPs.
+
+    * Alternatively, __distributed load balancer__ can be built with software, e.g. [Google Maglev](https://www.usenix.org/conference/nsdi16/technical-sessions/presentation/eisenbud), [UCloud Vortex](https://www.ucloud.cn/yun/34767.html). It's a group of servers that horizontally scales out. They can maintain shared states via Paxos. They receive packets from external router via ECMP. They distribute requests to internal servers via consistent hashing.   
+
+    * There is another set of load balancers coming from __web application area__. Typical examples are [NGINX](https://www.nginx.com/products/nginx/high-availability/), [HAProxy](https://www.digitalocean.com/community/tutorials/how-to-set-up-highly-available-haproxy-servers-with-keepalived-and-reserved-ips-on-ubuntu-14-04), [LVS](https://en.wikipedia.org/wiki/Linux_Virtual_Server) (Linux Virtual Server). They achieve HA with a mutually watching backup node and [keepalived](http://www.keepalived.org/). 
+
+  * __Load balancer working layers__. Load balancers can be categorized by which layers of info in [OSI model](https://www.imperva.com/learn/application-security/osi-model/) are leveraged to distribute requests.
+
+    * __Layer 2__ (by MAC address) load balancers are hard to see.
+
+    * __Layer 3__ (by IP address) load balancers routes by IP addresses (typically the VIP / physical IP). Layer 4 (by TCP/UDP) load balancers take ports into consideration, which allows e.g. mapping port 80/443 to http/https pools, and [NATs](https://en.wikipedia.org/wiki/Network_address_translation#Type_of_NAT_and_NAT_traversal,_role_of_port_preservation_for_TCP). Routers can also be seen as load balancing at layer 3, e.g. split traffic multipathing, ECMP, and BGP selects Autonomous Systems with lower toll. 
+
+    * __Layer 7__ (by application content) load balancers leverage application-aware message content to distribute requests, e.g. use URL cookies to implement [sticky session](https://www.imperva.com/learn/availability/sticky-session-persistence-and-cookies/). Leveraging layer 7 is more complex, slower, but can be powerful, e.g. integrate firewall into load balancer (more examples below). Mostly, every load balancing is moving to cover all layers upto 7
+
+  * __[API gateway](https://microservices.io/patterns/apigateway.html)__ is a word brought up by micro-service. Load balancer is usually at the gate of datacenter or service cluster. Many more features can be integrated to it. Like firewall, advanced features require load balancer to cover Layer 7.
+
+    * __Router__ and load balancer can merge into one (hardware) box. Just like switch and router functionalities can be merged. Load balancer can also run __BGP__ to route large responses through a proper Autonomous Systems.
+
+    * __Heartbeat health check__ can be done by load balancer. It needs to tell which internal server is bad and avoids sending more packets to it.
+
+    * __HTTPS__. Load balancer can serve as the boundary to handle encryption/decryption. External clients connect to load balancer via HTTPS, while cluster internal works on HTTP (trusted environment). __VPN__ can be served in a similar way. Even user __authentication__ can also be integrated into load balancer.
+
+    * Load balancer can merge with __Firewall__. Being the critical path of all traffic flow, it unpackets application messages to filter malicious contents. Similarly, load balancer can be extended to protect from __DDOS attacks__.
+
+    * __URL dispatching__. Load balancer merge with API gateway. It understands web application URLs and dispatch them to the registered pools of servers. Each URL pattern can map to a different micro-service, where load balancer works as the service router.
+
+    * Load balancer can merge with __Circuit breaker__. It tracks realtime API or user traffic usage, performs throttling, and degrades the service if it overloads the cluster, to prevent cascaded failures. 
+
+  * __[Direct server return](https://docs.bluecatnetworks.com/r/DNS-Edge-Deployment-Guide/How-DSR-load-balancing-works) (DSR)__ is a technique typically used with load balancer. Internal servers send response packets directly to external clients, bypassing the load balancer. It saves load balancer bandwidth, especially when responses are much larger than customer requests, e.g. media streaming. 
+
+__Congestion control__
+
+
+
+
+
 
 
 
