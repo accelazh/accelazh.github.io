@@ -11,7 +11,7 @@ tags: [storage, paper, networking]
 Networking is another pillar for distributed storage systems.
 
 ```
-1. Congestion Control for Large-Scale RDMA Deployments    [2015, 452 refs]
+1. DCQCN: Congestion Control for Large-Scale RDMA Deployments    [2015, 452 refs]
    https://conferences.sigcomm.org/sigcomm/2015/pdf/papers/p523.pdf
     1. The recognized datacenter networking technology for RDMA RoCEv2, following up from the recognized DCTCP 
     2. highlights

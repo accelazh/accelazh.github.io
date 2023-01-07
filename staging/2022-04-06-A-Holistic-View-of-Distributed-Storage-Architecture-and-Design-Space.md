@@ -291,7 +291,7 @@ This is the old topic, a generic design pattern on the scale of architecture. Ne
 
 More recent architectures below. You can see architectures vary on: How to cut boundaries, e.g. fine-grain levels, offloading to cloud. Natural structures, e.g. layered, event & streaming, business logic, model-view UI. The gravity of complexity, e.g. complex structures, performance, consistency, managing data, security & auditing, loose communication channels.
 
-  * __Micro-service__. Complex systems are broken into micro-services interacting with REST APIs. Typical examples are __Kubernetes and Service Mesh__. You yet need an even more complex container infrastructure to run micro-services: SDN controller and agents for virtual networking, HA load balancer to distribute traffic, circuit breaker to protect from traffic surge, service registry to manage REST endpoints, Paxos quorum to manage locking and consistent metadata, persistent storage to provide disk volumes and database services, ...
+  * __Micro-service__. Complex systems are broken into micro-services interacting with REST APIs. Typical examples are __Kubernetes and Service Mesh__. You yet need an even more complex container infrastructure to run micro-services: [SDN](https://en.wikipedia.org/wiki/Software-defined_networking) controller and agents for virtual networking, HA load balancer to distribute traffic, circuit breaker to protect from traffic surge, service registry to manage REST endpoints, Paxos quorum to manage locking and consistent metadata, persistent storage to provide disk volumes and database services, ...
 
 // TODO Add pick about K8S service mesh architecture
 
@@ -429,7 +429,7 @@ __Cache__
 
   * [Redis](https://redis.io/) is the opensource de-factor in-memory cache used in most Internet companies. Compared to Memcached, it supports rich data structures. It adds checkpoint and per operation logging for durability. Data can be shared to a cluster of primary nodes, then replicated to secondary nodes. [Tendis](https://cloud.tencent.com/developer/article/1815554) further improves cold tiering, and optimizations.
 
-  * [Kangaroo cache](https://www.pdl.cmu.edu/PDL-FTP/NVM/McAllister-SOSP21.pdf) (from long thread of Facebook work on [Memcached](https://www.usenix.org/conference/nsdi13/technical-sessions/presentation/nishtala), [CacheLib](https://www.usenix.org/conference/osdi20/presentation/berg), and [RAMP-TAO cache consistency](https://www.vldb.org/pvldb/vol14/p3014-cheng.pdf)) features in in-memory cache with cold tier to flash. Big objects, small objects are separated. Small objects combines append-only logging and set-associative caching to achieve the optimal DRAM index size vs write amplification. Kangaroo also uses "partitioned index" to further reduce KLog's memory index size.
+  * [Kangaroo cache](https://www.pdl.cmu.edu/PDL-FTP/NVM/McAllister-SOSP21.pdf) (from long thread of Facebook work on [Scaling Memcached](https://www.usenix.org/conference/nsdi13/technical-sessions/presentation/nishtala), [CacheLib](https://www.usenix.org/conference/osdi20/presentation/berg), and [RAMP-TAO cache consistency](https://www.vldb.org/pvldb/vol14/p3014-cheng.pdf)) features in in-memory cache with cold tier to flash. Big objects, small objects are separated. Small objects combines append-only logging and set-associative caching to achieve the optimal DRAM index size vs write amplification. Kangaroo also uses "partitioned index" to further reduce KLog's memory index size.
 
   * [BCache](https://bcache.evilpiepirate.org/BcacheGuide/) is a popular SSD block cache used in [Ceph](https://segmentfault.com/a/1190000038448569). Data is allocated in "extents" (like filesystem), and then organized to bigger buckets. Extent is the unit of compression. A bucket is sequentially appended to full and is the unit of GC reclaim. Values are indexed by B+-tree (unlike KLog in Kangaroo using hashtables). The B+-tree uses large 256KB nodes. Node internal is modified by appending log structured. B+-tree structural change is done by COW and may recursively rewrite every node up to the root. Journaling is not a necessity because of COW, but used as an optimization to batch and sequentialize small updates.
 
@@ -477,7 +477,7 @@ __OLTP/OLAP database__
 
   * [ClickHouse](https://clickhouse.com/docs/en/development/architecture/) is a recent OLAP database quickly gaining popularity known as "very fast" ([why ClickHouse fast]((https://clickhouse.tech/docs/en/faq/general/why-clickhouse-is-so-fast/))). Besides common columnar format, vectorized query execution, data compression, ClickHouse made fast by "attention to low-level details". ClickHouse supports various indexes (besides full scan). It absorbs updates via [MergeTree](https://developer.aliyun.com/article/762092) (similar to LSM-tree). It doesn't support transaction due to OLAP scenario.
 
-  * [AWS Redshift](https://assets.amazon.science/93/e0/a347021a4c6fbbccd5a056580d00/sigmod22-redshift-reinvented.pdf) is the new generation cloud native data warehouse based on PostgreSQL. Data is persisted at S3, while cached at local SSD (which is like Snowflake). Query processing nodes are accelerated by AWS Nitro ASIC. It is equipped with modern DB features like code generation and vectorized SIMD scan, external compilation cache, AZ64 encoding, [Serial Safe Net](https://arxiv.org/pdf/1605.04292.pdf) (SSN) transaction MVCC, Machine Learning backed auto tuning, semi-structure query, and federated query to datalake and OLTP systems, etc.
+  * [AWS Redshift](https://assets.amazon.science/93/e0/a347021a4c6fbbccd5a056580d00/sigmod22-redshift-reinvented.pdf) is the new generation cloud native data warehouse based on PostgreSQL. Data is persisted at S3, while cached at local SSD (which is like Snowflake). Query processing nodes are accelerated by [AWS Nitro](https://aws.amazon.com/ec2/nitro/) ASIC. It is equipped with modern DB features like code generation and vectorized SIMD scan, external compilation cache, AZ64 encoding, [Serial Safe Net](https://arxiv.org/pdf/1605.04292.pdf) (SSN) transaction MVCC, Machine Learning backed auto tuning, semi-structure query, and federated query to datalake and OLTP systems, etc.
 
   * [Log is database 1](https://zhuanlan.zhihu.com/p/33603518) / [Log is database 2](https://zhuanlan.zhihu.com/p/338582762) / [Log is database 3](https://zhuanlan.zhihu.com/p/151086982). The philosophy was first seen on [AWS Aurora Multi-master](https://www.allthingsdistributed.com/2019/03/Amazon-Aurora-design-cloud-native-relational-database.html). Logs are replicated as the single source of truth, rather than sync pages. Page server is treated a cache that replays logs. In parallel, [CORFU](https://blog.acolyer.org/2017/05/02/corfu-a-distributed-shared-log/), [Delos](https://www.usenix.org/system/files/osdi20-balakrishnan.pdf) builds the distributed shared log as a service. [Helios Indexing](http://www.vldb.org/pvldb/vol13/p3231-potharaju.pdf), [FoundationDB](https://www.foundationdb.org/files/fdb-paper.pdf), [HyderDB](http://www.cs.cornell.edu/~blding/pub/hyder_sigmod_2015.pdf) build database atop shared logging.
 
@@ -797,7 +797,7 @@ When coming to cross-regional multi-datacenter level, the techniques are similar
 
   * __RPO (Recovery Point Objective)__. Because cross-region replication is async, there is a delay from replicated data to the latest data. RPO defines the delay window. It maps how much recent data will be lost after recovery in the second region.
 
-Besides those duplicate with Datacenter level, common techniques are below. In compare, more optimization are for unstable links and low bandwidth in WAN. 
+Besides those duplicate with Datacenter level, common techniques are below. In compare, more optimization are for unstable links and low bandwidth in WAN (wide-area network). 
 
   * __Geo-replication__. Databases commonly support async replication (eventual consistency) used for backup cross regions, typically by replicating logs, e.g. MySQL BinLog Replication, and [Redis replication](https://redis.io/docs/manual/replication/) primary/secondary via command stream. Async Geo-replication doesn't exclude sync replicate a small piece of critical metadata; and doesn't exclude a client to query the primary region to determine the latest version.
 
@@ -870,7 +870,7 @@ Besides writing locally, __data replication__ is also interleaved in write path.
 
   * __Locality__, e.g. geo-replication which moves data to user's local region, e.g. Akkio u-shards; and CDN that acts as static content cache and bridges across WAN provider.
 
-  * __Data layout__. Examples are TiFlash and F1 Lightning. The databases maintain main data copy as row-format to serve OLTP, which replicate an extra columnar layout copy for OLAP use. Raft protocol or fine-grained version tracking can be used to maintain consistency between replicas.
+  * __Data layout__. Examples are TiFlash and F1 Lightning. The databases maintain main data copy as row format to serve OLTP, which replicate an extra columnar layout copy for OLAP use. Raft protocol or fine-grained version tracking can be used to maintain consistency between replicas.
 
   * __Hot/cold tiering__. Hot data can be copied cache. Cold data can be offloaded slow HDD or archival storage. Data formats between tiers can also be different, to favor access latency, storage efficiency, or compression. 
 
@@ -940,11 +940,11 @@ __Offloading__
 
 Inline or offline from write path, FPGA and ASIC are commonly used in offloading from CPU, e.g. compression/encryption, and multi-tenant cloud virtual network processing. Offloading relieves CPU from growing IO hardware throughput, while pushdown shortens data transfer path.
 
-  * FPGA features in reconfiguration, which favors flexibility and early experiments. ASIC are dedicated circuits, hard to change, but once shipped they are much more efficient than FPGA. FPGA had successful usecases like [Project Catapult](https://www.microsoft.com/en-us/research/wp-content/uploads/2016/02/Catapult_ISCA_2014.pdf). [SmartNICs](https://www.microsoft.com/en-us/research/project/azure-smartnic/) also went popular.
+  * FPGA features in reconfiguration, which favors flexibility and early experiments. ASIC are dedicated circuits, hard to change, but once shipped they are much more efficient than FPGA. FPGA had successful usecases like [Project Catapult](https://www.microsoft.com/en-us/research/wp-content/uploads/2016/02/Catapult_ISCA_2014.pdf). [SmartNICs](https://zhuanlan.zhihu.com/p/393393682) also went popular.
 
   * Compression/encryption are typical offload usecases because the logic is fixed, few exception handling, and data pipeline oriented. Network processing is similar. Besides, nowadays high speed RDMA is much more demanding for CPU, and cloud virtual networking involves more layers of redirections.
 
-  * The more recent [IPU](https://www.forbes.com/sites/karlfreund/2021/08/02/nvidia-dpu--intel-ipu-game-changers-or-just-smart-nics/) (Infrastructure Processing Unit) was proposed following DPU, to offload common datacenter infrastructure functionalities to processing chips other than CPU.
+  * The more recent [IPU](https://www.forbes.com/sites/karlfreund/2021/08/02/nvidia-dpu--intel-ipu-game-changers-or-just-smart-nics/) (Infrastructure Processing Unit) was proposed following [DPU](https://en.wikipedia.org/wiki/Data_processing_unit), to offload common datacenter infrastructure functionalities to processing chips other than CPU.
 
   * [Smart SSD](https://www.youtube.com/watch?v=_8gEmK1L4EY) adds computation chips to SSD. Query filtering or GC/Compaction can be pushed down to SSD internal, without involving the longer data transfer path across PCIe.
 
@@ -1023,7 +1023,7 @@ In the next level, we abstract the __properties__ of a data layout. They constra
 
   * At row group level, a notable property is whether data is stored in __columnar or row format__. OLTP database favors row format, where data is organized as rows, and row piles in a page. OLAP database favors columnar format, where data is organized as columns, values from one column is stored consecutively in a row group, and then to the next column. 
 
-    * __Columnar format__. Since column packs similar data, compression is more efficient thus reduces storage space, and less read data when scan. Common OLTP workloads can hardly generate columnar format on start, thus need to pay write amplification for batch and rewrite. Querying one column and then lookup another column in one row, however incurs extra IOs and non-sequential reads, because columns are stored at different locations. Common columnar format examples are Parquet, Apache ORC. 
+    * __Columnar format__. Since column packs similar data, compression is more efficient thus reduces storage space, and less read data when scan. Common OLTP workloads can hardly generate columnar format on start, thus need to pay write amplification for batch and rewrite. Querying one column and then lookup another column in one row, however incurs extra IOs and non-sequential reads, because columns are stored at different locations. Common columnar format examples are Parquet, [Apache ORC](https://medium.com/data-engineer-things/demystify-hadoop-data-formats-avro-orc-and-parquet-e428709cf3bb). 
 
     * __Row format__. Scans involve unnecessary columns, i.e. a read amplification. Compression are less efficient compared to columnar format, and also cost read transfers. But updating/inserting can directly operate in unit of rows. Looking up all columns in one row costs only one read.
 
@@ -1437,11 +1437,11 @@ I choose to combine HA in this section because it's related to durability, most 
 
     * __Cell architecture__ partitions data and encapsulates depended services into cells. Each cell specifies only one active primary datacenter, while all datacenters run active cells. So that all datacenters are active-active, no standby datacenter. Data can be sync/async/not-replicated across datacenters. Datacenter failover needs caution to avoid overloading alive ones.
 
-    * __Multi-zone services__. [AWS AZ](https://cloud.netapp.com/blog/aws-availability-using-single-or-multiple-availability-zones) and [Azure redundancy](https://docs.microsoft.com/en-us/azure/storage/common/storage-redundancy) divide disaster failure domains in a geo region into availability zones. A services can span multiple zones that a single datacenter disaster won't impact availability. Zones are active-active.   
+    * __Multi-zone services__. [AWS AZ](https://cloud.netapp.com/blog/aws-availability-using-single-or-multiple-availability-zones) and [Azure redundancy](https://docs.microsoft.com/en-us/azure/storage/common/storage-redundancy) divide disaster failure domains in a geo region into availability zones. A services can span multiple zones that a single datacenter disaster won't impact availability. Zones are active-active.
 
   * __Two geo locations three datacenters__ are commonly used in banks. One city deploys two datacenter with synchronized replication, and a second city deploys the third datacenter with async replication for disaster recovery.
 
-HA relies on robust detection of failures, where the major issue is [Observational difference](https://www.microsoft.com/en-us/research/wp-content/uploads/2017/06/paper-1.pdf) caused gray failures. Examples are dead App but heartbeat thread still working, network link degradation only at a high percentile, inconsistently reported healthy status, intermittent failures. Common techniques to overcome such issues are stemmed from __Metadata consistency__:
+HA relies on robust detection of failures, where the major issue is [Observational Difference](https://www.microsoft.com/en-us/research/wp-content/uploads/2017/06/paper-1.pdf) caused gray failures. Examples are dead App but heartbeat thread still working, network link degradation only at a high percentile, inconsistently reported healthy status, intermittent failures. Common techniques to overcome such issues are stemmed from __Metadata consistency__:
 
   * __Synchronized locksteps__ between heartbeat and application progress, e.g. use request execution count as heartbeat, or use expiring fencing token / lease.
 
@@ -1698,35 +1698,75 @@ The next level of networking is load balancer. It's the gate for requests to ent
 
     * Load balancer can merge with __Circuit breaker__. It tracks realtime API or user traffic usage, performs throttling, and degrades the service if it overloads the cluster, to prevent cascaded failures. 
 
-  * __[Direct server return](https://docs.bluecatnetworks.com/r/DNS-Edge-Deployment-Guide/How-DSR-load-balancing-works) (DSR)__ is a technique typically used with load balancer. Internal servers send response packets directly to external clients, bypassing the load balancer. It saves load balancer bandwidth, especially when responses are much larger than customer requests, e.g. media streaming. 
+  * __[Direct server return](https://docs.bluecatnetworks.com/r/DNS-Edge-Deployment-Guide/How-DSR-load-balancing-works) (DSR)__ is a technique typically used with load balancer. Internal servers send response packets directly to external clients, bypassing the load balancer. It saves load balancer bandwidth, especially when responses are much larger than customer requests, e.g. video streaming. 
 
 __Congestion control__
 
+Coming to the transport layer, a big topic is to how to maintain max transfer rate while avoiding congestion. There are a few key factors that affect datacenter networking performance:
 
+  * __Switch buffer buildup__. More messages queued in switch buffer, the higher the latency. When buffer overflows, switch drops packets and marks congestion ([ECN](https://en.wikipedia.org/wiki/Explicit_Congestion_Notification)). This is when congestion happens. The dropped packets experience yet another round of latency due to resend.
 
+    * The next level of problem is, TCP is __guessing the switch buffer usage__. TCP increases/shrinks sending rate according to the congestion signals saw by the server locally. However, the steps may either be too aggressive or too slow compared to the optimal. What TCP sees have delay to the real switch buffer usage. The switch buffer is also shared by many other servers. As a result, TCP's guesses can be inaccurate and cause periodical congestion or under utilization.
 
+  * __Incast__ is the many-to-one traffic pattern. It's common in datacenter communication when aggregating queries results, MapReduce, or erasure coding reconstruct reads. Besides overloading the destination switch, it quickly overflows the switch buffer to cause congestion. Switch starts to drop packets, which yet causes source resends that cascadingly increases the load.
 
+  * __Flow interference__. Switch buffer is shared between ports. One flow caused congestion can impact other flows. A switch may run flow control protocols to mitigate congestion (e.g. [PFC](https://en.wikipedia.org/wiki/Ethernet_flow_control)), however it may impact non-related flows only because they flow through the same switch. A flow with small messages can also be impacted by another flow with large messages, i.e. [head-of-line blocking](https://en.wikipedia.org/wiki/Head-of-line_blocking).
 
+There are a few known TCP congestion control protocols. They customized the default TCP stack to improve traffic performance, fairness, network utilization, and tolerate bursts.
+  
+  * __[DCQCN](https://conferences.sigcomm.org/sigcomm/2015/pdf/papers/p523.pdf)__ targets congestion control for RDMA deployed on [RoCEv2](https://en.wikipedia.org/wiki/RDMA_over_Converged_Ethernet). It's based on per flow congestion control ([QCN](https://1.ieee802.org/dcb/802-1qau/)) instead of PFC. It divides congestion control into CP Algorithm (switch side, congestion point), RP Algorithm (sender side, reaction point), and NP Algorithm (receiver side , notification point).
 
+    * The switch marks ECN when queue built up in buffer (CP). Receiver side (NP) batches ECN then sends [CNP](https://en.wikipedia.org/wiki/RDMA_over_Converged_Ethernet) (RoCEv2 defined congestion notification) back to sender side (RP). Sender maintains an estimation of the portion of ECN marked packets, called "α" in paper. Upon congestion (sees CNP), sender decreases rate by α (nearly exponentially) each round.
 
-__Application layer__
+    * Sender recovery is done by FastRecovery, AdditiveIncrease, and then HyperIncrease. FastRecovery executes a fix number of rounds. In each round, current rate is set to (target rate + current rate) / 2 (exponentially shortening the gap). AdditiveIncrease sets current rate with the same formula, but additionally increase target rate by e.g. 5Mbps each round. HyperIncrease uses the same formulas with AdditiveIncrease, except changing the 5Mbps to e.g. 50Mbps.
 
+  * __[DCTCP](https://www.microsoft.com/en-us/research/wp-content/uploads/2017/01/dctcp-sigcomm2010.pdf)__. DCQCN is based on DCTCP and QCN. DCTCP targets normal network rather than RDMA. As mentioned in DCQCN, DCTCP introduced 1) let switch mark ECN and receiver echos it back to sender, 2) estimate the "α" to decrease send rate.
+
+    * Unlike DCQCN, DCTCP doesn't change the [slow start](https://en.wikipedia.org/wiki/TCP_congestion_control) in TCP default congestion control. Slow restart doubles in-flight packets (congestion window) each round (much slower than DCQCN), until a packet loss is detected (bad, congestion already happened, switch buffer overflows).
+
+  * __[BBR](https://www.zhihu.com/question/53559433)__. Unlike DCQCN/DCTCP which target datacenter network, BBR targets WAN. The default TCP treats packet loss as congestion. The assumption is OK in datacenter network, but not WAN where packet loss is common. Besides, BBR tries to reduce switch buffer usage, where high usage increases latency. As the solution, BBR ignores packet loss. It gradually increases in-flight packets to probe the optimal bandwidth and latency. Congestion is avoided by approaching send rate to where bandwidth is max and switch buffer usage is zero. BBR has been successfully deployed in Google B4 and YouTube.
 
 __Networking stack__
 
+The next level is networking stack, i.e. the software to run networking that can be optimized to achieve better performance. Typical techniques are:
 
+  * __TCP vs UDP__. TCP is a connection based protocol. Maintaining connection costs host memory. TCP handles packet resend to ensure delivery. TCP implements congestion control to set proper speed with switches, and sliding window to set proper speed with the receiver. UDP has none of them. As a result, UDP is fast, lightweight, and suitable for usecases that tolerate packet losses, e.g. video streaming. UDP is also a basis to build customized protocols.
 
-__TCP/IP layer__
+  * __Kernel bypassing__. Networking is fast, which the Kernel and system calls are dragging it down. The typical technology is DPDK which processes networking in userspace. The client can choose to __poll rather than callback__ to avoid notification delay. Another example is __RDMA__, where DMA bypasses CPU to operate host DRAM. 
 
+  * __Offloading__ network processing to lower level, especially to NIC related hardware. It is covered later. Today CPU is much slower than high speed networking. It needs extra chips to help.
 
-__IP layer__
+Networking stack also extend to customized hard and acceleration chips. Due to CPU is slow compared to networking, and most networking functions are standardized, they are suitable to be offloaded.
 
-__Data link layer / Hardware__
+  * __RDMA__ relies on NIC rather than CPU to access host DRAM. It typically runs on plain Ethernet with RoCEv2 (need RDMA NIC), or run on [InfiniBand](https://en.wikipedia.org/wiki/InfiniBand) completely new hardware stack. There are more [RDMA design guidelines](https://www.usenix.org/system/files/conference/atc16/atc16_paper-kalia.pdf).
 
+    * Further, a host can use RDMA to directly access the __PMEM__ in another host. This enables building even faster storage systems, e.g. Orion/Octopus.
 
+  * __FPGA__ can be deployed near NIC to accelerate common network functions like tunneling (required by VM virtualization, e.g. [VxLAN](https://en.wikipedia.org/wiki/Virtual_Extensible_LAN), [GRE](https://en.wikipedia.org/wiki/Generic_Routing_Encapsulation)), encryption, compression, QoS, ACLs (access control list). When the code becomes stable, they can be burnt into __ASIC__ chips that are more performant, power efficient, but hard to change.
 
+    * __AWS Nitro__ is another success story that uses ASIC card to offload cloud networking ([Nitro card](https://docs.aws.amazon.com/whitepapers/latest/security-design-of-aws-nitro-system/the-components-of-the-nitro-system.html)). __Microsoft Catapult__ is another example. 
 
+  * __SmartNIC__ embeds computation ability into NIC. It can integrate functionalities (and chips) mentioned above in FPGA bullet. It can support [SR-IOV](https://learn.microsoft.com/en-us/windows-hardware/drivers/network/overview-of-single-root-i-o-virtualization--sr-iov-) to virtualize NICs for VM. SmartNIC can even integrate vSwitch, which offloads from CPU from building VM private networks. There is a more detailed [Azure SmartNIC](https://www.microsoft.com/en-us/research/project/azure-smartnic/) paper.
 
+    * SmartNIC is closely related to __SDN__. Commodity switches typically run Linux and Open vSwitch, which are programmable by SDN controller. These switches need acceleration hardware to compete with customized chips in commercial switches (less programmable). SmartNIC comes handy. 
+
+__Application layer__
+
+The last level of networking comes to application layer. It involves how application can use the network stack efficiently and reliably.
+
+  * __Messaging style__. Servers can communicate by sending messages directly, or via PRC call. The requests can either by sync or async with callback. Servers can also exchange messages via a message queue, e.g. [RabbitMQ](https://www.rabbitmq.com/), via topics and subscriptions. Message queue can run with exactly-once semantics, e.g. Kafka Transactional. Servers can also share information with Gossip in a P2P style, with bounded converge time. It's typically used in metadata propagation, e.g. Ceph, that piggyback updates and health checks.
+
+    * __Connection management__. A practical need is to reduce the TCP connection count. Suppose N servers, it's expansive to manage all N\*N connections. Besides pooling and keep-alive, a solution is to introduce a mediator, e.g. [mcrouter](https://www.usenix.org/conference/nsdi13/technical-sessions/presentation/nishtala), to reduce connection count to 2\*N.
+
+  * __Serialization__. Application objects living in memory need to be serialized before messaging then unserialized. Serialization is CPU intensive. Though __compression__ saves transfer bandwidth, it costs more CPU, which is yet becoming slower compared to today's network. In general, serialization protocols need to make compact bit representation (e.g. [varint encoding](https://developers.google.com/protocol-buffers/docs/encoding)), fast encoding, and allow schema change with backward compatibility.
+
+    * Typical __serialization protocols__ are [protobuf](https://en.wikipedia.org/wiki/Protocol_Buffers), [bond](http://microsoft.github.io/bond/manual/bond_cs.html), [Thrift](https://stackoverflow.com/questions/69316/biggest-differences-of-thrift-vs-protocol-buffers), [FlatBuffers](https://stackoverflow.com/questions/25356551/whats-the-difference-between-protocol-buffers-and-flatbuffers). Parquet, Apache ORC are columnar formats used for on-disk storing. [Apache Arrow](https://stackoverflow.com/questions/56472727/difference-between-apache-parquet-and-arrow) is a columnar format used for in-memory processing. Compared to Parquet, [Apache Avro](https://www.clairvoyant.ai/blog/big-data-file-formats) is the row-based format. In the end, JSON is slower, bigger, but most importantly __human readable__.
+
+    * __[Client Protocol Redesign](https://15721.courses.cs.cmu.edu/spring2020/papers/11-networking/p1022-muehleisen.pdf)__. Customized client protocol can be efficient when returning large responses. E.g. adaptively choose between row format vs columnar layout, enable compression when beneficial compared to CPU cost, truncate unnecessary data and padding, parallelize iterators with prefetching. Custom serialization protocol is possible to leverage application-aware knowledge. Large string can be specially handled with e.g. custom compression, dictionary, prefix dedup.
+
+  * __Unstable network__. Seen by application, network is unstable. A typical issue is __membership detection__, where a node transiently goes up and down. Too aggressively marking it dead causes unnecessary churn (e.g. data repair). Too slow to mark it dead impacts service reliability. More, brain split, Observational Difference, or grey failures can happen, that different groups of nodes cannot agree on what they see. The typical solution is decision making through a Consistent Core, e.g. Service Fabric, Google Orion SDN ("Failure Static").
+
+    * __Messaging integrity__ is another layer of protection due to unstable network. In fact, a distributed storage can never assume network is reliable. Packet losses, message reorder, and replay can happen unpredictably. Application layer usually implements its own CRC, idempotent operations, and epoch invalidation.
 
 
 ### More topics 

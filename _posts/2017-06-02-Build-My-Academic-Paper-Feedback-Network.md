@@ -430,7 +430,7 @@ __ATC 2016__
             2. highlights
                 1. Large RDMA design space
                     1. operations
-                        1. read, wirte, atomic (one-sided)
+                        1. read, write, atomic (one-sided)
                         2. send, recv (two-sided)
                     2. transports
                         1. reliable, unreliable
@@ -444,7 +444,7 @@ __ATC 2016__
                     2. PCI Express messages are expensive
                        - Reduce CPU-to-NIC messages (MMIOs)
                        - Reduce NIC-to-CPU messages (DMAs)
-                3. the sequencer case and its improvments
+                3. the sequencer case and its improvements
                     1. very helpful
                     2. Atomics
                        RPC (1 C)

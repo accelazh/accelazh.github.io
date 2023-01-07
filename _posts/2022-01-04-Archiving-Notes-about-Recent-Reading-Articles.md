@@ -2665,7 +2665,7 @@ Business visions.
     4. more captures
         1. Record and replay, until you get every wording sythesis right
         2. Brainstorm ideas but with structured categories heuristics, MECE mining, comination iteration
-        4. Presentation slides：each title should give the point (rather than description), the all titles together should tell a complete story - synthesis
+        3. Presentation slides：each title should give the point (rather than description), the all titles together should tell a complete story - synthesis
 
 4. readings: finish the recent WeiChat articles
     1. Facebook开源LogDevice：一种用于日志的分布式数据存储系统
