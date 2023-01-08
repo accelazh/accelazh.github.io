@@ -9,10 +9,10 @@ tags: [cloud, storage, architecture]
 {% include JB/setup %}
 
 
-The article summarizes my (years of) experiences on software architecture. Architecture design is essentially driven by __philosophies__ as the generator engine that governs all knowledge. From the __organization view__, we can find why and how architecture design process and skills are required that way. Common __methodologies__ and __principles__, viewed from the philosophies, provide guidance to carry out architecture design with quality. An architect needs an armory of techniques for different __system properties__. I categorize __Reference architectures__ in each distributed storage area, summarize __architecture design patterns__ from them, and connect into __technology design spaces__.
+The article summarizes my experiences on software architecture. Architecture design is essentially driven by __philosophies__ as the generator engine that governs all knowledge. From the __organization view__, we can find why and how architecture design process and skills are required that way. Common __methodologies__ and __principles__, viewed from the philosophies, provide guidance to carry out architecture design with quality. An architect needs an armory of techniques for different __system properties__. I categorize __Reference architectures__ in each distributed storage area, summarize __architecture design patterns__ from them, and connect into __technology design spaces__.
 
 
-# Software architecture - a philosophy perspective
+# Software architecture - A philosophy perspective
 
 Software architecture is a modeling of the reality world, a language, and a human mind creation that to assist human mind. Language, is an interesting topic. The three together are deeply interconnected, pointing why, what and how to handle software architecture.
 
@@ -36,7 +36,7 @@ Besides, __knowledge and experience are themselves good designs__. They are esse
 
 // TODO Add a pic about the triple mapping relation
 
-__Side notes: explaining with examples__
+__Explaining with examples__
 
 For __"high cohesion low coupling" in human language__, imagine an apple on a disk. People name them with "apple" and "desk", rather than a "half apple + half desk" thing. Like selecting what to wrap into an object in Object-Oriented (OO) design, the naming "apple" and "desk" practices "high cohesion low coupling".
 
@@ -70,7 +70,7 @@ Technology aspects
 
 Capturing the big
 
-  * __Non-functional requirements__. Typically, availability, scalability, consistency, performance, security, COGS. More importantly, possible worst cases, how to degrade, critical paths. Also, testability, usability, quality, extensibility, delivery & rollout. They are not explicit customer functional needs, but usually more important, and touches wide scope of components to finally implement.
+  * __Non-functional requirements__. Typically, availability, scalability, consistency, performance, security, [COGS](https://en.wikipedia.org/wiki/Cost_of_goods_sold). More importantly, possible worst cases, how to degrade, critical paths. Also, testability, usability, quality, extensibility, delivery & rollout. They are not explicit customer functional needs, but usually more important, and touches wide scope of components to finally implement.
 
   * __Capturing the changing and non-changing__. Architecture design identifies what changes quickly, and what can be stable. The former is usually localized and encapsulated with abstraction, or outsourced to plugin. The later is designed with an ask "can this architecture run 1/3/5 years without overhaul", which usually reflects to components and interconnections.
 
@@ -136,7 +136,7 @@ I lean more to peer-to-peer architect style mentioned above. Many can be sensed 
 
   * Then __evaluation__ for the architecture design. Make sure the problem analysis, every customer __scenario__ and system scenario, and project goals, are well addressed. Make sure __non-functional__ requirements are addressed. Make sure the key project __benefit and cost__ are verified in a __data driven approach__, with actual production numbers as input, using a prototype, simulation tools, or math formulas to model. Make sure the system can support required __load level__, by breaking down throughput capacity into each component. Make sure the system handles the __worst case__ and supports graceful throttling and downgrade. Make sure the __logic has completeness__; e.g. when you handle a Yes path, you must also address No path; e.g. you start a workflow, you must also handle how it ends, go back, interleaved, looped. Make sure __development and deliver__ are addressed, e.g. how to infra is to support multi-team development, the branching policy, component start/online/maintenance/retire strategies, CI/CD and rollout safety. Also, make sure __hidden assumptions__ and constraints are explicitly pointed out and addressed.
 
-  * Finally, it's the __documentation__. On practice, it involves a short "__one-pager__" document (actually can be < 20 pages), and slides for quick presentation, and spreadsheets for data evaluation. Nowadays culture lean more to lightweight document, central truth in codebase, and prioritize agile and peer-to-peer communication. Problem analysis and alternative trade-off analysis usually weight more in document than the design itself, where __defining the problem space__ is a key ability. Architecture design part usually includes key data structure, components, state machines, workflows, interfaces, key scenario walkthrough, and several detailed issue discussion. Importantly, the document should track the change history of design decision, i.e. how they reach today, and more specifically the __Issue, Strategy, Design Decision__ chain.
+  * Finally, it's the __documentation__. On practice, it involves a short "__one pager__" document (actually can be < 20 pages), and slides for quick presentation, and spreadsheets for data evaluation. Nowadays culture lean more to lightweight document, central truth in codebase, and prioritize agile and peer-to-peer communication. Problem analysis and alternative trade-off analysis usually weight more in document than the design itself, where __defining the problem space__ is a key ability. Architecture design part usually includes key data structure, components, state machines, workflows, interfaces, key scenario walkthrough, and several detailed issue discussion. Importantly, the document should track the change history of design decision, i.e. how they reach today, and more specifically the __Issue, Strategy, Design Decision__ chain.
 
   * Another output of architecture design are __interfaces__. Interface design does have principles (see later). They are the tracks and lanes where following development start. They reveal how components are cut and interactions to happen. They also propagate expectations of your system to external systems, such as how they should co-work, what should be passed.
 
@@ -173,7 +173,7 @@ Software architecture is a large topic that I didn't find a canonical structure.
 
   * __Technology design spaces__. A technology, e.g. database, can evolve into different architectures after adapting to respective workload and scenarios, e.g. OLAP vs OLTP, in-memory of on disk. Exploring the choices and architectures, plotting them on the landscape, reveals the design space. With this global picture in mind, the design space landscape greatly helps navigating the new round of architecture design.
 
-__Managing the complexity__
+## Managing the complexity
 
 The first and ever biggest topic in architecture design (or software design) is to __handle complexity__. The essence is to __let the code space mimic human mind__, i.e. how the human language is organized (if you have read the philosophy chapter). Human language is itself the best model of the complex world, which is a "design" polished by human history, and yet shared by everyone. Domain knowledge is thus helpful, as it is the language itself. When code space is close to the language space (or use a good metaphor), it naturally saves everyone's mind burden.
 
@@ -204,7 +204,7 @@ Design complexity can be formulated and evaluated using scores on dependency. I 
 // TODO https://mp.weixin.qq.com/s?__biz=MzA4NTkwODkyMQ==&mid=2651257296&idx=1&sn=7273271d15bc7e2e41da58a155c6e4ab&chksm=84229506b3551c10f20437b06e0e2fb75c1cb0642d5571ea0b30f534a9000b7bb4f2946a393c
    表1-1　质量评估指标 This is a really nice picture to show how to measure code complexity
 
-__Levels of architecture design__
+## Levels of architecture design
 
 Software design is complex. To manage the complexity, I break it into different __levels and views__. Typical levels are: architecture level, component level, and class level. The abstraction level goes from high to low, scope from big to small, and uncertainty from fuzzy to clear. Each level yet has its own methodologies. Levels also map to first-and-next steps, which in practice can be simplified or mixed, to lean more to the real world bottleneck.
 
@@ -214,7 +214,7 @@ Software design is complex. To manage the complexity, I break it into different 
 
   * __Class level__ next focuses on the more fine-grained level, i.e. how to implement one or several classes well. The definitions are clear and ready for coding. Typical methodologies are __[Coding Styles](https://google.github.io/styleguide/cppguide.html)__, __[Code Refactoring](https://m.douban.com/book/subject/1229923/)__, __[Code Complete](https://book.douban.com/subject/1477390/)__ (bad book name). You can also hear about defensive programming, contract based programming. __[UML diagrams](https://en.wikipedia.org/wiki/Unified_Modeling_Language)__ are vastly useful at this level and also component level, as a descriptive tool, and more importantly an analysis tool; e.g. use state machine diagram/table to ensure all possible system conditions are exhausted and cared about. (Similar methods are also shared in [PSP](https://www.geeksforgeeks.org/personal-software-process-psp/), which is a subset ([Combining CMMI/PSP](https://www.isixsigma.com/tools-templates/combining-cmmia-psp-tsp-and-six-sigma-software/)) of [CMMI](https://en.wikipedia.org/wiki/Capability_Maturity_Model_Integration); real world today more lean to Agile, while CMMI essentially turns developers into screw nails with heavy documentation and tightly monitored statistics).
 
-__Views of architecture design__
+## Views of architecture design
 
 Views help understand software design from different perspectives. The methodologies covered below act as the descriptive tools for design output, the analysis tools to verify correctness, the heuristic frameworks for mind flow, and the processes to carry out architecture design.
 
@@ -322,7 +322,7 @@ Most principles are already reflected in the above sections. At __architecture l
 
   * __Designed for evolving__. Business needs are changing. Traffic scale are increasing. Team members may come and go. Technologies are updating. An architecture should be designed evolvable. The architecture process (and development) should be carried out with a [growth mindset](https://www.youtube.com/watch?v=M1CHPnZfFmU). An example is [Ele.me Payment System](https://mp.weixin.qq.com/s/mtPQLSONUCWOC2HDPRwXNQ), which is quite common for Internet companies.
 
-More principles come to __component level__ design. [CoolShell design principles](https://coolshell.cn/articles/4535.html) is good to list all of them. Below are what I picked most useful
+More principles come to __component level__ design. [CoolShell design principles](https://coolshell.cn/articles/4535.html) is good to list all of them. Below are what I think most useful
 
   * __Keep It Simple__, Stupid (KISS), You Ain't Gonna Need It (YAGNI), Don't Repeat Yourself (DRY), Principle of Least Knowledge, Separation of Concerns (SoC): That said, make everything simple. If you cannot, divide and conquer.
 
@@ -605,7 +605,7 @@ __Divide by static components__
   * Cold/hot tiering
   * Client
   * Storage media
-  * Networking & Messaging
+  * Networking & messaging
   * Backup & disaster recovery
   * Upgrade/deployment and restart
   * Monitoring & alerting
@@ -1806,30 +1806,16 @@ Compared to [Storage components breakdown section](.), there are a few topics I 
 
 # Conclusion
 
-// TODO First, summary what we have converged, and the top highlights. Next, get to the "higher" parts
+This article (almost a book now) is composed of two parts: software architecture methodologies and storage technology design spaces. In the first part, we went though the purposes of software architecture, how to view it from the organization, the process to carry it out, and key methodologies and principles. Software architecture bridges user scenarios to a detailed working software. It handles the complexity of user facing functions and hidden system properties. It navigates through the best path in large technology design space. It drives collaboration between BUs and ensures the deliverables with quality. Software architecture is a fight with complexity. It constructs the matching model with human mind to reach simplicity, which naturally converges to human language, the battle-tested modeling of the reality. It becomes an art of structure, to sense the structure of surrounding organization, to clarify the structure of user needs, to feel the tension from system properties, to plot the landscape of technology design spaces, and then compile the new architecture structure to fill in the hole.
 
-// TODO architecture design is perceiving the property space, from discrete factors to connect Continuum smooth transforms, and find the optimal curve point in the hypercube. human language is a best cut into tool and and modeling battled tested.
+In the second part, we went through technology design spaces for the distributed storage system. We first listed Reference architectures in different storage areas, and then breakdown each storage component's system properties and design spaces. [Storage components breakdown section](.) lists the storage areas, components, and system properties to consider in software architecture. Popular techniques burn into language and becomes a design pattern. An architecture design pattern frequently interleaves multiple components and trade-off between system properties. Discrete techniques join into a continuous space of design, where the shape of landscape emerges. We breakdown, navigate, and re-combine whatever we need to reach the optimal point of problem solution. Storage industry is quickly changing, with more powerful hardware, growing scale, new scenarios from new businesses, and a constant focus on reliability and COGS. They push technology design space to continuously evolve. New opportunities emerge.
 
-// TODO talk about how to practice and improve the skills
+
 
 // TODO In the end, plot the big picture covering all property factors
 
-
-
-
-
-
-
-
 // TODO We should have a overall picture for all techniques. It can be a similar to: https://mapsontheweb.zoom-maps.com/post/143896346898/a-map-of-mathematics
         We should have a typical storage system picture with each components and data flow. At each components, we put the technique breakdown there.
-
-// TODO Wrap and mapping to Reference architectures.
-
-// TODO design space analysis
-// TODO think in this aspect: 1) what is the driving factor and challenge, 2) what is the design space. 3) then boil down to discrete design patterns
-
-// TODO Let's check each project mentioned in reference architecture, and generate a table to say how they did in Storage components breakdown, and how they did in design patterns. This should generate the nice table chart. -> <design pattern, touching components, examples systems>
 
 ------------------------------
 
