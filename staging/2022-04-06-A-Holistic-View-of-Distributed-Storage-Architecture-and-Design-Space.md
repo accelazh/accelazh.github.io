@@ -9,20 +9,20 @@ tags: [cloud, storage, architecture]
 {% include JB/setup %}
 
 
-The article summarizes my experiences on software architecture. Architecture design is essentially driven by __philosophies__ as the generator engine that governs all knowledge. From the __organization view__, we can find why and how architecture design process and skills are required that way. Common __methodologies__ and __principles__, viewed from the philosophies, provide guidance to carry out architecture design with quality. An architect needs an armory of techniques for different __system properties__. I categorize __Reference architectures__ in each distributed storage area, summarize __architecture design patterns__ from them, and connect into __technology design spaces__.
+The article summarizes my experiences on software architecture. Architecture design is essentially driven by __philosophies__ as the generator engine that governs all knowledge. From the __organization view__, we can find why and how architecture design process and skills are required that way. Common __methodologies__ and __principles__, viewed from the philosophies, provide guidance to carry out architecture design with quality. An architect needs an armory of techniques for different __system properties__. I categorized __Reference architectures__ in each distributed storage area, summarize __architecture design patterns__ from them, and connect them into __technology design spaces__.
 
 
 # Software architecture - A philosophy perspective
 
-Software architecture is a modeling of the reality world, a language, and a human mind creation that to assist human mind. Language, is an interesting topic. The three together are deeply interconnected, pointing why, what and how to handle software architecture.
+Software architecture is a modeling of the reality world, a language, and a human mind creation to assist human mind. Language is an interesting topic. The three together are deeply interconnected, pointing why, what and how to handle software architecture.
 
 The next and following chapters tell about knowledge in software architecture. But this first chapter tells about the engine that generates the knowledge.
 
 __Reality, language, and human mind__
 
-Firstly, __the modeling of the world is human language__. Human language evolved for thousands of years, enriched by distinctive civil culture, polished by daily interaction among population, and tested by full industry use and creation. Grab a dictionary, you learn the world and mankind.
+Firstly, __the modeling of the world is human language__. Human language evolved for thousands of years, enriched by distinctive civil culture, polished by daily interaction among population, and tested by full industry usage and creation. Grab a dictionary, you learn the world and mankind.
 
-Next, the modeling tool is also a model of the model-er itself. I.e. __human language is also the modeling of human mind__. Thinking is carried and organized by language. Language is structured in the way how human mind is capable to perceive the world, rather than how necessarily the world itself has to be. E.g. software designs by high cohesion low coupling, which is also the principle of how words are created in language. Like they are to reduce software complexity, they do because human thinks this way.
+Next, the modeling tool is also a model of the modeler itself. I.e. __human language is also the modeling of human mind__. Thinking is carried and organized by language. Language is structured in the way how human mind is capable to perceive the world, rather than how necessarily the world itself has to be. E.g. software designs by high cohesion low coupling, which is also the principle of how words are created in language. Like they are to reduce software complexity, they do because human thinks this way.
 
 We can say __human language, mind, and the perceivable reality are isomorphic (of the same structure)__. The expedition into the outer world is the same way with exploring into the deep heart. Losing a culture, a language, is the same with losing a piece of reality. As the two sides of a coin, human language is both the greatest blessing how mankind outperforms other creature beings, and also the eternal cage how farthest human mind is capable to perceive.
 
@@ -30,13 +30,13 @@ __About software architecture__
 
 Software architecture is a language, a modeling of the reality world, and a human mind creation to assist human mind. __The essence of software architecture__ is to [honestly reflect the outer world](https://www.zhihu.com/question/346067016), to introspect into the inner mind, and to conceptually light up where it is dark missing. The answer is already there, embedded in the structure, waiting to be perceived.
 
-The question is not what software architecture itself is, nor to learn what software architecture has, but to understand the landscape of world and mind, where you see the hole that needs "software architecture" to fill. You __predict and design__ what "software architecture" should be, can be, and will be. There can be 3000 parallel worlds each with a different software architecture book; what we have here is just one.
+The question is not what software architecture itself is, nor to learn what software architecture has, but to understand the landscape of world and mind, where you see the hole that needs "software architecture" to fill. You __predict and design__ what "software architecture" should be, can be, and will be. There can be three thousands parallel worlds each with a different software architecture book. We pick one of ours.
 
 Besides, __knowledge and experience are themselves good designs__. They are essentially a domain language, a reusable piece of world modeling, thus also explains why they are useful across daily work and even substitutes design skills. Knowledge is not to learn, but to observe the art of design tested by human act.
 
-// TODO Add a pic about the triple mapping relation
+![The mapping between human mind, language, the reality](/images/arch-design-mind-lang-reality.png "The mapping between human mind, language, the reality")
 
-__Explaining with examples__
+__Side notes: Explaining with examples__
 
 For __"high cohesion low coupling" in human language__, imagine an apple on a disk. People name them with "apple" and "desk", rather than a "half apple + half desk" thing. Like selecting what to wrap into an object in Object-Oriented (OO) design, the naming "apple" and "desk" practices "high cohesion low coupling".
 
@@ -44,16 +44,15 @@ To drill deeper, "high cohesion" implies "going together". The __underlying axis
 
 An imagined creature can have a totally different language system and thinking mind, if they do not rely on visual sights like human, or even not with time and space axes. They may not need "high cohesion low coupling" as a thinking principle neither. E.g. they can process information like how organic biology evolves.
 
-For __human language is also a cage__, remember language is a modeling of the reality. __Modeling__ implies "less important" information are dropped to ease the burden of human cognition. Are they really less important? Words are to __reuse__ the same concept for events happened at different time, which saves duplicates. But are they really duplicates? The necessity of language is itself a sign that human mind is unable to process "full" information. Relying on language, the ability is crippled, limited, caged.
+For __human language is also a cage__, remember language is a modeling of the reality. __Modeling__ implies "less important" information are dropped to ease the burden of human cognition. Are they really less important? Words are to __reuse__ the same concept for events happened at different time, which avoids duplication. But are they really duplicates? The necessity of language is itself a sign that human mind is unable to process "full" information. Relying on language, the ability is crippled, limited, caged.
 
 More, human mind can hardly think without underlying __time and space__ axes. Human words, at the bottom layer of the abstraction tower, can hardly go without "human-organ-oriented" __sense elements__. People frequently need daily chats, to sync drifts on abstract concepts. Even language itself is becoming a bottleneck, between human-to-machine, population-to-population information exchange.
 
-For __"software architecture" hole in the world and mind landscape__, you all see more in the following of the article. Though most associate "software architecture" with technology, it is also determined by organization and process needs. Various "needs" in different domains flow into the gap of "software architecture", crafted to be processed and expressed in a suitable language for human mind. Together they evolve into the internal meaning of "software architecture".
+For __"software architecture" hole in the world and mind landscape__, you all see more in the following article. Though most associate "software architecture" with technology, it is also determined by organization and process needs. Various "needs" in different domains flow into the gap of "software architecture", crafted to be processed and expressed in a suitable language for human mind. Together they evolve into the internal meaning of "software architecture".
 
-For __predict and design what "software architecture" should be__. It can be explained as the method of learning. The plain way is the learn what it is, the structure, the composition, cover the knowledge points, and practice using. The better way is to first understand the driving factors, landscape, and dynamics behind. You can see the source and direction of it, even to the end and final limitation. You can also see the many different alternatives, possible to happen, but eventually not chosen by the real world industry, due to certain reason in the back. You should be able to define your own methodology, given your local customized needs. You can forget the knowledge and create any on your own.
+For __predict and design what "software architecture" should be__. It can be explained as the method of learning. The plain way is the learn what it is, the structure, the composition, cover the knowledge points, and practice using. The better way is to first understand the driving factors, landscape, and dynamics behind. You can see the source and direction of it, even to the end and final limitation. You can also see the many different alternatives, possible to happen, but eventually not chosen by the real world industry, due to certain reasons underwater. You should be able to define your own methodology, given your local customized needs. You can forget the knowledge and create any on your own.
 
-
-// TODO Add a picture about the apple/desk cut
+![Cutting the apple and desk](/images/arch-design-apple-desk-cut.png "Cutting the apple and desk")
 
 
 # Why need software architecture
@@ -90,9 +89,7 @@ Process & Organization
 
   * __Tracks and lanes__. The architect role usually builds the framework, and then the many team members quickly contribute code under given components. It sets tracks and lanes where the code can grow and where not, i.e. the basis of intra-team collaboration. Future, the tracks and lanes are visions for future roadmap, and standards for team to daily co-work.
 
-
-// TODO Add a pic about architect role, that interconnects project PM, dev teams, customer requirements, key technology decisions. and like Management (risk, critical path).
-
+![Architect role](/images/arch-design-architect-role.png "Architect role")
 
 
 # Different architecture organization styles
@@ -105,7 +102,7 @@ What an architect role does and means in real world industry are somehow puzzled
 
   * __Peer-to-peer architect__. Usually seen at teams building dedicated technology. Unlike Internet companies spinning up Apps horizontally atop many different technologies, such team vertically focuses on one, e.g. to build a database, a cloud storage, an infrastructure component, i.e. 2C (former) vs 2B (later) culture. No dedicated architect job position, but shared by everyone. Anyone can start a design proposal (incremental, new component, even new service). The design undergoes a few rounds of review from a group of senior guys, not fixed but selected by relevance and interest. Anyone can contribute to the design, and can join freely to set off with project development. Quite organic. Technology is the key traction here, where new architecture can be invented for it (e.g. new NVM media to storage design).
 
-  * __System analyst__. Usually seen at companies selling ERP, or outsourcing. The systems are heavily involved into customer side domain knowledge. And the domain knowledge is invalidated when selling to another customer from a different domain. Because of new background each time, comprehensive requirement analysis and architecture procedures are developed. When domain can be reused, domain experts are valued, where __knowledge and experience themselves are good designs__. Domain knowledge can win more traction than technology, where the later one more leans to stability and cost management.
+  * __System analyst__. Usually seen at companies selling ERP (Enterprise resource planning), or outsourcing. The systems are heavily involved into customer side domain knowledge. And the domain knowledge is invalidated when selling to another customer from a different domain. Because of new background each time, comprehensive requirement analysis and architecture procedures are developed. When domain can be reused, domain experts are valued, where __knowledge and experience themselves are good designs__. Domain knowledge can win more traction than technology, where the later one more leans to stability and cost management.
 
   * __Borrow and improve__. Usually seen at follower companies. If not edge cutting into no man's land, __reference architecture__ (top product's architecture) can usually be found to borrow from, to customize and improve. This is also benefited by the wide variety of opensource. Reference architecture, standing on the shoulder of giants, are widely used in software architecture processes, e.g. comparing peer works, which is another example of knowledge and experience themselves are good designs. Market technology investigation survey are high demand skills.
 
@@ -156,7 +153,7 @@ The last point is about __driving the project__. The architect role is usually a
 
   * More, __driving is a mindset__. You are not who asks questions, people ask questions to you, and you are the final barrier to decide whether problem is solvable or not. The most difficult problems naturally routes to you. If solving the problem needs resource, you make the plan and lobby for the support. You make prioritization, you define, and you eat the dogfood. The team follow you to success (if not otherwise).
 
-// TODO add pic for the feedback loop of design->implement->evaluate
+![Architecture design feedback loop](/images/arch-design-process-loop.png "Architecture design feedback loop")
 
 
 # Key methodologies in software architecture
@@ -191,9 +188,9 @@ Below are conceptual tools to handle complexity.
 
   * __Separate of concerns__. Divide and concur, decomposition, are the popular concepts. Decouple on the boundary of minimal dependency links. Make components __orthogonal__ from each own space. Make API __idempotent__ from timeline of calls. To truly separate concerns, methodologies are naturally required such as encapsulation, knowledge hiding, minimal assumptions. In theory, any complexity can be broken down into handy small pieces, but beware of the information flow distorted in between, and the missing holes in responsibility delegating.
 
-  * __Component boundary__. Separating components and sub-components eases mind memory usage. Component boundary should be cut at __what changes together__. If an upstream service change is frequently coupled with a downstream service change, they should have been put into the same component. Violating it is the common case where micro-service messes up the system. High organization collaboration cost is another place to cut component boundary, see [Convey's Law](https://en.wikipedia.org/wiki/Conway%27s_law).
+  * __Component boundary__. Separating components and sub-components eases mind memory usage. Component boundary should be cut at __what changes together__. If an upstream service change is frequently coupled with a downstream service change, they should have been put into the same component. Violating it is the common case where microservice messes up the system. High organization collaboration cost is another place to cut component boundary, see [Convey's Law](https://en.wikipedia.org/wiki/Conway%27s_law).
 
-Design complexity can be formulated and evaluated using scores on dependency. I found [D Score](https://book.douban.com/subject/26915970/) interesting. And this [Measuring software complexity](https://thevaluable.dev/complexity-metrics-software/) article lists other measures. These methods are less popular probably because domain knowledge is more effective to handle complexity. In general,
+Design complexity can be formulated and evaluated using scores on dependency. I found [D Score](https://book.douban.com/subject/26915970/) interesting. And this [Measuring software complexity](https://thevaluable.dev/complexity-metrics-software/) article lists other measures. These methods are less popular probably because domain knowledge is more effective to handle complexity. Besides the below bullets, another [Domain-drive Design - Chapter 1](https://mp.weixin.qq.com/s?__biz=MzA4NTkwODkyMQ==&mid=2651257296&idx=1&sn=7273271d15bc7e2e41da58a155c6e4ab&chksm=84229506b3551c10f20437b06e0e2fb75c1cb0642d5571ea0b30f534a9000b7bb4f2946a393c) article has a nice list of code complexity measurement.
 
   * __"D Score"__ measures software complexity by the number of dependencies. Dependency links inside the component is adding to cohesion, otherwise adding to coupling if pointing to outside. The two types of dependency links are summed up, with a formula, as the final score.
 
@@ -201,8 +198,8 @@ Design complexity can be formulated and evaluated using scores on dependency. I 
 
   * __"Cyclomatic Complexity"__ treat software as control flow graph. The number of edges, nodes, and branches, are summed up, with a formula, as the final score.
 
-// TODO https://mp.weixin.qq.com/s?__biz=MzA4NTkwODkyMQ==&mid=2651257296&idx=1&sn=7273271d15bc7e2e41da58a155c6e4ab&chksm=84229506b3551c10f20437b06e0e2fb75c1cb0642d5571ea0b30f534a9000b7bb4f2946a393c
-   表1-1　质量评估指标 This is a really nice picture to show how to measure code complexity
+![Code complexity measurement](/images/arch-design-complexity-scores.png "Code complexity measurement")
+
 
 ## Levels of architecture design
 
@@ -230,7 +227,7 @@ __[4+1 View](https://zhuanlan.zhihu.com/p/112531852)__ is one of the most popula
 
   * __Usecase View__: Last but the most __important__ view. It captures all user scenarios and system scenarios, functional and non-functional requirements. Each of them are walked through across the previous 4 views to verify truly addressed.
 
-// TODO pic: 4+1 view chart from https://zhuanlan.zhihu.com/p/112531852
+![Architecture 4+1 view](/images/arch-design-4plus1-view.png "Architecture 4+1 view")
 
 __[UML](https://en.wikipedia.org/wiki/Unified_Modeling_Language)__ is the generic software modeling tool, but it can also be understood from the view's perspective.
 
@@ -240,7 +237,7 @@ __[UML](https://en.wikipedia.org/wiki/Unified_Modeling_Language)__ is the generi
 
   * __Other diagrams__. There are Usecase diagram to capture user scenarios and more fine-grained cases; and deployment view to capture how the code and artifacts are grouped for code development.
 
-[Domain-Driven Design](https://www.amazon.com/Domain-Driven-Design-Tackling-Complexity-Software/dp/0321125215) (DDD) views the system from the domain expert perspective. It applies to systems with complex business logic and domain knowledge, e.g. ERP, CRM, or Internet companies with rich business. Compared to traditional OO-design, which easily leads to a spider web of objects ("__Big Ball of Mud__"), DDD introduces "domains" to tide it up. Below lists key concepts:
+[Domain-Driven Design](https://www.amazon.com/Domain-Driven-Design-Tackling-Complexity-Software/dp/0321125215) (DDD) views the system from the domain expert perspective. It applies to systems with complex business logic and domain knowledge, e.g. ERP, CRM (Customer relationship management), or Internet companies with rich business. Compared to traditional OO-design, which easily leads to a spider web of objects ("__Big Ball of Mud__"), DDD introduces "domains" to tide it up. Besides below listed key concepts, [IDDD flu vaccine](https://learning.oreilly.com/library/view/implementing-domain-driven-design/9780133039900/ch01lev2sec5.html#ch01lev2sec5) is also a nice example. 
 
   * __Domain__. A big complex system (enterprise scale) are cut into multiple domains (e.g. user account system, forum system, ecommerce system, etc), each with their specific domain knowledge, language wording, and domain experts.
 
@@ -248,19 +245,19 @@ __[UML](https://en.wikipedia.org/wiki/Unified_Modeling_Language)__ is the generi
 
   * __Context Map__. But how two Bounded Contexts interact? A domain's object is mapped to another domain, via the Context Map. The Context Map can be as simple as "new an object" and "assign properties", or as complex as a REST service. __Anti-corruption layer__ (ACL) can be inserted in middle for isolation.
 
-  * __[Drive DDD design by language](https://qiyu2580.gitbooks.io/iddd/content/Chapter2/making-sense-of-bounded-contexts.html)__. Domain knowledge is a language, and knowledge itself is a good design (if you see the philosophy part). However language has its fuzziness nature, that's why __context__ needs to be introduced to bound for certainty. Language is fluent when you organize talking at the same abstraction level; that explains objects should only interact with objects from the same bounded context. DDD is a methodology to __operate language into design__; it expresses domain knowledge __in reusable code__, where domain experts are (or close to) code developers.
+  * __[Drive DDD design by language](https://learning.oreilly.com/library/view/implementing-domain-driven-design/9780133039900/ch02lev1sec4.html#ch02lev1sec4)__. Domain knowledge is a language, and knowledge itself is a good design (if you see the philosophy part). However language has its fuzziness nature, that's why __context__ needs to be introduced to bound for certainty. Language is fluent when you organize talking at the same abstraction level, which explains why objects should only interact with objects from the same bounded context. DDD is a methodology to __operate language into design__. It expresses domain knowledge __in reusable code__, where domain experts are (or close to) code developers.
 
   * __Company strategic view__. DDD is able to model company-wide. An executive needs to strategically decide what is core for business competency, what to support it, and what are the common parts. This introduces __[Core domains](https://cloud.tencent.com/developer/article/1709312)__, __Supporting domains__, and __Generic domains__. Priority resources are biased among them. In long term, the domain knowledge, and the DDD model implemented in running code, are accumulated to become valuable __company assets__. The DDD architecture focus on lasting domain modeling, where a good design is __neutral to the technical architecture__ being implemented.
 
-// TODO DDD pic insert: https://qiyu2580.gitbooks.io/iddd/content/Chapter1/how-to-ddd.html. 表1.4 分析"注射流感疫苗"的最佳模型
+![IDDD flu vaccine example](/images/arch-design-ddd-vaccine-example.png "IDDD flu vaccine example")
 
 There are more general architecture views more used for customer facing and sales scenarios. They provide alternative insights for what an architecture should include.
 
-  * This [Enterprise architecture](https://dev.to/dhruvesh_patel/software-architecture-five-common-design-principles-2il0) consists of Business architecture, Data architecture, Application architecture, Technology architecture. This is more viewed from enterprise business level and does a coarse decomposition
+  * This [Enterprise architecture](https://dev.to/dhruvesh_patel/software-architecture-five-common-design-principles-2il0) consists of Business architecture, Data architecture, Application architecture, Technology architecture. This is more viewed from enterprise business level and does a coarse decomposition. It's shown in the below picture.
 
   * The [四横三纵 architecture](https://mp.weixin.qq.com/s?__biz=MzI4OTc4MzI5OA==&mid=2247544948&idx=6&sn=e89031d33a1b7f753095164b022ae80d) or with more detailed in this [Alibaba 四横三纵](https://posts.careerengine.us/p/5f0db6acb5fef84f7de7203d) article. "四横" are IaaS, DaaS (data as a service), PaaS (platform services) and SaaS. "三纵" are Standard Definition & Documentation (准规范体系), Security Enforcing (安全保障体系), Operation Support & Safety (运维保障体系).
 
-// TODO pic arch from: https://dev.to/dhruvesh_patel/software-architecture-five-common-design-principles-2il0
+![An enterprise architecture](/images/arch-design-enterprise-architecture.png "An enterprise architecture")
 
 Besides this section, I also found valuable experiences from [Kenneth Lee's blogs](https://gitee.com/Kenneth-Lee-2012/MySummary/tree/master/%E8%BD%AF%E4%BB%B6%E6%9E%84%E6%9E%B6%E8%AE%BE%E8%AE%A1)/[Kenneth Lee's articles](https://www.zhihu.com/column/kls-software-arch-world), the remarkable [On Designing and Deploying Internet-Scale Services](https://www.usenix.org/legacy/event/lisa07/tech/full_papers/hamilton/hamilton_html/); and from [eBay's 三高 design P1](https://mp.weixin.qq.com/s/bnhXGD7UhwTxL8fpddzAuw)/[eBay's 三高 design P2](https://mp.weixin.qq.com/s/Xyvfx9mLKqquulnrhFi42Q) articles, [Alibaba's 道延架构](https://mp.weixin.qq.com/s?__biz=Mzg5Mjc3MjIyMA==&mid=2247544273&idx=1&sn=d7b9cec80cd593d28b42f5b6179af8be) article, or [AWS's 如何软件开发](https://mp.weixin.qq.com/s?__biz=MzI4OTc4MzI5OA==&mid=2247520243&idx=1&sn=dfce28433ff14ef188055dc5daf67bd7) article.
 
@@ -287,29 +284,29 @@ This is the old topic, a generic design pattern on the scale of architecture. Ne
 
   * __Functional programming__. This is more an ideal methodology rather than a concrete architecture. Variables are immutable; system states are instead defined by a chain of function calls. I.e. it's defined by math formula, or a bit like event sourcing. Functions are thus the first-class citizens.
 
-// TODO pic: add charts for each major architecture. this is much easier to understand.
+![Common architecture styles](/images/arch-design-common-styles.png "Common architecture styles")
 
 More recent architectures below. You can see architectures vary on: How to cut boundaries, e.g. fine-grain levels, offloading to cloud. Natural structures, e.g. layered, event & streaming, business logic, model-view UI. The gravity of complexity, e.g. complex structures, performance, consistency, managing data, security & auditing, loose communication channels.
 
-  * __Micro-service__. Complex systems are broken into micro-services interacting with REST APIs. Typical examples are __Kubernetes and Service Mesh__. You yet need an even more complex container infrastructure to run micro-services: [SDN](https://en.wikipedia.org/wiki/Software-defined_networking) controller and agents for virtual networking, HA load balancer to distribute traffic, circuit breaker to protect from traffic surge, service registry to manage REST endpoints, Paxos quorum to manage locking and consistent metadata, persistent storage to provide disk volumes and database services, ...
+  * __Microservice__. Complex systems are broken into microservices interacting with REST APIs. Typical examples are __Kubernetes and Service Mesh__. You yet need an even more complex container infrastructure to run microservices: [SDN](https://en.wikipedia.org/wiki/Software-defined_networking) controller and agents for virtual networking, HA load balancer to distribute traffic, circuit breaker to protect from traffic surge, service registry to manage REST endpoints, Paxos quorum to manage locking and consistent metadata, persistent storage to provide disk volumes and database services, ... Below is [Netflix microservice architecture](https://medium.com/swlh/a-design-analysis-of-cloud-based-microservices-architecture-at-netflix-98836b2da45f) for example.
 
-// TODO Add pick about K8S service mesh architecture
+![Netflix microservice architecture](/images/arch-design-netflix-microservice.png "Netflix microservice architecture")
 
-  * __Stream processing__. Upstream and downstream systems, across company-wide, are connected via messaging queue, or low latency streaming platforms. Nowadays enterprises are moving from __Lambda architecture__ (realtime approximate streaming and delayed accurate batching are separated) to __[Kappa architecture](https://towardsdatascience.com/a-brief-introduction-to-two-data-processing-architectures-lambda-and-kappa-for-big-data-4f35c28005bb)__ (combine both into streaming, with consistent transaction). A more complex system can comprise [online, nearline, offline](https://netflixtechblog.com/system-architectures-for-personalization-and-recommendation-e081aa94b5d8) parts.
+  * __Stream processing__. Upstream and downstream systems, across company-wide, are connected via messaging queue, or low latency streaming platforms. Nowadays enterprises are moving from __Lambda architecture__ (realtime approximate streaming and delayed accurate batching are separated) to __[Kappa architecture](https://towardsdatascience.com/a-brief-introduction-to-two-data-processing-architectures-lambda-and-kappa-for-big-data-4f35c28005bb)__ (combine both into streaming, with consistent transaction). A more complex system can comprise [online, nearline, offline](https://netflixtechblog.com/system-architectures-for-personalization-and-recommendation-e081aa94b5d8) parts, as in below picture.
 
-// TODO pic: online,nearline,offline from Netflix chart: https://netflixtechblog.com/system-architectures-for-personalization-and-recommendation-e081aa94b5d8
+![Netflix online/nearline/offline architecture](/images/arch-design-netflix-nearline.png "Netflix online/nearline/offline architecture")
 
-  * __Cloud native__. The system is designed to run exclusively on cloud infrastructure (but to be hybrid cloud). The typical example is [Snowflake](https://www.usenix.org/conference/nsdi20/presentation/vuppalapati) database. Key designs are: 1) Disk file persistence are offloaded to __S3__. 2) Memory caching, query processing, storage are __disaggregated__ and can independently scaleout and be elastic for traffic surge. 3) Read path and write path can separately scale, where typical users generate write contents in steady throughput and read traffic in spikes. 4) Different tiers of resources, since fully disaggregated, can accurately charge billing for how much a customer actually uses.  __Serverless__ is another topic, where all the heavy parts like database and programming runtime are shifted to cloud. Programmers focus on writing functions to do what business values, lightweighted and elastic to traffic.
+  * __Cloud native__. The system is designed to run exclusively on cloud infrastructure (but to be hybrid cloud). The typical example is [Snowflake](https://www.usenix.org/conference/nsdi20/presentation/vuppalapati) database. Key designs are: 1) Disk file persistence are offloaded to __S3__. 2) Memory caching, query processing, storage are __disaggregated__ and can independently scaleout and be elastic for traffic surge. 3) Read path and write path can separately scale, where typical users generate write contents in steady throughput and read traffic in spikes. 4) Different tiers of resources, since fully disaggregated, can accurately charge billing for how much a customer actually uses.  __Serverless__ is another topic, where all the heavy parts like database and programming runtime are shifted to cloud. Programmers focus on writing functions to do what business values, lightweighted and elastic to traffic. Below is [Snowflake architecture](https://medium.com/codex/why-snowflake-data-cloud-over-lakehouse-architecture-647b27ecf59e) for example.
 
-// TODO Add pic about Snowflake architecture
+![Snowflake architecture](/images/arch-design-snowflake.png "Snowflake architecture")
 
-  * __DDD onion architecture__. The onion (or call it hexagon) architecture comes to shape in the context of DDD. Domain model is the central part. The next layer outside is applications. The outer layer are adapters that connects to external systems. Onion architecture is neutral to the actual technical architecture being implemented. Domain models can also be connected test cases to easily validate business logic (rather than the verbosity of preparing testbed with fake data in databases, fake REST interfaces, etc).
+  * __[DDD onion architecture](https://herbertograca.com/2017/11/16/explicit-architecture-01-ddd-hexagonal-onion-clean-cqrs-how-i-put-it-all-together/)__. The onion (or call it hexagon) architecture comes to shape in the context of DDD. Domain model is the central part. The next layer outside are applications. The outer layer are adapters that connects to external systems. Onion architecture is neutral to the actual technical architecture being implemented. Domain models can also be connected to test cases to easily validate business logic (rather than the verbosity of preparing testbed with fake data in databases, fake REST interfaces, etc).
 
-// TODO Add pic about DDD onion the classic architecture
+![DDD onion architecture](/images/arch-design-DDD-onion.png "DDD onion architecture")
 
   * __[React-Redux](https://medium.com/mofed/react-redux-architecture-overview-7b3e52004b6e)__. The architecture is a more advanced version of MVC. With data pulled from server-side, Javascripts at client-side runs MVC itself. Views are constructed by templates + input properties. User actions generate events, which trigger actions, e.g. call services. New updates are sent to reducer, which then map to store. Container uses selectors to fetch states from store, map them to properties, and then finally render the new view. The architecture is also frequently accompanied with Electron and NodeJS to develop rich client Apps with web technologies.
 
-// TODO Add pic Reach-Redux architecture the workflow loop chart, which should find from the official site
+![React-Redux architecture](/images/arch-design-react-redux.png "React-Redux architecture")
 
 
 # General architecture principles
@@ -503,7 +500,7 @@ Good papers and surveys can enlighten the technology landscape and reveal design
 
   * [HBase](https://segmentfault.com/a/1190000019959411) is the opensource version of [Big Table](https://static.googleusercontent.com/media/research.google.com/en//archive/bigtable-osdi06.pdf). Table is range partitioned and metadata managed by [ZooKeeper](https://mikechen.cc/4657.html) (opensource version of Chubby, or Paxos + [Replicated State Machine](https://www.youtube.com/watch?v=TWp6H7mb09A) + Namespace indexing). Partition server employs LSM-tree to manage updates, with common parts like MemTable, HFile, Compaction. HBase features in variable column schema, retrieving values by timestamp versions, and per row atomic operations. Cross-partition transactions can be built atop with [Percolator](https://research.google/pubs/pub36726/). HBase becomes the de-factor big table schema database on HDFS, and serves as the backend for higher level systems serving SQL, time-series, block, etc. ByteDance has customized implementation of Big Table and Spanner as [ByteSQL](https://mp.weixin.qq.com/s/DvUBnWBqb0XGnicKUb-iqg) and [Bytable](https://mp.weixin.qq.com/s/oV5F_K2mmE_kK77uEZSjLg). Alibaba customized HBase and published [Lindorm](https://zhuanlan.zhihu.com/p/407175099).
 
-  * [Cassandra](https://www.cs.cornell.edu/projects/ladis2009/papers/lakshman-ladis2009.pdf) follows the peer-to-peer (P2P) cluster management from [Dynamo](http://docs.huihoo.com/amazon/Dynamo-Amazon-Highly-Available-Key-Value-Store.pdf), while [DynamoDB](https://www.allthingsdistributed.com/2012/01/amazon-dynamodb.html) ([paper](https://www.usenix.org/conference/atc22/presentation/elhemali)) is AWS commercial that also follows Dynamo. It has no dedicated metadata quorum, but carries metadata in peer nodes and propagates with [Gossip](http://kaiyuan.me/2015/07/08/Gossip/) protocol. It supports big table schema where primary key is required. Keys are partitioned and placement-ed by [Consistent Hashing](https://www.toptal.com/big-data/consistent-hashing) to avoid data churn when node join/leaves. Cassandra employs quorum write/read (write N replicas, read N/2+1 replicas) to ensure durability and version consistency. Similar P2P cluster management can be found in [Service Fabric](https://dl.acm.org/doi/pdf/10.1145/3190508.3190546) which hosts micro-services and has extensive mechanisms for member node ring consistency.
+  * [Cassandra](https://www.cs.cornell.edu/projects/ladis2009/papers/lakshman-ladis2009.pdf) follows the peer-to-peer (P2P) cluster management from [Dynamo](http://docs.huihoo.com/amazon/Dynamo-Amazon-Highly-Available-Key-Value-Store.pdf), while [DynamoDB](https://www.allthingsdistributed.com/2012/01/amazon-dynamodb.html) ([paper](https://www.usenix.org/conference/atc22/presentation/elhemali)) is AWS commercial that also follows Dynamo. It has no dedicated metadata quorum, but carries metadata in peer nodes and propagates with [Gossip](http://kaiyuan.me/2015/07/08/Gossip/) protocol. It supports big table schema where primary key is required. Keys are partitioned and placement-ed by [Consistent Hashing](https://www.toptal.com/big-data/consistent-hashing) to avoid data churn when node join/leaves. Cassandra employs quorum write/read (write N replicas, read N/2+1 replicas) to ensure durability and version consistency. Similar P2P cluster management can be found in [Service Fabric](https://dl.acm.org/doi/pdf/10.1145/3190508.3190546) which hosts microservices and has extensive mechanisms for member node ring consistency.
 
   * [ElasticSearch] originates from full-text search engine based on Apache Lucene, so popular, then evolves into the scalable database of JSON documents, logging, time-series, [geospatial data](https://www.baeldung.com/elasticsearch-geo-spatial) with strong search support. [ElasticSearch scaleout](https://www.cnblogs.com/sgh1023/p/15691061.html) is managed with primary-secondary replications, and hash sharding. Previously ElasticSearch was also known by [ELK stack](https://www.elastic.co/what-is/elk-stack).
 
@@ -545,7 +542,7 @@ Good papers and surveys can enlighten the technology landscape and reveal design
 
   * [Snowflake](https://www.usenix.org/conference/nsdi20/presentation/vuppalapati) is the OLAP database native on public cloud. Memory caching, query processing, storage are disaggregated, reuse public cloud service (e.g. [AWS S3](https://docs.snowflake.com/en/user-guide/data-load-s3.html)), and independently scalable and billable. Tenant isolation leverages VMs (virtual machines), and offloads the classic resource under-utilization problem to cloud. To avoid read S3 every time, Snowflake adds a caching layer based on ephemeral storage. Nodes can be pre-warmed for elasticity. [Snowflake went IPO](https://edition.cnn.com/2020/09/16/investing/snowflake-ipo/index.html) very successfully.
 
-  * [Service Mesh](https://istio.io/latest/about/service-mesh/) is a containerized micro-service infrastructure, where Sidecar proxies (e.g. [Envoy](https://istio.io/latest/docs/ops/deployment/architecture/)) adds traffic routing, Service Registry, Load Balancing, Circuit Breaker, health Checks, encryption, etc to Apps with little code change. The former [Spring Cloud](https://xie.infoq.cn/article/2baee95d42ed7f8dd83cec170) can be migrated to K8S and Service Mesh environment with effort.
+  * [Service Mesh](https://istio.io/latest/about/service-mesh/) is a containerized microservice infrastructure, where Sidecar proxies (e.g. [Envoy](https://istio.io/latest/docs/ops/deployment/architecture/)) adds traffic routing, Service Registry, Load Balancing, Circuit Breaker, health Checks, encryption, etc to Apps with little code change. The former [Spring Cloud](https://xie.infoq.cn/article/2baee95d42ed7f8dd83cec170) can be migrated to K8S and Service Mesh environment with effort.
 
   * [Dominant Resource Fairness](https://cs.stanford.edu/~matei/papers/2011/nsdi_drf.pdf) is a typical [Cloud Resource Scheduling](https://www.researchgate.net/publication/293329163_A_Survey_on_Resource_Scheduling_in_Cloud_Computing_Issues_and_Challenges) algorithm, used in [YARN](https://mp.weixin.qq.com/s/9A0z0S9IthG6j8pZe6gCnw), that normalizes multi-dimensional resource allocation to follow the dominate resource. Alternatively, [2DFQ](https://cs.brown.edu/~jcmace/papers/mace162dfq.pdf) achieves fairness by separating requests to threads according to their sizes; [Quasar](http://csl.stanford.edu/~christos/publications/2014.quasar.asplos.pdf) samples workload profile on a small cluster via Machine Learning, than goto the full cluster; Container/[CGroup](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html/managing_monitoring_and_updating_the_kernel/using-cgroups-v2-to-control-distribution-of-cpu-time-for-applications_managing-monitoring-and-updating-the-kernel) specifies quota/weight per user job, and the pattern is shared by [K8S scheduling](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/); [Ceph QoS](https://docs.ceph.com/en/latest/rados/configuration/mclock-config-ref/) employs d[mClock](https://www.usenix.org/legacy/event/osdi10/tech/full_papers/Gulati.pdf) that uses weighted reservation tags. Besides, [Leaky bucket](https://blog.51cto.com/leyew/860302) is the classic algorithm for throttling; [Heracles](https://static.googleusercontent.com/media/research.google.com/en//pubs/archive/43792.pdf) isolates resource for latency-sensitive jobs vs batch. In general, cloud introduced [Multitenancy](https://www.usenix.org/conference/fast21/presentation/pan) to depict a system shared by multiple users (tenants) and each assigned a group of virtualization, isolation, access control, and priority/quota policies. For cost estimation, a typical method is request count & size in smoothing window or outstanding queue; [Cost Modeling](https://github.com/pingcap/tidb/blob/master/planner/core/task.go#L260) in DB query optimizer provides more [comprehensive cost modeling methods](https://15721.courses.cs.cmu.edu/spring2020/schedule.html#apr-15-2020); examples can be found at paper [Access Path Selection](https://www.eecs.harvard.edu/~kester/files/accesspathselection.pdf) and [Optimal Column Layout](https://stratos.seas.harvard.edu/files/stratos/files/caspervldb2020.pdf).
 
@@ -704,7 +701,7 @@ Where to host metadata, a dedicated cluster, distributed on data nodes, generate
 
 Metadata can be managed elsewhere to avoid managing the scaleout, consistency, and persistence.
 
-  * __Consistent Core__. App can manage metadata in Micro-service framework provided ZooKeeper, Etcd. In this way, each dimension of problems are offloaded elsewhere. The approach is popular.
+  * __Consistent Core__. App can manage metadata in Microservice framework provided ZooKeeper, Etcd. In this way, each dimension of problems are offloaded elsewhere. The approach is popular.
 
   * __In-memory DB__. Storage cluster-wide metadata management can be offloaded to in-memory database. Examples are HopsFS, or Hekaton. The databases manages metadata partitioning, consistency, scaleout, and tiering cold ones to SSD. At single data node level, Ceph BlueStore offloads metadata to RocksDB, and reuses the transaction.
 
@@ -769,7 +766,7 @@ After single node level consistency, we come to the distributed multi-node level
 
   * __Distributed Transactions__. See the [Distributed Transactions](http://accelazh.github.io/storage/Linearizability-Vs-Serializability-And-Distributed-Transactions) article for more. Examples are Spanner, Percolator, CockroachDB, TiDB. The implementations vary at point of sync, how to enforce ordering, and lock conflict handling. Besides, database global secondary index, in strong consistency with user writes, also implements with distributed transaction.
 
-![Distributed transaction spectrum of strategies](/images/dist-transaction-strategy-spectrum.png "Distributed transaction spectrum of strategies")
+![Distributed transaction spectrum of strategies](/images/arch-design-dist-transaction.png "Distributed transaction spectrum of strategies")
 
   * __Raft data replication__. Examples are CockroachDB, TiDB. Like running metadata in Paxos quorum, data partitions are replicated with Raft protocol (a Paxos variant). This ensures strong consistency, and reuses optimizations on Paxos e.g. [Out-of-order commit](https://www.zhihu.com/question/278984902). [Megastore](http://cidrdb.org/cidr2011/Papers/CIDR11_Paper32.pdf) provides comprehensive optimizations for Paxos replication.
 
@@ -1531,7 +1528,7 @@ Though running the system fast is the most typical meaning of performance, perfo
 
     * __HPC__ is another area that high-end hardware, usually with customized accelerators, and manycore, are used for scientific processing. The accelerators usually then gain maturity and enter the market of commodity servers, like RDMA.
 
-  * __Debugging & Troubleshooting__. Performance is not only a matter of now, but also a good velocity to improve it. Only when there are metrics, there are insights to make the improvement. Well-designed monitoring system involves realtime time-series metrics, logging with exchangeable standards, and a data warehouse for retention and complex queries. [OpenTelemetry](https://opentelemetry.io/docs/concepts/), which is similar to [Google Dapper](https://research.google/pubs/pub36356/), is a typical micro-service tracing framework that can be used to debug performance issues.
+  * __Debugging & Troubleshooting__. Performance is not only a matter of now, but also a good velocity to improve it. Only when there are metrics, there are insights to make the improvement. Well-designed monitoring system involves realtime time-series metrics, logging with exchangeable standards, and a data warehouse for retention and complex queries. [OpenTelemetry](https://opentelemetry.io/docs/concepts/), which is similar to [Google Dapper](https://research.google/pubs/pub36356/), is a typical microservice tracing framework that can be used to debug performance issues.
 
     * __A typical analysis__ involves __top down breakdown__ of component calling hierarchy (or [queuing layout](https://zhuanlan.zhihu.com/p/22124514)), and to narrow down which component injected latency. The culprit requests are then correlated with recent system changes, certain SKU tags, source units generated traffic patterns, etc. After going to the server level, the narrow-down further branches to disk IO, network IO, or to CPU/caching inefficiency. At each branching point, there should be __supporting tools__ for investigation and visualization. In the end, the analysis should give estimated impact numbers that __matches with__ the observation, to __validate the hypothesis__.
 
@@ -1692,7 +1689,7 @@ The next level of networking is load balancer. It's the gate for requests to ent
 
     * __Layer 7__ (by application content) load balancers leverage application level message content to dispatch requests, e.g. URL cookies to implement [sticky session](https://www.imperva.com/learn/availability/sticky-session-persistence-and-cookies/). Leveraging layer 7 is more complex, slower, but can be powerful, e.g. integrate firewall into load balancer (more examples below). Mostly, every load balancing is moving to cover all layers upto 7.
 
-  * __[API gateway](https://microservices.io/patterns/apigateway.html)__ is a word brought up by micro-service. Load balancer is usually at the gate of datacenter or service cluster. Many more features can be integrated to it. Like firewall, advanced features require load balancer to cover Layer 7.
+  * __[API gateway](https://microservices.io/patterns/apigateway.html)__ is a word brought up by microservice. Load balancer is usually at the gate of datacenter or service cluster. Many more features can be integrated to it. Like firewall, advanced features require load balancer to cover Layer 7.
 
     * __Router__ and load balancer can merge into one (hardware) box. Just like switch and router functions can be merged. Load balancer can also run __BGP__ to route large responses through proper Autonomous Systems.
 
@@ -1702,7 +1699,7 @@ The next level of networking is load balancer. It's the gate for requests to ent
 
     * Load balancer can merge with __Firewall__. Being the critical path of all traffic flows, it unpackets application messages to filter malicious contents. Similarly, load balancer can be extended to protect from __DDOS attacks__.
 
-    * __URL dispatching__. Load balancer can merge with API gateway. It understands web application URLs and dispatch them to the desired pools of servers. Each URL pattern can map to a different micro-service, where load balancer works as the service router.
+    * __URL dispatching__. Load balancer can merge with API gateway. It understands web application URLs and dispatch them to the desired pools of servers. Each URL pattern can map to a different microservice, where load balancer works as the service router.
 
     * Load balancer can merge with __Circuit breaker__. It tracks realtime API or user traffic usage, performs throttling, and degrades the service if it overloads the cluster, to prevent cascaded failures.
 
@@ -1806,9 +1803,21 @@ Compared to [Storage components breakdown section](.), there are a few topics I 
 
 # Conclusion
 
-This article (almost a book now) is composed of two parts: software architecture methodologies and storage technology design spaces. In the first part, we went though the purposes of software architecture, how to view it from the organization, the process to carry it out, and key methodologies and principles. Software architecture bridges user scenarios to a detailed working software. It handles the complexity of user facing functions and hidden system properties. It navigates through the best path in large technology design space. It drives collaboration between BUs and ensures the deliverables with quality. Software architecture is a fight with complexity. It constructs the matching model with human mind to reach simplicity, which naturally converges to human language, the battle-tested modeling of the reality. It becomes an art of structure, to sense the structure of surrounding organization, to clarify the structure of user needs, to feel the tension from system properties, to plot the landscape of technology design spaces, and then compile the new architecture structure to fill in the hole.
+This article (almost a book now) is composed of two parts: software architecture methodologies and storage technology design spaces. In the first part, we went though the purposes of software architecture, how to view it from the organization, the process to carry it out, and key methodologies and principles. Software architecture bridges user scenarios to a detailed working software. It handles the complexity of user facing functions and hidden system properties. It navigates through the best path in large technology design space. It drives collaboration between BUs and ensures the deliverables with quality. Software architecture is a fight with complexity. It constructs the matching model with human mind to reach simplicity, which naturally converges to human language, the battle-tested modeling of the reality. It becomes an art of structuring, to sense the influences between organization chains, the momentum from customer markets, the tension between system properties and technologies, that weaves transforming information flows into flying wheels of software construction.
 
-In the second part, we went through technology design spaces for the distributed storage system. We first listed Reference architectures in different storage areas, and then breakdown each storage component's system properties and design spaces. [Storage components breakdown section](.) lists the storage areas, components, and system properties to consider in software architecture. Popular techniques burn into language and becomes a design pattern. An architecture design pattern frequently interleaves multiple components and trade-off between system properties. Discrete techniques join into a continuous space of design, where the shape of landscape emerges. We breakdown, navigate, and re-combine whatever we need to reach the optimal point of problem solution. Storage industry is quickly changing, with more powerful hardware, growing scale, new scenarios from new businesses, and a constant focus on reliability and COGS. They push technology design space to continuously evolve. New opportunities emerge.
+In the second part, we went through technology design spaces for the distributed storage system. We first listed Reference architectures in different storage areas, and then breakdown each storage component's system properties and design spaces. [Storage components breakdown section](.) lists the storage areas, components, and system properties to consider in software architecture. Popular techniques burn into language and becomes a design pattern. An architecture design pattern frequently interleaves multiple components and trade-off between system properties. Discrete techniques join into a continuous space of design, where the shape of landscape emerges. We breakdown, navigate, and re-combine whatever we need to reach the optimal point of problem solution. Storage industry is quickly changing, with more powerful hardware, growing scale, new business scenarios, and a constant focus on reliability and COGS. They push technology design space to continuously evolve. New opportunity emerges.
+
+
+# References
+
+
+ID 1264948982
+
+
+// influences between organization chains .. flying wheels of software construction
+影响力，组织链条。
+（将不断变换的信息流编织入软件构造的飞轮。）
+  emerge - 浮现
 
 
 
