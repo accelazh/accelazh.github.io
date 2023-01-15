@@ -643,6 +643,7 @@ __Divide by system properties__
   * Operational ease
   * Interoperability
 
+
 # Technology design spaces - Breakdown
 
 The following sections talk about each technology design space (ordered by the importance). They root in "Reference architectures" listed above, and cover areas in "Storage components breakdown". Unlike breakdowns, techniques and design patterns usually interleave multiple components and require co-design. __Architecture design patterns__, also covered below, map to certain __techniques__ to achieve desired __system properties__. When connected the dots, they expand to a consecutive __design space__ that enlightens more choices.
@@ -650,6 +651,8 @@ The following sections talk about each technology design space (ordered by the i
 ## Metadata
 
 Key problems related to metadata are the size of metadata, how to scaleout, where to store, and consistency. Metadata size is closely related to data partitioning and placement.
+
+![Metadata section](/images/arch-design-section-metadata.png "Metadata section")
 
 ### Metadata size
 
@@ -685,7 +688,7 @@ The de-facto way to handle scaleout is partitioning (or call it sharding). But t
 
   * __Levels of delegation__. Similar with Pushdown, the example is Big Table, think the cluster-wide B+-tree as the metadata. Metadata is essentially an index to lookup data, if in tree structure, it can be decomposed level by level, and naturally scaleout lower levels to whole cluster, where the top level is specially kept in a consistent Paxos quorum.
 
-### Metadata where to store
+### Metadata storage
 
 Where to host metadata, a dedicated cluster, distributed on data nodes, generate on-fly, etc
 
@@ -743,6 +746,8 @@ Consistency interleaves the core spine of distributed storage system design. The
   * __Ensure ordering__. The system must agree on what happens first or later. This is instinctive for append-only or WAL based systems, or where every operation can be serialized by a locking data structure. It becomes tricky when the system involve multiple nodes, or the logging has multiple parallel segments. Versioning (or timestamp) is introduced, where a total ordering maps to Serializable, partial ordering maps to Vector Clocks, and disjoint read/write versions map to Snapshot Isolation (Serializable requires same timestamp for read/write). The system resolved ordering may not be the same with realworld, requiring which it maps to External Consistency. How to handle ordering conflicts varies, where new comer wait maps to plain locking / pessimistic concurrency control, new comer retry maps to OCC, and preempting a lock maps to preemptive concurrency control or [wound-wait](https://cloud.google.com/spanner/docs/whitepapers/life-of-reads-and-writes). For implementation, usually CPU/memory level use locks/latches, and disk level uses flush or direct write.
 
   * __Separating ACID__. In transaction ACID, usually ACI is united with consistency, but D durability can potentially be separated. Majority of storage systems choose to implement them altogether, essentially because ordering on disk is done by flush or direct write that couples with persistence. We can see more techniques in the following that break the paradigm and improve performance (e.g. Soft Update, Journal Checksum).
+
+![Consistency section](/images/arch-design-section-consistency.png "Consistency section")
 
 ### Single node level consistency
 
@@ -815,6 +820,8 @@ Above are eventual consistency replications. For strong consistency geo-replicat
 
 The next big component in a distributed storage system is write path, following which you characterize how a system works. Append-only or update in-place fundamentally divides system styles and next level techniques. Write path touches almost every other components in a system, e.g. metadata, index, data organization, logging, replication, and many system properties, e.g. consistency, durability, amplification.
 
+![Write path section](/images/arch-design-section-write-path.png "Write path section")
+
 ### Append-only vs update in-place
 
 The first driving dimension is __append-only__ vs __update in-place__. Transitional single node filesystems usually update disk data in-place (except BtrFS). Later the quick adoption of LSM-tree leads the predominance of append-only systems, also known as log-structured systems. Not only HDD which benefits from sequential writes, SSD also favors append-only (e.g. RocksDB) due to internal FTL & GC. More, PMEM filesystems e.g. NOVA adopts append-only with per-inode logging; and in-memory systems e.g. Bw-tree adopts append-only with delta pages.
@@ -885,7 +892,7 @@ Offline background jobs touching data can also be divided by purpose. They usual
 
   * __Data layout__. E.g. RocksDB runs offline compaction, which removes stale data, sort out overlapping SST files, to make reads more efficient. E.g. AnalyticDB buffers new writes in incremental files, and then merge them to baseline data and build full index. Similar patterns of delta merging can also be found in Datalakes, e.g. Apache Hudi. W.r.t. data replication, the destination copy can be placed in another node or even another cloud service, while the computation can also be __offloaded to cloud__.
 
-  * __Data integrity__. Storage systems typically employ offline data scrubbing to detect silent data corruption. End-to-end CRC can be stored along with data. Besides, invariant with different layers can be checked, e.g. index vs data, mapping constraints.
+  * __Data integrity__. Storage systems typically employ offline data scrubbing to detect silent data corruption. End-to-end CRC can be stored along with data. Besides, invariants with different layers can be checked, e.g. index vs data, mapping constraints.
 
 ### Write to different storage media
 
@@ -937,13 +944,13 @@ Though write/write and read/read coalescing are common techniques, write/read an
 
 Inline or offline from write path, FPGA and ASIC are commonly used in offloading from CPU, e.g. compression/encryption, and multi-tenant cloud virtual network processing. Offloading relieves CPU from growing IO hardware throughput, while pushdown shortens data transfer path.
 
-  * FPGA features in reconfiguration, which favors flexibility and early experiments. ASIC are dedicated circuits, hard to change, but once shipped they are much more efficient than FPGA. FPGA had successful usecases like [Project Catapult](https://www.microsoft.com/en-us/research/wp-content/uploads/2016/02/Catapult_ISCA_2014.pdf). [SmartNICs](https://zhuanlan.zhihu.com/p/393393682) also went popular.
+  * __FPGA__ features in reconfiguration, which favors flexibility and early experiments. __ASIC__ are dedicated circuits, hard to change, but once shipped they are much more efficient than FPGA. FPGA had successful usecases like [Project Catapult](https://www.microsoft.com/en-us/research/wp-content/uploads/2016/02/Catapult_ISCA_2014.pdf). [SmartNICs](https://zhuanlan.zhihu.com/p/393393682) also went popular.
 
-  * Compression/encryption are typical offload usecases because the logic is fixed, few exception handling, and data pipeline oriented. Network processing is similar. Besides, nowadays high speed RDMA is much more demanding for CPU, and cloud virtual networking involves more layers of redirections.
+  * __Compression/encryption__ are typical offload usecases because the logic is fixed, few exception handling, and data pipeline oriented. Network processing is similar. Besides, nowadays high speed RDMA is much more demanding for CPU, and cloud virtual networking involves more layers of redirections.
 
-  * The more recent [IPU](https://www.forbes.com/sites/karlfreund/2021/08/02/nvidia-dpu--intel-ipu-game-changers-or-just-smart-nics/) (Infrastructure Processing Unit) was proposed following [DPU](https://en.wikipedia.org/wiki/Data_processing_unit), to offload common datacenter infrastructure functionalities to processing chips other than CPU.
+  * The more recent __[IPU](https://www.forbes.com/sites/karlfreund/2021/08/02/nvidia-dpu--intel-ipu-game-changers-or-just-smart-nics/)__ (Infrastructure Processing Unit) was proposed following __[DPU](https://en.wikipedia.org/wiki/Data_processing_unit)__, to offload common datacenter infrastructure functionalities to processing chips other than CPU.
 
-  * [Smart SSD](https://www.youtube.com/watch?v=_8gEmK1L4EY) adds computation chips to SSD. Query filtering or GC/Compaction can be pushed down to SSD internal, without involving the longer data transfer path across PCIe.
+  * __[Smart SSD](https://www.youtube.com/watch?v=_8gEmK1L4EY)__ adds computation chips to SSD. Query filtering or GC/Compaction can be pushed down to SSD internal, without involving the longer data transfer path across PCIe.
 
 
 ## Data organization
@@ -959,6 +966,8 @@ Traditionally "data organization" talks about physical columnar/row-wise data la
   * __Scaleout tier__. To cope with increasing volume and high throughput targets, data is __partitioned__, __replicated__, and work with __placement__ to serve from more machines. __Resource scheduling__ for heterogeneous job sizes, __load balancing__, and __migration__ follow the needs. See [Data partitioning section](.). __Consistency__ is always a problem. On single node it easily relies on CPU cache coherence, but scale-up is bottlenecked by CPU power/heat and cache coherence cost between too many cores. Coming to distributed systems, consistency of distributed transaction still incurs high networking cost, unless relaxing it with App level agreement.
 
 Essentially, query tier carries the most DB techniques when it wants to be performant, while durability/scaleout tiers are orthogonal from it and can be offloaded to a shared storage system, and performance tier is usually addressed by caching. We focus on query tier for data organization, and discuss performance/scaleout tiers in other sections.
+
+![Data organization section](/images/arch-design-section-data-organization.png "Data organization section")
 
 ### Durability tier
 
@@ -1080,8 +1089,6 @@ More about optimized layouts
 
   * __Balanced-optimized layout__. Considering the cost of GC/compaction, we can hardly achieve both write/read-optimized simultaneously. A balanced layout is worthwhile, and it is only __optimized__ when tailored against the target App workload. This is essentially a __Machine Learning__ problem, where Optimal Column Layout explored for in-place updates (binary linear optimization).
 
-// TODO add a pic chart to link how properties connect to goals, and each concrete design pattern techniques
-
 ### Garbage collection (GC) / Compaction
 
 GC/compaction are common in append-only or LSM-tree systems and quite bandwidth consuming. Update in-place systems can also use compaction to generate read-optimized layout, and need GC if some new values are temporarily written out-of-place. I choose to mix the notation of GC/compaction because both reclaim stale/deleted values. Compaction can replace GC in LSM-tree, and GC can go without compaction if index/bloomfilter/versioning tell which key is stale.
@@ -1118,6 +1125,8 @@ Base on data unit for classification (mentioned previously), e.g. generation, te
 
 HyPer [Scalable MVCC GC paper](http://www.vldb.org/pvldb/vol13/p128-bottcher.pdf) also gives another similar categorization of GC designs (for DB MVCC versions): Tracking Level, Trigger Frequency, Version Storage, Identification of obsolete versions, Removal of garbage versions.
 
+![HyPer paper GC categorization](/images/arch-design-hyper-gc-categorize.png "HyPer paper GC categorization")
+
 ### Compression
 
 Columnar format organizes data in compressed way. The compression algorithms yet allow reading records directly without decompression. The below [compression algorithm selection taxonomy](https://www.cs.umd.edu/~abadi/talks/Column_Store_Tutorial_VLDB09.pdf) not only reflects common properties in data, but also data organization in compression to query efficiently.
@@ -1140,6 +1149,8 @@ The above is categorized as "Columnar compression". There are more compression a
 ## Data indexing
 
 Data indexes commonly reside in memory (i.e. DRAM) and forward links to data. Though residing in PMEM is possible but by far it's still slower than DRAM. Data indexes stem from standard textbook data structures, evolve into more complexity for industrial use, and scaleout in distributed systems. They serve read queries, point where to write, and carry a cost to maintain consistency with data.
+
+![Data indexing section](/images/arch-design-section-data-indexing.png "Data indexing section")
 
 ### Data index properties
 
@@ -1185,7 +1196,7 @@ There are quite a few well-encapsulated data indexes widely used in industry. Be
 
   * __Hashtables__. Plain old hashtable is yet useful in DRAM indexing, PMEM, and database hash indexes. Hashtables vary when address conflicts, how to choose the next address, and how to add conflicting keys. The second level container for conflicting keys also worth optimization. Hashtable can simultaneously use one, two, or several different hash algorithms, and target them to App level knowledge. Smooth capacity expansion and shrink is another optimization point. Data partitioning helps reduce conflict space and shorten address pointers (e.g. Kangaroo).
 
-    * Popular hashtables are [Cuckoo hashing](https://en.wikipedia.org/wiki/Cuckoo_hashing) that bounces between two hashtables, [HotRing](https://www.usenix.org/system/files/fast20-chen_jiqiang.pdf) that switches hot keys to front, [Consistent Hashing](https://medium.com/system-design-blog/consistent-hashing-b9134c8a9062) and Ceph CRUSH map, Level Hashing.
+    * Known hashtables are __[Cuckoo hashing](https://en.wikipedia.org/wiki/Cuckoo_hashing)__ that bounces between two hashtables, __[HotRing](https://www.usenix.org/system/files/fast20-chen_jiqiang.pdf)__ that switches hot keys to front, __[Consistent Hashing](https://medium.com/system-design-blog/consistent-hashing-b9134c8a9062)__ and Ceph CRUSH map, __[Level Hashing](https://www.usenix.org/conference/osdi18/presentation/zuo)__.
 
     * Particularly, Consistent Hashing suffers from load imbalance if a server went offline, and its keys are assigned to the immediate next server on the ring. The issue can be relieved if each server has multiple points on the Consistent Hash ring.
 
@@ -1199,7 +1210,7 @@ There are quite a few well-encapsulated data indexes widely used in industry. Be
 
   * __B+-tree__. The plain old database index, but still proven widely useful in storage, PMEM, caching. B+-tree balances itself, uses packed big nodes to limit tree height which maps to disk reads, and preserves sort order with traversal links. B+-tree works entirely in pages, which simplifies disk data transfer in DB and memory management. B+-tree shares various optimization for access efficiency, storage space, and locking concurrency.
 
-    * __[Steal, no force]__. The terms came from [ARIES](https://cs.stanford.edu/people/chrismre/cs345/rl/aries.pdf) protocol for DB transaction recovery (well explained in [阿莱克西斯 ARIES](https://zhuanlan.zhihu.com/p/143173278) article). They work with DB page syncs between memory and disk. "Steal" allows DB to flush pages of uncommitted transaction to disk, thus introduced the need of undo log. "No force" allows DB to NOT flush pages of committed transaction to disk, thus needs redo log from failure recovery. Not only do "steal, no force" improve DB performance on large transactions, they enable DB buffer management to become a decoupled component from transaction and indexing.
+    * __Steal, no force__. The terms came from [ARIES](https://cs.stanford.edu/people/chrismre/cs345/rl/aries.pdf) protocol for DB transaction recovery (well explained in [阿莱克西斯 ARIES](https://zhuanlan.zhihu.com/p/143173278) article). They work with DB page syncs between memory and disk. "Steal" allows DB to flush pages of uncommitted transaction to disk, thus introduced the need of undo log. "No force" allows DB to NOT flush pages of committed transaction to disk, thus needs redo log from failure recovery. Not only do "steal, no force" improve DB performance on large transactions, they enable DB buffer management to become a decoupled component from transaction and indexing.
 
     * __[B+-tree locking techniques](https://15721.courses.cs.cmu.edu/spring2017/papers/06-latching/a16-graefe.pdf)__ separated DB concepts "latch" (for data structure) vs "lock" (for transaction). It introduced the widely used technique "lock coupling". The concurrency design space in B+-tree ranges from: 1) SIX locks which introduced intent locks that softly drain on-going writes, 2) lock coupling that steps through parent/child with limited lock span, 3) Blink/OLFIT tree that supports version-based OCC lock-free reads and locked writes, 4) Bw-tree that is lock-free and delta page append-only. (Well explained in [数据库内核月报 B+tree](http://mysql.taobao.org/monthly/2018/09/01/).)
 
@@ -1237,17 +1248,17 @@ We discuss a few secondary topics here about data index
 
 Succinct represents a family of data compression algorithms with interesting "__self-indexing__" property. See below. I add a special section for it. They quite match the usecase for DNA indexing & searching. They can also be used for in-memory indexing, and compressing in-memory data while supporting DB queries.
 
-  * The compressed size is close to the entropy limit ([Succinct wiki](https://en.wikipedia.org/wiki/Succinct_data_structure)). I.e. the compression ratio is near the classic block-based compression.
+  * The compressed size is close to the __entropy limit__ ([Succinct wiki](https://en.wikipedia.org/wiki/Succinct_data_structure)). I.e. the compression ratio is near the classic block-based compression.
 
   * Supports point/range query, and especially text search, __in-place__ on the compressed data. There is NO separated index, but the performance is close to using an index, much faster than a full scan. Supporting text search is handy for DNA sequencing.
 
     * I.e. Succinct can be used to replace in-memory index, especially a secondary index. Besides, succinct also compresses your data.
 
-  * Querying/lookup in Succinct data structure usually involves several address jumps in its internal data structure (e.g. Compressed Suffix Array). This is OK for in-memory indexing/compression, but may not be as handy for on-disk data compression. Besides, sequential read throughput / reading a large block may also be a concern.
+  * Querying/lookup in Succinct data structure usually involves several __address jumps__ in its internal data structure (e.g. Compressed Suffix Array). This is OK for in-memory indexing/compression, but may not be as handy for on-disk data compression. Besides, sequential read throughput / reading a large block may also be a concern.
 
-  * Succinct data structure is usually slow to build, compared to classic block-based compression. Once built, it is usually hard to modify. Though supporting various queries, succinct data structure can be slow for sequential scan.
+  * Succinct data structure is usually __slow to build__, compared to classic block-based compression. Once built, it is usually __hard to modify__. Though supporting various queries, succinct data structure can be __slow for sequential scan__.
 
-    * In column-oriented DB, common columnar compression algorithms (e.g. RLE) make powerful alternatives to Succinct data structure. Columnar compression algorithms also support directly executing DB queries. They are also easier and faster to modify. They get much wider adopted in DB.
+    * In column-oriented DB, common __columnar compression__ algorithms (e.g. RLE) make powerful alternatives to Succinct data structure. Columnar compression algorithms also support directly executing DB queries. They are also easier and faster to modify. They get much wider adopted in DB.
 
 There are a few most commonly used Succinct data structures
 
@@ -1280,6 +1291,8 @@ Data caching resolves the performance tier in data organization. It exploits the
 
   * __Where to host the cache__. To use a separated system, offload to another server node, run in another process, or embed into the local App.
 
+![Data caching section](/images/arch-design-section-data-caching.png "Data caching section")
+
 ### Memory caching
 
 Caching data in memory is essentially how to manage data with DRAM indexing. We mentioned that in [Data indexing section](.). Typical data structures are hashtables and trees. Additionally, memory compression and cold offloading can be employed to enlarge the capacity. There are a few design properties to consider. We recap here while they are also valid for SSD caching.
@@ -1304,7 +1317,13 @@ Managing consistency between cache and persistent store has several approaches. 
 
 SSD cache also uses DRAM as the first level cache and offloads cold data to SSD. DRAM index is typically hashtable or B+-trees. New challenges come from managing larger index size brought by the larger capacity of SSD, handling SSD rewrites and garbage collection, managing item eviction on SSD, and managing SSD wearing out issue. They are a few design properties.
 
-  * __SSD cache structure__. __Set-associative cache__ is one approach, e.g. Flashcache and KSet in Kangaroo. Set-associative cache limits the freedom of item location into a cache line, thus needs little memory to host index (same level as a hashtable). __Append-only storage__, e.g. BCache and KLog in Kangaroo. Cache items are sequentially appended to disk, and organized in a larger bucket as the unit of GC. __Key-value stores__, e.g. to use RocksDB to manage SSD data. However, RocksDB is not designed to use as cache, disk point lookup has no index, and deleted space is released too slow after many levels of compaction. Cache has a second key difference to persistent store that is, __deletion is much more frequent__.
+  * __SSD cache structure__. There are several approaches. SSD cache has similarities with the hardware cache between CPU and DRAM, and also shares properties with storage. 
+
+    * __Set-associative cache__, e.g. Flashcache and KSet in Kangaroo. Set-associative cache limits the freedom of item location into a cache line, thus needs little memory to host index (same level as a hashtable).
+
+    * __Append-only storage__, e.g. BCache and KLog in Kangaroo. Cache items are sequentially appended to disk, and organized in a larger bucket as the unit of GC.
+
+    * __Key-value stores__, e.g. to use RocksDB to manage SSD data. However, RocksDB is not designed to use as cache, disk point lookup has no index, and deleted space is released too slow after many levels of compaction. Cache has a second key difference to persistent store that is, __deletion is much more frequent__.
 
   * __Managing index size__. While a plain method is to set __a larger page size__, cache items can be divided into __small objects and large objects__, e.g. Kangaroo. Large objects have fewer count thus can use full DRAM index. Small objects assign most SSD capacity to __set-associative cache__ which incurs little index memory. It overlays a more efficient __append-only storage__ to favor batching, which uses __limited SSD capacity__ thus small DRAM index size. Further __metadata size reduction__ techniques such as "Partitioned Index" can be applied. __Bloomfilter__ is another memory-efficient technique to tell whether an item exists on disk.
 
@@ -1316,11 +1335,11 @@ SSD cache also uses DRAM as the first level cache and offloads cold data to SSD.
 
 This section focuses on caching data, but we also briefly mention metadata caching.
 
-  * Metadata is usually served fully in-memory in a Consistent Core (or partitioned, or disaggregated nodes). A client can directly ask the Consistent Core rather than requiring another cache service. Besides, the size of metadata is usually much smaller than data.
+  * Metadata is usually served fully in-memory in a __Consistent Core__ (or partitioned, or disaggregated nodes). A client can directly ask the Consistent Core rather than requiring another cache service. Besides, the size of metadata is usually much smaller than data.
 
-  * The propagating of metadata usually leverages piggybacked requests, gossip protocol, and a direct refresh request to the Consistent Core. Client typically caches what it needs in the local memory, with an expire or version checking policy.
+  * The propagating of metadata usually leverages __piggybacked requests__, gossip protocol, and a direct refresh request to the Consistent Core. Client typically caches what it needs in the local memory, with an expire or version checking policy.
 
-  * Secondary indexes of data can be seen as a type of metadata. Per implementation, they are usually treated as plain data or tables, that share the same caching facility as mentioned in prior sections. As index, they may set higher priority to pin in memory.
+  * __Secondary indexes__ of data can be seen as a type of metadata. Per implementation, they are usually treated as plain data or tables, that share the same caching facility as mentioned in prior sections. As index, they may set higher priority to pin in memory.
 
 
 ## Data partitioning & placement
@@ -1346,6 +1365,8 @@ Data placement is the next step that decides which node to place a partition. Us
   * __Metadata size__. It helps balancing and reduce migration to allow full freedom of object placement, and to have a fine-grained tracking unit. However, both requires spending more metadata size. Metadata itself can also be partitioned and scaleout, see [Metadata section](.).
 
   * __Failure domains__. Co-related data, e.g. 3-replica or EC symbols, needs to avoid placed into the same failure domain. Failure domain hierarchically consists of disk, node, TOR, datacenter row, T2 switch, and region DNS. Upgrading schedule adds another layer of failure domain.
+
+![Data partitioning section](/images/arch-design-section-data-partitioning.png "Data partitioning section")
 
 ### Common techniques
 
@@ -1424,6 +1445,8 @@ The techniques should be used with thoughtful methodologies. See more in [Reliab
 
   * __Chaos engineering__. Periodically inject failures and corruptions in the system to test system ability of error detection and recovery. Periodically drill the engineering operations of data recovery. The more risky activities should be carried out more frequently.
 
+![Data integrity section](/images/arch-design-section-data-integrity.png "Data integrity section")
+
 ### High availability
 
 I choose to combine HA in this section because it's related to durability, most contents already covered before, and the fundamental goal of integrity is to ensure the correct data is always available. Availability issue is usually transient and gone after node recovery, but durability issue means data lost availability in infinite future.
@@ -1448,12 +1471,12 @@ HA relies on robust detection of failures, where the major issue is [Observation
 
 ### Durability
 
-Durability usually share similar techniques with HA, except more emphasis on disk failures/corruptions and integrity verification. They have already been covered before. Reliability modeling is commonly used, where [exponential distribution](http://web.stanford.edu/~lutian/coursepdf/unit1.pdf) satisfies most needs.
+Durability usually share similar techniques with HA, except more emphasis on disk failures/corruptions and integrity verification. They have already been covered before. __Reliability modeling__ is commonly used, where [exponential distribution](http://web.stanford.edu/~lutian/coursepdf/unit1.pdf) satisfies most needs.
 
 
 ## Resource scheduling
 
-Multi-dimensional resource scheduling on cloud is a big topic, see DRF/2DFQ etc mentioned in [Reference architectures section](.). In this section I cover design properties in a typical storage system.
+Multi-dimensional resource scheduling on cloud is a big topic, see DRF/2DFQ etc mentioned in [Reference architectures section](.). In this section I cover system properties in a typical storage system.
 
   * __Priority__. A user/background job/request should be handled first or delayed, with maximum or minimal resources. Priority are also reflected as weights on different user jobs. Usually, critical system traffic e.g. data repair > user latency sensitive workloads > user batch workloads > background system jobs.
 
@@ -1471,7 +1494,7 @@ Multi-dimensional resource scheduling on cloud is a big topic, see DRF/2DFQ etc 
 
     * __Preempting__. It defines the strategies whether higher priority jobs should stop/pause lower ones to take up its resources. Besides job scheduling, preempting is also seen in transaction scheduling and deadlock resolving. It varies whether younger jobs should preempt older ones, or vice visa. The cost to preempt a long live transaction can be high. OCC can also be seen as first win jobs preempts slower ones, where frequent retry can cost high.
 
-There are a few system properties to consider when designing resource scheduling.
+There are a few design dimension to consider when designing resource scheduling.
 
   * __Job granularity__. Small jobs generally benefits resource schedule balance. Think randomly tossing balls into bins: the smaller and more balls, the balancer per bin's final ball count. The method is widely used for multi-core processing, i.e. async multi-stage pipeline. While small job granularity is beneficial, it costs metadata, increases IOPS, and disks still favor batches.
 
@@ -1479,6 +1502,7 @@ There are a few system properties to consider when designing resource scheduling
 
   * __Cost modeling__. Read/write size is the common practical cost modeling in storage systems. Together they compose queue count and queue size. The most comprehensive cost modeling as a reference can be found in DB [query optimizers](https://mp.weixin.qq.com/s?__biz=MzI5Mjk3NDUyNA==&mid=2247483895&idx=1&sn=05b687a465f5e705dbebfdccaf478f4b). The predicted IO cost can be combined with deadline to early cancel requests that cannot finish in time or resource limits.
 
+![Resource scheduling section](/images/arch-design-section-resource-scheduling.png "Resource scheduling section")
 
 ## Performance
 
@@ -1522,7 +1546,7 @@ Though running the system fast is the most typical meaning of performance, perfo
 
     * __ASIC__ based compression/encryption cards are common. __AWS Nitro__ / __Microsoft Catapult__ are successful business cases that ASIC/FPGA boost virtual cloud networking, as well as compression/encryption, etc.
 
-    * __SmartNIC__ builds virtualization, RDMA, processor offloading in NIC. CPU work can be offloaded to NIC level, with shorter roundtrip path. While __SmartSSD__ (or [Computational SSD drives](https://www.usenix.org/system/files/fast22-qiao.pdf)) builds query processing at SSD level, bypassing PCIe for early filtering data.
+    * __SmartNIC__ builds virtualization, RDMA, processor offloading in NIC. CPU work can be offloaded to NIC level, with shorter roundtrip path. While __Smart SSD__ (or [Computational SSD drives](https://www.usenix.org/system/files/fast22-qiao.pdf)) builds query processing at SSD level, bypassing PCIe for early filtering data.
 
     * __GPU__/__TPU__ are leading Machine Learning acceleration, dedicated for FLOPS in thirty Deep Learning training. __IPU__/__DPU__ try to consolidate datacenter infrastructure into more COGS efficient chips. More advanced GPU interconnection like [NVLink](https://ieeexplore.ieee.org/document/7924274) are being developed, composing an HPC cluster.
 
@@ -1535,6 +1559,8 @@ Though running the system fast is the most typical meaning of performance, perfo
     * __Thought experiment__ starts from a __bottom up approach__. Suppose latency was injected at a bottom component, by a certain type of requests, at a specific percentile level. Does the system have enough metrics and troubleshooting tools to find it out? And then from the top down again, what is the main contributor that affects latency? Performance troubleshooting shouldn't be a hard problem. Instead, it should be a systematic approach that discovers what we can and where we miss metrics and tools, and then enhance the infrastructure step by step.
 
     * __Line speed, gap analysis__. Another approach to analyze performance is to first find out the raw hardware speed (line speed) of the underlying storage device or networking device, and then analyze what composes the gap from line speed to the actual performance of the storage system. This provides a systematic approach to dissect performance layer by layer, and guaranteed to reach its max given abundant dev resource invested. Anyway, optimization should __start from the bottleneck__, backed with metrics insight.
+
+![Performance section](/images/arch-design-section-performance.png "Performance section")
 
 ### Concurrency & parallelism
 
@@ -1592,7 +1618,7 @@ Performance optimization can be broken into several aspects
 
   * __CPU, cache, and memory__. They usually overlap with __Scale-up__ topics and optimizing a single node, i.e. how to efficiently utilize them after stacked more CPU cores and large memory. We'll cover below.
 
-  * __IO and networking__. They usually overlap with __Scaleout__ topics, where a distributed system interconnects many nodes. Also, disk IO and networking traditionally are slower than the CPU, cache, and memory plane. We'll cover in the next section.
+  * __IO and networking__. They usually overlap with __Scaleout__ topics, where a distributed system interconnects many nodes. Also, disk IO and networking traditionally are slower than the CPU, cache, and memory plane. We'll cover more in the [Networking section](.).
 
 Per optimizing __CPU, cache, and memory__ plane, there are a few aspects below
 
@@ -1604,9 +1630,9 @@ Per optimizing __CPU, cache, and memory__ plane, there are a few aspects below
 
   * __Do less things__ will always make the program faster. DB query __Code Generation__ and __JIT__ can be seen as an example, where highly customized code is compiled for each specific query SQL to improve CPU efficiency. Though the code is either unfriendly for human programmer, or there are too many combinations for handcraft.
 
-### Scaleout systems
+### Scaleout storage
 
-In this section we focus on optimizing performance at the distributed scaleout system plane. The previous section already covered most topics, such as __Load balancing__, __Tail latency__, and __Pipelining__, etc. More former sections discussed about __Sequentialize IOs__. The majority of performance improvement comes from scaleout itself, and carefully optimizing single node performance. We add bullet(s) not covered by the above
+In this section we focus on optimizing performance at the distributed scaleout storage plane. The previous section already covered most topics, such as __Load balancing__, __Tail latency__, __Pipelining__, etc. More former sections discussed about __Partitioning__, __Caching__, __Indexes__, __Sequentialize IOs__, etc. The majority of performance improvement comes from scaleout itself, and carefully optimizing single node performance. We add bullet(s) not covered by the above
 
   * __Compression__ is a seemingly separated topic but can significantly improve performance because fewer data are transferred across IO devices. We have talked much about it in previous sections.
 
@@ -1631,6 +1657,8 @@ Compared to the other parts of a storage system, networking has several key diff
 
   * __Quickly growing speed__. Networking speed is quickly growing these years, from 10Gbps, 40Gbps, to 100Gbps, even 200Gbps. Though NIC works well with small packets, CPU core can hardly catch up. Given 100Gbps and 1KB packet size, a core has only 80ns to process each packet.
 
+![Networking section](/images/arch-design-section-networking.png "Networking section")
+
 ### Networking architecture
 
 The fundamental level is networking architecture. It defines how datacenter networking infrastructure is constructed, which constraints the baseline performance and scalability.
@@ -1641,7 +1669,7 @@ The fundamental level is networking architecture. It defines how datacenter netw
 
     * __Sub domains__. In [Google Jupiter Rising](https://conferences.sigcomm.org/sigcomm/2015/pdf/papers/p183.pdf), instead of full-mesh connecting T1 to T2, T1 is cut into disjoint domains called "__Aggregation block__". Separating domains reduces link density. "Aggregation block" is also the controller domain used for failure isolation in [Google Orion SDN](https://www.usenix.org/conference/nsdi21/presentation/ferguson). [Dragonfly topology](https://static.googleusercontent.com/media/research.google.com/en//pubs/archive/34926.pdf) shows the similar idea called "Subnetwork" / "Group".
 
-      * Internal of an Aggregation block is "two layers of switches bipartite connected". It aggregates traffic before routing through T2. It acts as a mini Clos network, or a __virtual switch with high radix__ (many ports). The similar idea also shows in [Dragonfly+ topology](https://www.researchgate.net/profile/Eitan-Zahavi/publication/313341364_Dragonfly_Low_Cost_Topology_for_Scaling_Datacenters/links/5a30c4baaca27271ec8a1201/Dragonfly-Low-Cost-Topology-for-Scaling-Datacenters.pdf).
+    * Internal of an Aggregation block is "two layers of switches bipartite connected". It aggregates traffic before routing through T2. It acts as a mini Clos network, or a __Virtual switch with high radix__ (many ports). The similar idea also shows in [Dragonfly+ topology](https://www.researchgate.net/profile/Eitan-Zahavi/publication/313341364_Dragonfly_Low_Cost_Topology_for_Scaling_Datacenters/links/5a30c4baaca27271ec8a1201/Dragonfly-Low-Cost-Topology-for-Scaling-Datacenters.pdf).
 
     * __Sidelinks__. In standard Clos, a switch cannot directly connect to another switch in the same tier. It must go through a high tier. Instead, [Google B4 After](https://dl.acm.org/doi/pdf/10.1145/3230543.3230545) (WAN networking) introduces Sidelink that adds connection within the same tier (within same datacenter). It exploits the asymmetry that Sidelink is cheaper than links that are across tiers (cross datacenter WAN). If every possible Sidelink is added, the Clos network degenerates into a symmetric full-mesh connection (like the group-to-group connection in Dragonfly+).
 
@@ -1653,7 +1681,7 @@ The fundamental level is networking architecture. It defines how datacenter netw
 
   * __Control plane__. Traditionally, network admin configures each switch with individual terminals. Nowadays the trend shifts to a centralized control plane, which is usually combined with SDN. The centralized controller collects and aggregates metrics to show in one place for network admin. Configurations and routing are determined with the global view, and push down to end switches (data plane). OpenFlow is the de-factor protocol to communicate both control plane and data plane.
 
-    * Besides Google Orion, there are other SDN controllers like [OpenDaylight](https://www.fiber-optic-transceiver-module.com/openstack-vs-opendaylight-vs-openflow-vs-openvswitch-whatre-their-relations.html), [Openstack Neutron](https://docs.openstack.org/neutron/latest/). SDN can do interesting things like virtual distributed router, VM private networks.
+    * Besides Google Orion, there are other __SDN controllers__ like [OpenDaylight](https://www.fiber-optic-transceiver-module.com/openstack-vs-opendaylight-vs-openflow-vs-openvswitch-whatre-their-relations.html), [Openstack Neutron](https://docs.openstack.org/neutron/latest/). SDN can do interesting things like virtual distributed router, VM private networks.
 
   * __Data plane__. Besides commercial switches, [Open vSwitch](https://en.wikipedia.org/wiki/Open_vSwitch) (OVS) is one of the most known SDN data plane software that can be installed on commodity switches (e.g. Linux). They follow OpenFlow protocol to co-work with SDN controller.
 
@@ -1663,9 +1691,9 @@ The fundamental level is networking architecture. It defines how datacenter netw
 
   * __Cross datacenters__. The above mainly focuses on networking within a datacenter. Global datacenters can be interconnected with tunnel protocols (e.g. VPN) running on WAN. WAN is composed of Autonomous Systems (e.g. Internet ISP, company networks), where [BGP](https://www.youtube.com/watch?v=KjNYEzEBRD8) becomes the typical routing protocol (stable, limit update frequency, rich pathing polices).
 
-    * [Google B4 Experience](https://dl.acm.org/doi/pdf/10.1145/2486001.2486019) follows a consistent approach with Jupiter. It uses Google Orion as the SDN controller and applies traffic engineering. It adds one "Aggregation Block" in Jupiter network, but for external facing traffic, called "FBR supernode". [Google datacenter network](https://www.youtube.com/watch?v=kythGOICErQ&t=1244s) says internal facing traffic (large DB queries & responses) is much heavier than external facing traffic (customer web requests & responses).
+    * __[Google B4 Experience](https://dl.acm.org/doi/pdf/10.1145/2486001.2486019)__ follows a consistent approach with Jupiter. It uses Google Orion as the SDN controller and applies traffic engineering. It adds one "Aggregation Block" in Jupiter network, but for external facing traffic, called "FBR supernode". [Google datacenter network](https://www.youtube.com/watch?v=kythGOICErQ&t=1244s) says internal facing traffic (large DB queries & responses) is much heavier than external facing traffic (customer web requests & responses).
 
-### Load balancing
+### Load balancers
 
 The next level of networking is load balancer. It's the gate for requests to enter datacenter. It dispatches traffic to proper nodes. It also merges with handful of utility functions. It's not a necessary part of distribute storage system, but usually serves as the frontend.
 
@@ -1803,30 +1831,6 @@ Compared to [Storage components breakdown section](.), there are a few topics I 
 
 # Conclusion
 
-This article (almost a book now) is composed of two parts: software architecture methodologies and storage technology design spaces. In the first part, we went though the purposes of software architecture, how to view it from the organization, the process to carry it out, and key methodologies and principles. Software architecture bridges user scenarios to a detailed working software. It handles the complexity of user facing functions and hidden system properties. It navigates through the best path in large technology design space. It drives collaboration between BUs and ensures the deliverables with quality. Software architecture is a fight with complexity. It constructs the matching model with human mind to reach simplicity, which naturally converges to human language, the battle-tested modeling of the reality. It becomes an art of structuring, to sense the influences between organization chains, the momentum from customer markets, the tension between system properties and technologies, that weaves transforming information flows into flying wheels of software construction.
+This article (almost a book now) is composed of two parts: software __architecture methodologies__ and storage __technology design spaces__. In the first part, we went though the purposes of software architecture, how to view it from the organization, the process to carry it out, and key methodologies and principles. Software architecture bridges user scenarios to a detailed working software. It handles the complexity of user facing functions and hidden system properties. It navigates through the best path in large technology design space. It drives collaboration between BUs and ensures the deliverables with quality. Software architecture is a fight with complexity. It constructs the matching model with human mind to reach simplicity, which naturally converges to human language, the battle-tested modeling of the reality. It becomes an __art of structuring__, to sense the influences between organization chains, the momentum from customer markets, the tension between system properties and technologies, that weaves transforming information flows into flying wheels of software construction.
 
-In the second part, we went through technology design spaces for the distributed storage system. We first listed Reference architectures in different storage areas, and then breakdown each storage component's system properties and design spaces. [Storage components breakdown section](.) lists the storage areas, components, and system properties to consider in software architecture. Popular techniques burn into language and becomes a design pattern. An architecture design pattern frequently interleaves multiple components and trade-off between system properties. Discrete techniques join into a continuous space of design, where the shape of landscape emerges. We breakdown, navigate, and re-combine whatever we need to reach the optimal point of problem solution. Storage industry is quickly changing, with more powerful hardware, growing scale, new business scenarios, and a constant focus on reliability and COGS. They push technology design space to continuously evolve. New opportunity emerges.
-
-
-# References
-
-
-ID 1264948982
-
-
-// influences between organization chains .. flying wheels of software construction
-影响力，组织链条。
-（将不断变换的信息流编织入软件构造的飞轮。）
-  emerge - 浮现
-
-
-
-// TODO In the end, plot the big picture covering all property factors
-
-// TODO We should have a overall picture for all techniques. It can be a similar to: https://mapsontheweb.zoom-maps.com/post/143896346898/a-map-of-mathematics
-        We should have a typical storage system picture with each components and data flow. At each components, we put the technique breakdown there.
-
-------------------------------
-
-// TODO I should insert more pictures also in former parts to help reading. too many words
-// TODO Add my materials to a zip and link to this article
+In the second part, we went through technology design spaces for the distributed storage system. We first listed __Reference architectures__ in different storage areas, and then breakdown each storage component's system properties and design spaces. [Storage components breakdown section](.) lists the storage areas, components, and system properties to consider in software architecture. Popular techniques burn into language and becomes a design pattern. An __architecture design pattern__ frequently interleaves multiple components and trade-off between system properties. Discrete techniques join into a __continuous space of design__, where the shape of landscape emerges. We breakdown, navigate, and re-combine whatever we need to reach the optimal point of problem solution. Storage industry is quickly changing, with more powerful hardware, growing scale, new business scenarios, and a constant focus on reliability and COGS. They push technology design space to continuously evolve. New opportunity emerges.
