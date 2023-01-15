@@ -11,6 +11,109 @@ tags: [cloud, storage, architecture]
 
 The article summarizes my experiences on software architecture. Architecture design is essentially driven by __philosophies__ as the generator engine that governs all knowledge. From the __organization view__, we can find why and how architecture design process and skills are required that way. Common __methodologies__ and __principles__, viewed from the philosophies, provide guidance to carry out architecture design with quality. An architect needs an armory of techniques for different __system properties__. I categorized __Reference architectures__ in each distributed storage area, summarize __architecture design patterns__ from them, and connect them into __technology design spaces__.
 
+__Table of Contents__
+
+* [Software architecture - A philosophy perspective](.)
+  * [Reality, language, and human mind](.)
+  * [About software architecture](.)
+  * [Side notes: Explaining with examples](.)
+* [Why need software architecture](.)
+  * [Technology aspects](.)
+  * [Capturing the big](.)
+  * [Process & Organization](.)
+* [Different architecture organization styles](.)
+  * [Architect the tech lead](.)
+  * [Architecture BU](.)
+  * [Peer-to-peer architect](.)
+  * [System analyst](.)
+  * [Borrow and improve](.)
+* [Key processes in software architecture](.)
+  * [Knowledge and skills](.)
+  * [Carry out the steps](.)
+  * [Designed to evolve](.)
+  * [Driving the project](.)
+* [Key methodologies in software architecture](.)
+  * [Managing the complexity](.)
+  * [Levels of architecture design](.)
+  * [Views of architecture design](.)
+* [Common architecture styles](.)
+  * [More recent architectures](.)
+* [General architecture principles](.)
+  * [Architecture level](.)
+  * [Component level](.)
+  * [Class level](.)
+  * [About OO design and Simple & direct](.)
+* [Technology design spaces - Overview](.)
+  * [Sources to learn from](.)
+  * [Reference architectures in storage areas](.)
+    * [Cache](.)
+    * [(Distributed) Filesystem](.)
+    * [Object/Block Storage](.)
+    * [Data deduplication](.)
+    * [Archival storage](.)
+    * [OLTP/OLAP database](.)
+    * [In-memory database](.)
+    * [NoSQL database](.)
+    * [Graph database](.)
+    * [Datalake](.)
+    * [Stream processing](.)
+    * [Persistent memory](.)
+    * [Cloud native](.)
+    * [Secondary Indexing](.)
+    * [Content distribution network (CDN)](.)
+  * [Storage components breakdown](.)
+* [Technology design spaces - Breakdown](.)
+  * [Metadata](.)
+    * [Metadata size](.)
+    * [Metadata scaleout](.)
+    * [Metadata storage](.)
+    * [Metadata offloading](.)
+    * [Metadata consistency](.)
+  * [Consistency](.)
+    * [Single node level consistency](.)
+    * [Datacenter level consistency](.)
+    * [Geo-regional level consistency](.)
+  * [Write path](.)
+    * [Append-only vs update in-place](.)
+    * [Co-updating neighbor components](.)
+    * [Write to different storage media](.)
+    * [Tiering between different storage media](.)
+    * [Write & read paths coalescing](.)
+    * [Offloading](.)
+  * [Data organization](.)
+    * [Durability tier](.)
+    * [Data layout for query tier](.)
+    * [Garbage collection (GC) / Compaction](.)
+    * [Compression](.)
+  * [Data indexing](.)
+    * [Data index properties](.)
+    * [Popular data indexes](.)
+    * [Data indexes in distributed storage](.)
+    * [Succinct data structures](.)
+  * [Data caching](.)
+    * [Memory caching](.)
+    * [SSD caching](.)
+    * [Metadata caching](.)
+  * [Data partitioning & placement](.)
+    * [Common techniques](.)
+  * [Data integrity](.)
+    * [High availability](.)
+    * [Durability](.)
+  * [Resource scheduling](.)
+    * [Design dimensions](.)
+  * [Performance](.)
+    * [Concurrency & parallelism](.)
+    * [CPU-cache and in-memory](.)
+    * [Scaleout storage](.)
+  * [Networking](.)
+    * [Networking architecture](.)
+    * [Load balancers](.)
+    * [Congestion control](.)
+    * [Networking stack](.)
+    * [Application layer](.)
+  * [More topics](.)
+* [Conclusion](.)
+
 
 # Software architecture - A philosophy perspective
 
@@ -18,7 +121,7 @@ Software architecture is a modeling of the reality world, a language, and a huma
 
 The next and following chapters tell about knowledge in software architecture. But this first chapter tells about the engine that generates the knowledge.
 
-__Reality, language, and human mind__
+## Reality, language, and human mind
 
 Firstly, __the modeling of the world is human language__. Human language evolved for thousands of years, enriched by distinctive civil culture, polished by daily interaction among population, and tested by full industry usage and creation. Grab a dictionary, you learn the world and mankind.
 
@@ -26,7 +129,7 @@ Next, the modeling tool is also a model of the modeler itself. I.e. __human lang
 
 We can say __human language, mind, and the perceivable reality are isomorphic (of the same structure)__. The expedition into the outer world is the same way with exploring into the deep heart. Losing a culture, a language, is the same with losing a piece of reality. As the two sides of a coin, human language is both the greatest blessing how mankind outperforms other creature beings, and also the eternal cage how farthest human mind is capable to perceive.
 
-__About software architecture__
+## About software architecture
 
 Software architecture is a language, a modeling of the reality world, and a human mind creation to assist human mind. __The essence of software architecture__ is to [honestly reflect the outer world](https://www.zhihu.com/question/346067016), to introspect into the inner mind, and to conceptually light up where it is dark missing. The answer is already there, embedded in the structure, waiting to be perceived.
 
@@ -36,7 +139,7 @@ Besides, __knowledge and experience are themselves good designs__. They are esse
 
 ![The mapping between human mind, language, the reality](/images/arch-design-mind-lang-reality.png "The mapping between human mind, language, the reality")
 
-__Side notes: Explaining with examples__
+## Side notes: Explaining with examples
 
 For __"high cohesion low coupling" in human language__, imagine an apple on a disk. People name them with "apple" and "desk", rather than a "half apple + half desk" thing. Like selecting what to wrap into an object in Object-Oriented (OO) design, the naming "apple" and "desk" practices "high cohesion low coupling".
 
@@ -59,7 +162,7 @@ For __predict and design what "software architecture" should be__. It can be exp
 
 There are various aspects why software architecture is necessary, besides technology. These aspects together define what software architecture should be, and correspondingly the methodology and knowledge landscape developed.
 
-Technology aspects
+## Technology aspects
 
   * __Handling the complexity__. Software design are separated into architecture level, component level, and class level. Each level popularize with own techniques: 4+1 view, design patterns, refactoring. Any challenge can be solved by adding one layer of abstraction.
 
@@ -67,7 +170,7 @@ Technology aspects
 
   * __Cost of faults__. The cost of correcting a fault at early design is way lower than at full-fledged implementation, especially the architecture level faults that need to restructure component interconnects.
 
-Capturing the big
+## Capturing the big
 
   * __Non-functional requirements__. Typically, availability, scalability, consistency, performance, security, [COGS](https://en.wikipedia.org/wiki/Cost_of_goods_sold). More importantly, possible worst cases, how to degrade, critical paths. Also, testability, usability, quality, extensibility, delivery & rollout. They are not explicit customer functional needs, but usually more important, and touches wide scope of components to finally implement.
 
@@ -79,7 +182,7 @@ Capturing the big
 
   * __Capture the big__. Architect role needs to define what system properties must be grasped in tight control throughput project lifecycle. They map to the __project goals__ of success and key safety criteria. More importantly, architect role needs to decide what to give up, which may not be as easy as it looks, and reach consensus across teams.
 
-Process & Organization
+## Process & Organization
 
   * __Project management__. Architecture step is usually where the cost effort, touching scope, delivery artifact, development model; and resource, schedule, quality can be determined and evaluated. It is also where to closely work with customers to lock down requirements. Project management usually works with the architect role.
 
@@ -96,18 +199,30 @@ Process & Organization
 
 What an architect role does and means in real world industry are somehow puzzled. From my experience, this is due to architecture step is organized differently at different companies. At some, architect is the next job position of every software developer. At some others, I didn't even see an explicit architect job position.
 
-  * __Architect the tech lead__. Usually seen at Internet companies. The architect role is taken by a senior guy in the team, who masters technology stacks and design principles. The architect makes decision on which technology stack to use, and builds the framework for the following team members to fill concrete code. The architect role is in high demand, because Internet companies quickly spin up App after App, each needs its architect, while the underlying opensource infrastructure is relatively stable. Both the business value and technology stack win traction. The API richness in upper App level implies more products and components to host new architects, while infra level generally has simpler API and honors vertical depth.
+## Architect the tech lead
 
-  * __Architecture BU (i.e. department)__. Seen at Telecom companies. Architects work with architects, software developers work with software developers; they reside at different BUs. The architecture results are handed off in middle, following a waterfall / CMMI model. The architecture designs on more stable, even standardized requirements, with very strict verification, and delivers completeness of documentation. Strong process, and expect more meetings bouncing across BUs. Employees tend to be separated into decision making layer and execution layer, where the later one expects long work, limited growth, and early retire.
+Usually seen at Internet companies. The architect role is taken by a senior guy in the team, who masters technology stacks and design principles. The architect makes decision on which technology stack to use, and builds the framework for the following team members to fill concrete code. The architect role is in high demand, because Internet companies quickly spin up App after App, each needs its architect, while the underlying opensource infrastructure is relatively stable. Both the business value and technology stack win traction. The API richness in upper App level implies more products and components to host new architects, while infra level generally has simpler API and honors vertical depth.
 
-  * __Peer-to-peer architect__. Usually seen at teams building dedicated technology. Unlike Internet companies spinning up Apps horizontally atop many different technologies, such team vertically focuses on one, e.g. to build a database, a cloud storage, an infrastructure component, i.e. 2C (former) vs 2B (later) culture. No dedicated architect job position, but shared by everyone. Anyone can start a design proposal (incremental, new component, even new service). The design undergoes a few rounds of review from a group of senior guys, not fixed but selected by relevance and interest. Anyone can contribute to the design, and can join freely to set off with project development. Quite organic. Technology is the key traction here, where new architecture can be invented for it (e.g. new NVM media to storage design).
+## Architecture BU
 
-  * __System analyst__. Usually seen at companies selling ERP (Enterprise resource planning), or outsourcing. The systems are heavily involved into customer side domain knowledge. And the domain knowledge is invalidated when selling to another customer from a different domain. Because of new background each time, comprehensive requirement analysis and architecture procedures are developed. When domain can be reused, domain experts are valued, where __knowledge and experience themselves are good designs__. Domain knowledge can win more traction than technology, where the later one more leans to stability and cost management.
+BU - business unit, i.e. department. Usually seen at Telecom companies. Architects work with architects, software developers work with software developers; they reside at different BUs. The architecture results are handed off in middle, following a waterfall / CMMI model. The architecture designs on more stable, even standardized requirements, with very strict verification, and delivers completeness of documentation. Strong process, and expect more meetings bouncing across BUs. Employees tend to be separated into decision making layer and execution layer, where the later one expects long work, limited growth, and early retire.
 
-  * __Borrow and improve__. Usually seen at follower companies. If not edge cutting into no man's land, __reference architecture__ (top product's architecture) can usually be found to borrow from, to customize and improve. This is also benefited by the wide variety of opensource. Reference architecture, standing on the shoulder of giants, are widely used in software architecture processes, e.g. comparing peer works, which is another example of knowledge and experience themselves are good designs. Market technology investigation survey are high demand skills.
+## Peer-to-peer architect
+
+Usually seen at teams building dedicated technology. Unlike Internet companies spinning up Apps horizontally atop many different technologies, such team vertically focuses on one, e.g. to build a database, a cloud storage, an infrastructure component, i.e. 2C (former) vs 2B (later) culture. No dedicated architect job position, but shared by everyone. Anyone can start a design proposal (incremental, new component, even new service). The design undergoes a few rounds of review from a group of senior guys, not fixed but selected by relevance and interest. Anyone can contribute to the design, and can join freely to set off with project development. Quite organic. Technology is the key traction here, where new architecture can be invented for it (e.g. new NVM media to storage design).
+
+## System analyst
+
+Usually seen at companies selling ERP (Enterprise resource planning), or outsourcing. The systems are heavily involved into customer side domain knowledge. And the domain knowledge is invalidated when selling to another customer from a different domain. Because of new background each time, comprehensive requirement analysis and architecture procedures are developed. When domain can be reused, domain experts are valued, where __knowledge and experience themselves are good designs__. Domain knowledge can win more traction than technology, where the later one more leans to stability and cost management.
+
+## Borrow and improve
+
+Usually seen at follower companies. If not edge cutting into no man's land, __reference architecture__ (top product's architecture) can usually be found to borrow from, to customize and improve. This is also benefited by the wide variety of opensource. Reference architecture, standing on the shoulder of giants, are widely used in software architecture processes, e.g. comparing peer works, which is another example of knowledge and experience themselves are good designs. Market technology investigation survey are high demand skills.
 
 
 # Key processes in software architecture
+
+## Knowledge and skills
 
 As preparation, architecture design requires below knowledge and skills
 
@@ -120,6 +235,8 @@ As preparation, architecture design requires below knowledge and skills
   * Internally, __understand your existing systems__. Understand the existing system to make designs that actually work, and to correctly prioritize what helps a lot and what helps little. Learn from past design history, experience, and pitfalls, to reuse and go the right path.
 
   * Organizationally, __broaden your scope__. Architecture design involves interacting with multiple external systems and stakeholders. Be sure to broaden your scope and get familiar with them. Communicate with more people. Solid soft skills are needed for cross team / BU collaboration, to break barrier and build consensus, and to convey with action-oriented points, concise, big picture integrated with detailed analysis.
+
+## Carry out the steps
 
 I lean more to peer-to-peer architect style mentioned above. Many can be sensed from [GXSC's answer](https://www.zhihu.com/question/24614033/answer/497338972). At each step, be sure to engage __talk with different persons__ which significantly improves design robustness. Rather than the design results, it's problem analysis and alternative trade-off analysis that weight most.
 
@@ -137,6 +254,8 @@ I lean more to peer-to-peer architect style mentioned above. Many can be sensed 
 
   * Another output of architecture design are __interfaces__. Interface design does have principles (see later). They are the tracks and lanes where following development start. They reveal how components are cut and interactions to happen. They also propagate expectations of your system to external systems, such as how they should co-work, what should be passed.
 
+## Designed to evolve
+
 __Architecture is designed to evolve__, and prioritized to make it evolve faster. [Ele.me payment system](https://mp.weixin.qq.com/s/mtPQLSONUCWOC2HDPRwXNQ) is a good example in a 5 year scope. Competency of nowadays software depend on the velocity it evolves, rather than a static function set.
 
   * __[Simple is beauty](https://xie.infoq.cn/article/5e899856e29017c1079b3be86)__. Initial architecture usually only address key requirements. What changes and not changes in several year's scope are identified and addressed with abstraction. __[MVP](https://en.wikipedia.org/wiki/Minimum_viable_product)__ is a viable first deployment, after which it yet becomes challenging how to "replace wheels on a racing van".
@@ -144,6 +263,8 @@ __Architecture is designed to evolve__, and prioritized to make it evolve faster
   * __Highway is important__. Functionalities in software resembles to tall buildings in a city, where highways and roads are key how they build fast. These architecture aspects are less visible, usually under prioritized, but are life critical. Inside the system, they can be the debugability, logging, visibility and monitoring. Have they defined quality standards? Do monitoring have more 9s when the system is to be reliable? From infrastructure, they can be the tooling, platform, config system, fast rollout, data obtaining convenience and analytics, scripting. At organization level, they can be the team process and culture to facilitate agile moves. Externally, they can be the ecosystem and plugin extensibility. E.g. [Chrome](https://developer.chrome.com/docs/apps/first_app/) with plugins designed as first-class. E.g. [Minecraft](http://gametyrant.com/news/5-best-modding-tools-for-minecraft) published tools to build 3rd-party mods. E.g. [Opensource Envoy](https://mattklein123.dev/2021/09/14/5-years-envoy-oss/) designs for community engagement from day 1.
 
   * Build the __feedback loop__. Eventually after project rollout and deploy, you should be able to collect data and evaluate the actual benefit and costs. New gaps can be found, and yet facilitate a new round of design and improve. How to construct such feedback loop with __data driven__ should be taken into consideration of architecture design.
+
+## Driving the project
 
 The last point is about __driving the project__. The architect role is usually accompanied with ownership, and be responsible to the progress and final results. Driving goes not only the architecture step, but also along with entire project execution. Many can be sensed from [Daoyan's article](https://mp.weixin.qq.com/s?fontRatio=1&__biz=MzA5OTAyNzQ2OA==&mid=2649721202&idx=1&sn=97b3edaa344a1d901ee6ad4b8c4830e4).
 
@@ -237,7 +358,7 @@ __[UML](https://en.wikipedia.org/wiki/Unified_Modeling_Language)__ is the generi
 
   * __Other diagrams__. There are Usecase diagram to capture user scenarios and more fine-grained cases; and deployment view to capture how the code and artifacts are grouped for code development.
 
-[Domain-Driven Design](https://www.amazon.com/Domain-Driven-Design-Tackling-Complexity-Software/dp/0321125215) (DDD) views the system from the domain expert perspective. It applies to systems with complex business logic and domain knowledge, e.g. ERP, CRM (Customer relationship management), or Internet companies with rich business. Compared to traditional OO-design, which easily leads to a spider web of objects ("__Big Ball of Mud__"), DDD introduces "domains" to tide it up. Besides below listed key concepts, [IDDD flu vaccine](https://learning.oreilly.com/library/view/implementing-domain-driven-design/9780133039900/ch01lev2sec5.html#ch01lev2sec5) is also a nice example. 
+[Domain-Driven Design](https://www.amazon.com/Domain-Driven-Design-Tackling-Complexity-Software/dp/0321125215) (DDD) views the system from the domain expert perspective. It applies to systems with complex business logic and domain knowledge, e.g. ERP, CRM (Customer relationship management), or Internet companies with rich business. Compared to traditional OO-design, which easily leads to a spider web of objects ("__Big Ball of Mud__"), DDD introduces "domains" to tide it up. Besides below listed key concepts, [IDDD flu vaccine](https://learning.oreilly.com/library/view/implementing-domain-driven-design/9780133039900/ch01lev2sec5.html#ch01lev2sec5) is also a nice example.
 
   * __Domain__. A big complex system (enterprise scale) are cut into multiple domains (e.g. user account system, forum system, ecommerce system, etc), each with their specific domain knowledge, language wording, and domain experts.
 
@@ -286,6 +407,8 @@ This is the old topic, a generic design pattern on the scale of architecture. Ne
 
 ![Common architecture styles](/images/arch-design-common-styles.png "Common architecture styles")
 
+## More recent architectures
+
 More recent architectures below. You can see architectures vary on: How to cut boundaries, e.g. fine-grain levels, offloading to cloud. Natural structures, e.g. layered, event & streaming, business logic, model-view UI. The gravity of complexity, e.g. complex structures, performance, consistency, managing data, security & auditing, loose communication channels.
 
   * __Microservice__. Complex systems are broken into microservices interacting with REST APIs. Typical examples are __Kubernetes and Service Mesh__. You yet need an even more complex container infrastructure to run microservices: [SDN](https://en.wikipedia.org/wiki/Software-defined_networking) controller and agents for virtual networking, HA load balancer to distribute traffic, circuit breaker to protect from traffic surge, service registry to manage REST endpoints, Paxos quorum to manage locking and consistent metadata, persistent storage to provide disk volumes and database services, ... Below is [Netflix microservice architecture](https://medium.com/swlh/a-design-analysis-of-cloud-based-microservices-architecture-at-netflix-98836b2da45f) for example.
@@ -311,6 +434,8 @@ More recent architectures below. You can see architectures vary on: How to cut b
 
 # General architecture principles
 
+## Architecture level
+
 Most principles are already reflected in the above sections. At __architecture level__, the most mentioned principles are below three ([Architecture 3 principles](https://xie.infoq.cn/article/5e899856e29017c1079b3be86))
 
   * __Keep it simple__. There are enough complexity; simple is precious. Related to [KISS](https://en.wikipedia.org/wiki/KISS_principle).
@@ -318,6 +443,8 @@ Most principles are already reflected in the above sections. At __architecture l
   * __Suitable__. Enough for the need, is better than "industrial leading". An architecture should be suitable, to steer it with your concrete requirement and team resources, rather than to vainly pursuit new technologies. Be frugal. The benefit of a design should be mapped to financial cost to evaluate.
 
   * __Designed for evolving__. Business needs are changing. Traffic scale are increasing. Team members may come and go. Technologies are updating. An architecture should be designed evolvable. The architecture process (and development) should be carried out with a [growth mindset](https://www.youtube.com/watch?v=M1CHPnZfFmU). An example is [Ele.me Payment System](https://mp.weixin.qq.com/s/mtPQLSONUCWOC2HDPRwXNQ), which is quite common for Internet companies.
+
+## Component level
 
 More principles come to __component level__ design. [CoolShell design principles](https://coolshell.cn/articles/4535.html) is good to list all of them. Below are what I think most useful
 
@@ -337,13 +464,15 @@ More principles come to __component level__ design. [CoolShell design principles
 
   * __Acyclic Dependencies Principle (ADP)__. Try not to create a cyclic dependency in your components. Ideally, yes. In fact, cyclic dependency still happens, when multiple sub-systems are broker-ed by a message queue. Essentially, components need interaction, just like people.
 
+## Class level
+
 Coming to __class level__ or lower component level, the principles can be found from __[Coding Styles](https://google.github.io/styleguide/cppguide.html)__, __[Code Refactoring](https://m.douban.com/book/subject/1229923/)__, __[Code Complete](https://book.douban.com/subject/1477390/)__; this article won't cover.  However, it's interesting to evaluate if a piece of code is __good design__, which people frequently argue for long time without an agreement. In fact, several distinct design philosophies all apply, which can be found from diverged opensource codebases and programming language designs. To end the arguing, practical principles are
 
   * Compare __concrete benefits/costs__ to team and daily work, rather than design philosophies.
 
   * Build the compare on __concrete real usecases__, rather than blindly forecasting future for design extensibility.
 
-__About OO design and Simple & direct__
+## About OO design and Simple & direct
 
 Continued from the above discussion about evaluating a piece of code is good design. The key concern should be whether it __saves mind burden__ across team. There are generally two paradigms: OO design and Simple & direct. They work in different ways.
 
@@ -1318,7 +1447,7 @@ Managing consistency between cache and persistent store has several approaches. 
 
 SSD cache also uses DRAM as the first level cache and offloads cold data to SSD. DRAM index is typically hashtable or B+-trees. New challenges come from managing larger index size brought by the larger capacity of SSD, handling SSD rewrites and garbage collection, managing item eviction on SSD, and managing SSD wearing out issue. They are a few design properties.
 
-  * __SSD cache structure__. There are several approaches. SSD cache has similarities with the hardware cache between CPU and DRAM, and also shares properties with storage. 
+  * __SSD cache structure__. There are several approaches. SSD cache has similarities with the hardware cache between CPU and DRAM, and also shares properties with storage.
 
     * __Set-associative cache__, e.g. Flashcache and KSet in Kangaroo. Set-associative cache limits the freedom of item location into a cache line, thus needs little memory to host index (same level as a hashtable).
 
@@ -1494,6 +1623,8 @@ Multi-dimensional resource scheduling on cloud is a big topic, see DRF/2DFQ etc 
     * __Priority inversion__ is another issue. High priority can be waiting on the resource held by another low priority job, e.g. a lock. Dependency link should be traced to bump priority, or preemptively kill and retry.
 
     * __Preempting__. It defines the strategies whether higher priority jobs should stop/pause lower ones to take up its resources. Besides job scheduling, preempting is also seen in transaction scheduling and deadlock resolving. It varies whether younger jobs should preempt older ones, or vice visa. The cost to preempt a long live transaction can be high. OCC can also be seen as first win jobs preempts slower ones, where frequent retry can cost high.
+
+### Design dimensions
 
 There are a few design dimensions to consider when designing resource scheduling.
 
