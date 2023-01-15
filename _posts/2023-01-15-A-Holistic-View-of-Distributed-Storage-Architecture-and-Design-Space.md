@@ -643,6 +643,7 @@ __Divide by system properties__
   * Operational ease
   * Interoperability
 
+![Distributed storage system overview](/images/arch-design-storage-overview.png "Distributed storage system overview")
 
 # Technology design spaces - Breakdown
 
@@ -1494,7 +1495,7 @@ Multi-dimensional resource scheduling on cloud is a big topic, see DRF/2DFQ etc 
 
     * __Preempting__. It defines the strategies whether higher priority jobs should stop/pause lower ones to take up its resources. Besides job scheduling, preempting is also seen in transaction scheduling and deadlock resolving. It varies whether younger jobs should preempt older ones, or vice visa. The cost to preempt a long live transaction can be high. OCC can also be seen as first win jobs preempts slower ones, where frequent retry can cost high.
 
-There are a few design dimension to consider when designing resource scheduling.
+There are a few design dimensions to consider when designing resource scheduling.
 
   * __Job granularity__. Small jobs generally benefits resource schedule balance. Think randomly tossing balls into bins: the smaller and more balls, the balancer per bin's final ball count. The method is widely used for multi-core processing, i.e. async multi-stage pipeline. While small job granularity is beneficial, it costs metadata, increases IOPS, and disks still favor batches.
 
@@ -1833,4 +1834,6 @@ Compared to [Storage components breakdown section](.), there are a few topics I 
 
 This article (almost a book now) is composed of two parts: software __architecture methodologies__ and storage __technology design spaces__. In the first part, we went though the purposes of software architecture, how to view it from the organization, the process to carry it out, and key methodologies and principles. Software architecture bridges user scenarios to a detailed working software. It handles the complexity of user facing functions and hidden system properties. It navigates through the best path in large technology design space. It drives collaboration between BUs and ensures the deliverables with quality. Software architecture is a fight with complexity. It constructs the matching model with human mind to reach simplicity, which naturally converges to human language, the battle-tested modeling of the reality. It becomes an __art of structuring__, to sense the influences between organization chains, the momentum from customer markets, the tension between system properties and technologies, that weaves transforming information flows into flying wheels of software construction.
 
-In the second part, we went through technology design spaces for the distributed storage system. We first listed __Reference architectures__ in different storage areas, and then breakdown each storage component's system properties and design spaces. [Storage components breakdown section](.) lists the storage areas, components, and system properties to consider in software architecture. Popular techniques burn into language and becomes a design pattern. An __architecture design pattern__ frequently interleaves multiple components and trade-off between system properties. Discrete techniques join into a __continuous space of design__, where the shape of landscape emerges. We breakdown, navigate, and re-combine whatever we need to reach the optimal point of problem solution. Storage industry is quickly changing, with more powerful hardware, growing scale, new business scenarios, and a constant focus on reliability and COGS. They push technology design space to continuously evolve. New opportunity emerges.
+In the second part, we went through technology design spaces for the distributed storage system. We first listed __Reference architectures__ in different storage areas, and then breakdown each storage component's system properties and design spaces. [Storage components breakdown section](.) lists the storage areas, components, and system properties to consider in software architecture. Popular techniques burn into language and becomes a design pattern. An __architecture design pattern__ frequently interleaves multiple components and trade-off between system properties. Discrete techniques join into a __continuous space of design__, where the shape of landscape emerges. We breakdown, navigate, and re-combine whatever we need to reach the optimal point of problem solution. Storage industry is quickly changing, with more powerful hardware, growing scale, new business scenarios, and a constant focus on reliability and COGS. They push technology design space to continuously evolve. New opportunities emerge.
+
+![Distributed storage landscape overview](/images/arch-design-landscape-overview.png "Distributed storage landscape overview")
