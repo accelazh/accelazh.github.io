@@ -97,6 +97,7 @@ __Table of Contents__
   * [Data partitioning & placement](.)
     * [Common techniques](.)
   * [Data integrity](.)
+    * [Methodologies](.)
     * [High availability](.)
     * [Durability](.)
   * [Resource scheduling](.)
@@ -1559,6 +1560,8 @@ Plain techniques are used to improve data integrity.
 
   * __CRC__ is pervasively used to verify a piece of data matches verification, with a cost of computing polynomials on finite fields. Compared to cryptographic hash, CRC is reversible to recover wrong bits. CRC algorithm satisfies linear function ([CRC wiki](https://en.wikipedia.org/wiki/Cyclic_redundancy_check)), which can be used for optimization. A 32-bit CRC is able to detect any 2 bit errors, burst errors of length <= 31, any double bit errors, or any odd number of errors ([CRC lecture](https://www.cs.princeton.edu/courses/archive/spring18/cos463/lectures/L08-error-control.pdf)).
 
+### Methodologies
+
 The techniques should be used with thoughtful methodologies. See more in [Reliability against bugs](http://accelazh.github.io/storage/Reliability-Against-Bugs-And-Corruption) article.
 
   * __CRC should be end-to-end__. User client generates the CRC, and the CRC is persisted in the last level of system. Data is verified with CRC before returned to user. CRC calculated in the middle of processing is less reliable because the input data may already be corrupted. The more general principle is, __end-to-end verification is necessary__.
@@ -1635,6 +1638,7 @@ There are a few design dimensions to consider when designing resource scheduling
   * __Cost modeling__. Read/write size is the common practical cost modeling in storage systems. Together they compose queue count and queue size. The most comprehensive cost modeling as a reference can be found in DB [query optimizers](https://mp.weixin.qq.com/s?__biz=MzI5Mjk3NDUyNA==&mid=2247483895&idx=1&sn=05b687a465f5e705dbebfdccaf478f4b). The predicted IO cost can be combined with deadline to early cancel requests that cannot finish in time or resource limits.
 
 ![Resource scheduling section](/images/arch-design-section-resource-scheduling.png "Resource scheduling section")
+
 
 ## Performance
 
