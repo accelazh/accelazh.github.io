@@ -267,7 +267,7 @@ __Architecture is designed to evolve__, and prioritized to make it evolve faster
 
 ## Driving the project
 
-The last point is about __driving the project__. The architect role is usually accompanied with ownership, and be responsible to the progress and final results. Driving goes not only the architecture step, but also along with entire project execution. Many can be sensed from [Daoyan's article](https://mp.weixin.qq.com/s?fontRatio=1&__biz=MzA5OTAyNzQ2OA==&mid=2649721202&idx=1&sn=97b3edaa344a1d901ee6ad4b8c4830e4).
+The last point is about __driving the project__. The architect role is usually accompanied with ownership, and be responsible to the progress and final results. Driving goes not only the architecture step, but also along with entire project execution. Many can be sensed from [道延架构 article](https://mp.weixin.qq.com/s?__biz=Mzg5Mjc3MjIyMA==&mid=2247544273&idx=1&sn=d7b9cec80cd593d28b42f5b6179af8be).
 
   * There can be timeline schedule issues, new technical __challenges__, new blockers, more necessary communication with up/downstream; previous assumptions may not hold, circumstances can be __changed__, new risks will need engage; there can be many people joining and many needs to coordinate, and many items to follow up.
 
