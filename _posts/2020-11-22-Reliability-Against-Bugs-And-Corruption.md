@@ -64,6 +64,8 @@ Compared to end-to-end verification, we can name the __chain-of-trust verificati
 
   * The operation on CRC also needs to be verified. This is because CRC will usually be memorized in data blocks and metadata, as the source to determine whether the data is "correct". If the CRC is memorized wrong, it breaks data health management.  Failure patterns can be, CRC is copied in memory but bit flip, CRC is written to disk but bit flip, CRC can be concatenated or resued (to calcuate CRC on longer data) but yields an incorrect result.  Typical solutions can be, compute twice and compare, wait on disk scrubbing done before declare finish healthily.
 
+  * More practically, every piece of data should carry CRC. Whenever a new CRC is calculated, it must verify CRC is calculating on correct input data. Whenever data is copied or sliced (even pointer + offset operation), the new chunk must generate new CRC (i.e. to lock & secure the data), and then verify the new chunk still matches with the source. It's a chain of trust. 
+
 Next, it brings me to think several different paradigms to maintain the chain-of-trust. By far, we can see a good verification method composes of 1) verify end-to-end, 2) implemented heterogeneously, 3) computational light. Let's coin the concept __heterogeneous end-to-end verification__.
 
   * Paradigm 1: CRC to verify data is identical. Or CRC to verify multiple pieces of data having certain relations, where the CRC here is more like a purposed content hash.  The CRC is the basic here.
