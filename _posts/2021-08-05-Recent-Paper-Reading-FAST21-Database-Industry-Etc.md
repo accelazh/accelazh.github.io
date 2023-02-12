@@ -651,4 +651,137 @@ FAST21 papers, database, and some other papers.
             1. the 5G module dominate the most energy cost, ~55%. about 2x than 4G. and consums more than even the screen
             2. mainstream smartphone solution uses a plugin 5G module, rather than SoC. This is less energy efficient
             3. example power management: switch to 5G only when necessasry, other time fallbacks to 4G.
+
+12. Clock-SI: Snapshot Isolation for Partitioned Data Stores Using Loosely Synchronized Clocks    [2013, 70 refs]
+       https://infoscience.epfl.ch/record/187553/files/srds2013_clocksi.pdf?version%3D1
+       https://www.microsoft.com/en-us/research/wp-content/uploads/2016/02/samehe-clocksi.srds2013.pptx
+        1. distributed transaction without central clock or TrueTime atomic clock, at snapshot isolation
+           by delaying read upon node clock too small, or for write commit timestamp take max(all prepare timestamps)
+           Ready delays. But I don't see commit needs wait. And so External Consistency may not be a concern in Clock-SI.
+        2. highligthts
+            1. using max(timestamps from all participant nodes) to acquire the final commit timestamp
+                1. Question: Though compared with Spanner External Consistency, the paper didn't clearly state whether External Consistency is guaranteed
+                    1. as far as I understand, the external consistency violation can still happen
+                       but maybe it's not a concern of related usecases
+                        1. i.e. a later committed transaction can obtain a smaller commit timestamp than the previously committed transaction
+                2. Question: How to form consistent snapshot, when reading to multiple participant nodes, while each node has clock drift?
+                    1. Figure 1 and Figure 2 are useful cases
+                        1. In Figure 2, note T1's commit timestamp is t, but commit finishes at t'. T2's snapshot timestamp is t'' > t. So, T2 must read wait to t', so that data committed at t is visible it T2.
+                        2. See Figure 1. Though Clock-SI doesn't need timestamp oracle, a read has to wait until each partition catches up to snapshot timestamp t. As a result, high clock drifting will kill read latency. Then, it still needs a cross partition clock synchronization protocol, NTP + HLC should be fine.
+                    2. the paper chooses to delay reads. but that results in not a consistent snapshot w.r.t. physical absolute time
+                3. Question: See Algorithm 1, the read wait instead of Spanner's commit wait?
+                    1. if it's read intensive, isn't read wait even worse?
+            2. For short readonly transactions, Clock-SI improves latency and throughput by 50% by avoiding communications with a centralized timestamp authority
+            3. The core of these challenges is that, due to a clock skew or pending commit, a transaction may receive a snapshot timestamp forwhich the corresponding snapshot is not yet fully available.
+                1. We delay operations that access the unavailable part of a snapshot until it becomes available.
+                2. As an optimization, we can assign to a transaction a snapshot timestamp that is slightly smaller than the clock value to reduce the possibility of delayed operations.
+            4. "Choosing Older Snapshots" - read at snapshot timestamp - ∆
+                1. because read at snapshot timestamp t has to wait for every partition reach timestamp t
+                   to avoid read wait, we can choose a smaller t, so that it's <= every partition's current timestamp
+                   this is just like reading at snapshot timestamp t of low watermark agreed by all partitions 
+        3. Interesting / good thoughts from paper
+            1. attack timestamp Oracle throughout & latency is a good direction. can a closely sync cluster help?
+                1. this is where TiDB SPOF timestamp oracle limit read/write latency. and every read/write wants a timestamp and gets impacted
+                2. external consistency. can the abnormal case be fixed by causal consistency? participant group(A, B, C) commit forst , they have higher timestamp; (C, D, E) commit later, but they have lower timestamp.
+                    1. Fix it with causal consistency: after (A, B, C) commit, C bump itself timestamp, so (C, D, E) now must have higher timestamp than (A, B, C) now.
+                       Broader thinking: any sync problem, can use similar approch to pass causal timestamps to bypass needs for close sync e.g. TrueTime
+
+13. Virtual Consensus in Delos    [2020, 0 refs]
+   https://www.usenix.org/system/files/osdi20-balakrishnan.pdf
+    1. Good paper. First propsoe the VirutalLog interface.
+       Decouple Paxos data plane from control plane, providing unified log stream,
+        and allow bridging into different log store implementations.
+       production migrate, upgrading, hotfixing are made easier.
+       Shared log interface is made more common in many different works
+
+    2. Highlights
+        1. history from Facebook
+            1. initially it needs to reach production fast (8months), allow incremental evolution, and combine different metadata storage: ZooKeeper, LogDevice, ZippyDB, MySQL running on production
+                1. these storage couples database and the consensus protocol, no boundary and API separation
+            2. VirutalLog and Delos DB allows .. good applicable production features
+                1. migrate backend data from one backend LogLet to another, totally transparent to user
+                    1. transparent upgrade, e.g. from slow ZooKeeper to 10X faster NativeLogLet
+                2. hotfixing for bugs, discovered but on NativeLogLet, then temporarily fallback to ZooKeeper for fixing
+                3. allows deleting a single log entry from the VirtualLog, which is traditionally hard in Paxos
+                    1. typical production issue surgery case, remove a corrupted log entry that poison many roles
+            3. on production for 18+ months, 1.8 billion transactions per day
+        2. key designs
+            1. VirtualLog and LogLet are first clearly designed abstractions with simple APIs
+                1. LogLet needs to provide consensus, durability, but no need for fault tolerant consensus
+                2. LogLet needs to support Seal operation
+                    1. Seal must be highly available, even though LogLet doesn't support fault tolerance consensus
+                3. VirutalLog is the Control Plane, whiile LogLet is the Data Plane
+                    1. where Raft is considered to have couple two planes into one protocol
+            2. VirtualLog needs support reconfiguration, i.e. switch LogLet upon failure append
+                1. A central MetaStore is necessary, to store the reconfiguration metadata, which LogLet which log range, etc
+                    1. also, new chain is fetched from MetaStore
+                2. MetaStore is first implemented an external ZooKeeper, then moved to an embedded Paxos implementation
+                    1. Full paxos is not necessary for just to support reconfiguration
+                3. Reconfiguration can have latency hit
+            3. In one time, a log appends to one LogLet
+                1. can switch to another LogLet upon failure aond user initiated Seal
+                2. there is no stripping across LetLets, but LogLet internally can support StrippedLogLet
+            4. Delos is a ACID database implemented upon the VirtualLog
+                1. for metadata / control plan data service at Facebook
+                    1. 1.8 billion transactions per day is ~20K IOPS.
+                2. Each Delos server maintains a local copy of state in RocksDB
+                   and keeps this state synchronized via state machine replication (SMR) over the VirtualLog
+                    1. this is pretty much like AWS Aurora Multi-master design of "log is database"
+
+    m. some thoughts / questions
+        1. the Paxos quorum is typically a consensus shared log + replicated (memory) state (with checkpoints)
+            1. the shared log can be easily sharded.
+               however the replicated (memory) state needs to calculated based on all history logs, thus unable to get sharded?
+            2. so the solution is to decouple the shared log and the replicated (memory) state?
+               i.e. shared log (sharded) + DB?
+                1. however, the processing loop: read DB state -> determination -> post to shared log -> apply update to DB state -> loop.
+                   the throughput is still limited by DB state apply cannot be sharded
+                2. but still useful if shared log IO processing is the bottleneck
+                3. there is more CONFLICTING here, if we further allow DB to be sharded to scale-out throughput, that means the logs are disjoined, there is NO need for a total shared log
+                    1. i.e. virtual shared log + shared, in combine with shared DB states
+                       is internally contradictory in design concepts
+            3. Reviewing the paper "Figure 1"
+                1. There is one stream of log, and all DB (memory states / checkpoined) share the state
+                   So this is only one instance of quorum replicating same state
+                2. The log is NOT sharded. log first appends to LogLet1, then seal on failure, then append to LogLet2, then seal on failure, then LogLet3
+                    1. so the append throughput is still limitted by single LogLet, i.e. an append chain
+                3. Comparing with Azure Storage Stream
+                    1. Stream itself is a virtual log
+                    2. the EN append chain vs LogLet
+                    3. seal and switch to another append chain vs seal and switch to another LogLet
+                        1. seal and switch called reconfiguration in Delos.
+                    4. the innovative side of VirtualLog is allowing LogLet (EN append chain) to adopt different implementations
+                        1. and thus allow ease of migration
+                        2. VirtualLog targets metadata handling, 1.8 billion transactions per day is 21K IOPS, single cluster not large
+                            1. besides, common stream commonly has random reads, while shared log assume sequential reads
+                    5. thinking about Azure Storage Stream, it can sell new types of services
+                        1. how many customers/devs need shared log metadata state management?
+                        2. how many customers/devs want to build application on shared log data management?
+        2. VirtualLog interface can introduces performance penalty. I.e. interface impedance.
+            1. The ZooKeeper LogLet replaced to NativeLogLet is a hint
+                1. 10X perf sounds like a polit way to say the ZooKeeper LogLet is slow.
+                2. But this can also be explained by ZooKeeper is itself slow.
+
+    n. Relative materials
+        1. CORFU: A Shared Log Design for Flash Clusters  (2012)
+           https://blog.acolyer.org/2017/05/02/corfu-a-distributed-shared-log/
+            1. vCorfu: A Cloud-Scale Object Store on a Shared Log (2017)
+               https://blog.acolyer.org/2017/05/03/vcorfu-a-cloud-scale-object-store-on-a-shared-log/
+            2. CorfuDB VMware
+               https://github.com/CorfuDB/CorfuDB
+                1. sharing author "MAHESH BALAKRISHNAN" Corfu paper and Delos paper
+            3. Tango: Distributed Data Structures over a Shared Log  (2013)
+               http://www.cs.cornell.edu/~taozou/sosp13/tangososp.pdf
+
+            4. Facebook LogDevice
+               https://logdevice.io/
+                1. "This is an archived project and is no longer supported or updated by Facebook."
+                2. "Non-deterministic record placement"
+                    1. quorum write quorum read,  metadata log tracks copyset change
+            5. Kalfa can also be seen as a shared log
+
+        2. Aurora Multi-master: The log is the database
+           https://www.allthingsdistributed.com/2019/03/Amazon-Aurora-design-cloud-native-relational-database.html
+            1. 华为TaurusDB
+               https://zhuanlan.zhihu.com/p/151086982
 ```

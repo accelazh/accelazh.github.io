@@ -2410,7 +2410,7 @@ More results in the timeline
        https://quick-bench.com/q/FqOYuExcXoyHe_r6Bl1oSm0wUPE
 
 4. Readings: recent piled up articles
-    1. YougaByte DB vs CockroachDB
+    1. YugaByte DB vs CockroachDB
         0. https://zhuanlan.zhihu.com/p/285108593
         1. https://www.yugabyte.com/yugabytedb-vs-cockroachdb/
         2. https://blog.yugabyte.com/yugabytedb-vs-cockroachdb-bringing-truth-to-performance-benchmark-claims-part-2/
