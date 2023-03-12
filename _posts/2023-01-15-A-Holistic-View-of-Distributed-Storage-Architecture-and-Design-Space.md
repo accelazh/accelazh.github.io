@@ -43,6 +43,8 @@ __Table of Contents__
   * [Component level](.)
   * [Class level](.)
   * [About OO design and Simple & direct](.)
+  * [About optimized algorithms and robust design](.)
+  * [About analytical skills in designing](.)
 * [Technology design spaces - Overview](.)
   * [Sources to learn from](.)
   * [Reference architectures in storage areas](.)
@@ -223,6 +225,8 @@ Usually seen at follower companies. If not edge cutting into no man's land, __re
 
 # Key processes in software architecture
 
+How to successfully drive the software architecture process? It involves various collaboration with upstream and downstream, identify the scope, and break barrier and build consensus. Problem analysis and implementation deployment are connected with data driven evaluation, to compose the continuous feedback loop to drive future evolution.
+
 ## Knowledge and skills
 
 As preparation, architecture design requires below knowledge and skills
@@ -332,6 +336,7 @@ Software design is complex. To manage the complexity, I break it into different 
   * __Component level__ follows the architecture level. It focuses on the design inside the component. The scope should also be defined, e.g. interface, input and output, execution model and resources needed. This level usually involves tens of classes, __[Design Patterns](https://en.wikipedia.org/wiki/Software_design_pattern#Creational_patterns)__ are the popular methodology, and component should be designed __Reusable__. Architecture can be built on existing systems, where __technical debt__ plays a role, e.g. to rewrite all with a better design (high cost), or to reuse by inserting new code (high coupling).
 
   * __Class level__ next focuses on the more fine-grained level, i.e. how to implement one or several classes well. The definitions are clear and ready for coding. Typical methodologies are __[Coding Styles](https://google.github.io/styleguide/cppguide.html)__, __[Code Refactoring](https://m.douban.com/book/subject/1229923/)__, __[Code Complete](https://book.douban.com/subject/1477390/)__ (bad book name). You can also hear about defensive programming, contract based programming. __[UML diagrams](https://en.wikipedia.org/wiki/Unified_Modeling_Language)__ are vastly useful at this level and also component level, as a descriptive tool, and more importantly an analysis tool; e.g. use state machine diagram/table to ensure all possible system conditions are exhausted and cared about. (Similar methods are also shared in [PSP](https://www.geeksforgeeks.org/personal-software-process-psp/), which is a subset ([Combining CMMI/PSP](https://www.isixsigma.com/tools-templates/combining-cmmia-psp-tsp-and-six-sigma-software/)) of [CMMI](https://en.wikipedia.org/wiki/Capability_Maturity_Model_Integration); real world today more lean to Agile, while CMMI essentially turns developers into screw nails with heavy documentation and tightly monitored statistics).
+
 
 ## Views of architecture design
 
@@ -490,6 +495,44 @@ Continued from the above discussion about evaluating a piece of code is good des
   * What's the __gravity and traction__ of the project being developed? Apps with rich and varying logic are willing to adopt OO design. While system level and data plane usually have more stable interfaces and feature sets, but having more traction to performance and safety. Sometime the developer is willing to break every OO rule as long as COGS can be saved. Besides, encapsulation hinders developers from having __control__ on the overall perf numbers and calls.
 
   * __Prioritization__. Can the new code go production? Perf under goal, no. Production safty concerns, no. Bad OO design, OK. Thus, the design should first consider perf and safty, and then OO design. However, OO design naturally prioritizes design first, and __pushes off__ goals like performance, worst case handling, to future extension. Besides the priority inversion, extension may turn out hard after the interface is already running on production.
+
+## About optimized algorithms and robust design
+
+A similar discussion like "OO design vs Simple & direct" is whether to use the fast low overhead algorithm or a simple & direct solution.
+
+  * __Optimized algorithm__ usually leverages the most of unique workload characteristics. In another word, it carries the most __assumptions__, and retains least amount of __information__. Though reduced overhead, it tends to __specialize__ the code too early ([Premature Optimization](https://stackify.com/premature-optimization-evil/)), thus easily breaks up when adding a new feature, slightly changed the problem scope, or considering more input or output. Optimized algorithms more favor areas where problems have little change.  
+
+  * __Robust design__ means to tolerate quick volatile feature changes. Simple & direct solution has a nice play, because it carries few assumptions, and retains the __information flow__ through layers. Without tricks, how you describe the solution in plain __human language__, how it is implemented in code. Performance optimization is left to hotspots located with diagnostic tools. 
+
+  * __Trade off__. Optimized algorithms and robust design have their fundamental conflicts. As a balanced trade off, usually optimized algorithms localize into smaller and specialized scopes, while robust design expands to the most parts of the system.
+
+## About analytical skills in designing
+
+Proposing a reasonable design solution and the right decision making require analytical skills. Some can be learned from the [Consultant area](https://www.craftingcases.com/case-interview-examples/). They help dissect complex problems and navigate through seemingly endless arguments.
+
+__Problem to solve__
+
+Finding the right problem to solve and to define the problem are non-trivial.
+
+  * Firstly, there should be the base solution to compare with the proposed solution.
+
+  * Secondly, measure the __size of problem__ in a __data driven__ way, e.g. X% data are affected with Y% cost. Match the problem size with the worth of effort to solve it.
+
+  * Thirdly, PONs/CONs should trace back to __fundamental pillars__ like COGS saving, less dev effort, new user features, user SLA improvement, etc. Multi-dimension trade offs are translated to __market money__ for compare. They are the criteria for decision making.
+
+  * Avoid vague words like something is "better", "smarter", "more efficient", "new technology", "too slow", "too complex", etc.
+
+__Linear thinking__
+
+Smart people like jumping thoughts, but decision making requires linear thinking.
+
+  * Start from a base solution that is simple & direct, and then move step by step to the proposed solution. The key is to identify __hidden jumps__. Every jump must be justified.
+
+  * Then, ask 1) Why choose to move this step (__Problem to solve__); 2) What new __assumptions__ are added to support the move; 3) What in __information flow__ are lost or distorted through the step.
+
+  * In a __systematical__ way, these questions are to identify all missing paths. Eventually they compose an [MECE](https://strategyu.co/wtf-is-mece-mutually-exclusive-collectively-exhaustive/) analysis tree, to ensure the full spectrum of potential solutions (__Design space__) are explored. Data driven approach then leads to the best and must-be one.
+
+  * These questions also help identify potential trade offs. Hidden assumptions and distorted information flow are what make adding new feature harder. They also make it easier to introduce bugs. 
 
 
 # Technology design spaces - Overview
@@ -951,13 +994,13 @@ Above are eventual consistency replications. For strong consistency geo-replicat
 
 ## Write path
 
-The next big component in a distributed storage system is write path, following which you characterize how a system works. Append-only or update in-place fundamentally divides system styles and next level techniques. Write path touches almost every other components in a system, e.g. metadata, index, data organization, logging, replication, and many system properties, e.g. consistency, durability, amplification.
+The next big component in a distributed storage system is write path, following which you characterize how a system works. Append-only or update in-place fundamentally divides system styles and next level techniques. Write path touches almost every other components in a system, e.g. metadata, index, data organization, logging, replication, and many system properties, e.g. consistency, durability, amplification. Read path can be seen as a reflection of write path, plus caching to optimize performance.
 
 ![Write path section](/images/arch-design-section-write-path.png "Write path section")
 
 ### Append-only vs update in-place
 
-The first driving dimension is __append-only__ vs __update in-place__. Transitional single node filesystems usually update disk data in-place (except BtrFS). Later the quick adoption of LSM-tree leads the predominance of append-only systems, also known as log-structured systems. Not only HDD which benefits from sequential writes, SSD also favors append-only (e.g. RocksDB) due to internal FTL & GC. More, PMEM filesystems e.g. NOVA adopts append-only with per-inode logging; and in-memory systems e.g. Bw-tree adopts append-only with delta pages.
+The first driving dimension is __append-only__ vs __update in-place__. Traditional single node filesystems usually update disk data in-place (except BtrFS). Later the quick adoption of LSM-tree leads the predominance of append-only systems, also known as log-structured systems. Not only HDD which benefits from sequential writes, SSD also favors append-only (e.g. RocksDB) due to internal FTL & GC. More, PMEM filesystems e.g. NOVA adopts append-only with per-inode logging; and in-memory systems e.g. Bw-tree adopts append-only with delta pages.
 
   * __Update in-place__. Examples are EXT4, Ceph. If a piece of data is to be updated, it's overwritten on the same address on the disk, rather than written to a new address. Compared to append-only, address tracking is simpler, without needing extra memory metadata to track new addresses; and without extra costly GC to reclaim old data. The drawbacks are: 1) the underlying HDD doesn't like random writes. 2) With a fixed block-size, storing compressed results are tricky. 3) Double-write problem, where overwrites need transaction to protect against crash, thus new data gets an extra write in journaling.
 
@@ -975,7 +1018,7 @@ The first driving dimension is __append-only__ vs __update in-place__. Transitio
 
     * __Delta data__. The idea of append-only can be expanded to indexing, on PMEM (e.g. NOVA) or in-memory (e.g. Bw-tree). They exploit that appending delta data benefits high concurrency, simplifies lock handling, and avoids amplification like COW. In another perspective, immutable data can either be implemented by COW or appending delta, while COW forces compaction on write path.
 
-    * __Log is database__. We mentioned before already. Compared to database paging which incurs random writes, transferring logs across components writes sequentially. Syncing pages incurs write amplification if only partial page is modified, but repeated modification on same address can be absorbed; while logging carries delta, smaller than whole page, but can grow to a long list for repeated modification, thus need compaction. Though log can easily be used as a consistent truth for database state, replaying to the latest data incurs computation cost, and needs careful version aligning to leverage cached pages.
+    * __Log is database__. We mentioned it before already. Compared to database paging which incurs random writes, transferring logs across components writes sequentially. Syncing pages incurs write amplification if only partial page is modified, but repeated modification on same address can be absorbed; while logging carries delta, smaller than whole page, but can grow to a long list for repeated modification, thus need compaction. Though log can easily be used as a consistent truth for database state, replaying to the latest data incurs computation cost, and needs careful version aligning to leverage cached pages.
 
   * __Hybrid approach__. The example is Ceph BlueStore, where big writes are append-only, small writes overlapping no existing data is in-place, and small overwrites are merged to RocksDB WAL. This approach was invented to overcome Ceph double-write problem. It essentially bridges the old in-place update to append-only.
 
@@ -985,7 +1028,7 @@ Thinking in higher level, the driving factor behind append-only vs update in-pla
 
   * __Read path__ is efficient either if data has an index, or the location can be derived from the key, or well-sorted to favor full scan. Data should be less fragmented, preserve locality, and with fewer stale entries. Though __append-only__ generates fragmented deltas, GC/compaction can rewrite them to optimized read formats. Though __update in-place__ saves GC/compaction traffic, more read-optimized formats may still need extra rewrites.
 
-    * __Data index__ is usually needed for efficient read path. __Update in-place__ reduces index size by limiting data location degree of freedom, though not applicable to secondary indexes; and by preserving tracking granularity, i.e. unlike __append-only__ which redirects small updates to a new page. This also means less ripple updates to index.
+    * __Data index__ is usually needed for efficient read path. __Update in-place__ reduces index size by limiting data location degree of freedom, though not applicable to secondary indexes; and by preserving (a bigger) tracking granularity, i.e. unlike __append-only__ which redirects small updates to a new page. This also means less ripple updates to index.
 
   * __On-disk data organization__. The best read-optimized data format almost always require a full rewrite to generate, which explains why append-only is favorable, especially considering columnar compression (i.e. OLAP). More recent data, which can be separated by hot/cold tiering (or like the "levels" in LSM-tree), may still benefit from update in-place to reduce GC/compaction or churn to index (though in fact most also use append-only).
 
@@ -1003,19 +1046,19 @@ Besides writing locally, __data replication__ is also interleaved in write path.
 
   * __Durability__, e.g. Raft replication, 3-way replication, quorum writes, see [Consistency section](.). Durability replication is usually synchronous with strong consistency.
 
-  * __Disaster-recovery__, e.g. backup, geo-replication__, see [Consistency section](.). They can async with an agreement on RPO.
+  * __Disaster-recovery__, e.g. backup, geo-replication, see [Consistency section](.). They can async with an agreement on RPO.
 
   * __Locality__, e.g. geo-replication which moves data to user's local region, e.g. Akkio u-shards; and CDN that acts as static content cache and bridges across WAN provider.
 
   * __Data layout__. Examples are TiFlash and F1 Lightning. The databases maintain main data copy as row format to serve OLTP, which replicate an extra columnar layout copy for OLAP use. Raft protocol or fine-grained version tracking can be used to maintain consistency between replicas.
 
-  * __Hot/cold tiering__. Hot data can be copied cache. Cold data can be offloaded slow HDD or archival storage. Data formats between tiers can also be different, to favor access latency, storage efficiency, or compression.
+  * __Hot/cold tiering__. Hot data can be copied cache. Cold data can be offloaded to slow HDD or archival storage. Data formats between tiers can also be different, to favor access latency, storage efficiency, or compression.
 
   * __Data balance__. Typically, data can be re-balanced to occupy empty new nodes, to spread out placement from correlated failure domains, or to balance hot/cold access on nodes.
 
   * __Log is database__. Instead of replicating data or pages, logs which carry delta are replicated and propagated as the source of truth. See [Consistency section](.).
 
-  * __Separating write path and read path__. The example is AnalyticDB, MySql primary/secondaries replication. The design originates from database community that uses one server as write primary, and replicates to multiple replicas to scale reads. It exploits the pattern that social network generates content (writes) in a relatively constant rate, but user views (reads) can burst high.
+  * __Separating write path and read path__. The example is AnalyticDB, MySQL primary/secondaries replication. The design originates from database community that uses one server as write primary, and replicates to multiple replicas to scale reads. It exploits the pattern that social network generates content (writes) in a relatively constant rate, but user views (reads) can burst high.
 
 Offline background jobs touching data can also be divided by purpose. They usually rewrite data copies, which is the main source of __write amplification__, but necessary to reduce __read amplification__ by generating a more optimized data layout.
 
@@ -1023,7 +1066,7 @@ Offline background jobs touching data can also be divided by purpose. They usual
 
   * __Storage efficiency__. Data compression can be run off the write path to avoid increasing user seen latency. Erasure coding can then further reduce storage space needed. GC runs periodically to reclaim deleted storage space.
 
-  * __Data layout__. E.g. RocksDB runs offline compaction, which removes stale data, sort out overlapping SST files, to make reads more efficient. E.g. AnalyticDB buffers new writes in incremental files, and then merge them to baseline data and build full index. Similar patterns of delta merging can also be found in Datalakes, e.g. Apache Hudi. W.r.t. data replication, the destination copy can be placed in another node or even another cloud service, while the computation can also be __offloaded to cloud__.
+  * __Data layout__. E.g. RocksDB runs offline compaction, which removes stale data, sort out overlapping SST files, to make reads more efficient. E.g. AnalyticDB buffers new writes in incremental files, and then merge them to baseline data and build full index. Similar patterns of delta merging can also be found in Datalakes, e.g. Apache Hudi. W.r.t. data replication, the destination copy can be placed in another region or even another cloud service, while the computation can also be __offloaded to cloud__.
 
   * __Data integrity__. Storage systems typically employ offline data scrubbing to detect silent data corruption. End-to-end CRC can be stored along with data. Besides, invariants with different layers can be checked, e.g. index vs data, mapping constraints.
 
@@ -1055,7 +1098,7 @@ In general, storage media tiers are chosen according to the price, scale, and pe
 
   * __Objects in list__. Examples are linked-list implemented LRU, or Linux Kernel [memory page swap](https://github.com/torvalds/linux/blob/master/mm/workingset.c). Temperature is tracked by object position in list. Objects are prompted to head when accessed, pushed to tail when cold, and evicted beyond tail.
 
-  * __Last accessed and expire__. Usually seen when App is operating cache aside. Simply, the last accessed item from DB is also put into cache. The oldest item is evicted if the cache is full. Cache items also expire by a timeout.
+  * __Last accessed and expire__. Usually seen when App is operating cache aside. Simply, the last accessed item from DB is put into cache. The oldest item is evicted if the cache is full. Cache items also expire by a timeout.
 
   * __Offline classification__. Examples are Hekaton Siberia, [Google G-SWAP](https://research.google/pubs/pub48551/). When temperature tracking metadata is too large, the system can dump traffic records (may be sampled) to disk, and employs an offline periodical classification job or __Machine Learning__ to categorize hot/cold data.
 

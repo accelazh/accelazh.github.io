@@ -144,15 +144,19 @@ In the end, here attaches the __storage driving factors__ I summarized in scratc
     3. data migration, shipping, Edge, caching, Tiering
 ```
 
-Some tips for personal lifestyle
+Tips for how to work with innovation.
 
   * Time to stay alone uninterrupted is extremely important. It triggers active mind thoughts when being idle, or do routine hand work (non-mental involving), or casual reading.
 
   * Don't get too busy. Free relaxed time is important. Sleep more than enough to let your mind reorganize itself. To have a breakthrough idea, it doesn't take time, it takes space.
 
-  * Phone browsing gets updates but is time consuming. Separate your time to fragmented time and big block time. Only phone with fragmented time. Big block time should do big block things.
+  * Phone browsing gets updates but it is time consuming. Separate your time to fragmented time and big block time. Only phone with fragmented time. Big block time should do big block things.
 
   * Changing the living environment helps. Stay at a new place for a few days to get rid of stereotypes or fixed thinking mindsets.
+
+  * Always discuss with more people. Involving 2~3 people to discuss and bouncing quickly improves the proposal quality and brings up new directions.  
+
+  * Innovation frequently happens when being alone, relaxed with doing simple non-mind-intensive labor, e.g. taking shower, casual reading, walking. It usually happens after long hours of intensive thinking, ingesting new info, discussing with people for rounds. Sleep well; sleeping is another kind of such activity.
 
 Useful tips from more sources
 
