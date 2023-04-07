@@ -520,7 +520,7 @@ Finding the right problem to solve and to define the problem are non-trivial.
 
   * Thirdly, PONs/CONs should trace back to __fundamental pillars__ like COGS saving, less dev effort, new user features, user SLA improvement, etc. Multi-dimension trade offs are translated to __market money__ for compare. They are the criteria for decision making.
 
-  * Avoid vague words like something is "better", "smarter", "more efficient", "new technology", "too slow", "too complex", etc.
+  * Avoid vague words like something is "better", "smarter", "more efficient", "easier", "new technology", "too slow", "too complex", etc.
 
 __Linear thinking__
 
@@ -1133,7 +1133,7 @@ Inline or offline from write path, FPGA and ASIC are commonly used in offloading
 
 Traditionally "data organization" talks about physical columnar/row-wise data layouts in databases. I choose to view data organization from a broader perspective which is divided by purposes.
 
-  * __Durability tier__. The basic need to organize data in a storage system is to make it durable. __Replication__ is common, on the cost of storage efficiency, yet vulnerable as corruption can be simultaneously replicated. Replication also couples with performance tier to balance reads with extra replicas. __Erasure Coding (EC)__ reduces storage space, improves durability, on the cost of data reconstruct. __Consistency__ is a common issue that accompanies replication. __End-to-end CRC__ and __periodical scrubbing__ are necessary to protect against corruption happens on write path, data transformation, or silent data at reset. __Backup__, __geo-replication__ are standard setups for disaster recovery, while __time travel__ is handy to recover manual errors by restoring an early version.
+  * __Durability tier__. The basic need to organize data in a storage system is to make it durable. __Replication__ is common, on the cost of storage efficiency, yet vulnerable as corruption can be simultaneously replicated. Replication also couples with performance tier to balance reads with extra replicas. __Erasure Coding (EC)__ reduces storage space, improves durability, on the cost of data reconstruct. __Consistency__ is a common issue that accompanies replication. __End-to-end CRC__ and __periodical scrubbing__ are necessary to protect against corruption happens on write path, data transformation, or silent data at rest. __Backup__, __geo-replication__ are standard setups for disaster recovery, while __time travel__ is handy to recover manual errors by restoring an early version.
 
   * __Query tier__. Disk data needs to support reads and update. Common accesses are __sequential/random reads__, __appends__, __updates (or read-modify-write)__ talked in storage systems, and __point/range queries__, __scans__, __inserts__, __updates (or update-after-query)__ talked in databases. Traditionally, disk data serves both durability tier and query tier coupled, which incurs cost in write path to maintain read-optimized format. Separating read path and write path can help, or move read path entirely to __performance tier__, e.g. in-memory database. Query tier can further specialize for __OLTP__, __OLAP__ and __Datalake__ that share main techniques but vary at query patterns, consistency, data scale, and structured data.
 

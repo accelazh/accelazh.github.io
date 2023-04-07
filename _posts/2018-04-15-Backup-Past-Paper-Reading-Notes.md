@@ -1842,17 +1842,57 @@ tags: [storage, fast, paper]
             1. mClock
                 1. all requests are assigned tags and scheduled in order of their tag values
                 1. each VM IO request is assigned a reservation tag R, a limit tag L, and a proportional share tag P, to track the 3 types of controls.
-                2. the clocks corresponding to the tag are dynamically choosen.
+                2. the clocks corresponding to the tag are dynamically chosen.
                 3. When new VM joins, existing tags need to be adjusted.
                 4. handle bursting by idle credits
                 5. handle large IO size by treating it as multiple IO requests
             2. dmClock
-                1. the aggregrated service received needs to be piggybacked
+                1. the aggregated service received needs to be piggybacked
                 2. dmClock algorithm does not require complex synchronization between the servers
+        3. highlights - updated 20230403
+            1. Each VM IO request is assigned three tags, one for each clock: a reservation tag R, a limit tag L, and a proportional share tag P for weight-based allocation
+
+            2. How 2DFQ compares to mClock?
+               Storage and I/O pClock [26], mClock [25], and Pisces [52] propose queue schedulers for physical storage, where several I/O requests execute concurrently. I/O request costs are much less variable than in the cloud setting, and dynamic workloads remain an open challenge [61]
+
+            3. Table 1: Comparison of mClock with existing scheduling techniques
+                1. Proportional allocation, Latency support, Reservation Support, Limit Support, Handle Capacity fluctuation
+
+            4. the core of mClock algorithm is in equation (1) & (2).
+               Satisfy R (reservation-clamped) and L (limit-clamped) VMs first, then goes to P (proportional sharing) VMs.
+               P allocation is based on realtime throughput observed. That's where "clock" comes in.
+                   1. Reservation - low bound. Limit - high bound.
+                   2. the key advantage of mClock algorithm is, it covers all R, L, P types of throttling, i.e. Table 1
+
+            5. Interesting paper. The true algorithm is formula (3) and Algorithm 1
+                1. The core thought is to think each request has a virtual clock, and we have a physical clock.
+                   Each new request sent will advance the request virtual clock by 1/limit_count.
+                   Throttling is done by NOT allowing the request virtual clock to exceed the physical clock. 
+                   Each IO request has all three tags, R, L, P
+                2. So, a simpler solution would be simply track the past request count per second bucket using a sliding window or leaky bucket. We can then perform any R, L, P scheduling respectively
+                   But compared to mClock, we would need to spend memory for tracking the buckets. mClock is instead using per request tag to incrementally track the past request count.
+                3. it's then more tricky for mClock to handle
+                    1) burst - allow request virtual clock to fall behind physical clock in a limited threshold
+                    2) different request types - reads/writes FCFS
+                    3) different request sizes - map large IO to multiple smaller standard IOs
+                    3) sequential requests - detect and batch typically 8 IO requests
+                4. dmClock. There shouldn't be any gap.
+                    1. Simply, run mClock algorithm on each storage server.
+                    2. Instead of R = R + 1/r, it should R + p/r. p is for a new request seen by the server, how many requests are also served by other servers.
+                        1. typically, p is the serving server count, assume requests are evenly distributed.
+                           or, we use a global aggregation service.
+                        2. if without a global aggregation service, this is like evenly partition the resource quota across each shard server.
+                           it'll hit problem is shard partitions are asymmetric
+                5. So the revised key advantage of mClock/dmClock are
+                    1. No tracking memory needed for sliding window, leaky bucket, or past request count
+                    2. All three types of Reservation, Limit, Proportional Sharing are implemented. The algorithm is simple enough
+                    3. dmClock doesn't require synchronization between each storage server. But if shard partitions are asymmetric, a global aggregation service is still necessary.
+
+    
     2. Mantle: A Programmable Metadata Load Balancer for the Ceph File System    [2015, 2 refs]
        https://engineering.ucsc.edu/sites/default/files/technical-reports/UCSC-SOE-15-10.pdf
         1. decouple policies from mechanism in the metadata load balancer, expose Lua for programmers
-           good paper when analyzing distributed metadata challanges
+           good paper when analyzing distributed metadata challenges
         2. key findings
             1. introduction part has good summary about techniques for distributed metadata service
                section 2 is good for understanding ceph dynamic subtree partitioning
@@ -1872,7 +1912,7 @@ tags: [storage, fast, paper]
             1. Mantle: decoupling the policies from the mechanisms, we can dynamically select different techniques for distributing metadata
             2. Mantle decouples policy from mechanism by letting the designer inject code to control 4 policies:
                 load calculation, "when" to move load, "where" to send load, and the accuracy of the decisions
-                the languate is Lua
+                the language is Lua
 
 7. readings: FAST16 papers
     1. The Tail at Store: A Revelation from Millions of Hours of Disk and SSD Deployments (NetApp) [2016, 3 refs]
@@ -1945,48 +1985,6 @@ tags: [storage, fast, paper]
                         1. by default runs the reactive approach
                            when the reactive policy is triggered repeatedly for SR times (slowdown repeats) on the same drive,
                            then ToleRAID becomes proactive until the slowdown of the offending drive is less than ST
-
-5. readings: ceph related papers
-    1. mClock: Handling Throughput Variability for Hypervisor IO Scheduling    [2010 OSDI VMWare, 155 refs]
-       https://www.usenix.org/legacy/event/osdi10/tech/full_papers/Gulati.pdf
-        1. mClock supports proportional-share fairness subject to minimum reservations and maximum limits on the IO allocations for VMs
-           dmclock in this paper is the cluster version
-           dmClock is used in Ceph as the distributed QoS solution
-        2. key designs
-            1. mClock
-                1. all requests are assigned tags and scheduled in order of their tag values
-                1. each VM IO request is assigned a reservation tag R, a limit tag L, and a proportional share tag P, to track the 3 types of controls.
-                2. the clocks corresponding to the tag are dynamically choosen.
-                3. When new VM joins, existing tags need to be adjusted.
-                4. handle bursting by idle credits
-                5. handle large IO size by treating it as multiple IO requests
-            2. dmClock
-                1. the aggregrated service received needs to be piggybacked
-                2. dmClock algorithm does not require complex synchronization between the servers
-    2. Mantle: A Programmable Metadata Load Balancer for the Ceph File System    [2015, 2 refs]
-       https://engineering.ucsc.edu/sites/default/files/technical-reports/UCSC-SOE-15-10.pdf
-        1. decouple policies from mechanism in the metadata load balancer, expose Lua for programmers
-           good paper when analyzing distributed metadata challanges
-        2. key findings
-            1. introduction part has good summary about techniques for distributed metadata service
-               section 2 is good for understanding ceph dynamic subtree partitioning
-            2. File system workloads have a great deal of locality because the namespace has semantic meaning;
-               data stored in directories is related and is usually accessed together
-            3. We find that the cost of migration can sometimes outweigh the benefits of parallelism,
-               resulting in a 40% degradation in performance
-                1. in Ceph dynamic subtree partitioning, MDS decides and migrates directories ("fragments")
-            4. Many metadata balancers distribute metadata for complete balance by hashing a unique identi-fier, like the inode or filename;
-               unfortunately, with such fine grain distribution, locality is completely lost
-                1. Distributing for locality keeps related metadata on one MDS.
-                   This can improve performance by reducing the amount of migrating inodes and the number of requests in the metadata cluster
-                2. Distributing metadata to multiple MDS nodes hurts performance (left)
-                   by reducing locality and increasing the number of "forwarded" requests (right)
-                3. (Subtree partitioning also gets) good locality, making multi-object operations and transactions more efficient
-        2. key designs
-            1. Mantle: decoupling the policies from the mechanisms, we can dynamically select different techniques for distributing metadata
-            2. Mantle decouples policy from mechanism by letting the designer inject code to control 4 policies:
-                load calculation, "when" to move load, "where" to send load, and the accuracy of the decisions
-                the languate is Lua
 
 2. readings: random paper
     1. A Common Database Approach for OLTP and OLAP Using an In-Memory Column Database    [2009, 315 refs]
