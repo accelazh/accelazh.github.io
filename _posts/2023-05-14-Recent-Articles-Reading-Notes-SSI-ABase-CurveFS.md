@@ -1,8 +1,8 @@
 ---
 layout: post
-title: "Recent Articles Reading Notes: "
-tagline : "Recent Articles Reading Notes: "
-description: "Recent Articles Reading Notes: "
+title: "Recent Articles Reading Notes: SSI, ABase, CurveFS"
+tagline : "Recent Articles Reading Notes: SSI, ABase, CurveFS"
+description: "Recent Articles Reading Notes: SSI, ABase, CurveFS"
 category: "technology"
 tags: [cloud, storage, paper]
 ---
