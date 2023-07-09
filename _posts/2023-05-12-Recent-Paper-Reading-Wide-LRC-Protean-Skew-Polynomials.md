@@ -662,7 +662,7 @@ LRC coding matrix construction.
                 4. The final proof of full rank resides at "This implies that D1,D2,...,Dt are full rank", it's actually leveraging Skewed Polynomial Vandermonde matrix
         10. Appendix D Constructions of MR LRCs where global parities are outside local groups
 
-4. PMDS: Partial MDS Codes with Regeneration    [2020, 5 refs, IEEE Transactions on Information Theory]
+4. Partial MDS Codes with Regeneration (PMDS)    [2020, 5 refs, IEEE Transactions on Information Theory]
    https://arxiv.org/pdf/2009.07643.pdf
     1. Good. Combining LRC (Maximally Recoverable) with regenerating code. The regenerating parity be either as a local parity or a global parity.
        But note, regenerating code won't be effective if parity count is less than 2.
@@ -748,97 +748,4 @@ LRC coding matrix construction.
         12. My questions
             1. The paper talked about either local or global is MSR. But is there a codec that both local and global are MSR?
                 1. It's an open question. "Finally, for the globally MSR PMDS codes, it remains an open problem to utilize surviving local redundancy nodes, in particular in the extreme case where r + 1 nodes in a single local group fail while all other nodes survive."
-```
-
-EC on SMR zones.
-
-```
-1. SMORE: A Cold Data Object Store for SMR Drives (Extended Version)    [2017, 12 refs]
-   https://arxiv.org/abs/1705.09701
-    1. Append-only. Cross SMR zone EC. Input data is stripped to fill zone.
-    2. GC needs to migrate live data out of zone. BUT, this paper didn't mention how to ReEC after GC.
-
-2. Facebook's Tectonic Filesystem: Efficiency from Exascale
-   https://www.usenix.org/system/files/fast21-pan.pdf
-    1. RS(9,6) intra 72MB block.
-    2. Probably: Tectonic stores metadata in KV store ZippyDB. It is not fully in memory. It's sharded.
-       So solved the metadata size issue. And metadata services are decoupled into different components.
-    3. Bad EN/disk callback to metadata to process data repair, rather than using a GC scan, so solved the GC scan long time issue.
-    4. ZippyDB: Data @Scale Seattle- Muthu Annamalai (2015)
-       https://www.youtube.com/watch?v=DfiN7pG0D0k
-        1. RocksDB and support primary-secondary replication,
-        2. sharded. kV store is even easier for doing this.
-           I also remember Facebook memcached has rich experience on sharding and replication 
-
-3. Reference-counter Aware Deduplication in Erasure-coded Distributed Storage System    [2018, 3 refs]
-   https://par.nsf.gov/servlets/purl/10100342
-    1. Variable length chunking would pack chunks in "container". Actually we can split a large container and do intra container EC.
-       But this paper does cross chunk EC, so it gets "more" GC problem. And it's not even cross container EC. And this paper thus forces chunk to be fixed sized.
-    2. Key solution
-        1. Separate chunks with high/low reference count to different EC stripes. It reduces GC.
-        2. Pack chunks from the same file to the same EC stripe.
-    3. If GC deleted a chunk in one EC stripe, need to regenerate parities. (Broken Stripe)
-        No optimization here.
-
-4. Shingled Magnetic Recording (SMR) Drives and Swift Object Storage [2015]
-   https://www.openstack.org/videos/summits/tokio-2015/shingled-magnetic-recording-smr-drives-and-swift-object-storage
-   https://docs.openstack.org/swift/latest/overview_erasure_code.html
-    1. Introducing SMR, but not related to EC.
-
-5. HDFS Erasure Coding
-   https://hadoop.apache.org/docs/r3.1.1/hadoop-project-dist/hadoop-hdfs/HDFSErasureCoding.html
-    1. Inline EC. Stripe a file into EC fragments.
-
-6. MinIO
-   https://resources.min.io/erasure-coding/erasure-coding-primer
-    1. MinIO is an object storage. An object is cut into EC fragments
-
-7. AWS S3
-   https://assets.amazon.science/07/6c/81bfc2c243249a8b8b65cc2135e4/using-lightweight-formal-methods-to-validate-a-key-value-storage-node-in-amazon-s3.pdf
-    1. Didn't find details. The system is append-only. Probably like XStore.
-    2. GC rewrite an extent to move out valid data
-    3. S3 scans extent to find valid data by reverse lookup index.
-
-8. Google Cloud Storage
-   https://docs.cloudera.com/runtime/7.2.10/scaling-namespaces/topics/hdfs-ec-understanding-erasure-coding-policies.html
-    1. Plain Reed-Solomon EC. No GC mentioned.
-
-9. StripeFinder: Erasure Coding of Small Objects Over Key-Value Storage Devices    [2020, HotStorage, 4 refs]
-   https://www.usenix.org/conference/hotstorage20/presentation/maheshwari
-    1. KV SSD.
-    2. Packing objects with similar sizes for EC.
-    3. But didn't mention GC due to individual object deleted. The goal is instead to reduce metadata byte amplification.
-
-10. Erasure Coding for Small Objects in In-Memory KV Storage    [2017, 39 refs]
-    https://arxiv.org/abs/1701.08084
-    1. Pack small objects in chunk. Cross chunk EC. Focus on in-memory EC.
-    2. GC is by removing an object, and marking it to zero in parity.
-
-11. Ceph
-    https://docs.ceph.com/en/latest/rados/operations/erasure-code/#erasure-coding-with-overwrites
-    1. Understanding System Characteristics of Online Erasure Coding on Scalable, Distributed and Large-Scale SSD Array Systems    [2017, 7 refs]
-       https://arxiv.org/pdf/1709.05365.pdf
-        1. The system being evaluated is Ceph. So Ceph is writing in-place, and EC inline on write path. There won't be garbage problem.
-    2. Even BlueFS mixes append-only in each OSD, parity can still EC on matched data position. This is because ceph object stripe input address. EC is inline with write.
-
-12. OneFS/Isilon
-    https://www.delltechnologies.com/asset/en-us/products/storage/industry-market/h10719-wp-powerscale-onefs-technical-overview.pdf
-    https://en.wikipedia.org/wiki/OneFS_distributed_file_system
-    1. EC at intra file level. Seems update in-place, cached with NVRAM.
-
-13. Modern Erasure Codes for Distributed Storage Systems
-    https://www.snia.org/sites/default/files/SDC/2016/presentations/erasure_coding/Srinivasan_Modern_Erasure_Codes.pdf
-    1. Useful if you want to understand major EC players.
-    2. Not related to SMR, nor GC with EC.
-
-14. Hierarchical Erasure Coding: Making Erasure Coding Usable
-    https://www.snia.org/sites/default/files/SNIA_Hierarchical_Erasure_Coding_Final.pdf
-    1. Similar with multi-level LRC. DC zoned.
-
-15. GearDB: A GC-free Key-Value Store on HM-SMR Drives with Gear Compaction    [2019, 40 refs, FAST19]
-    https://www.usenix.org/conference/fast19/presentation/yao
-    1. not mentioning erasure coding.
-       LSM-tree levels same level put to one zone. compaction participants are taken from one zone to ensure clean up one zone.
-       SSTables in a zone share similar age and same compaction frequency
-    2. redundant cleaning processes on both LSM-trees and HM-SMR drives that harm performance
 ```

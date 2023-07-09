@@ -99,7 +99,7 @@ I want to index the recent year papers and rank them by reference counts, so tha
 
 In the end I found Google Scholar is the handy tool. Here I list each conference, their home page of year 2016, and google scholar search links for their papers. In the search results page, the top ones are usually good papers.
 
-Besides, many conferences put their video on YouTube, e.g. USENIX. By ranking view count I can find which paper attracts more people. This ranking reponses quicker than papar reference count.
+Besides, many conferences put their video on YouTube, e.g. USENIX. By ranking view count I can find which paper attracts more people. This ranking responses quicker than papar reference count. To find out the search keyword, click a paper's "Cite" button on Google Scholar. 
 
   * FAST: top-level storage conference; favor in filesystem, reliability, SSD, kvstore papers; lack distributed architecture design (I guess they are supposed to goto OSDI/SOSP)
       * [Home 2016](https://www.usenix.org/conference/fast16/technical-sessions)
@@ -170,9 +170,14 @@ Besides, many conferences put their video on YouTube, e.g. USENIX. By ranking vi
       * [Home](http://tos.acm.org/)
       * [Searches 2016](https://scholar.google.com.sg/scholar?hl=zh-CN&as_publication=ACM+Transactions+on+Storage&as_sdt=0%2C5&as_vis=1&as_ylo=2015&as_yhi=2017)
 
-Additionally, for all the best papers in the above conferences
+More importantly, for all the best papers in the above conferences
 
   * The [collection of all best papers](http://jeffhuang.com/best_paper_awards.html)
+
+More conveniently, the paper presentation video click count is a nice ranking.
+
+  * Youtube [FAST23 video list and click count](https://www.youtube.com/playlist?list=PLbRoZ5Rrl5lc581SxGDNEwVLQdQBfWga2)
+
 
 ### Tour across conferences
 

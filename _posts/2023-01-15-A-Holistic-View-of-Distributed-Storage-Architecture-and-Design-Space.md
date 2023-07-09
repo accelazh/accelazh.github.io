@@ -312,7 +312,7 @@ Below are conceptual tools to handle complexity.
 
   * __Reuse__. If a component is easy to reuse, it naturally follows high cohesion and good naming responsibility. Design for reuse is recommended, but avoid introduce extra encapsulation and delegation, which results in high OO complexity. Refactor for reuse is recommended, but refactor usually requires global picture knowledge, which contradicts with the goal that changes should be localized. __Reference architecture__ is another reuse to reduce mind complexity. Find the top product and opensource to learn from. Find the popular framework which teaches good designs. The past experience here becomes its domain knowledge, shared by team members, and changing points are more predictable.
 
-  * __Separate of concerns__. Divide and concur, decomposition, are the popular concepts. Decouple on the boundary of minimal dependency links. Make components __orthogonal__ from each own space. Make API __idempotent__ from timeline of calls. To truly separate concerns, methodologies are naturally required such as encapsulation, knowledge hiding, minimal assumptions. In theory, any complexity can be broken down into handy small pieces, but beware of the information flow distorted in between, and the missing holes in responsibility delegating.
+  * __Separate of concerns__. Divide and conquer, decomposition, are the popular concepts. Decouple on the boundary of minimal dependency links. Make components __orthogonal__ from each own space. Make API __idempotent__ from timeline of calls. To truly separate concerns, methodologies are naturally required such as encapsulation, knowledge hiding, minimal assumptions. In theory, any complexity can be broken down into handy small pieces, but beware of the information flow distorted in between, and the missing holes in responsibility delegating.
 
   * __Component boundary__. Separating components and sub-components eases mind memory usage. Component boundary should be cut at __what changes together__. If an upstream service change is frequently coupled with a downstream service change, they should have been put into the same component. Violating it is the common case where microservice messes up the system. High organization collaboration cost is another place to cut component boundary, see [Conway's Law](https://en.wikipedia.org/wiki/Conway%27s_law).
 
@@ -1128,6 +1128,38 @@ Inline or offline from write path, FPGA and ASIC are commonly used in offloading
 
   * __[Smart SSD](https://www.youtube.com/watch?v=_8gEmK1L4EY)__ adds computation chips to SSD. Query filtering or GC/Compaction can be pushed down to SSD internal, without involving the longer data transfer path across PCIe.
 
+Alibaba Pangu 2.0 Filesystem is a good example of offloading. Pangu is the storage backend of Alibaba Cloud [Elastic Block Storage](https://cn.aliyun.com/product/disk?from_alibabacloud=) (EBS), [Object Storage Service](https://www.alibabacloud.com/zh/product/object-storage-service) (OSS), [Network-Attached Storage](https://www.alibabacloud.com/zh/product/nas) (NAS), [PolarDB](https://www.alibabacloud.com/zh/product/polardb), and [MaxCompute](https://www.alibabacloud.com/zh/product/maxcompute). The architecture is similar to Azure Storage and GFS. Modern cloud infrastructure storage systems are moving to new directions:
+
+  * Storage engine moves to __userspace__, and filesystem moves to userspace, to match speed with RDMA and NVMe SSD. Kernel is bypassed. Leverage DPDK and SPDK.
+
+    * Besides, Filesystem becomes __specialized__, i.e. customized for the storage. Storage wants to access the raw interface of drives, e.g. ZNS SSD, and SMR.
+
+    * Besides, not only Kernel Bypassing. RDMA bypasses remote host CPU to access DRAM. NVMe-over-Fabric __bypasses__ remote host CPU to access SSD.
+
+    * The eventual goal is to offload the entire data path.
+  
+  * __DPU__ becomes widely used: 1) Network offloading. 2) Storage offloading. 3) RDMA Smart NIC
+    
+    * A typical DPU is composed of __FPGA + CPU__. The CPU can be an ARM core, or a processor on FPGA. FPGA can also be replaced with ASIC.  DPU also equips with extended chips like VPU (Vector Processor Unit), local DRAM, fast DPU inter-connect, fast DPU-GPU inter-connect.
+
+    * The concept of __FastPath__: A (packet) processing only involves the FPGA/ASIC part of DU (fast pass through). It doesn't involve the CPU or memory on DPU. It doesn't involve the host.  In the second level, The (packet) processing bypasses middle nodes in the distributed system. Client directly reads/writes from the end2end data node.  Besides, FastPath usually requires RDMA and NVMe-oF which bypasses the destination host CPU to access DRAM or SSD.
+
+    * Other typical hardware offloading usages: 1) Offload __compression/Encryption__ and CRC calculation. They can be offloaded to DPU, or RDMA smart NIC. 2) __Smart SSD__. Databases can pushdown filters or GC to on-SSD chip, which avoids PCIe bottleneck between SSD and CPU.
+
+  * Increasing adoption of __zoned devices__ to reduce the manufacture cost, i.e. SMR drives and ZNS SSD. They expose similar [Zoned Block Device](https://lwn.net/Articles/714387/) (ZBD) interface.
+    
+    * __SMR drives__ allows higher HDD areal density. Writes subject to zone-level append-only, and open zone limit. Storage engine or filesystem need to be customized.
+    
+    * __ZNS SSD__ is essentially an SSD with a very simplified FTL. Cost is lower. And, it allows storage engine to highly customize GC and data placement.
+
+  * DPU is frequently mentioned with FastPath and all sorts of bypassing:
+
+    * __Bypassing__ DPU's on-chip CPU and memory, Local host's CPU and memory, Load balancer (client cached routing info), Remote host's CPU to access DRAM (RDMA), Remote host's CPU to access SSD (NVMe-oF).
+
+    * Other types of __bypassing__ are Kernel bypassing (userspace filesystem), Filesystem bypassing (userspace storage engine), [Intel DDIO](https://www.intel.com/content/www/us/en/io/data-direct-i-o-technology.html) and [RDCA](https://www.usenix.org/system/files/fast23-li-qiang_more.pdf) (Remote Direct Cache Access). 
+
+  * Related materials for Pangu 2.0. Majorly published on FAST23. [Alibaba Pangu 2.0](https://www.usenix.org/conference/fast23/presentation/li-qiang-deployed), [Pangu FS client: Fisc](https://www.usenix.org/conference/fast23/presentation/li-qiang-fisc), [Pangu RDMA](https://www.usenix.org/conference/nsdi21/presentation/gao), [Pangu Networking: Solar](https://rmiao.github.io/assets/pdf/solar-sigcomm22.pdf), [Pangu DPU: X-Dragon](https://dl.acm.org/doi/abs/10.1145/3470496.3527439), [Pangu SMR](https://www.usenix.org/conference/fast23/presentation/zhou).
+
 
 ## Data organization
 
@@ -1691,7 +1723,7 @@ Though running the system fast is the most typical meaning of performance, perfo
 
   * __Latency__ & __Throughput__. Latency measures how fast a request is served and returns. It matters more to small requests. Throughput measures how fast given size of data is processed and returns. It matters more to a single large request, or a batch of requests up to size.  Note requests in queue negatively affect latency, by adding arbitrary queuing latency to serving latency. But they generally benefit throughput, if the system is not overloaded, by exploiting batching and parallelism in request serving. __Queue depth__ (QD), or outstanding/active/on-going request count, measures such behavior.
 
-    * __Tail latency__. Request latency is a probability distribution that usually P25/P50/P99 vary greatly, especially in cloud storage that is serving mixed workloads from many customers, with unpredictable burst patterns, and in a large scale. P99 matters because it still maps to many customers. P25 is usually achieved by cache hit, while P99 can point to bad cases in request execution. Typical techniques to reduce tail latency include sending extra requests, monitor lagging noes with proactive retry, and [the power of two random choices](https://brooker.co.za/blog/2012/01/17/two-random.html).
+    * __Tail latency__. Request latency is a probability distribution that usually P25/P50/P99 vary greatly, especially in cloud storage that is serving mixed workloads from many customers, with unpredictable burst patterns, and in a large scale. P99 matters because it still maps to many customers. P25 is usually achieved by cache hit, while P99 can point to bad cases in request execution. Typical techniques to reduce tail latency include sending extra requests, monitor lagging nodes with proactive retry, and [the power of two random choices](https://brooker.co.za/blog/2012/01/17/two-random.html).
 
     * __[Queuing theory](https://lrita.github.io/images/posts/math/%E6%8E%92%E9%98%9F%E8%AE%BA%E5%8F%8A%E5%85%B6%E5%BA%94%E7%94%A8%E6%B5%85%E6%9E%90.pdf)__. The system is abstracted into components connected sequentially/in-parallel by queues. While stochastic math can be used in modeling, simulations with production samples are generally more practical. Though Queuing theory points out serving latency can grow to infinity with 100% resource utilization, the assumption is fully stochastic request ingestion. In a well scheduled system, where requests arrive at chosen time instead of stochastically, is still possible to achieve high resource utilization with low latency (for high priority jobs). Queuing theory is also used for __Capacity Planning__, where the queuing layout can point out the bottlenecks of data flow, while it also helps debugging/troubleshooting to narrow down which point injected the excessive latency. Queuing theory also guides __configuration tuning__, that only when the queue sizes and capacity at each component are well fitted, the overall system performance can reach its max.
 
@@ -1709,7 +1741,7 @@ Though running the system fast is the most typical meaning of performance, perfo
 
     * __Cold restart__ is a typical issue that if a cache node restarted, it cannot serve requests well until filled up again. This can easily introduce a churn during batch upgrade, overload the system, kill more nodes, and bring a cascaded failure. AWS Redshift introduced [Warmpools](https://assets.amazon.science/93/e0/a347021a4c6fbbccd5a056580d00/sigmod22-redshift-reinvented.pdf) to provision pre-warmed cache nodes.
 
-  * __Scalability__. The fundamental way to concur a scale problem is to __divide and concur__. With the fast growth of modern hardware, being efficient in __Scale-up__ is also necessary, e.g. to work with __manycore__ CPU with efficiency concurrency, to handle large memory with NUMA, to respond fast with RDMA networking, PMEM, NVM SSD. __Scaleout__ is the classic cloud storage solution, with infinite scale (in theory), but every step in the distributed consistency and communication charges your COGS.
+  * __Scalability__. The fundamental way to concur a scale problem is to __divide and conquer__. With the fast growth of modern hardware, being efficient in __Scale-up__ is also necessary, e.g. to work with __manycore__ CPU with efficiency concurrency, to handle large memory with NUMA, to respond fast with RDMA networking, PMEM, NVM SSD. __Scaleout__ is the classic cloud storage solution, with infinite scale (in theory), but every step in the distributed consistency and communication charges your COGS.
 
     * __Partitioning__ & __Replication__. Partitioning scales out the performance for the overall data space, while Replication scales out the performance for a specific data unit. They can work at different and non-symmetric fine-grain levels. Caching can also be seen as a case of replication, which leverage more expensive hardware to increase performance within space/temporal locality.
 
@@ -1729,7 +1761,7 @@ Though running the system fast is the most typical meaning of performance, perfo
 
     * __SmartNIC__ builds virtualization, RDMA, processor offloading in NIC. CPU work can be offloaded to NIC level, with shorter roundtrip path. While __Smart SSD__ (or [Computational SSD drives](https://www.usenix.org/system/files/fast22-qiao.pdf)) builds query processing at SSD level, bypassing PCIe for early filtering data.
 
-    * __GPU__/__TPU__ are leading Machine Learning acceleration, dedicated for FLOPS in thirty Deep Learning training. __IPU__/__DPU__ try to consolidate datacenter infrastructure into more COGS efficient chips. More advanced GPU interconnection like [NVLink](https://ieeexplore.ieee.org/document/7924274) are being developed, composing an HPC cluster.
+    * __GPU__/__TPU__ are leading Machine Learning acceleration, dedicated for FLOPS in thirsty Deep Learning training. __IPU__/__DPU__ try to consolidate datacenter infrastructure into more COGS efficient chips. More advanced GPU interconnection like [NVLink](https://ieeexplore.ieee.org/document/7924274) are being developed, composing an HPC cluster.
 
     * __HPC__ is another area that high-end hardware, usually with customized accelerators, and manycore, are used for scientific processing. The accelerators usually then gain maturity and enter the market of commodity servers, like RDMA.
 
@@ -1787,7 +1819,7 @@ Here also to mention __Engineering aspects__ of concurrency & parallelism. I cat
 
   * __Coroutine, thread, and process__. In theory, they should be able to achieve the same level of performance or parallelism, except coroutine allows bypassing the Kernel, and threads are more lightweighted to share resource/memory than processes. However, a nice programming API does matter, that by which coroutine quickly gains adoption with async/await. Threading are left to give developers root control on concurrency & parallelism, where the thread execution pool can be carefully designed; while processes are better at resource/fault isolation.
 
-  * __Sync & Async__. In theory, they should be able to achieve the same level of performance or parallelism. But Async programming is easier to overlap CPU time with IO time to improve efficiency (e.g. epoll), and more easily cut long function into smaller tasks to benefit load balancing. Fundamentally, Async is implemented by either busy polling (Sync) or periodically checks. Busy polling can sometime be more efficient when working with high performance IO devices like NVM and RDMA.
+  * __Sync & Async__. In theory, they should be able to achieve the same level of performance or parallelism. But Async programming is easier to overlap CPU time with IO time to improve efficiency (e.g. epoll), and more easily cut long function into smaller tasks to benefit load balancing. Fundamentally, Async can be implemented by either busy polling (Sync) or periodically checks. Busy polling can sometime be more efficient when working with high performance IO devices like NVM and RDMA.
 
   * __Lock and preempting__. A simple lock let first comer win and blocks later comers. But it can be implemented differently to either let first/later comer win, either blocking/non-blocking, and with OCC retry. Such techniques can be used to optimize DB transactions, especially those mixed short live OLTP transactions with long running OLAP transactions.
 

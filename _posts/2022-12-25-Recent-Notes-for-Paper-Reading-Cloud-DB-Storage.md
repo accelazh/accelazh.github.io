@@ -818,7 +818,7 @@ Tracking recent paper reading notes. For a better view, paste the notes into a t
                     1. compared using MLC, SLC by capacity/endurance trade-off, QLC+WOM-v Codecs still beneficial - Figure 13
                 2. exploit that QLC programming increase voltage without erasing
                 3. overheads
-                    1. need extra storage overhead, but compared to then endurance added, still benefits
+                    1. need extra storage overhead, but compared to the endurance added, still benefits
                     2. reduce read performance due to remapping lookup
                     3. interfere with FTL GC
             3. further optimizations
@@ -909,7 +909,7 @@ Tracking recent paper reading notes. For a better view, paste the notes into a t
         3. Pigasus is designed to be compatible with Snort rulesets
            evaluated using the Snort Registered Ruleset (about 10K signatures
 
-    15. Separating Data via Block Invalidation Time Inference for Write Amplification Reduction in Log-Structured Storage    [2022, 6 refs, FAST22]
+    15. SepBIT: Separating Data via Block Invalidation Time Inference for Write Amplification Reduction in Log-Structured Storage    [2022, 11 refs, FAST22, Alibaba]
         https://www.usenix.org/conference/fast22/presentation/wang
         1. good paper. It shows some improvement for data grouping design to save LSM-tree GC traffic.
            For user written blocks, the indicator of block lifespan is its rewritten source block's lifespan
@@ -958,6 +958,33 @@ Tracking recent paper reading notes. For a better view, paste the notes into a t
                     1. it contradicts with Observation 3?
                        Or the "Rarely updated blocks" map to "GC rewrite blocks" in Figure 6, and the "highly varying lifespan" is further cut to Class 3-6
                        Then that's said then temperature is still a valid indicator to group data
+
+        -------- Re-read 20230708 --------
+
+        1. Targeting "Alibaba Cloud ESSDs", which runs on "Alibaba Cloud Pangu". ESSD is a block-level volume as an append-only log.
+           SepBIT is deployed at Alibaba Cloud ESSD. Trace analysis shows reduced overall WA of existing schemes by 9.1-20.2%. Interesting paper.
+            1. My questions
+                1. If SepBIT is deployed on prod, why the evaluation is using trace analysis? It should show prod data.
+        2. Observations
+            1. O1: User-written blocks generally have short lifespans
+            2. O2: Frequently updated blocks have highly varying lifespans
+            3. O3: Rarely updated blocks dominate with highly varying lifespans
+            4. Temperature-based placement (e.g., via access frequencies) are ineffective in BIT inference
+            5. User written blocks
+                1. Short-lived blocks (Class 1) written near the same time have similar BITs
+                2. Remaining long-lived blocks (Class 2) span large BIT ranges
+            6. GC-rewritten blocks
+                1. Short-lived blocks (Class 3) identified in user-written blocks
+                2. Blocks with similar BITs inferred are grouped to Classes 4-6
+        3. SepBIT Design
+            1. Intuition
+                1. Any user-written block that invalidates a short-lived block is also likely to be a short-lived block
+                2. Any GC-rewritten block with a smaller age is likely to have a short residual lifespan
+            2. Implementation
+                1. ℓ: average segment lifespan of collected segments in Class 1
+                2. Classes 1 and 2: Use ℓ as lifespan threshold for user-written blocks based on the lifespans of their invalidated blocks
+                3. Classes 4-6: Use 4ℓ and 16ℓ as age thresholds for GC-rewritten blocks according to their ages
+
 
     16. ByteGraph: A High-Performance Distributed Graph Database in ByteDance    [2022, 0 refs, VLDB22, ByteDance]
         1. very good paper. can be used as a reference architecture.

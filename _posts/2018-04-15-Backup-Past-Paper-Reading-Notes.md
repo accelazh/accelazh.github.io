@@ -4573,6 +4573,15 @@ tags: [storage, fast, paper]
             3. in the evaluation part
                 1. the charts mostly shows "d=n-1". for regenerating code to reduce total IO count, this is not enough
                 2. the (14,10,11~13) network traffic and disk-read charts compared to RS are not reaching theory numbers
+
+            4. notations
+
+              n := total codec length
+              k := data fragment count
+              d := number of helper nodes, ranging from k to (n-1)
+              rec-read ampl = dβ/(kα) = d / (k * (d - k + 1)) * k    // normal RS is k
+              α := sub-packetization level, see section "Clay code parameters"
+
         3. other highlights
             1. Sub-chunking through interleaving: pack the bytes in same position in code array together, to form the subchunk
                 1. in implementation part, the calculation is performed in unit of sub-chunk, rather than directly every byte
