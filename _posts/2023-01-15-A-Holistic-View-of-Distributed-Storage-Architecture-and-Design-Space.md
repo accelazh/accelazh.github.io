@@ -504,7 +504,7 @@ A similar discussion like "OO design vs Simple & direct" is whether to use the f
 
   * __Robust design__ means to tolerate quick volatile feature changes. Simple & direct solution has a nice play, because it carries few assumptions, and retains the __information flow__ through layers. Without tricks, how you describe the solution in plain __human language__, how it is implemented in code. Performance optimization is left to hotspots located with diagnostic tools. 
 
-  * __Trade off__. Optimized algorithms and robust design have their fundamental conflicts. As a balanced trade off, usually optimized algorithms localize into smaller and specialized scopes, while robust design expands to the most parts of the system.
+  * __Trade off__. Optimized algorithms and robust design have their fundamental conflicts. As a balanced trade off, usually optimized algorithms localize into smaller and specialized scopes, while robust design expands to the most parts of the system. Though the former attracts people as being "core", it implies smaller adoptable scope, more likely to be replaced by reuse, and less chance of cross domain intersection.
 
 ## About analytical skills in designing
 

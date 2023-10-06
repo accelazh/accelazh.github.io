@@ -2147,7 +2147,7 @@ tags: [storage, fast, paper]
         2. Crash Consistency: Rethinking the Fundamental Abstractions of the File System
            http://queue.acm.org/detail.cfm?id=2801719
             1. reorder of filesystem calls is the source of problem
-            2. All File Systems Are Not Created Equal: On the Complexity of Crafting Crash-Consistent Applications    [2014, 38 refs]
+            2. ALICE: All File Systems Are Not Created Equal: On the Complexity of Crafting Crash-Consistent Applications    [2014, 38 refs]
                https://www.usenix.org/node/186195
                 1. crash consistency: maintain data invariants across a system crash
                 2. "The diagram shows the modularized update protocol for all applications ..."
@@ -2182,7 +2182,7 @@ tags: [storage, fast, paper]
             intra-group there is no ordering, inter-group it is guaratneed of write ordering
 
 5. readings: crash consistency
-    1. All File Systems Are Not Created Equal: On the Complexity of Crafting Crash-Consistent Applications    [2014, 38 refs]
+    1. ALICE: All File Systems Are Not Created Equal: On the Complexity of Crafting Crash-Consistent Applications    [2014, 38 refs]
        https://www.usenix.org/node/186195
         1. test consistency problems by reordering block commands or system calls
            reveal classic storage softwares' underlying update protocol (commit protocol)

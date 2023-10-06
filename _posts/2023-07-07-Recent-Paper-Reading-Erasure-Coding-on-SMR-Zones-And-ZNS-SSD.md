@@ -20,6 +20,9 @@ EC on SMR drives.
     4. Base EC stripe is called "Segment" (tens MBs), Segment is cut into fragments and written to a "zone set" (placement group). A zone set can pack multiple ECed Segments. GC cleans at the unit of Zone Set.
         1. My questions
             1. Amplification: A deletion of an object -> GC rewrite of Segment -> touches all zones in the Zone Set -> GC rewrite entire Zone Set
+    5. What's the GC overhead?
+        1. Figure 6 write amplification
+        2. But I didn't see a compare to without SMR?
 
 2. Facebook's Tectonic Filesystem: Efficiency from Exascale
    https://www.usenix.org/system/files/fast21-pan.pdf
@@ -313,7 +316,7 @@ EC on ZNS SSD
         1. says "Erasure coding support", but how exactly?
         2. compression + delta-encoding + compaction scheme. What is "delta-encoding" exactly?
 
-3. RAIZN: Redundant Array of Independent Zoned Namespaces    [2023, 1 refs, ]
+3. RAIZN: Redundant Array of Independent Zoned Namespaces    [2023, 1 refs]
    https://huaicheng.github.io/p/asplos23-razin.pdf
    https://www.youtube.com/watch?v=RQvqnWr4KdgASPLOS23
     1. RAIZN, a logical volume manager that exposes a ZNS interface and stripes data and parity across ZNS SSDs
@@ -323,4 +326,14 @@ EC on ZNS SSD
     2. My questions
         1. So, it's like an ZNS interfaced RAID. Then GC is still in the hand of upper layers
 
+4. A new LSM-style garbage collection scheme for ZNS SSDs    [2020, 25 refs]
+   https://www.usenix.org/conference/hotstorage20/presentation/choi
+    1. LSM ZGC design
+        1. GC based on a segment unit, rather than an entire zone. Finer gain benefits throttling, and do pipelining
+            1. My questions
+                1. it doesn't seem necessarily to GC by segment to implement throttling and pipelining.
+        2. segregate hot and cold data into different zones while doing GC
+        3. Instead of reading only invalid blocks, GC reads all blocks
+            1. In implementation, GC only read full data when valid data ratio is high enough. Otherwise, it reads full data by sending 16 parallel requests over the full 2MB range
+            2. The paper argues reading full data can benefit from the internal parallelism in SSD
 ```

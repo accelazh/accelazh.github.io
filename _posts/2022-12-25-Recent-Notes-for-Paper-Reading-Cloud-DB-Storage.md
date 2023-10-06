@@ -759,6 +759,9 @@ Tracking recent paper reading notes. For a better view, paste the notes into a t
                         1. Ray starts two years ago (2018 - 2) with a Spark library
                            Spark is the BSP model (Bulk synchronous parallel, e.g. MapReduce ), less flexibility for task-parallel and no actor model.
                            Then Ray developed their own
+                    6. Ray vs Spark
+                        1. Ray has lower level APIs, more flexible to build distributed frameworks. Spark is more specialized for data processing. Spark API is more high level.
+                        2. Ray is more Python native.
                 n. related materials
                     1. https://zhuanlan.zhihu.com/p/111340572
 

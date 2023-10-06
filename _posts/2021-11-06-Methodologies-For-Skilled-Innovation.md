@@ -32,13 +32,15 @@ The fundamental method of innovation is to stand on the mountain top and look on
 
 Gaps analysis are convenient source of innovation.
 
-  * Observe what people are complaining about, what are the problems open not solved, what are we today and we want to be. These __map to gaps__. Analyze into the gaps, explore solving problems, usually bring innovation
+  * Observe what people are complaining about, what are the problems open not solved, what are we today and we want to be. These __map to gaps__. Analyze into the gaps, explore solving problems; they usually bring innovation.
 
   * [SWOT analysis](https://en.wikipedia.org/wiki/SWOT_analysis) helps understand gaps and threats. We can analyze __comparing with__ market competitors, eco-systems, and opensource communities, to understand where we are and what are the gaps.
 
   * __Min-Max analysis__. A gap maps to a problem. We may not solve every problem, but we should always be able to plot it on a continuum axis, and scope it with what we are the min-max. We can plot the __theory limits__ vs where we are to find the gaps. We can plot the __reaching scope__ by today's ability vs in following future, to identify what we should reach but didn't, what we cannot, and what to prepare in future.
 
   * __Grid search__. Continued from Min-Max, we can unfold the properties we care into multi-dimensions of structured space. Use an exhaustive method to divide and categorize the space, and conduct the search. This also helps us find and look into possibilities. In another word, we should have the map, even we cannot reach every location, and we should plot grid axes on the map.
+
+  * __Review by doing__. When review a doc, design, proposal, or code, close your eyes and think how you yourself would do it first. Compare your solution with the one being reviewed, your will always find points to innovate. Similarly, use the technique to review how we do things today, how the current system is built, to find innovation.
 
 Essence analysis is another way of innovation.
 
@@ -89,6 +91,10 @@ Visions & strategic thinking that help innovation
   * Read in a systematically way and __compare__. It's comparing rather than linear reading that reveals intrinsics. Innovation comes from the compare
 
   * Following __industry trends__, watch big market __vendor/leader moves__, study __venture capital__ news. This helps find emerging but proven technologies on the climbing curve.
+
+  * __Challenge__ how we do things. If the answer is we were doing it in the way we did it before, this is a __bad smell__. Use analytics skill to analyze the rationales behind and the gaps to a changing today, you will always find a source of innovation. This point is also connected with __Review by doing__.
+
+  * __Watch for new technologies__. They can be applied to your daily work or current system and brings innovation. A typical example is LLM and GPT.
 
 In the end, here attaches the __storage driving factors__ I summarized in scratch, which can help plot the innovation landscape.
 

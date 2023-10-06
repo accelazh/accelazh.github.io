@@ -143,7 +143,7 @@ Misc papers about Erasure Coding
         4. Table 3: Summary of trade-offs made by LSM-tree improvements
             1. very useful to summarize all reviewed techniques and their trade-offs
 
-13. Exploiting Combined Locality for Wide-Stripe Erasure Coding in Distributed Storage    [2021, 3 refs]
+13. ECWide: Exploiting Combined Locality for Wide-Stripe Erasure Coding in Distributed Storage    [2021, 3 refs]
     https://www.usenix.org/conference/fast21/presentation/hu
     1. good paper. new area Wide Stripes EC codec to reach 1.0x storage overhead, and to mitigate repair amplification by exploiting LRC and rack locality
     2. highlights
@@ -152,7 +152,7 @@ Misc papers about Erasure Coding
         2. two types of locality
             1. parity locality - LRC
             2. topology locality - placement to exploit rack local repair to reduce cross rack traffic, especially long codecs to place more than one fragments per rack
-        n. questions
+        n. my questions
             1. putting fragments from same local group into same rack impairs reliability against TOR down, usually bad practice
             2. for reliability, long codec is subject to easier node failure due to that are more fragments to be vulnerable,
                but probably the LRC and TC provided faster repair can help
@@ -470,7 +470,7 @@ Papers about cross datacenter erasure coding
     n. related materials
         1. The Storage vs Repair-Bandwidth Trade-off for Clustered Storage Systems    [2018, 49 refs]
            https://arxiv.org/pdf/1701.04909.pdf
-        2. Craft: An erasure-coding-supported version of raft for reducing storage cost and network cost    [FAST 2020, 6 refs]
+        2. CRaft: An erasure-coding-supported version of raft for reducing storage cost and network cost    [FAST 2020, 6 refs]
            https://www.usenix.org/system/files/fast20-wang_zizhong.pdf
             1. For GIZA metadata paxos, it's possible to use EC to reduce replication
 

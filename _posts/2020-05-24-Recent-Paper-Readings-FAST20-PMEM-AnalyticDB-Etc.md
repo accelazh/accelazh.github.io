@@ -729,11 +729,14 @@ Recent paper readings. Search "very good", "good", "interesting", "useful" for m
                     1. this is exactly like Atomic disk sector write on disk
                 2. Persistent heap to managing memory space. traditionally malloc
 
-14. Repair Pipelining for Erasure-Coded Storage    [2017, 24 refs]
+14. ECPipe: Repair Pipelining for Erasure-Coded Storage    [2017, 24 refs]
     https://www.usenix.org/sites/default/files/conference/protected-files/atc17_slides_li_0.pdf
     1. interesting paper. pipeline schema repair increase latency, but using pipeline will hide it.
        the scheme won't reduce traffic, but the congestion at the new parity being reconstructed.
        however, this is not a case for Ceph, which when node down, there are many reconstruct chains distributed cross the cluster
+    2. A follow up work of Partial-Parallel-Repair (PPR)
+        1. PPR: A Distributed Technique for Repairing Erasure Coded Storage
+           https://about.att.com/ecms/dam/sites/labs_research/content/publications/SDN_Partial-Parallel-Decoding_PPR.pdf
 
 15. OpenEC: Toward Unified and Configurable Erasure Coding Management in Distributed Storage Systems    [2019, 4 refs]
     https://www.usenix.org/sites/default/files/conference/protected-files/fast19_slides_li.pdf

@@ -245,3 +245,14 @@ Rollout needs to be carefully planned, especially the rollback part. Otherwise w
      * If we see the testing break, don't wait. need first time high priority act to fix.
      * Proactive act in mind. E.g. to review code changes from other tracks that may impact the core feature rollout.
      * Or when people ask us to review, don't wait or ignore. otherwise when the PR merged we have more work to fix.
+
+-------- Update 20230710 --------
+
+Feature rollout and critical thinking:
+
+  * There should be metrics to capture 1) The original problem 2) The saving by the feature 3) The potential risks 4) Critical system resource changes.
+    * They should connect into a __STORY__: Problem -> How big the problem is -> How solved -> The deliverables -> Impacts.
+    * Every step should be __Data Driven__, especially the impact and how big the problem is.
+    * After rollout, we come back to verify the numbers to see if there are new gaps found out, then we come into the next round of improvement: the __Feedback Loop__.
+    * Overall, we should be careful with the __Big Picture__, e.g. if we say the feature saved something, then how much the saving is compared to the big picture?
+

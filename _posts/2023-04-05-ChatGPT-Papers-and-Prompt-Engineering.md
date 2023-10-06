@@ -859,6 +859,14 @@ Evaluate ChatGPT at different aspects in my daily work.
             2. ChatGPT gives richer responses. This is more helpful than Edge Dev bar
             3. It looks like the NewBing Edge Dev sidebar is still limited to 15 questions ..
                it asks me to ask another topic
+        3. Very good for entering new areas
+            1. For example, tell ChatGPT to teach you key points in ML model design.
+               Let ChatGPT to write code on Ray framework that to run your model.
+            2. Robotics, Let ChatGPT tell you key points in certain area, e.g. flight control
+               Let ChatGPT write example code in certain flight control algorithm
+            3. Especially, ChatGPT is very good at writing code.
+               And, to tell you the framework when you don't know something. And to summarize key points.
+               Search engine however require you to know something first. This is unfriendly for new areas.
 
     2. ChatGPT to generate the verbose serialization code for my classes
        https://chat.openai.com/chat/fb3f6586-3e71-4fd2-9aae-2f4ac0eacc22
