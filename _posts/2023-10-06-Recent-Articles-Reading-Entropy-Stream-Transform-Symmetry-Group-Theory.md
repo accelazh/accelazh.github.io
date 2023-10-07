@@ -405,15 +405,23 @@ The physics, symmetry, and group theory part.
         9. https://www.youtube.com/watch?v=13hCkUiu_mI
         10. https://www.youtube.com/watch?v=0kY3Wpvutfs
         11. https://www.amazon.com/Road-Reality-Complete-Guide-Universe/dp/0679776311
+        12. https://profoundphysics.com/derivation-of-einstein-field-equations/
+        13. https://youtu.be/sEDFHMLPaW8?si=y6tkChGCvxLVzSPS
+        14. https://www.quora.com/What-is-the-difference-between-a-metric-tensor-and-a-Riemann-curvature-tensor-in-mathematics
+        15. https://browse.arxiv.org/pdf/1608.05752.pdf
+        16. https://chat.openai.com/share/0f72b633-c2a3-46f8-9854-afa062f01ec6
     1. 诺特定理，参考系变换不变性，守恒、对称、群论
-    2. 拉格朗日量（力到“场”），欧拉-拉格朗日方程
+    2. 拉格朗日量（力到“场”），欧拉-拉格朗日方程，最小作用量原理
     3. 参考系变换不变性，守恒、对称、群论
-    4. 哈密顿量，相空间，测不准原理
+    4. 哈密顿量、相空间，测不准原理
     5. 微分方程级数解法、拉普拉斯变换、哈密顿变换（力场互换）
     6. 场论，参考系、场与力的变换
     7. 狭义相对论，闵可夫斯基时空，度规
     8. 洛伦兹变换、变换群，庞加莱群
-    9. 广义相对论、微分流形、黎曼曲率
+    9. 广义相对论、微分流形、黎曼曲率, Einstein field equation.
     10. 光速限制、力的locality局限、到场论
-
+    11. 测地线, Spacetime curvature, metric tensor, Minkowski metric,
+    12. christoffel symbols, Riemann curvature tensor, Ricci tensor, 
+	13. Worldline, 固有时间
+	14. Schwarzschild metric, Ricci tensor
 ```
