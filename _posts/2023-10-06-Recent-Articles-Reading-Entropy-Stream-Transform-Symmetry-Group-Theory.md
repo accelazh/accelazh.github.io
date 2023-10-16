@@ -394,22 +394,39 @@ The physics, symmetry, and group theory part.
 19. From Nother Theorm to General Relativity Theory.
     Very good. I skipped the detailed notes.
     0. marked materials
-        1. https://zhuanlan.zhihu.com/p/481658443
-        2. https://zhuanlan.zhihu.com/p/168781828
-        3. https://www.youtube.com/watch?v=tzQC3uYL67U
-        4. https://www.youtube.com/watch?v=xodtfM1r9FA
-        5. https://www.bilibili.com/video/BV1za41167an
-        6. https://www.bilibili.com/video/BV13X4y1V7WP
-        7. https://www.youtube.com/watch?v=tzQC3uYL67U
-        8. https://www.youtube.com/watch?v=HQsZG8Yxb7w
-        9. https://www.youtube.com/watch?v=13hCkUiu_mI
-        10. https://www.youtube.com/watch?v=0kY3Wpvutfs
-        11. https://www.amazon.com/Road-Reality-Complete-Guide-Universe/dp/0679776311
-        12. https://profoundphysics.com/derivation-of-einstein-field-equations/
-        13. https://youtu.be/sEDFHMLPaW8?si=y6tkChGCvxLVzSPS
-        14. https://www.quora.com/What-is-the-difference-between-a-metric-tensor-and-a-Riemann-curvature-tensor-in-mathematics
-        15. https://browse.arxiv.org/pdf/1608.05752.pdf
-        16. https://chat.openai.com/share/0f72b633-c2a3-46f8-9854-afa062f01ec6
+        1. 诺特定理，最美妙的数学思想之一，把对称的概念推广到了极致 - 康托的天堂
+           https://zhuanlan.zhihu.com/p/481658443
+        2. 最小作用量原理 - Y.Galbort
+           https://zhuanlan.zhihu.com/p/168781828
+        3. General Relativity Explained simply & visually - Arvin Ash
+           https://www.youtube.com/watch?v=tzQC3uYL67U
+        4. The Maths of General Relativity (1/8) - Spacetime and Worldlines - ScienceClic English
+           https://www.youtube.com/watch?v=xodtfM1r9FA
+        5. 20分钟带你从牛顿力学到拉格朗日力学再到哈密顿力学！-从宏观力学到微观力学，你只需关注我！！
+           https://www.bilibili.com/video/BV1za41167an
+           	1. Physics with Elliot
+        6. 简单明了，广义相对论的新可视化解释方法
+           https://www.bilibili.com/video/BV13X4y1V7WP
+        8. The Most Important Math Formula For Understanding Physics - Physics with Elliot
+           https://www.youtube.com/watch?v=HQsZG8Yxb7w
+        9. Field Theory Fundamentals in 20 Minutes! - Physics with Elliot
+           https://www.youtube.com/watch?v=13hCkUiu_mI
+        10. Physics Students Need to Know These 5 Methods for Differential Equations - Physics with Elliot
+            https://www.youtube.com/watch?v=0kY3Wpvutfs
+        11. The Road to Reality: A Complete Guide to the Laws of the Universe - Roger Penrose
+            https://www.amazon.com/Road-Reality-Complete-Guide-Universe/dp/0679776311
+        12. Einstein Field Equations: A Step-By-Step Derivation (Two Ways) - Profound Physics
+            https://profoundphysics.com/derivation-of-einstein-field-equations/
+        13. The Maths of General Relativity (4/8) - Metric tensor - ScienceClic English
+            https://youtu.be/sEDFHMLPaW8?si=y6tkChGCvxLVzSPS
+        14. What is the difference between a metric tensor and a Riemann curvature tensor in mathematics?
+            https://www.quora.com/What-is-the-difference-between-a-metric-tensor-and-a-Riemann-curvature-tensor-in-mathematics
+        15. How Einstein Got His Field Equations - S. Walters
+            https://browse.arxiv.org/pdf/1608.05752.pdf
+        16. ChatGPT4 notes: Geodesics in General Relativity
+            https://chat.openai.com/share/0f72b633-c2a3-46f8-9854-afa062f01ec6
+        17. Tensor Calculus 22: Riemann Curvature Tensor Geometric Meaning (Holonomy + Geodesic Deviation)
+            https://www.youtube.com/watch?v=-Il2FrmJtcQ&list=RDCMUCN8wTUlSAroLslWyf87E2pw&start_radio=1
     1. 诺特定理，参考系变换不变性，守恒、对称、群论
     2. 拉格朗日量（力到“场”），欧拉-拉格朗日方程，最小作用量原理
     3. 参考系变换不变性，守恒、对称、群论

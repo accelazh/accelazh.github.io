@@ -1693,3 +1693,57 @@ Conflict and negotiation.
             3. Think about the other persons perspective.
             4. What do you want the other people to take away?
 ```
+
+More updates from 20231010. Leadership skills. // TODO
+
+```
+1. Leadership Foundations (2019) - Dr. Shirley Davis (HR executives)
+   https://www.linkedin.com/learning/leadership-foundations-2019/leading-yourself?autoplay=true&u=3322
+    1. What is Leadership
+        1. Execute company vision. Live out of values
+        2. Influence and impact others to reach their highest potential and goals
+    2. The fundamental of effective leadership
+        1. Workforce 2030: millennials, age, color, women, remote, gig economy (hired with limited engagement, e.g. freelancer, Uber)
+        2. Effective leadership starts from leading yourself. You have to be role model
+        3. Be clear who you are, and why you exist.
+            1. What's your vision?
+                1. Describe what you'll look like in the future?
+                2. Sets direction for planning and execution
+                3. Thought leader
+            2. What are your values?
+                1. E.g. integrity, trustworthy, authenticity, faith, determination
+        4. Leading others: trust and confidence
+            1. Build trust: open and honest, seek first to understand, trust in others, assume positive intent, 
+            2. Communicate transparently: actively listen and convey understanding, share what you know openly and honestly
+            3. Coaching and feedback
+        5. Leadership styles: effectively use a variety of styles
+            1. Directing: tell what need to do, how, why, and when. For those who still need guidance
+            2. Supporting: for followers competent to the job, but inconsistent in performance
+            3. Delegating: for followers fully empowered and strong performance
+            4. Be adaptive and open, evolve
+    3. Leadership skills and competencies
+        1. Critical competencies for leaders
+            1. Developing a strategy
+            2. Drive the results
+            3. Leading a diverse workforce
+            4. Communicating effectively
+            5. Trust and integrity
+            6. Strategic thinking
+        2. Cultivating inclusion, belonging, and engagement
+            // TODO
+
+2. Leader vs manager difference - Inspirational Leadership Skills: Practical Motivational Leadership - Alisa Cohn
+   https://www.linkedin.com/learning/inspirational-leadership-skills-practical-motivational-leadership/leader-vs-manager-differences
+    1. Leadership: About vision, communication and motivation
+       Management: About organization, planning and control
+    2. This course covers mainly motivation and communication with a brief look at vision
+    // TODO
+
+3. My own notes for management and leading the team
+    1. The biggest frown of a dev is, I (dev) wrote the code (spent a lot of time) but you (manager) changed the requirement
+       The biggest fear of a manager is, I (manager) asked you (dev) the build something but you came back with not what I asked
+        1. THE TWO ARE THE SAME PROBLEM. Communication with clarity and early engagement is so important.
+           All eventually lead to whether the leader are effectively building the capital to effectively MOTIVATE people
+```
+
+
