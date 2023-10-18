@@ -163,6 +163,8 @@ Misc papers about Erasure Coding
         2. VastData - mentioned in paper as classic Wide Stripe product
            https://vastdata.com/blog/providing-resilience-efficiently-part-ii/
            https://vastdata.com/blog/breaking-resiliency-trade-offs-with-locally-decodable-erasure-codes/
+            1. EC overhead varies between 2% and 11%. The number of data blocks in the stripe between 36 and 146 - the number of parity blocks is always 4
+               https://support.vastdata.com/hc/en-us/articles/360036872354-Understanding-VAST-Capacity
 ```
 
 Papers about persistent memory filesystem, outlining recent directions
