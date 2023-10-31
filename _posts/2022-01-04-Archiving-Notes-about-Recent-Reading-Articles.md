@@ -1310,7 +1310,8 @@ Archiving notes about recent reading articles. Many.
             2. S3 Replication Time Control
             3. S3 Object Lambda feature
     3. materials
-        1. https://www.allthingsdistributed.com/2021/04/s3-strong-consistency.html
+        1. Diving Deep on S3 Consistency - Werner Vogels
+           https://www.allthingsdistributed.com/2021/04/s3-strong-consistency.html
         2. https://aws.amazon.com/about-aws/whats-new/2020/12/amazon-s3-now-delivers-strong-read-after-write-consistency-automatically-for-all-applications/
         3. https://www.allthingsdistributed.com/2021/03/happy-15th-birthday-amazon-s3.html
         4. https://stackoverflow.com/questions/564223/amazon-s3-architecture

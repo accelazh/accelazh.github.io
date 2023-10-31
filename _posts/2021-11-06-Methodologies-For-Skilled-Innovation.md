@@ -8,7 +8,9 @@ tags: [cloud, engineering, innovation]
 ---
 {% include JB/setup %}
 
-Here to summarize my experience on how to do innovation in the daily engineering work (in distributed storage system area).
+Here to summarize my experiences on how to do innovation in the daily engineering work. The focus area is distributed storage systems.
+
+### Common Senses
 
 First, why engineering work needs innovation?
 
@@ -24,6 +26,8 @@ The common sense innovation method is brainstorming and idea [addition/subtracti
 
   * Besides, sleep and forget. Let those ideas mutate and reform in subconsciousness. When come back and look again, new discoveries emerge.
 
+### Methodologies for Analyzing
+
 The fundamental method of innovation is to stand on the mountain top and look one step further. Step two is easy.
 
   * Step one. Be the expert. Master the technology stack. We should be able to answer anything when asked. Know where the mountain top is, industry and academic, and the underwater momentum. Besides, understand the product in depth, the industry landscape, and our position. This is __non-trivial__, which should take years. [\[1\]](/technology/Roadmap-to-Technical-Leadership)[\[2\]](/storage/Build-My-Academic-Paper-Feedback-Network).
@@ -38,6 +42,8 @@ Gaps analysis are convenient source of innovation.
 
   * __Min-Max analysis__. A gap maps to a problem. We may not solve every problem, but we should always be able to plot it on a continuum axis, and scope it with what we are the min-max. We can plot the __theory limits__ vs where we are to find the gaps. We can plot the __reaching scope__ by today's ability vs in following future, to identify what we should reach but didn't, what we cannot, and what to prepare in future.
 
+    * __Breakdown__. Breakdown the topic in to fundamental elements, and then recompose them to analyze how far they are capable to reach in theory. This is similar to First Principle Thinking.
+
   * __Grid search__. Continued from Min-Max, we can unfold the properties we care into multi-dimensions of structured space. Use an exhaustive method to divide and categorize the space, and conduct the search. This also helps us find and look into possibilities. In another word, we should have the map, even we cannot reach every location, and we should plot grid axes on the map.
 
   * __Review by doing__. When review a doc, design, proposal, or code, close your eyes and think how you yourself would do it first. Compare your solution with the one being reviewed, your will always find points to innovate. Similarly, use the technique to review how we do things today, how the current system is built, to find innovation.
@@ -47,6 +53,8 @@ Essence analysis is another way of innovation.
   * Breakdown idea, strip away the unnecessary part. What are left are the essence. Essence are transformed mapping of the original problem. Essence reflect the core info and properties that are passing around while holding the invariant and equivalent.
 
   * Recombination of the essence will generate new ideas. Add, subtract, multiple, division happen here to combine them. 
+
+### Sources for Innovation
 
 Problems & missing parts in engineering daily work are source of innovation.
 
@@ -74,11 +82,13 @@ Team working is important for innovation
 
   * __Teamwork helps inspire__ new ideas, e.g. brainstorm is not running on individual. Ideas passing back-forth, listened and reflected, can usually generate much more.
 
-  * __Idea polishing needs teamwork__. A new idea needs to be verified. It needs to be extended. It needs to be patched for weakness. Sometime it needs to be turned into another way, or brought into a new level. This usually happen across a team, which idea passing back-forth, interactively, challenge and get challenged. Everyone has the unique experience to help idea grow, to avoid it stuck in a deadend.
+  * __Idea polishing needs teamwork__. A new idea needs to be verified. It needs to be extended. It needs to be patched for weakness. Sometime it needs to be turned into another way, or brought into a new level. This usually happen across a team, which idea passing back-forth, interactively, challenge and get challenged. Everyone has the unique experience to help idea grow, to avoid it stuck in a dead end.
 
   * Besides working in office, innovation also needs __info feed from the external world__. We can participant regularly in meetups, summits, etc, to meet guys from different places and how they solve related problems. This is usually key to know our industry position, catch up and ensure we are not hitting in a wrong direction.
 
   * Help other people, and __answer questions__. Besides providing knowledge, answer questions provide chance to review our knowledge and product again, and understand how people see it from another perspective. This can usually find new gaps. And it broadens our scope and helps other people grow, eventually a positive feed for innovation.  
+
+### Visions & Strategy
 
 Visions & strategic thinking that help innovation
 
@@ -96,73 +106,76 @@ Visions & strategic thinking that help innovation
 
   * __Watch for new technologies__. They can be applied to your daily work or current system and brings innovation. A typical example is LLM and GPT.
 
-In the end, here attaches the __storage driving factors__ I summarized in scratch, which can help plot the innovation landscape.
+  * __Disruptive innovation__. Rather than cumulative improvements following the existing path, true innovation is disruptive. It comes by jumping out of the box, or say a __paradigm shift__. It's __disruptive__ because it breaks how system works today, the day 1 product is usually weaker than today, but with a faster growth rate, a higher instinctive efficiency, and eventually the higher ceiling limit. Market growth starts from replacing exiting technology, and then harvest the new space created. New jobs are created in the replacing process by rebuilding today's system. Industry level is pushed forward with the new space. Instead, __cumulative improvements__ suffers from diminishing growth potential, eventually leads to involution.
 
-```
-1. Hardware
-    1. new type of hardware, e.g. 3D-XPoint, SSD, SMR, ZNS, NVMoF
-    2. growing capacity of hardware, e.g. TB memory, 1 machine 100+ HDD, manycore, RDMA
-    3. changing proportion of hardware, e.g. colocating compute/storage vs disaggregated design Snowflake, faster networking / faster storage device vs not-catching up CPU
-    4. smart hardware, e.g. FPGA, Computational Storage, AWS Nitro, Azure Catapult
-    5. GPU, DPU, IPU
+### Driving Factors in Storage Area
 
-2. Growing scale of data capacity and IOPS
-    1. distributed scale-out storage, Ceph, now everything
-    2. distributed filesystem, CephFS, EMC Isilon, Azure HDFS/DataLake
-    3. cloud opening 1000+ datacenters worldwide, interconnect, geo-distribution
-    4. performance deterministic, SLA
+In the end, here lists the __storage driving factors__ summarized from scratch. It can help plot the innovation landscape.
 
-3. COGS saving
-    1. ErasureCoding, performance optimization, Kernel Passthrough
-    2. Data deduplication
-    3. Data tiering, migrating, caching, etc
-    4. underlying data representation, data format, physical layout
+Hardware
+  * New type of hardware, e.g. 3D-XPoint, SSD, SMR, ZNS, NVMoF.
+  * Growing capacity of hardware, e.g. TB memory, 1 machine 100+ HDD, manycore, RDMA.
+  * Changing composition of hardware, e.g. colocating compute/storage vs disaggregated design in Snowflake, faster networking / faster storage device vs catching up with CPU.
+  * Smart hardware, e.g. FPGA, Computational Storage, AWS Nitro, Azure Catapult, ASIC.
+  * GPU, DPU, IPU.
+  * QLC, NVMoF.
 
-4. Reliability
-    1. Data backup, Copy data management
+Growing scale of data capacity and IOPS
+  * Distributed scale-out storage, Ceph, now everything.
+  * Distributed filesystem, CephFS, EMC Isilon, Azure HDFS/DataLake.
+  * Cloud opening hundreds datacenters worldwide, interconnect, geo-distribution.
+  * Performance deterministic, SLA
 
-5. Related technology
-    1. container, cloud
-    2. TLA+, formal verification
-    3. consistent hashing, distributed transactions, append-only LSM tree, ART / Mass-tree indexes
+COGS saving
+  * Erasure coding, performance optimization, Kernel pass-through.
+  * Data deduplication.
+  * Data tiering, migrating, caching, etc.
+  * Underlying data representation, data format, physical layout.
 
-6. User interface changing, new business models
-    1. SQL, no SQL, new SQL
-    2. OLAP, OLTP, HTAP
-    3. in-memory storage, all flash, NVMe storage
-    4. Cloud, Hybrid Cloud, Cloud offloading, Hyper-converged, IoT, Edge computing, Blockchain
-    5. many pushing from new changing consumer, e.g. the active Database community, VM & virtualization, NFS, page & block storage, archiving, data backup, AI & machine learning & deep learning, GPU, Datalake & enterprise data management and analysis, software defined DC/storage, containerization, etc
-    5. stream processing, transactional streaming, evolving table, RDD, XOR linage
-    6. video processing. online realtime podcasting
+Reliability
+  * Data backup, Copy data management.
+
+Related technology
+  * Container, cloud.
+  * TLA+, formal verification.
+  * Consistent hashing, distributed transactions, append-only LSM tree, ART / Mass-tree indexes.
+
+User interface changing, new business models
+  * SQL, No SQL, New SQL.
+  * OLAP, OLTP, HTAP.
+  * In-memory storage, All Flash, NVMe storage.
+  * Cloud, Hybrid Cloud, Cloud offloading, Hyper-converged, IoT, Edge computing, Blockchain.
+  * Pushes from new consumer segments, e.g. the active Database community, VM & virtualization, NFS, page & block storage, archiving, data backup, AI & machine learning & deep learning, GPU, Datalake & enterprise data management and analysis, software defined DC/storage, containerization, etc
+  * Stream processing, transactional streaming, evolving table, RDD, XOR linage.
+  * Video processing. online realtime podcasting.
     
-7. Co-design with surrounding
-    1. Co-design with database some years, and then decouple design some years
-    2. Co-design the custom hardware some years, and then decouple with whitebox commodity hardware some years
-    3. Open-Channel SSD, ZNS GC, SMR GC
+Co-design with surrounding systems
+  * Co-design with database some years, and then decouple design some years.
+  * Co-design the custom hardware some years, and then decouple with whitebox commodity hardware some years.
+  * Open-Channel SSD, ZNS GC, SMR GC.
 
-8. Security
-    1. Zero trust, confidential computing
-    2. Ransomware, Immutable Storage
+Security
+  * Zero trust, confidential computing.
+  * Ransomware, Immutable Storage.
 
-9. Data management
-    1. Operational model changing, Orchestration
-    2. on-premise and hybrid cloud management and COGS improvement, metrics and analytics COGS saving
-    3. data migration, shipping, Edge, caching, Tiering
-```
+Data management
+  * Operational model changing, Orchestration.
+  * On-premises and hybrid cloud management and COGS improvement, metrics and analytics COGS saving.
+  * Data migration, shipping, Edge, caching, Tiering.
+
+### Other Tips
 
 Tips for how to work with innovation.
 
-  * Time to stay alone uninterrupted is extremely important. It triggers active mind thoughts when being idle, or do routine hand work (non-mental involving), or casual reading.
+  * __Time to stay alone__ uninterrupted is extremely important. It triggers active mind thoughts. Innovation frequently happens when being alone, relaxed with doing simple non-mind-intensive labor, e.g. taking shower, casual reading, walking. Especially it's after long hours of intensive thinking, ingesting new info, or discussing with people for rounds. Sleep well, sleeping is another kind alone and idle.
 
-  * Don't get too busy. Free relaxed time is important. Sleep more than enough to let your mind reorganize itself. To have a breakthrough idea, it doesn't take time, it takes space.
+  * __Don't get too busy__. Free relaxed time is important. Sleep more than enough to let your mind reorganize itself. To have a breakthrough idea, it doesn't take time, it takes space.
 
-  * Phone browsing gets updates but it is time consuming. Separate your time to fragmented time and big block time. Only phone with fragmented time. Big block time should do big block things.
+  * __Separate your fragmented time and big block time__. Phone browsing gets updates but it is time consuming. Only phone with fragmented time. Big block time should do big block things.
 
-  * Changing the living environment helps. Stay at a new place for a few days to get rid of stereotypes or fixed thinking mindsets.
+  * __Changing the living environment helps__. Stay at a new place for a few days to get rid of stereotypes, fixed thinking mindsets, and distracting daily errands.
 
-  * Always discuss with more people. Involving 2~3 people to discuss and bouncing quickly improves the proposal quality and brings up new directions.  
-
-  * Innovation frequently happens when being alone, relaxed with doing simple non-mind-intensive labor, e.g. taking shower, casual reading, walking. It usually happens after long hours of intensive thinking, ingesting new info, discussing with people for rounds. Sleep well; sleeping is another kind of such activity.
+  * __Always discuss with more people__. Involving 2~3 people to discuss and bouncing can drastically improve the idea quality and bring up new opportunities.
 
 Useful tips from more sources
 

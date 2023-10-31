@@ -1704,6 +1704,8 @@ Multi-dimensional resource scheduling on cloud is a big topic, see DRF/2DFQ etc 
 
     * __Preempting__. It defines the strategies whether higher priority jobs should stop/pause lower ones to take up its resources. Besides job scheduling, preempting is also seen in transaction scheduling and deadlock resolving. It varies whether younger jobs should preempt older ones, or vice visa. The cost to preempt a long live transaction can be high. OCC can also be seen as first win jobs preempts slower ones, where frequent retry can cost high.
 
+    * __Levels & Pooling__. N resources are allocated to U users, and each user gets N/U. But usage is always biased, and bias is usually sparse. Thus, we introduce an extra overflow pool with M resources, and we allow the biased usage to overflow to it. As a result, they appear like each user gets __N/U + M resources__. This shows how adding an extra level with small capacity can fix bias in resource usage. Resource pooling further extends the idea. Such pattern of resource allocation and bias are common. It can even be seen at CPU cache design too, e.g. [Victim Cache](https://zhuanlan.zhihu.com/p/639726264), L1/L2/L3 cache.
+
 ### Design dimensions
 
 There are a few design dimensions to consider when designing resource scheduling.
