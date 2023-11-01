@@ -503,6 +503,8 @@ The Entropy part.
                1 GB 条带深度和 1 MB 子条带深度在 VAST DataStore 架构中并不是根本上的固定值"
             3. "Foresight 根据数据的预期寿命将数据写入擦除代码条带，从而最大限度地减少由垃圾收集产生的写入放大。"
             4. "With Large Data Stripes, Drives Never Need to Garbage Collect"
+                1. System level garbage collection is still there
+                2. "Pre-existing data will remain in the SSDs it was originally written to and will, over time, be progressively restriped when the system performs routine garbage collection. VAST Systems don’t aggressively re-balance data at rest on the senior enclosures because that would cause write-amplification and impact performance without any real benefit. Data on the existing enclosures is already wide striped across at least 44, and most commonly 100s of SSDs there’s limited advantage to striping data even wider."
         4. "VAST 集群在该池中执行磨损均衡"
             1. "VAST 数据存储还通过将集群中的 PB 级闪存视为可由任何 VAST 服务器进行全局管理的单个擦除块池来扩展闪存耐用性。"
         5. "突破性的数据缩减方法"
@@ -535,9 +537,82 @@ The Entropy part.
 
 59. Building and Operating a Pretty Big Storage System (My Adventures in Amazon S3) | USENIX by Andy Warfield
     https://www.usenix.org/conference/fast23/presentation/warfield
-    1. // TODO
+    1. Very good. Many pickups from AWS S3 experience and worth drilling down.
     2. highlights
-        1. S3 17 years old
+        1. S3 is 17 years old
+        2. Per selling cloud to customers, the customers are also mostly engineers. The conversation is usually engineer to engineer that can go into quite depth.
+            1. This seems different from traditional commercial storage, which is typically sales to procurement.
+        3. The scale of AWS S3 toady. Good to use as a reference.
+            1. 
+```
+![The scale of Amazon S3 today](/images/aws-s3-scale-numbers.png "The scale of Amazon S3 today")
+```
+        4. AWS S3 event notification. 
+           https://medium.com/avmconsulting-blog/amazon-s3-event-notifications-321a2065b3eb
+            1. At-least-once, filter rules
+            2. messaging queues, storage functions / lambda
+        5. Disk evolving history and speed
+            1. A new Advanced Storage Research Consortium HDD Technology Roadmap
+               https://ieeexplore.ieee.org/document/9918580
+            2. HDD Manufacturers Turn to New Technologies to Drive Capacity
+               https://www.extremetech.com/computing/315743-hdd-manufacturers-turn-to-new-technologies-to-drive-capacity
+                1. "Companies like Toshiba, Seagate, and Western Digital have shown off their next-generation technologies like Energy-Assisted Magnetic Recording (EAMR, WD) and Microwave-Assisted Magnetic Recording (HAMR, Seagate), but both companies seem to be having trouble shipping drives in significant quantities."
+            3. By 2035, we will have 200TB HDD with 12 plates 24 heads. (MAMR, HAMR)
+```
+![HDDs: Future](/images/aws-s3-hdd-future.png "HDDs: Future")
+```
+            4. HDD is still slowing down
+                1. Cost ~$15/TB, latency ~4ms.
+                2. The seek time was almost the same with 17 years ago when AWS S3 launched.
+            5. Western Digital Ultrastar DC HC670 HDD - 26TB size
+               https://www.westerndigital.com/products/internal-drives/data-center-drives/ultrastar-dc-hc670-hdd?sku=ultrastar-dc-hc670-26-tb
+                1. "26TB1 is achieved by combining Western Digital’s OptiNAND™ technology with UltraSMR, energy-assist magnetic recording (EAMR), a 2nd generation triple-stage actuator (TSA), and proven HelioSeal® technology."
+                    1. This is an SMR drive.
+                        1. "Industry-first EAMR and TSA technologies with HelioSeal and host-managed UltraSMR"
+                2. Tech Brief - UltraSMR
+                   https://www.westerndigital.com/products/internal-drives/data-center-drives/ultrastar-dc-hc670-hdd?sku=ultrastar-dc-hc670-26-tb
+                3. White Paper - Shingled Magnetic Recording
+                   https://documents.westerndigital.com/content/dam/doc-library/en_us/assets/public/western-digital/collateral/white-paper/white-paper-shingled-magnetic-recording-hdd-technology.pdf
+                4. Full specification
+                   https://documents.westerndigital.com/content/dam/doc-library/en_us/assets/public/western-digital/product/data-center-drives/ultrastar-dc-hc600-series/product-manual-ultrastar-dc-hc670-sata-spec.pdf
+                    1. "256MiB zone size (Conventional/Sequential Write required)"
+```     
+![HDD drives are still slowing down](/images/aws-s3-hdd-slowdown.png "HDD drives are still slowing down")
+```
+            6. Heat management in AWS S3
+                1. When disks accumulating heat, you accumulates delay. (Queuing, stalling, tail latency)
+                2. Balancing heat is needed. Individual workloads are bursty
+                    1. Aggregating loads from many users
+                        1. My questions
+                            1. How to handle big customers that can occupy an entire cluster?
+            7. Data sharding and replication
+                1. Bucket size 3.7PB, Peak throughput 2.3M req/s. Per disk gives 120 IOPS. Disk size 26TB.
+                   Shard data to as many disks as possible. Need 19K disks to provide that level of throughput
+                    1. Good point. Scale allows AWS S3 to deliver performance for customers that would otherwise be prohibitive to build
+                        1. I.e. the customer cannot just buy 19K HDDs in its own datacenter
+                    2. Another point is, customer doesn't need to provision hardware for peak throughput.
+                       Cloud aggregates workloads to amortize cost.
+                2. Sharding data strips should be needed.
+            8. In video 33:00 about ShardStore
+                1. ShardStore: Using Lightweight Formal Methods to Validate a Key-Value Storage Node in Amazon S3
+                   https://www.cs.utexas.edu/~bornholt/papers/shardstore-sosp21.pdf
+                2. ShardStore rewrites the bottle layer of AWS S3, to work with zoned devices (should be SMR/ZNS drives) and their IO constraints
+                3. ShardStore is running Rust.
+                3. ShardStore is using Soft Updates. 
+                    1. To avoid the cost of redirecting writes through a write-ahead log
+                    2. And to allow flexibility in physical placement of data on disk
+                    3. My questions
+                        1. Can Soft Update be implemented equivalently with Group Flush / Group Commit?
+            9. Durability mechanisms
+                1. Durability reviews - an idea from Threat Model in security area
+                2. ShardStore: Lightweight Formal Verification
+                3. Rollout new version on a shard by shard basis
+                4. Help customers design for durability
+                    1. accidentally delete data is a big issue
+                    2. bug in code that accidentally delete/corrupt data
+                    3. privacy regulations, GDPR
+                    4. object versioning, object lock
+                    5. cross region replication (CRR) that switched account
 
 60. 技术管理：绩效辅导 - 赵俊民的文章
     https://zhuanlan.zhihu.com/p/664104692

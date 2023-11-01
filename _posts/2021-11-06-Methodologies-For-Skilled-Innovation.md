@@ -134,6 +134,7 @@ COGS saving
 
 Reliability
   * Data backup, Copy data management.
+  * Practical formal testing. E.g. TLA+, AWS S3 ShardStore.
 
 Related technology
   * Container, cloud.

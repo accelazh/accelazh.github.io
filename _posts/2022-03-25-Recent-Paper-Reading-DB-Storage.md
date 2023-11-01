@@ -575,7 +575,7 @@ Papers about Runtime Verification
 Industry papers about data and storage
 
 ```
-1. Using Lightweight Formal Methods to Validate a Key-Value Storage Node in Amazon S3    (2021 SOSP, 1 refs, AWS)
+1. ShardStore: Using Lightweight Formal Methods to Validate a Key-Value Storage Node in Amazon S3    (2021 SOSP, 1 refs, AWS)
    https://www.amazon.science/publications/using-lightweight-formal-methods-to-validate-a-key-value-storage-node-in-amazon-s3
    https://www.youtube.com/watch?v=YdxvOPenjWI
     1. interesting "reference model" method, executable code, engineer dev-able.
