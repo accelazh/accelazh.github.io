@@ -54,6 +54,10 @@ Essence analysis is another way of innovation.
 
   * Recombination of the essence will generate new ideas. Add, subtract, multiple, division happen here to combine them. 
 
+Thinking in high level, thinking in abstraction.
+
+  * __High level and abstraction__. A easy pitfall when newly joining a project is to see a series of tasks, issues, bugs to work on. You find small pieces of new things to work on, but no big and impactful components. To come out of this situation, you need to think in high level, think in abstraction, and think with overall system understanding. Don't solve one individual problem, but instead try solving the generalized __a group of problems__. Use __5 whys__ to further dig what's the underlying generic problem.
+
 ### Sources for Innovation
 
 Problems & missing parts in engineering daily work are source of innovation.

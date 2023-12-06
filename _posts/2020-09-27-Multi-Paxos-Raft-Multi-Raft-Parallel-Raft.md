@@ -38,3 +38,10 @@ Recent years emerging database products are coining new names for Paxos. Here to
        that is to say, Parallel Raft is the Raft version of Multi-paxos
     2. Allowing holes is suitable for data replication or DB log replication
 ```
+
+Comparing Paxos with 3-replica. Raft and 3-way replication are both widely used for data replication
+
+```
+1. Ack when 2 out 3 replica commits. Raft supports it naturally. 3-way replication needs customization.
+2. Node failure and replace. Raft ring carries out membership change by itself. 3-way replication needs an external metadata ring (usually Paxos too) to replace node.
+```

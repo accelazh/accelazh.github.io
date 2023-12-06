@@ -452,7 +452,7 @@ Tracking recent paper reading notes. For a better view, paste the notes into a t
                    Solutions: Active probing, fan-out probing, gossip health status, quorum decision
                 2. highlights
                     1. gray failure examples
-                        1. if a system’s requesthandling module is stuck but its heartbeat module is not, then an error-handling module relying on heartbeats will perceive the system as healthy while a client seeking service will perceive it as failed
+                        1. if a system’s request handling module is stuck but its heartbeat module is not, then an error-handling module relying on heartbeats will perceive the system as healthy while a client seeking service will perceive it as failed
                             1. see Figure 3.
                         2. if a link is operating at significantly lower bandwidth than usual, a connectivity test will reveal no problems but an application using the link may obtain bad performance
                             1. we can aggregate observations of VM virtual disk failure events and map them to cluster and network topology information

@@ -1610,6 +1610,8 @@ Techniques about data placement follows similar categories with data partitionin
 
     * __CRUSH__. Ceph invented CRUSH algorithm which is a hash based placement algorithm. It generate random but deterministic placement, and limits excessive migration during node membership change. Compared to consistent hashing, CRUSH supports hierarchical failure domains organized as a tree, and different weights of devices.
 
+    * __Placement dimensions__. Hash-based placement is usually single-dimensional by partitioning key space, but placement problem is fundamentally a multi-dimensional resource scheduling problem. Placement Group / VNode provide something in the middle.
+
   * __Content-based addressing__. Placement is determined by the hash of the data block content, so that dedup is automatic. The example is XtremeIO. We mentioned it before.
 
 
@@ -1704,8 +1706,6 @@ Multi-dimensional resource scheduling on cloud is a big topic, see DRF/2DFQ etc 
 
     * __Preempting__. It defines the strategies whether higher priority jobs should stop/pause lower ones to take up its resources. Besides job scheduling, preempting is also seen in transaction scheduling and deadlock resolving. It varies whether younger jobs should preempt older ones, or vice visa. The cost to preempt a long live transaction can be high. OCC can also be seen as first win jobs preempts slower ones, where frequent retry can cost high.
 
-    * __Levels & Pooling__. N resources are allocated to U users, and each user gets N/U. But usage is always biased, and bias is usually sparse. Thus, we introduce an extra overflow pool with M resources, and we allow the biased usage to overflow to it. As a result, they appear like each user gets __N/U + M resources__. This shows how adding an extra level with small capacity can fix bias in resource usage. Resource pooling further extends the idea. Such pattern of resource allocation and bias are common. It can even be seen at CPU cache design too, e.g. [Victim Cache](https://zhuanlan.zhihu.com/p/639726264), L1/L2/L3 cache.
-
 ### Design dimensions
 
 There are a few design dimensions to consider when designing resource scheduling.
@@ -1717,6 +1717,20 @@ There are a few design dimensions to consider when designing resource scheduling
   * __Cost modeling__. Read/write size is the common practical cost modeling in storage systems. Together they compose queue count and queue size. The most comprehensive cost modeling as a reference can be found in DB [query optimizers](https://mp.weixin.qq.com/s?__biz=MzI5Mjk3NDUyNA==&mid=2247483895&idx=1&sn=05b687a465f5e705dbebfdccaf478f4b). The predicted IO cost can be combined with deadline to early cancel requests that cannot finish in time or resource limits.
 
 ![Resource scheduling section](/images/arch-design-section-resource-scheduling.png "Resource scheduling section")
+
+### About Load balancing
+
+Latency issues can generally be categorized as:
+
+  * __Resource overloading__. Lasting minutes to hours span. The problem happens at resource allocation. The solution is __Load Balancing__, which can be alike [Google Borg](https://research.google/pubs/pub43438/).
+
+  * __Temporary bursts__. Lasing seconds or shorter. Common sense load balancing can hardly work on this tiny granularity. The solutions can be:
+
+    * __Stealing__. It's like thread pool job stealing. The one who gets overloaded can steal the resource from a general pool or from others. Each unit can contribute a bit of its resource to compose the virtual pool. Or say, L1 cache is stealing from L3 cache.  
+
+    * __Levels & Pooling__. N resources are allocated to U users, and each user gets N/U. But usage is always biased, and bias is usually sparse. Thus, we introduce an extra __overflow__ pool with M resources, and we allow the biased usage to overflow to it. As a result, they appear like each user gets __N/U + M resources__. This shows how adding an extra level with small capacity can fix bias in resource usage. Resource pooling further extends the idea. Such pattern of resource allocation and bias are common. It can even be seen at CPU cache design too, e.g. [Victim Cache](https://zhuanlan.zhihu.com/p/639726264), L1/L2/L3 cache.
+
+  * __Isolation__. This is always needed. Solutions can be alike Google Heracles. A common API like Linux Container's CGroup can be convenient.
 
 
 ## Performance
