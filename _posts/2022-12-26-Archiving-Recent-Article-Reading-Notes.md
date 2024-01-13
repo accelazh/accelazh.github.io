@@ -177,6 +177,11 @@ Archiving notes about recent reading articles. Many.
             2. very good article, tells the why with a illustrative upgrading model
                 1. txnWaitQueue
                 2. latchManager
+        3. "因此必须通过一种手段，把这些阻塞信息集中到一起，要么等待图中的各个节点都把信息发送到约定好的一个节点、在这个节点进行集中式的环检测；要么大家互相通信，和自己的邻居交换阻塞信息，同时大家都检查自己收集到的这些信息是否够成了环。不管用那种方式，当发现环之后，都需要强制abort掉环中的一个或几个节点（事务），打破环形等待从而让其它事务从死锁中恢复出来。
+
+        CockroachDB的死锁处理策略正是第二种，即每个节点都维护阻塞信息，并和邻居节点通过通信、丰富自己阻塞信息，直到某一个或几个节点收集到了足够的信息、发现了等待图中的环，然后abort掉其中的一个或几个从而从死锁中恢复。这和Path-Pushing Algorithms（路径推动算法）的思路基本是一致的。
+
+        CockroachDB的实现方法是，每个事务记录txnRecord维护阻塞在自己的所有事务的ID的集合，然后这些集合中的每个事务都会去检查自己的事务记录，然后把阻塞于自己的事务ID的集合拷贝到自己等待的集合中，这样逐渐积累，当一个事务发现它等待的事务ID出现在了等待自己的ID集合中时，就说明它已经处于等待图的一个环中，这时它会选择abort掉自己或者是自己等待的事务，从而打破死锁。"
     
     3. ToplingDB 省略 L0 Flush
        https://zhuanlan.zhihu.com/p/487604396
