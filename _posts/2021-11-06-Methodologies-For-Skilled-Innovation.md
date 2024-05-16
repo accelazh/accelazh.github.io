@@ -8,7 +8,7 @@ tags: [cloud, engineering, innovation]
 ---
 {% include JB/setup %}
 
-Here to summarize my experiences on how to do innovation in the daily engineering work. The focus area is distributed storage systems.
+Here to summarize my experience in how to do innovation in the daily engineering work. The focus area is distributed storage systems.
 
 ### Common Senses
 

@@ -1673,6 +1673,10 @@ I choose to combine HA in this section because it's related to durability, most 
 
   * __Two geo locations three datacenters__ are commonly used in banks. One city deploys two datacenter with synchronized replication, and a second city deploys the third datacenter with async replication for disaster recovery.
 
+  * __Reducing blast radius__. A core concept in availability is to reduce blast radius. __Cell architecture__ isolates at cluster level and reduces deployment size. __Partitioning__ reduces blast radius and eliminates the SPOF. When a partition fails, instead of letting availability drop, __migration__ can restore it by serving the partition at another group of nodes. Such migration is usually designed to move fast. However, it can breach the blast radius if a buggy partition keeps crashing new nodes. [__Logical Failure Domain__](https://www.usenix.org/conference/fast24/presentation/zhang-weidong) can be employed to quarantine it.
+
+    * __Practical tips__. Do you have services (e.g. DNS, config portal) that span more than one clusters, datacenters, or even regions? Are config changes also following a canary baking rollout SDP procedure? Are there config changes that could instantly impact all services? Can the customer or devs or ops happen to delete something that shoot down all services ([GCS UniSuper outage](https://mp.weixin.qq.com/s/24oA__sV7d_OBsSMzjvtmg))? __Deletion is usually the more devastating cause of data loss__ than node failure, bad disk, and data corruption, because the later ones won't proactively physically eliminate user data.
+
 HA relies on robust detection of failures, where the major issue is [Observational Difference](https://www.microsoft.com/en-us/research/wp-content/uploads/2017/06/paper-1.pdf) caused gray failures. Examples are dead App but heartbeat thread still working, network link degradation only at a high percentile, inconsistently reported healthy status, intermittent failures. Common techniques to overcome such issues are stemmed from __Metadata consistency__:
 
   * __Synchronized locksteps__ between heartbeat and application progress, e.g. use request execution count as heartbeat, or use expiring fencing token / lease.
@@ -1680,6 +1684,14 @@ HA relies on robust detection of failures, where the major issue is [Observation
   * __Gossip protocol__ that multiple peers can participate in observing failures, and an ask request can go confirm with multiple peers.
 
   * __Quorum decision__ that important events such as node failure or node membership change should engage a consistency quorum to make the final decision.
+
+Besides, __Disaggregation__ can be used to improve availability and durability. An example is [VastData DASE architecture](https://vastdata.com/whitepaper/#TheDisaggregatedSharedEverythingArchitecture). JBOD is disaggregated from server node, so that they won't fail with server. Server is easier to fail due to more complex software and upgrade, while JBOX can be a simple box with pure functions and hard-wired chips. JBOD and server are connected with fast RDMA. Upon server failure, JBOD can be taken over by other servers. The [zstorage article](https://mp.weixin.qq.com/s/uXH8rkeJL_JMbKT3H9ZuCQ) also has good analysis.
+
+  * __Smaller failure domain__. Compared to a big server running everything, disaggregation naturally leads to smaller failure domain. For example, server failure should not impact disk, metadata plane failure should not impact reads. Inside one function unit, it can be partitioned to future reduce the failure domain size.
+
+  * __Shared everything__. If a parent fails, the child function unit should be able to transfer another parent. For example, if the server fails, the disk should be taken over by another server. Expanding the picture, everything should be shared by everything so that they never likely to fail. This dramatically improve availability/durability to unlock potentials throughout the system.
+
+  * __Network cost vs PCIe cost__. Disaggregation has a fundamental cost that is to transfer more data through the network. It becomes more acceptable with fast network bandwidth growth today. In compare, centralizing function units into one server means it's replacing network cost with PCIe bus inside the server. PCIe bandwidth also has rapid growth today.
 
 ### Durability
 

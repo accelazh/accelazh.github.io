@@ -20,7 +20,7 @@ Usually, the baseline is to compare with 3-replica.
 
 ### Different EC schema variations
 
-How many instanecs per fragment has? Any local groups, or even overlaping groups? Code fragments all need to be replicated, long/short schema transition? Zone related support? Transition states and speed? SSD or HDD? Read patterns?
+How many instances per fragment has? Any local groups, or even overlapping groups? Code fragments all need to be replicated, long/short schema transition? Zone related support? Transition states and speed? SSD or HDD? Read patterns?
 
 The basic EC schema is M fragments + N parities. 3-replica can also be seen as a 1 + 2 schema. But, more variations
 
@@ -34,7 +34,7 @@ The basic EC schema is M fragments + N parities. 3-replica can also be seen as a
 
   * The schema can determine to drop less important fragment instances or entire fragments, become __long or short__, given capacity needs, or for less important data types, and transition needs.
 
-  * __Heterogenous instances__. Fragment instances & their replicas can be in different format, e.g. row-format OLTP vs columnar-format OLAP (TiDB TiFlash). (Also different media, count, placement, etc.)
+  * __Heterogeneous instances__. Fragment instances & their replicas can be in different format, e.g. row-format OLTP vs columnar-format OLAP (TiDB TiFlash). (Also different media, count, placement, etc.)
 
   * The synchronization __quorum__ of different replicas can be different, e.g. plain replication, raft/paxos replication, private offloading to public cloud, eventual consistency, memory caching + dedup, witness nodes for tail latency, Dynamo read N+1 out of 2N+1, etc.
 
@@ -54,13 +54,13 @@ In summary
 
 ### Evaluating performance
 
-Performance, Repliability, Storage overhead are a triangle to find optimal and to trade off.
+Performance, Reliability, Storage overhead are a triangle to find optimal and to trade off.
 
 __IO Amplification__
 
 Compared to 3-replica, reconstruct reads amplify read IO count. Datacenter level IO amplification affects latency distribution.  Reconstruct reads usually come from reads fallback due to tail latency, upgrade temporary node unavailable, node/rack failures, throughput filled up / node busy, cluster-wide load saturation, aggressive repair traffic, etc.
 
-There are two parts of amplification: IO count amplification, throughput amplication. Also, disk and network amplication can be of different patterns. CPU can also be stressed upon heavy requests. And IO count amplification can cause queue delays related to threading and throttling.
+There are two parts of amplification: IO count amplification, throughput amplification. Also, disk and network amplification can be of different patterns. CPU can also be stressed upon heavy requests. And IO count amplification can cause queue delays related to threading and throttling.
 
 Besides reconstruct reads, initial EC needs extra traffic to do calculation and place fragment instances. Data repair needs more traffic than 3-replica. Append-only system do rewrite data, if off-line EC here, extra again new initial EC needed for rewritten data. Customer may also frequently create short-lived data to stress the EC amplification.
 
@@ -84,7 +84,7 @@ Besides, cluster-wide or single node heavy reconstruct reads can also burst node
 
 __Tail latency reduction__
 
-E.g. Reonstruct need 9 fragment but actually sent out 10 reads. Plain reads, second-instance reads, reconstruct reads, local vs global switching; and all them going in parallel with coordination of fallback timers. Latency is a distribution, tail at Q99 or more can be reduced by many techniques; 1% is many users' experiences.
+E.g. Reconstruct need 9 fragment but actually sent out 10 reads. Plain reads, second-instance reads, reconstruct reads, local vs global switching; and all them going in parallel with coordination of fallback timers. Latency is a distribution, tail at Q99 or more can be reduced by many techniques; 1% is many users' experiences.
 
 But be sure the timer, deadline, shortcut cancellation, load estimation and balancing, etc are well working. Otherwise the extra reads above easily become a DDOS to data nodes and even create more failure avalanche, and more retries and more reads and then more failures .. Failure scenarios and actual gains should be tested. Bad cases should have cap throttling.
 
@@ -100,7 +100,7 @@ Latency is a probability distribution. Use math probability model we can deduce 
 
 Simulation builds by programing. It requires less math skills, and may given more reliable results. It may be the only way for very complex scenarios. It should build atop live production trace and distributions.
 
-Too many production clusters can be categorized with ML clustering techniques, equivalenet class techniques, using representative proxy to simplify too many data points or dimensions.
+Too many production clusters can be categorized with ML clustering techniques, equivalent class techniques, using representative proxy to simplify too many data points or dimensions.
 
 
 ### Evaluating reliability
@@ -123,13 +123,13 @@ __Implementation related__
 
 EC schema placement: Placing fragments in isolated failure domains, and handle placement balancing and migration well; this improve the actual reliability after EC schema is deployed. But finding a proper placement is usually coupled with datacenter layout variations, and selecting a suitable EC schema long/short too.  We also need to ensure placement can work in upgrading / rack failure cases, or a longterm zone down.
 
-Repair action scheduling: Timely and efficeint data repair, with optimal prioritization, can improve the runtime reliability and the EC schema. It needs to work with datacenter bandwidth planning, and also upgrading (node unavailable) needs. Different strategies also worth compare: read live data and then reconstruct a single fragment in one run, read live data and then reconstruct multiple failed fragments in one run, reconstruct 3-replica instance first, reconstruct to SSD caching, etc.  Repairing may work on multiple fragments in parallel, make sure their placement won't race.
+Repair action scheduling: Timely and efficient data repair, with optimal prioritization, can improve the runtime reliability and the EC schema. It needs to work with datacenter bandwidth planning, and also upgrading (node unavailable) needs. Different strategies also worth compare: read live data and then reconstruct a single fragment in one run, read live data and then reconstruct multiple failed fragments in one run, reconstruct 3-replica instance first, reconstruct to SSD caching, etc.  Repairing may work on multiple fragments in parallel, make sure their placement won't race.
 
 __Modeling and simulation__
 
 Math modeling: where all the above metrics can be calculated. It can use simple data sheets containing formulas, or a program to do MTTL matrix solving.
 
-Iterative simulation: simulate day to day datacenter node failres and repair. The data center is filled with ECed objets. See how the data availability reacts. The model can input with production live traces (obtained from paper/publications).
+Iterative simulation: simulate day to day datacenter node failures and repair. The data center is filled with ECed objects. See how the data availability reacts. The model can input with production live traces (obtained from paper/publications).
 
 Optimal EC schema searching: combine all the auto tools, may employ Machine Learning, or Gene, or other searching algorithms.
 
@@ -140,4 +140,4 @@ How much used capacity the EC schema can save, and this is usually traded off wi
 
 Not all data objects have time to finish EC. They may be too short-lived, quickly deleted or got rewritten. The overall EC percentage relates to data scheduling and how much bandwidth available to use set aside from higher priority user traffic.
 
-A common knowledge, Reed-Solomon code MDS (i.e. plain M+N EC schema) already achieves the best recoverability given the same stoarge overhead level. But in actual design, we usually trade off and combine into more various needs.
+A common knowledge, Reed-Solomon code MDS (i.e. plain M+N EC schema) already achieves the best recoverability given the same storage overhead level. But in actual design, we usually trade off and combine into more various needs.

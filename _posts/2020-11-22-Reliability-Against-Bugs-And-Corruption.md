@@ -12,27 +12,27 @@ Previously I wrote about data reliability in storage systems [[1]](/storage/Engi
 
 First, some typical __failure patterns__:
 
-  * A programming bug that didn't write the persistent data right, and then that corrupted data block propagates to all relicas. Now customer reads cannot restore the original data.  The bug can be rare to happen, but does trigger when you have large amount of machines running on full variety of usecases.
+  * A programming bug that didn't write the persistent data right, and then that corrupted data block propagates to all replicas. Now customer reads cannot restore the original data.  The bug can be rare to happen, but does trigger when you have large amount of machines running on full variety of usecases.
 
   * Similarly, the bug can also happen on metadata.  E.g. During upgrade some messages got replayed but with incorrect old/new version format, and then the corrupted metadata quickly propagates through Paxos replication. Even the persistent data is healthy, the metadata corruption prevents them reading or repairing. And since metadata size is usually small and the processing is fast, the compromised area can grow quickly.
 
-  * Data can be incorrectly deleted due to programming bugs. Deleting data quickly is a common usecase, where the storage system is append-only and ingesting fast with capacity reacing limit, especially on SSD clusters. However, if a bug incorrectly deleted customer data, all replicas can already be lost when the bug is finally discovered. What's worse, deleted data is even harder to recover than corrupted data, because filesystem may already overwrites them.
+  * Data can be incorrectly deleted due to programming bugs. Deleting data quickly is a common usecase, where the storage system is append-only and ingesting fast with capacity reaching limit, especially on SSD clusters. However, if a bug incorrectly deleted customer data, all replicas can already be lost when the bug is finally discovered. What's worse, deleted data is even harder to recover than corrupted data, because filesystem may already overwrites them.
 
     * A delete decision typically involves 1) Seeing all replicas healthy and enough number of them; 2) Issuing deletes on excessive replicas.  However, they can break at 1) "seeing" is stale where true data already lost/deleted, and metadata can be cached but stale; 2) deletion request messages can be replayed; 3) data nodes can first tell you they have data, and next second executes deletes, now data gone; be careful with race conditions.
 
-  * Sometime we also met bad hardware nodes that randomly calculate wrong results in memory (e.g. detected by CRC), and may or may not be catched by asserts. If not careful, i.e. the protection chain-of-trust has gaps or call it bugs, such corruption can go into persistent data or metadata. It recalls me of cosmic ray impacting hardare correctness.
+  * Sometime we also met bad hardware nodes that randomly calculate wrong results in memory (e.g. detected by CRC), and may or may not be caught by asserts. If not careful, i.e. the protection chain-of-trust has gaps or call it bugs, such corruption can go into persistent data or metadata. It recalls me of cosmic ray impacting hardware correctness.
 
 We need a new systematic methodology for reliability against bugs. I think this is still an open industrial gap.
 
 First, let's name __some small design tips__:
 
-  * Metadata is critical for data reliability.  Store the metadata twice at two different places, in different format, and managed in separated flow.  E.g. The metadata about a file is stored at metadata servers, and also attached to the data files at data servers. A typical bug can corrupted all metadata replicas at metadata servers, but then it'll be lucky to recover from data server copies. Metadata at the two places are managed separatedly, so less likely to compromise by same bug.
+  * Metadata is critical for data reliability.  Store the metadata twice at two different places, in different format, and managed in separated flow.  E.g. The metadata about a file is stored at metadata servers, and also attached to the data files at data servers. A typical bug can corrupted all metadata replicas at metadata servers, but then it'll be lucky to recover from data server copies. Metadata at the two places are managed separately, so less likely to compromise by same bug.
 
   * Storage systems typically do data scrubbing to detect silent data corruption. This should also be designed to detect any corruption due to bugs, e.g. with end-to-end CRCs. Besides, make sure all necessary data and metadata are included in scrubbing, e.g. periodical compare those stored at metadata server and those on data nodes.
 
   * Data may transform into different formats, where end2end CRC before/after the boundary are not compatible. E.g. Data1 + CRC1 -> Verify(Data1, CRC1) -> Transform -> Data2 + CRC2 -> Verify(Data2, CRC2). Make sure there is an additional check across the boundary, that 1) After generated Data2, Verify the Data1 being used still matches CRC1; 2) CRC1 matches CRC2, by applying the same transform of Data1 -> Data2.
 
-  * Incremental algorithms are usually clever, but full volume scan is still necessary. A bug can drift away incremental results unnoticed. Full volume scan can be less frequent, but necessary to detect such drift. E.g. Scan and compare all data between data nodes, v.s. the metadata tracked at metadata server.  The idea remotely resembles the CRC-verifiy-every-step (incremental) vs end-to-end CRC paradigm (end-to-end).
+  * Incremental algorithms are usually clever, but full volume scan is still necessary. A bug can drift away incremental results unnoticed. Full volume scan can be less frequent, but necessary to detect such drift. E.g. Scan and compare all data between data nodes, v.s. the metadata tracked at metadata server.  The idea remotely resembles the CRC-verify-every-step (incremental) vs end-to-end CRC paradigm (end-to-end).
 
   * Make sure the delete decisions, typically scheduled by metadata server, is on linearizability algorithms. So that, it won't see a stale view and issue incorrect deletes.  A simple method is, only the writer can do read-decide-delete. And the writer should not trust metadata reported by someone else except the owner (i.e. to avoid cached metadata).
 

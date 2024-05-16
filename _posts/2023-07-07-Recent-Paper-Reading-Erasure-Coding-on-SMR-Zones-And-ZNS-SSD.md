@@ -230,6 +230,21 @@ EC on SMR drives.
     1. Btrfs is copy-on-write, uses append-only to support SMR or Zoned Block Devices (including ZNS SSD)
     2. Not mentioning EC. OK .. if it's a local FS then EC shouldn't be mentioned here
 
+24. Erasure Code with Shingled Local Parity Groups for Efficient Recovery from Multiple Disk Failures    [2014, 25, refs, HotDep14, Fujitsu]
+    https://www.usenix.org/conference/hotdep14/workshop-program/presentation/miyamae
+    1. Highlights
+        1. New EC codec implemented on Ceph. Not related to SMR drives.
+           This is an LRC with overlapping local groups.
+        2. Figure 1: The three-way trade-off: Storage overhead, Durability, Recovery overhead
+        3. Trade offs compared LRC with the same number of parities
+            1. Require each local group to has at least 2 parties to be able to use SHEC
+            2. Finding a Maximal Recoverable coding matrix is trivial, if there are NO global parities.
+               But LRC requires global parities. 
+            3. Remove global parities in LRC. Replace them with overlapping parities in SHEC.
+            4. Compared to 4+2 codec (RAID6), SHEC gets much better recovery overhead, but either needs to sacrifice space efficiency or durability. The sacrifice to durability is at several magnitudes. See Table 1 and Table 2.
+                1. Compared to CRS and LRC, SHEC can be seen as something that sacrificed more durability/storage overhead than LRC, but gets even lower recovery overhead. 
+        4. Implementation on Ceph: https://docs.ceph.com/en/latest/rados/operations/erasure-code-shec/
+
 ```
 
 SSD flash internally has has "erasure coding" alike thing to protect data. GC or overwrite happens at page/block level, so flash shares the similar problem of EC on SMR.

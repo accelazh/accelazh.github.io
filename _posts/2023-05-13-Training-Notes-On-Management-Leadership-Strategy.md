@@ -4,7 +4,7 @@ title: "Training Notes on Management, Leadership, Strategy"
 tagline : "Training Notes on Management, Leadership, Strategy"
 description: "Training Notes on Management, Leadership, Strategy"
 category: "storage"
-tags: [storage, paper, erasure-coding]
+tags: [storage, management, leadership]
 ---
 {% include JB/setup %}
 
@@ -153,6 +153,9 @@ Critical thinking, strategic thinking, decision making.
            It begins with considering multiple parties, interact with stakeholder and competitor moves,
            rather than shut the door, and lock yourself into your own cares 
            It's really the mindset that you have the strong will that you define where you goal, you take the actions to win it, and you never let other people lead you
+        5. BEGIN WHEN HEAR WE DO/DIDN'T THIS BEFORE
+            1. When you hear we always do it this way, or you hear we didn't do that before, it's the time to start strategic thinking
+            2. Actually, everyone or team plan their daily work stemming from a baseline, the BASELINE IS WHAT "WE ALWAYS DO/DIDN'T DO THIS BEFORE". Essentially, everything needs to be re-examined, get out of habit.
     2. key mindsets 1
         1. Choose to do something, means NOT doing something else, that's a strategic choice
         2. You can be best at your task, but if your boss doesn't care about it, it's like not even happened
@@ -1135,13 +1138,13 @@ Management and coaching.
 
         5. Challenges to coaching high performers
             1. Traits of high performers
-                1. Positive ones
+                1. Positive characteristics
                     1. Confident.
                     2. Self-directed.
                     3. Crave autonomy
                     4. loathe failure
                     5. Constantly trying to improve the game
-                2. Negative
+                2. Negative ones
                     1. Aggressive
                     2. Arrogant
                     3. Selfish
@@ -1197,6 +1200,12 @@ Management and coaching.
         1. So, A core part of Manager is SKILLED LISTENTING.
            That's why we need to attend every meeting, listen and give impactful feedback.
            That explains why I was suggested to attend the meeting with full attention and listen carefully.
+
+14. Microsoft desired culture and essentials:
+    1. Culture: Growth Mindset, Customer Obsessed, Diversity and Inclusion, One Microsoft.
+    2. Value: Respect, Integrity, Accountability
+    3. Leadership principle: Create clarity, Create energy, Deliver success
+    4. Manager expectation: Model, Coaching, Care
 ```
 
 Conflict and negotiation.

@@ -216,7 +216,7 @@ Industry papers.
 
 7. Fast Database Restarts at Facebook    [2014, 32 refs]
    https://research.fb.com/wp-content/uploads/2016/11/fast-database-restarts-at-facebook.pdf
-    1. interesting technique to use shared memory to speedup in-memory workload restart
+    1. Good technique to use shared memory to speedup in-memory workload restart
        also, an useful example to write a simple paper with enough contents
     2. highlights
         1. Scuba in-memory distributed DB for Facebook's code regression analysis, bug report monitoring, ads revenue monitoring, and performance debugging

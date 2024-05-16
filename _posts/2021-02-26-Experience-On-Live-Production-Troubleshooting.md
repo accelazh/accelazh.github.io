@@ -42,11 +42,11 @@ There are a few common practices when start working on the live production issue
 
     * Production logs/metrics are sources for investigation. But beware they can also have bugs (or less known pitfalls), thus lead to wrong path of investigation. Involving multiple people troubleshooting together helps avoid hanging in one dead tree, dipping into a local optimal rather than a global optimized.
 
-    * A risky mitigation should first be baked on test, staging, canary tenants, before go to the real busy production tenants. Mitigation is also a change that should follow Safe Deployment Process. And beware not to introduce more failures in the mitigation steps, especially node restarting.
+    * A risky mitigation should first be baked on test, staging, canary clusters, before go to the real busy production clusters. Mitigation is also a change that should follow Safe Deployment Process. And beware not to introduce more failures in the mitigation steps, especially node restarting.
 
   * The mitigation steps should be shared and passed on to following teams. E.g. the next duty shift or other teams possible to hit the same issue again. It can become a team heads up or notice broadcast.
 
-  * Continue the monitoring after mitigation is applied. Make sure things are truely fixed, especially for issues only happen time-to-time. The mitigation should be effective in different scenarios, e.g. when the victim cluster changes workload pattern, undergo an upgrading, enabled new feature, e.g. when it applies to other clusters with different setups.  The mitigation may need to cherry-pick to older codebases and involves patching too.
+  * Continue the monitoring after mitigation is applied. Make sure things are truly fixed, especially for issues only happen time-to-time. The mitigation should be effective in different scenarios, e.g. when the victim cluster changes workload pattern, undergo an upgrading, enabled new feature, e.g. when it applies to other clusters with different setups.  The mitigation may need to cherry-pick to older codebases and involves patching too.
 
     * Verifying by scenarios involves having more complete understanding of what scenarios can happen. Rather than digging own parts, it requires team members to reach out wider scope, to understand what are the other moving parts in production, and what other people are doing, e.g. a parallel rollout of another feature by another team previously unknown. Scope yields more importance than depth sometime. 
 
@@ -70,7 +70,7 @@ About monitoring & alerting systems, and logging systems, there are some common 
 
     * Minutes to realtime: Time-series metrics that capture status and vital, and are used for alerting. 
 
-      * Metrics involves customer facing metrics and system-side metrics. Customer facing metrics are helpful for locating the true customer issues, and to verify issues are truely mitigated. System-side metrics futher involves feature, service, OS, hardware levels.
+      * Metrics involves customer facing metrics and system-side metrics. Customer facing metrics are helpful for locating the true customer issues, and to verify issues are truely mitigated. System-side metrics further involves feature, service, OS, hardware levels.
 
     * Minutes to realtime: Auto analysis tooling can generate reports for newly detected live issues. The process aggregates many info sources and make low-level decisions to help people troubleshooting.
 
@@ -114,9 +114,11 @@ Techniques and methodologies for live issue investigation vary
 
   * Specially, tools for dumping and safely modifying persistent data or metadata, should be ready before live issue happens. E.g. the on-disk data format is usually dense and not human readable, good tooling here is critical to safely and quickly mitigate related production issues.
 
+  * A shortcut is to compare the config changes and new code deployments around the impact window. This proved very effective to quickly locate what's wrong in the system. If otherwise, it's usually customer workload or usage pattern changes. Overall, find what's changed.
+
 Retrospective analysis, where for in-depth RCA, think thoroughly, and turn shortterm mitigation into longterm fix/improvements
 
-  * Perform "5 Whys". E.g. why is the issue only discovered now, rather than captured by earlier monitoring, more upstream systems. E.g. why it passed test and canary clusters baking, why it is not captured by test cases. E.g. why it needs manual investigation and mitigation, rather than self-heal by the system itselves.
+  * Perform "5 Whys". E.g. why is the issue only discovered now, rather than captured by earlier monitoring, more upstream systems. E.g. why it passed test and canary clusters baking, why it is not captured by test cases. E.g. why it needs manual investigation and mitigation, rather than self-heal by the system itself.
 
     * This is the first layer. After got answers, continue ask whys several more times to drill even deeper. They usually reveal core system gaps and future improvements, and key knowledge missing. Understand what is system bottleneck, prioritize and evolve. Be proactive.
 
@@ -124,6 +126,60 @@ Retrospective analysis, where for in-depth RCA, think thoroughly, and turn short
 
     * Learn the most from error and don't commit twice, and also defense for future. Many the needs can brew new advanced tooling frameworks.  Here comes innovation. Innovation is not optional. Enterprise needs innovation to evolve daily work, even they are small gradual improvements rather than paradigm shifts.
 
-  * It is a feedback loop that continuously improve the system battle-tested, from new features, different live issues, various customer needs, etc. Time spent becomes value assets making the system more rubost.  The infrastructure and tooling, for live issues investigation, are like highway. They are not customer features, like buildings. But highway determines how fast you can evolve in the feedback loop, like how fast buildings built.
+  * It is a feedback loop that continuously improve the system battle-tested, from new features, different live issues, various customer needs, etc. Time spent becomes value assets making the system more robust.  The infrastructure and tooling, for live issues investigation, are like highway. They are not customer features, like buildings. But highway determines how fast you can evolve in the feedback loop, like how fast buildings built.
 
 Grow.
+
+Additionally, experience on investigating production latency issues
+
+```
+1. Carefully review the results given by the monitoring system. narrow down the scope, the spikes.
+   Examine whether some data are false data, possibly due to monitoring fluctuation, or data points reach in different time, etc
+   
+2. The top 1 time consuming thing in investigating latency issue, is no that issue is complex, but we mislead ourselves on a wrong path.
+   So need to be careful to examine our logic chain is complete, not missing other paths, not missing other check items/possibilities etc.
+
+3. Besides the alerting data we get from monitoring system, we usually need to go to actual production nodes,
+   to compare and obtain the actual more detailed quantile data. And to examine whether there were patterns.
+
+4. After forming our new hypothesis root cause, we should double verify. I.e. find data from a different source and verify in a second way that our hypothesis is correct.
+   Many times we may find the look-obvious hypothesis may not be correct, or may not be consistency for all issue occurrences we are facing.
+   This is also helpful to get us away from getting trapped in a wrong path.
+
+5. As team work, we better find at least 2 persons to investigate the issue. 1 person is very easy to get trapped in one path (because his/her instinctive thinking habit etc).
+   At least 2 persons, keep challenging & comparing & throwing light on each other results, will greatly help making progress in the investigating.
+   And, a favorable model is 1 person do heavy dedicated investigation, the 2nd person just spend minimal time and do some quick time to time check, which is enough.
+
+6. Some logging can be misleading. E.g. by tracing with a common trace id, but other unrelated stuff may be also packed on this tracing id as noise.
+   By tracing by an object pointer address, but print with different type may give different value of the same object;
+      and same object address may be reused due to memory allocation, or object reuse.
+   The statistics of latency, load, queue depth, throughput printed in logs, may be aggregated in a different way than you thought,
+      e.g. in too long a time window, so that it is useless for short burst spikes.
+   The time printed in logging, may be calculating different thing if checking the details in code; need also be careful with it.
+
+7. We may pick some common check items to check first. E.g. network congestion, disk slowdown, queue piled up, burst of requests, some other error or alerts, etc.
+   Common check items help quickly identify same issue reoccurred from previous history we know.
+
+8. Latency issue is usually the behavior of statistics. But logging and tracing works in per request level.
+   Statistics vs single is a natural conflict. A usually useful practice is, during the issue period of statistics,
+      we pick several single request that match the issue,
+      we and follow them down to see if they reveal the true underlying issue and cross validate with each other.
+
+9. Latency issue is usually the behavior of statistics. Decomposition the request handling into each phase, and get statistics of each phase component
+   and compare is also a approach to find issue. It took more time usually. And hope our logging can be easy to use enough for we to extract the data
+
+10. It can be very helpful to find another healthy period or cluster, and compare side-by-side with our issue one.
+    Comparing healthy vs having-issue, can usually help to find out what's going wrong.
+
+12. Besides the server side, also check the client side. the client side may be behaving in unusual way, may be receiving different errors,
+      and may be sending more data count, more bigger data size, and from monitoring charts we may find more issues.
+    Also, there can be read size amplification issue, e.g. block alignment layer by layer, prefetching / readahead, read more than needed, etc.
+
+13. The speed of investigation usually depends on how quick you can "guess" the right culprit, from a bunch of other symptoms or noises.
+      If we have more experience on the system, we can guess more accurately.
+    The counter-side is to have guessed a lot and be wrong a lot and need to check a lot, and eventually discovered the true culprit by systematic decompose and search.
+      It's like cache hit vs cache miss, where your caching experience is valuable.
+
+14. Usually, as a complete investigation, we need to drill down to the bottom root cause (RCA), and next propose improvement items,
+      and use statistics data to prove the two. The statistics data proof should be complete covering branches/corners and linked in a chain from start to final cause/proposal.
+```

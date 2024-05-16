@@ -336,6 +336,19 @@ Abase, Physalia, VMCACHE, Pangu.
                 1. "不近"，Cell成员之间的Placement保证高可用，要容忍一些故障域，比如供电单元之类
                 2. "不远"，Cell成员（至少是Majority）位置和EC2实例之间，在发生网络分区时，能够处在分区同一侧，能够继续工作！
             3. "Cell基于预先划分好的一些PlacementGroup来简化placment计算，在这篇Paper里叫Color"
+      3. Highlights - 20240331
+          1. Physalia is a KV database that serves EBS control plane. 
+          2. A colony includes a number of Cells and cache and manager services. 
+             Cell is a small set of nodes that forms a Paxos quorum. Cells are isolated with each other.
+             When a cell is created, the nodes are dynamically selected. So that
+               1) Each node is far enough to tolerate local failure
+               2) Cell and the client are close enough to fail together
+               3) Figure 7: When Physalia detects that a cell’s client has moved (a), it replaces nodes in the cell with ones closer to the client (b), until the cell is entirely nearby the client (c).
+             The placement leverages AWS cluster topology and power knowledge 
+          3. SimWorld testing against packet level losses and Paxos
+          4. Production experiences and incremental rollout
+              1. fast but incorrect deletion, a big red button to stop
+
 
 24. 阿里健康供应链智能补货算法
     https://zhuanlan.zhihu.com/p/612099867?utm_id=0

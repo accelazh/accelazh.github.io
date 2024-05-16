@@ -484,4 +484,7 @@ Picking my interested points.
         3. https://www.economize.cloud/resources/aws/regions-zones-map/
     5. Listing Azure available zones and regions
         1. https://cloudregions.io/azure/regions
+    6. AWS failure outage history complete
+        1. https://awsmaniac.com/aws-outages/
+        2. Azure: https://azure.status.microsoft/en-us/status/history/
 ```
