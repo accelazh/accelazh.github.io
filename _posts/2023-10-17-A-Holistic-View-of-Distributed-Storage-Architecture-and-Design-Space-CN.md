@@ -2952,3 +2952,36 @@ __减少通信__ 是最问题的关键。锁定（Locking）和同步（Synchron
 [481] MECE: https://strategyu.co/wtf-is-mece-mutually-exclusive-collectively-exhaustive/
 
 [482] Clique : https://en.wikipedia.org/wiki/Clique_(graph_theory)
+
+### 英文翻译中文的感想
+
+  1. 中文的分词较不容易（词语、连词、长名词、长动作），需要“以”、“来”、“会”、“得”、“可”、“于”、“的”等辅助划分。
+  2. 英文中有区别的多个词汇，翻译到同一个中文单词，含义变得模糊。例如：
+
+```
+group、set => 组
+approach、method => 方法
+append-only => 仅追加
+block、chunk => 块
+mixed、hybrid => 混合
+delta、increment => 增量
+serializable、linearizable、sequential、ordering => 顺序的
+logging、journaling => 日志
+safety、security => 安全
+compaction、compression => 压缩
+durability、persistence => 持久
+layer、level、tier => 分层
+scaleout、extend、scaleup、scale => 扩展
+offload、unload、uninstall、remove => 卸载
+target、goal、destination => 目标
+technology、technique => 技术
+characteristics、properties => 属性
+flush、refresh、reload => 刷新
+preserve、reserve、retain、store、save、keep => 保留
+categorization、classification => 分类
+coalescing、combine、merge => 合并
+disaggregated、separated、decoupled => 分离的
+```
+
+  3. 英语的从句语法很丰富，where、when，with、within，doing，句子前后、中间皆可插入。在加上单复数、时态，易于表达复杂句子。翻译成中文时则需要拆句和转换。
+  4. 中文也很棒。

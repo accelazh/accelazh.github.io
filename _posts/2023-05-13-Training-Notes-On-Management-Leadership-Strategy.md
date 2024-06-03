@@ -74,6 +74,8 @@ Critical thinking, strategic thinking, decision making.
                 1. go to the Stakeholder, and understand what they really care
             2. make sure whole team is on same page, rather than doing a lot of code in non-sync goals
             3. solve from different angels. find another group of people, explain the issue, and see how others define the problem
+            4. Always start from having the goal first, rather than moving forward from what we have today by momentum.
+                1. Do define the goal, you need Vision.
         4. DO SOLVE THE ROOT CAUSE. not only for code, also for the team and process issues 
     2. Critical Thinking tools
         1. Challenge how business operates

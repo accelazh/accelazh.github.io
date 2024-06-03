@@ -121,7 +121,7 @@ Hardware
   * Growing capacity of hardware, e.g. TB memory, 1 machine 100+ HDD, manycore, RDMA.
   * Changing composition of hardware, e.g. colocating compute/storage vs disaggregated design in Snowflake, faster networking / faster storage device vs catching up with CPU.
   * Smart hardware, e.g. FPGA, Computational Storage, AWS Nitro, Azure Catapult, ASIC.
-  * GPU, DPU, IPU.
+  * GPU, DPU, IPU, Smart NIC, ARM.
   * QLC, NVMoF.
 
 Growing scale of data capacity and IOPS

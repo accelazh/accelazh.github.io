@@ -647,6 +647,8 @@ Doing effective PR review, code review, design review.
     1. What's the true specific issue this PR is to capture? Goal and scope must be clear.
     2. What are the criteria about solving the problem, and to which degree? Define the framework of criteria and path.
     3. Verify the logic that connects every piece in the tree from goal to criteria components to pieces of code.
+
+18. Who is driving the related feature or project, the contact? 
 ```
 
 Visioning into the future.
