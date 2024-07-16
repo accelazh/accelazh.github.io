@@ -90,14 +90,14 @@ Industry papers.
     2. highlights
         1. Deterministic Simulation Testing - proven extremely useful for high development velocity
             1. all code is built upon Flow, C++ async/wait primitives. all execution be deterministic
-                1. multithreaded concurrency is replaced by running one DB instance per code
+                1. multi-threaded concurrency is replaced by running one DB instance per code
                 2. Flow Actor model, scheduled by runtime, one process can simulate multiple FDB servers, run abstract network, clock
                     1. where all nondeterminism and communication are abstracted
                     2. the run is fast, and can also run many simulations in parallel to cover combinatinos
                         1. discrete-event simulation can run arbitrarily faster than real-time
                 3. covers many failures
                     1. inject machine, rack failures
-                    2. radomized event times, randomized config parameters, cluster size
+                    2. randomized event times, randomized config parameters, cluster size
                     3. buggification e.g. code return unnecessary error, delay
                     4. TEST macros to tell how many specific case in code is covered
                 4. limitation
@@ -140,7 +140,7 @@ Industry papers.
                             async/higher delay apply to Storage Server -> on-disk read favorable format
                             Storage Server can use B+-tree or LSM-tree internally
         3. Log is the system / log is the database
-            1. it's like Aurora again, In Figure 1 Storage System acquires updates from logs, rather than from page sync like tradtional DB systems
+            1. it's like Aurora again, In Figure 1 Storage System acquires updates from logs, rather than from page sync like traditional DB systems
         4. unbundled architecture: all below roles are separated
             1. Contorl Plane: coordinators, data distributor, load balancing, etc separated
                Transactions systems: proxies, sequencer, resolver
@@ -162,7 +162,7 @@ Industry papers.
             3. FoundationDB offers minimal feature set, for other system to build atop
             4. FoundationDB is a distributed transactional KV. the SQL DB approach is different from building atop single node KV
                 1. question, how to handle SQL push down to data nodes? rather than fetching data from FoundationDB to SQL gateway which is not efficient
-            5. StorageServer is a modifed version of Sqlite
+            5. StorageServer is a modified version of Sqlite
                 1. question: SQL is not needed here, overhead unnecessary? 
                 2. future RocksDB as drop in replacement
             6. useful to list distributed system design points

@@ -1094,8 +1094,9 @@ Tracking recent paper reading notes. For a better view, paste the notes into a t
             1. HotStorage2022-Compaction-Aware Zone Allocation for LSM based Key-Value Store on ZNS SSDs
                https://zhuanlan.zhihu.com/p/563180541 
 
-    18. ZNS+: Advanced Zoned Namespace Interface for Supporting In-Storage Zone Compaction    [2021, 17 refs, FAST21]
+    18. ZNS+: Advanced Zoned Namespace Interface for Supporting In-Storage Zone Compaction    [2021, 17 refs, FAST21, Samsung]
         https://www.usenix.org/conference/osdi21/presentation/han
+        https://www.youtube.com/watch?v=QjrPiWrfM3k
         1. Host GC needs to copy data, it has higher overhead than SSD doing GC, because is transferred through PCIe
             1. solution: zone_compact command to copy block inside of SSD. it offloads compaction from host to SSD device
         2. threaded logging writes blocks to holes (invalidated, obsolete space) in existing dirty segments
@@ -1105,6 +1106,16 @@ Tracking recent paper reading notes. For a better view, paste the notes into a t
         3. copyback-aware block allocation for segment compaction
             1. attempts to allocate the destination LBA of a data copy such that both the source LBA and destination LBA of the target data are mapped to the same flash chip
         4. Adapting F2FS to run on ZNS SSD
+
+        -------- Updated 20240712 --------
+
+        1. Good paper, 65 refs now at 2024.07. The key innovation is to introduce
+            1. intra-SSD data movement - zone_compact command. It's like a middle land of traditional SSD where SSD does GC itself, and ZNS SSD where GC forces data transfer between host and SSD.
+            2. TL_open command - open zones for threaded logging. to assist F2FS threaded logging. The TL_opened zones can be overwritten without reset, and the overwrite requests can be sparse sequential. 
+                1. F2FS: "Threaded logging writes blocks to holes (invalidated, obsolete space) in existing dirty segments. This policy requires no cleaning operations, but triggers random writes and may degrade performance as a result."
+                   https://www.usenix.org/system/files/conference/fast15/fast15-paper-lee.pdf
+            3. Copyback-aware block allocation - moves data within a flash chip without off-chip data transfers
+            4. hybrid segment recycling - selects either threaded logging or segment compaction based on their reclaiming costs
 
     19. ZNS: Avoiding the Block Interface Tax for Flash-based SSDs    [2021, 35 refs, ATC21]
         https://www.usenix.org/conference/atc21/presentation/bjorling

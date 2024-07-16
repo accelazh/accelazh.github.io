@@ -8,7 +8,7 @@ tags: [storage, paper, cloud]
 ---
 {% include JB/setup %}
 
-Search "very good", "good", "very interesting", "interesting", "very useful", "useful" for recommendation.
+Search "very good", "good", "very interesting", "interesting", "very useful", "useful" for recommendation, and "my questions" for comments.
 
 ```
 1. 模型与算法在石油产业链的优化应用实践 - DataFunTalk

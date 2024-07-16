@@ -244,7 +244,6 @@ EC on SMR drives.
             4. Compared to 4+2 codec (RAID6), SHEC gets much better recovery overhead, but either needs to sacrifice space efficiency or durability. The sacrifice to durability is at several magnitudes. See Table 1 and Table 2.
                 1. Compared to CRS and LRC, SHEC can be seen as something that sacrificed more durability/storage overhead than LRC, but gets even lower recovery overhead. 
         4. Implementation on Ceph: https://docs.ceph.com/en/latest/rados/operations/erasure-code-shec/
-
 ```
 
 SSD flash internally has has "erasure coding" alike thing to protect data. GC or overwrite happens at page/block level, so flash shares the similar problem of EC on SMR.
@@ -351,4 +350,18 @@ EC on ZNS SSD
         3. Instead of reading only invalid blocks, GC reads all blocks
             1. In implementation, GC only read full data when valid data ratio is high enough. Otherwise, it reads full data by sending 16 parallel requests over the full 2MB range
             2. The paper argues reading full data can benefit from the internal parallelism in SSD
+
+
+5. Is Garbage Collection Overhead Gone? Case study of F2FS on ZNS SSDs    [2023, 9 refs, HotStorage23]
+   https://people.cs.vt.edu/huaicheng/p/hotstorage23-zgc.pdf
+    1. Logged elsewhere
+
+    n. Related materials
+        1. ZNS+: Advanced Zoned Namespace Interface for Supporting In-Storage Zone Compaction    [2021, 65 refs, OSDI21]
+           https://www.youtube.com/watch?v=QjrPiWrfM3k
+            1. Logged elsewhere
+
+        2. A New LSM-style Garbage Collection Scheme for ZNS SSDs    [2020, , HotStorage20]
+           https://www.youtube.com/watch?v=csD-wsJfrDc&t=568s
+            1. Logged elsewhere
 ```

@@ -745,6 +745,7 @@ Recent paper readings. Search "very good", "good", "interesting", "useful" for m
 
 16. AZ-Code: An Efficient Availability Zone Level Erasure Code to Provide High Fault Tolerance in Cloud Storage Systems    [2019, 2 refs]
     https://storageconference.us/2019/Research/AZ-Code.pdf, https://storageconference.us/2019/Research/AZ-Code.slides.pdf
+    https://msstconference.org/MSST-history/2019/Research/AZ-Code.pdf
     1. EC considering Availability Zone. Using MSR (regenerating code) for intra zone parities, using RS for cross zone global parities.
        "Hybrid Decoding with Global and Local Parities" is interesting
     2. highlights
@@ -753,6 +754,19 @@ Recent paper readings. Search "very good", "good", "interesting", "useful" for m
         2. my questions
             1. however, AZ is subject to synced replication, the networking is fast, usually not a bottleneck
             2. per the example AZ-Code (k = 6, z=3, p=2, g = 3), the storage overhead is > 2, too high
+
+    3. Updated 20240617 - AZ-Code [2919, 38 refs]
+        1. AZ-Code now has gained reputation. In AZ local, is using MSR regenerating code. In cross AZ, it's using RS code across all data nodes.
+        2. Cross AZ global reconstruction is potentially expensive, but middle layer aggregation (Wide-Stripe EC) can be applied to mitigate.
+            1. Exploiting Combined Locality for Wide-Stripe Erasure Coding in Distributed Storage
+               https://www.usenix.org/system/files/fast21-hu.pdf
+        3. Hybrid Decoding with Global and Local Parities
+            1. " The parameters should be properly chosen to guarantee that the corresponding sub-matrices are invertible"
+                1. OK .. this is not solving the problem
+            2. My questions
+                1. Combining both LRC and Regenerating Code into an optimal recovery is still an open question
+                    1. Partial MDS Codes with Regeneration (PMDS)
+                       https://arxiv.org/pdf/2009.07643.pdf
 
 17. Procella: Unifying serving and analytical data at YouTube    [2019, 0 refs]
     https://research.google/pubs/pub48388/
