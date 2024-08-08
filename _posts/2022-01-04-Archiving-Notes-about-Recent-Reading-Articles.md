@@ -798,10 +798,7 @@ Archiving notes about recent reading articles. Many.
 
     53. SIGMOD21 ArkDB: A Key-Value Engine for Scalable Cloud Storage Services - Simpo
         https://zhuanlan.zhihu.com/p/414054332
-        1. so .. how to do 范围查询?
-        2. highlights
-            1. ArkDB建立在盘古(一个append-only的分布式文件系统)
-            2. 原始的Bw-tree使用8字节的逻辑页面id, ArkDB使用物理页ID (PID)，由(ExtentID, Offset, PageSize)表示
+        1. logged elsewhere
 
     54. FAST21 Rethinking File Mapping for Persistent Memory - Simpo
         https://zhuanlan.zhihu.com/p/415243922

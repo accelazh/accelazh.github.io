@@ -1,8 +1,8 @@
 ---
 layout: post
-title: "Recent Books Reading Principles Dalio Career Truth MCM Modeling"
-tagline : "Recent Books Reading Principles Dalio Career Truth MCM Modeling"
-description: "Recent Books Reading Principles Dalio Career Truth MCM Modeling"
+title: "Recent Books Reading: Principles Dalio, Career Truth, MCM Modeling"
+tagline : "Recent Books Reading: Principles Dalio, Career Truth, MCM Modeling"
+description: "Recent Books Reading: Principles Dalio, Career Truth, MCM Modeling"
 category: "storage"
 tags: [storage, paper, cloud]
 ---

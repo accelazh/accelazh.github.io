@@ -634,14 +634,39 @@ Archiving notes about recent reading articles. Many.
         2. Late binding (interesting idea)
             1. "Sparrow提出了late binding来解决前面sample-based scheduling的两个问题。具体地，当用户收到探针后，不会立刻回复，而会放置一个task的reservation到worker的task queue中。当这个reservation到达了队列的第一个位置，worker会发送一个RPC给schedule这个job的scheduler。然后scheduler会将m个task调度给dm个中前m个返回的worker上，然后对于剩下的(d-1)m个worker，会发送一个no-op来取消对应worker上面task reservation。"
             2. Proactive Cancellation
-    28. SIGMOD21 ArkDB: A Key-Value Engine for Scalable Cloud Storage Services [2021, 2 refs, SIGMOD21] - Simpo
+    
+    28. SIGMOD21 ArkDB: A Key-Value Engine for Scalable Cloud Storage Services [2021, 2 refs, SIGMOD21, Alibaba Cloud] - Simpo
         https://zhuanlan.zhihu.com/p/414054332
-        1.
-        2. highlights
-            1. "ArkDB建立在盘古(一个append-only的分布式文件系统)之上"
-            2. "存储的主干结构是一棵 B+ 树" "对于用户checkpoint，同一叶子page的数据更改形成了Host page的Delta Page"
-               "从概念上讲，DeltaPageStream、BasePageStream和PageMappingTable一起形成了一个存储上的Bw-tree，这是一个B+树的变体"
-            3. "为了降低PageMappingTable(一个并发哈希表)的大小，ArkDB使用物理页ID (PID)，由(ExtentID, Offset, PageSize)表示，无需搜索页面映射表找到数据的位置"
+         1. Taking the advantages from Bw-tree into LSM-tree which is based on streams and extents. Key techniques roots from separating UserTransactionLog and SystemTransactionLog, and introducing BasePageStream and DeltaPageStream.
+            Good paper. Reference architecture as how to use Bw-tree on Append Only Blob shared storage (Pangu, Azure Storage Stream Layer). This is one major step forward from RocksDB or RocksDB + B-tree. The paper itself is badly written bad reading. But later ByteGraph BG3 heavily borrowed ArkDB to have replaced its RocksDB + B-tree KV storage.
+         2. highlights
+            1. Key architecture
+               1. ArkDB建立在盘古(一个append-only的分布式文件系统)之上
+               2. Try to combine the advantages of Bw-tree into LSM-tree
+                  1. 从概念上讲，DeltaPageStream、BasePageStream和PageMappingTable一起形成了一个存储上的Bw-tree，这是一个B+树的变体
+            2. Improvement Compared to vanilla Bw-tree
+               1. 为了降低PageMappingTable(一个并发哈希表)的大小，ArkDB使用物理页ID (PID)，由(ExtentID, Offset, PageSize)表示，无需搜索页面映射表找到数据的位置
+                  1. Also, removing page mapping entries once a page is completely compacted and its index is updated in the parent page
+               2. ArkDB将增量页放入DeltaPageStream，将基本页放入BasePageStream。冷热分离。
+                  1. 相比Vanilla，defragmentation从page level变成extent level。
+                  2. Delta page可以被聚合在一起，在extent level进行压缩
+               3. ArkDB 是从 LSM Tree 的角度出发把 Compaction 降低到 Page 级别。而微软的 Bw Tree 是从 B+ Tree 出发把写请求做成 Append Only 的。
+                  05-阿里云的新 KV 存储 ArkDB: 更细粒度的 LSM Tree Compaction - 胡明的文章
+                  https://zhuanlan.zhihu.com/p/586880650
+            3. Two level snapshot
+               1. Two level means to manage system and user transaction timestamps separately
+               2. 在任何情况下，存储（Page）上的键值都不需要嵌入版本号。
+            4. Two-Level Restart Recovery
+               1. "A traditional B+ tree based storage engine .. thus more log is scanned for restart recovery than ArkDB"
+                  1. This is because ArkDB separates system and user transaction logs and does not log post-images of page splits or merges
+            5. Lightweight Partition Split and Merge
+               1. Each partition maps to a directory on the distributed filesystem that stores all its file streams
+               2. Split/merge is done by creating hard link of UserTransactionLogs, DeltaPageStream, BasePageStream
+               3. Before split/merge, a checkpoint is forced.
+            5. Others
+               1. Relation to Pangu
+                  1. "It is designed to work on Pangu", "We integrate ArkDB into Tablestore, a distributed NoSQL storage service on Pangu"
+                     1. ArkDB should be Alibaba's KV database that's designed to work on Pangu filesystem. It's using Bw-tree because the underlying Pangu is append-only. Later ByteGraph B3 is also learning from ArkDB to build KV storage. The underlying layer converts to append only blob which is like Azure Storage stream layer.
 
     29. 严选库存中心设计实践
         https://mp.weixin.qq.com/s/K0qlulP3gx5Qghv5mPwY3g

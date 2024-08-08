@@ -990,6 +990,7 @@ Tracking recent paper reading notes. For a better view, paste the notes into a t
 
 
     16. ByteGraph: A High-Performance Distributed Graph Database in ByteDance    [2022, 0 refs, VLDB22, ByteDance]
+        https://vldb.org/pvldb/vol15/p3306-li.pdf
         1. very good paper. can be used as a reference architecture.
            Graph database by Gremlin API built atop RocksDB sharded by consistent hashing with geo replication and supports distributed transaction with 2PC
            Features in memory-disk tiered, super vertex edge-list B-tree and secondary index
@@ -1060,6 +1061,8 @@ Tracking recent paper reading notes. For a better view, paste the notes into a t
                 2. while Azure CosmosDB [9] stores graph data in a document store where super-vertices are managed as large JSON documents which leads to high latency in data access.
                 3. Open source graph databases such as ArangoDB [4], AgensGraph [3], Neo4j [10] and JanusGraph [5] generally have poor scalability and cannot satisfy the high throughput and low latency required in handling ByteDance’s workloads.
                 4. A1 [15] and TigerGraph [20] focus on inmemory architectures to provide low query latency, but in-memory systems are hard to be scaled to handle large graphs at ByteDance, while storing the entire graph data in memory is also a waste of the resource as not all graph data are needed for query processing at all times
+        3. My questions
+            1. BGS acts as an in-memory caching layer atop KV storage. What is the caching policy and cold/hot data transfer methods?
 
         n. related materials
             1. 论文速读：ByteGraph: A High-Performance Distributed Graph Database in ByteDance

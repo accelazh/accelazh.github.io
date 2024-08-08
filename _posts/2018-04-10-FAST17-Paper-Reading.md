@@ -306,6 +306,7 @@ Look for "very good" > "good" > "interesting" as the levels that I recommend pap
 
 9. Algorithms and Data Structures for Efficient Free Space Reclamation in WAFL    [2017, 8 refs, FAST17 best paper]
    https://www.usenix.org/system/files/conference/fast17/fast17-kesavan.pdf
+   https://www.usenix.org/conference/fast17/technical-sessions/presentation/kesavan
     1. interesting paper. To handle the random free issue while providing continuous high throughput,
        WAFL delay deleting in batched logs, and try to break big deleting into multiple CPs.
        the freeing involves walking through bigmap chains, and interleaves with all WAFL features such as snapshot
@@ -382,7 +383,7 @@ Look for "very good" > "good" > "interesting" as the levels that I recommend pap
         3. Heterogeneity and tiering
             1. Managing multi-tiered memory/storage systems
                 1. Load/store memory isn’t most cost-effective medium for cold data
-                2. How to manage multi-tiered hierarchy, to ensure data is in “right” tier for performant access, long-term storage, etc.?
+                2. How to manage multi-tiered hierarchy, to ensure data is in "right" tier for performant access, long-term storage, etc.?
                 3. What opportunities does Memory-Driven Computing provide for multi-site storage?
             2. Heterogeneous memory
                 1. DRAM stores ephemeral data, NVM stores persistent data: different access patterns
@@ -403,13 +404,13 @@ Look for "very good" > "good" > "interesting" as the levels that I recommend pap
                 2. Should non-local memory be treated as disaggregated (unmediated) resource or remote (mediated) resource?
             2. Memory-driven coordination
                 1. Shared persistent memory can provide global view of shared state that enables coordination
-                2. What are “memory-driven” approaches for concurrency control, consensus, failure detection, etc.?
+                2. What are "memory-driven" approaches for concurrency control, consensus, failure detection, etc.?
         6. Characterization opportunities
             1. Characterization of new NVM and interconnect technologies
                 1. New technologies present new performance, endurance, and management opportunities and challenges
                 2. How do these new technologies behave under expected typical usage patterns?
-            2. Implications of “wider” API for persistent data
-                1. “Narrow” storage APIs require explicit action for persistence, but “wider” memory APIs allow stores to persist data
+            2. Implications of "wider" API for persistent data
+                1. "Narrow" storage APIs require explicit action for persistence, but "wider" memory APIs allow stores to persist data
                 2. Does widening of API for persisting data lead to more errors or more data corruption?
 
 13. On the Performance Variation in Modern Storage Stacks    [2017, 4 refs]
@@ -674,7 +675,7 @@ Look for "very good" > "good" > "interesting" as the levels that I recommend pap
     2. Tiered Erasure - When Flat Doesn't Fit
        http://storageconference.us/2017/Presentations/Bonnie-2.pdf
        https://youtu.be/Mkk82tEYwu4
-        1. “Multi-Component Repositories” in MarFS speak
+        1. "Multi-Component Repositories" in MarFS speak
     3. MarFS: A Scalable Near-POSIX File System over Cloud Objects Erasure
        https://www.snia.org/sites/default/files/DSI/2016/presentations/filesys/GaryGrider_MarFS_Scalable_File_Systems-rev.pdf
         1. interesting. people should have already been exploring this approach

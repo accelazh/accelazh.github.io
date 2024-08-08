@@ -473,7 +473,6 @@ Protean, etc.
         1. key designs
             1. a clear separation between policy and mechanisms, a flexible rule-based Allocation Agent (AA)
                 1. policy - rule based AA, mechanism - multi-layer caching infrastructure implementation
-                2. 
             2. a multi-layer caching mechanism expedites the allocation process
                 1. including
                     a shared cache - frequently accessed data across all AAs

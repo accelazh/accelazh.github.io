@@ -1,8 +1,8 @@
 ---
 layout: post
-title: "Recent Paper Reading zStorage Vision, Alibaba EBS"
-tagline : "Recent Paper Reading zStorage Vision, Alibaba EBS"
-description: "Recent Paper Reading zStorage Vision, Alibaba EBS"
+title: "Recent Paper Reading: zStorage Vision, Alibaba EBS"
+tagline : "Recent Paper Reading: zStorage Vision, Alibaba EBS"
+description: "Recent Paper Reading: zStorage Vision, Alibaba EBS"
 category: "storage"
 tags: [storage, paper, cloud]
 ---
@@ -1049,6 +1049,9 @@ Search "very good", "good", "very interesting", "interesting", "very useful", "u
     n. related materials
         1. [SIGMOD 2024] Amazon MemoryDB: A Fast and Durable Memory-First Cloud Database - 张建
            https://zhuanlan.zhihu.com/p/697669995
+
+        2. 从一到无穷大 #27 从Amazon MemoryDB视角看稳定binlog带来的无限可能性 - 大家好大家吃了吗
+           https://zhuanlan.zhihu.com/p/704955846
 
 7. Is Garbage Collection Overhead Gone? Case study of F2FS on ZNS SSDs    [2023, 9 refs, HotStorage23]
    https://people.cs.vt.edu/huaicheng/p/hotstorage23-zgc.pdf

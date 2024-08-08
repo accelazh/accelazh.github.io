@@ -1,8 +1,8 @@
 ---
 layout: post
-title: "Recent Articles Reading Chip Design Investment Valuation zStorage"
-tagline : "Recent Articles Reading Chip Design Investment Valuation zStorage"
-description: "Recent Articles Reading Chip Design Investment Valuation zStorage"
+title: "Recent Articles Reading: Chip Design, Investment Valuation, zStorage"
+tagline : "Recent Articles Reading: Chip Design, Investment Valuation, zStorage"
+description: "Recent Articles Reading: Chip Design, Investment Valuation, zStorage"
 category: "storage"
 tags: [storage, paper, cloud]
 ---
