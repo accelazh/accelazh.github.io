@@ -625,6 +625,7 @@ Archiving notes about recent reading articles. Many.
             5. Scattering among Distributed Nodes：在云存储中，多个节点之间的分散访问可以利用更多的硬件资源，例如将单个大I/O并发分散至不同存储节点 ，充分利用聚合带宽。
             6. Bypassing Caches：通过Bypassing Caches来避免分布式文件系统的cache coherence，并在DB层面优化I/O格式匹配存储最佳request格式。
             7. Scheduling Prioritized I/O Tasks：由于访问链路更长（如路径中存在更多的排队情况），不填I/O请求间的隔离性相对本地存储更低，因此需要在DB层面对不同I/O进行打标、调度优先级，例：优先WAL、预读分级。
+    
     26. CurveFS (网易Ceph) - 分布式存储限速(Qos)设计 - hongsong wu
         https://zhuanlan.zhihu.com/p/450656361
 

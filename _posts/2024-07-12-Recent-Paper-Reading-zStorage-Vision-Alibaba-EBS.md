@@ -773,7 +773,7 @@ Search "very good", "good", "very interesting", "interesting", "very useful", "u
            https://www.alibabacloud.com/blog/598159?spm=a3c0i.23458820.2359477120.113.66117d3fm03t9b
             1. Referenced as "Yitian 710 ARM CPU [9]"
 
-4. SquirrelFS: using the Rust compiler to check file-system crash consistency    [2024, 0 refs, OSDI]
+4. SquirrelFS: using the Rust compiler to check file-system crash consistency    [2024, 0 refs, OSDI24]
    https://www.usenix.org/conference/osdi24/presentation/leblanc
    https://arxiv.org/html/2406.09649v1
     1. There are quite a few papers that leverage Rust to reshape PMEM programming to make filesystem code safe. This is a good direction to further explore. Unlike Golang, Rust did change a lot of things.
@@ -795,12 +795,16 @@ Search "very good", "good", "very interesting", "interesting", "very useful", "u
             1. Never point to a structure before it has been initialized.
             2. Never re-use a resource before nullifying all previous pointers to it.
             3. Never reset the old pointer to a live resource before the new pointer has been set.
+    3. Others
+        1. This work is by Hayley LeBlanc etc at internship at Microsoft
     
-    3. My questions
+    4. My questions
         1. How is compilation time made so fast?
             1. It should be due to SquirrelFS program is small and the Rust typestate checks are cheap enough to compile. Formal verification however takes a long time to convert program into Alloy code and needs to solve NP-hard problem and to iterate through many combinations states.
         2. Is SSU used in any other filesystems?
             1. Looks like SSU is coined in SquirrelFS paper, not used elsewhere.
+        3. Using PMEM with synchronous operation (Synchronous Soft Updates)
+            1. This greatly simplified implementation. It looks reasonable because PMEM is faster than CPU. But I didn't many papers prompting the same.
     
     n. Related materials
         1. Corundum: Statically-Enforced Persistent Memory Safety    [2021, 27 refs]

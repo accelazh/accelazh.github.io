@@ -1057,4 +1057,37 @@ tags: [storage, paper, cloud]
             1. based on hardware architecture and attributes, such as intrinsic hardware mapping, memory allocation and fetching, memory latency hiding, loop-oriented optimizations, and parallelization. 
             2. Also, an auto-tuning mechanism leverages parameter tuning in hardware-specific optimizations
         4. AI Compiler Extensions
+
+34. 那些年，字节跳动带给我的管理思考(一) - Funny David
+    https://zhuanlan.zhihu.com/p/710097976
+    那些年，字节跳动带给我的管理思考（二） - Funny David
+    https://zhuanlan.zhihu.com/p/711182132
+    那些年，字节跳动带给我的管理思考（三） - Funny David
+    https://zhuanlan.zhihu.com/p/713967931
+    1. Good article. The author summarized ByteDance management into details and backed with reasons and thinking.
+
+35. 《宝贵的人生建议》读后感 - 黄金架构师 - 凯文·凯利（Kevin Kelly）
+    https://zhuanlan.zhihu.com/p/713957729
+    1. It looks like a common 鸡汤 article, but turns out the tips in it are very smart.
+
+36. 新型OLAP引擎（Doris、StarRocks）调研与对比 - 温正湖
+    https://zhuanlan.zhihu.com/p/714079192
+    0. Good article. In-depth drilling.
+    1. Doris或StarRocks用到业务场景中
+        1. 一类是为了简化系统架构，希望单个OLAP引擎能够提供较全面的能力，即支持实时数据分析，又支持Hive表、MySQL表和数据湖表格式等多数据源的查询和Join能力。如下面为严选业务的分享内容：
+            1. "离线数据大部分存储在 Hive 中，小部分存储在 Hbase（主要用于基础标签的查询）。实时数据一部分存储在 Hbase 中用于基础标签的查询，部分双写到 KUDU 和 ES 中，用于实时分组圈选和数据查询。离线圈选的数据通过 impala 计算出来缓存在 Redis 中。这一版本的缺点包括：存储引擎过多。双写有数据质量隐患，可能一方成功一方失败，导致数据不一致。项目复杂，可维护性较差。为了减少引擎和存储的使用量，提高项目可维护性，在版本一的基础上改进实现了版本二。"
+        2. 另一类是为了降低存储成本、提高使用体验。比如通过冷热分离（冷数据转对象存储）或依靠列存的高压缩特点等降低存储成本，或者是通过标准的SQL来降低使用难度。
+    2. Doris或StarRocks存在的价值
+        1. 笔者认为Doris和StarRocks最大的价值在于其全面的分析能力，一个引擎能够解决大部分业务需求，不需要部署多个系统来分别满足不同的业务需求。
+            1. "网易邮箱从 21 年开始接触 StarRocks，到现在一年多的时间里，作为一个刚刚崭露头角的 OLAP 系统，StarRocks 在各方面的表现都很不错，它在功能、性能以及覆盖的场景方面的表现，都让我们相当满意，甚至超出了我们当初的预期。"
+            2. "存储架构版本二引入了 Apache Doris，离线数据主要存储在 Hive 中，同时将基础标签导入到 Doris，实时数据也存储在 Doris，基于 Spark 做 Hive 加 Doris 的联合查询，并将计算出来的结果存储在 Redis 中。经过此版改进后，实时离线引擎存储得到了统一，性能损失在可容忍范围内（Hbase 的查询性能比 Doris 好一些，能控制在 10ms 以内，Doris 目前是 1.0 版本，p99，查询性能能控制在 20ms 以内，p999，能控制在 50ms 以内）；项目简化，降低了运维成本。"
+        2. 有一个专有名词来表示符合这样要求的系统，那就是LakeHouse，Doris和StarRocks是国内目前最接近LakeHouse要求的OLAP引擎。
+    3. Apache Doris vs StarRocks
+        1. See the tables in the article
+        2. "总的来说，Doris和StarRocks在功能特性上没有太大差别，就算某些特性暂时领先，也不代表短期内不会发生变化。但相对来说，笔者认为在数据湖分析（多表Join等）和存算分离场景，StarRocks相对领先，其多表物化视图能力及使用愿景，很吸引人，更多内容详见智能的物化视图。在传统的OLAP查询分析场景，Doris具备一定的优势，包括高并发点查优化、倒排索引能力等，StarRocks虽然也宣传支持倒排索引，但看官方介绍是基于bitmap索引实现，能力不如Doris。"
+
+    n. Related materials
+        1. Doris vs Iceberg, Hudi, Delta-lake: Which one?
+           https://www.reddit.com/r/dataengineering/comments/169rnpl/doris_vs_iceberg_hudi_deltalake_which_one/
+            1. "What's the purpose of the open table format databases (iceberg, hudi, delta lake) if apache doris can achieve much faster query times?"
 ```
