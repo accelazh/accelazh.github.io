@@ -319,7 +319,7 @@ tags: [storage, paper, cloud]
                     1. For InnoDB, space amplification mostly comes from fragmentation and less efficient compression.
                         1. InnoDB wasted 25-30% space in fragmentation
                         2. Also, InnoDB has significant space overhead per row for handling transactions
-                    2. LSM-tree’s dead data is removed by compaction, and by tuning compaction, we are able to maintain the ratio of dead data to as low as 10% [14]
+                    2. LSM-tree's dead data is removed by compaction, and by tuning compaction, we are able to maintain the ratio of dead data to as low as 10% [14]
                         1. Optimizing space amplification in RocksDB    [2017, 216 refs, CIDR]
                            https://www.cidrdb.org/cidr2017/papers/p82-dong-cidr17.pdf
                         2. If 16KB data was compressed to 5KB, RocksDB uses just 5KB while InnoDB aligns to 8KB, so RocksDB is much more space efficient
@@ -472,7 +472,7 @@ tags: [storage, paper, cloud]
     2. Highlights
         1. Non-Hierarchical Caching (NHC)
             1. Problems to solve
-                1. The differences between today’s neighboring layers are less clear and even overlapping (depending on workloads)
+                1. The differences between today's neighboring layers are less clear and even overlapping (depending on workloads)
                 2. Due to introducing Intel Optane SSD
             2. Non-Hierarchical Caching (NHC)
                 1. Key idea: augmenting caching with dynamic load admission and request offloading
@@ -775,7 +775,7 @@ tags: [storage, paper, cloud]
                 1. P75 is ~3 seconds. P90 is ~10 seconds. No change with fast growth of data.
                 2. Presto on Spark usage is new but fast growing
 
-15. Shared Foundations: Modernizing Meta’s Data Lakehouse    [2023, 7 refs, CIDR DB]
+15. Shared Foundations: Modernizing Meta's Data Lakehouse    [2023, 7 refs, CIDR DB]
     https://research.facebook.com/publications/shared-foundations-modernizing-metas-data-lakehouse/
     https://www.youtube.com/watch?v=wyOTpcYrEF0
     1. Generational leap in the data infrastructure landscape. Open formats, consolidating languages, engines: CoreSQL, Velox, Presto
@@ -1075,7 +1075,7 @@ tags: [storage, paper, cloud]
            https://arxiv.org/pdf/1909.02092.pdf
             1. RDMA FAA, CAS, 8-byte unit
                 1. RDMA one-sided ATOMIC operation
-            2. DDIO [12] is the feature on Intel processors that enables delivery of incoming RDMA data from the responder’s RNIC directly into the L3 cache
+            2. DDIO [12] is the feature on Intel processors that enables delivery of incoming RDMA data from the responder's RNIC directly into the L3 cache
         2. Design Guidelines for High Performance RDMA Systems    [2016, 386 refs]
            https://anujkalia.com/doc/atc16/rdma_bench_atc.pdf
             1. Doorbell batching
@@ -1208,12 +1208,12 @@ tags: [storage, paper, cloud]
             2. CJFS transaction lock-up is preemptive. It checks if there is conflict, transaction can be unlocked.
         5. My questions
             1. Log can be striped. App needs a sequence/timestamp/LSN, but it can be pure logical.
-                Transactions non-conflicting don’t need to wait for each other. They can write log in parallel. Their ordering can be logical.
-                Unlike database transaction, filesystem metadata journaling transactions don’t even need the explicit read/commit timestamp. Then inode locking is sufficient, no need for sequencer service.
+                Transactions non-conflicting don't need to wait for each other. They can write log in parallel. Their ordering can be logical.
+                Unlike database transaction, filesystem metadata journaling transactions don't even need the explicit read/commit timestamp. Then inode locking is sufficient, no need for sequencer service.
 
             2. Concurrent writing can be allowed by multi-version. It maps to shadow paging in this paper.
                 Tx1 read and Tx2 read can go parallel, rather than wait on a locked page. It works like reading snapshots. It maps to Opportunistic Transaction Coalescing in this paper.
-                EXT4 filesystem doesn’t require to ensure durability when transaction committed. So after Tx1 committed its writes to persistence shuttle bus, Tx2 can immediately start, even Tx1’s persistence is still on-going. It maps to Dual Thread Journaling in this paper.
+                EXT4 filesystem doesn't require to ensure durability when transaction committed. So after Tx1 committed its writes to persistence shuttle bus, Tx2 can immediately start, even Tx1's persistence is still on-going. It maps to Dual Thread Journaling in this paper.
                 Writes to disk can be batched, i.e., group commit or group write, to reduce the number of fsync() calls. It maps to Compound Flush in this paper.
 
             3. So, the key take away from this paper is. Instead of building a single serial log, we can allow non-conflicting transactions to read/write in parallel. MVCC helps allow concurrent Txs.

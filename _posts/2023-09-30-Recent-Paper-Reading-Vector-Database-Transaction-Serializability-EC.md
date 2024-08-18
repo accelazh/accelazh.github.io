@@ -389,16 +389,19 @@ Erasure coding.
         1. ECWide: Exploiting Combined Locality for Wide-Stripe Erasure Coding in Distributed Storage [2021] 
            https://www.usenix.org/conference/fast21/presentation/hu
             1. By the same authors. same two universities
+        
         2. OpenEC: Toward Unified and Configurable Erasure Coding Management in Distributed Storage Systems
            https://www.usenix.org/conference/fast19/presentation/li
             1. part of same authors, Patrick P. C. Lee
             2. same two universities
                 1. The Chinese University of Hong Kong
                 2. Huazhong University of Science and Technology
+        
         3. ECPipe: Repair Pipelining for Erasure-Coded Storage    [2017]
            https://www.usenix.org/sites/default/files/conference/protected-files/atc17_slides_li_0.pdf
             1. One of same author - Patrick P. C. Lee
             2. One of same university - The Chinese University of Hong Kong
+        
         4. NCScale: Toward Optimal Storage Scaling via Network Coding: From Theory to Practice    [2018, 21 refs]
            https://www.cse.cuhk.edu.hk/~pclee/www/pubs/infocom18.pdf
             1. One of same author - Patrick P. C. Lee
@@ -408,9 +411,11 @@ Erasure coding.
                    Remains MDS. Failure domain placement. No centralized role.
                 2. reuse the previous code's parities to compute new parities
                 3. need to reduce migration cost to fit placement.
+        
         5. SepBIT: Separating Data via Block Invalidation Time Inference for Write Amplification Reduction in Log-Structured Storage
            https://www.usenix.org/conference/fast22/presentation/wang
             1. Same author Patrick P. C. Lee and The Chinese University of Hong Kong
+        
         6. ParaRC: Embracing Sub-Packetization for Repair Parallelization in MSR-Coded Storage
            https://www.usenix.org/conference/fast23/presentation/li-xiaolu
             1. Same author Patrick P. C. Lee and

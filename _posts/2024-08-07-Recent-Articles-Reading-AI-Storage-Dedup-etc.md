@@ -1090,4 +1090,24 @@ tags: [storage, paper, cloud]
         1. Doris vs Iceberg, Hudi, Delta-lake: Which one?
            https://www.reddit.com/r/dataengineering/comments/169rnpl/doris_vs_iceberg_hudi_deltalake_which_one/
             1. "What's the purpose of the open table format databases (iceberg, hudi, delta lake) if apache doris can achieve much faster query times?"
+
+37. 啊我数据呢？ 一个分布式数据库中最严肃的问题 - Real
+    https://zhuanlan.zhihu.com/p/687957959
+    1. Good article. Example illustration how Spanner, CockroachDB, TiDB, CalvinDB solve consistency problem in DB transactions.
+        1. Spanner: 2PC + Paxos replication per Tablet + Commit Wait & TrueTime.
+        2. CockroachDB: 2PC + Raft replication per partition + Parallel Commit + HLC + Causal ordering on overlapping keys via ts max_offset
+        3. TiDB: 2PC + Raft replication per partition + Time oracle backed by raft
+        4. CalvinDB: Sequence layer + every node executes RW in exactly same order
+            1. No More 2PC. Interesting analysis
+            2. Calvin不仅在学术上是成功的，工业界也非常成功。Fauna DB是在Calvin基础上写的New SQL，这几年运营的非常成功。
+            3. 但是除了Fauna DB采用了它的架构之外，Calvin在当今的商业数据库上算不上很流行。
+
+    n. Related materials
+        1. FaunaDB
+            1. Spanner vs. Calvin: Distributed Consistency at Scale
+               https://fauna.com/blog/distributed-consistency-at-scale-spanner-vs-calvin
+
+            2. The conclusion of FaunaDB's evaluation is: a simple and fast database suitable for large-scale use.
+               https://www.linkedin.com/pulse/conclusion-faunadbs-evaluation-simple-fast-database-use-rajasekaran/
+
 ```

@@ -67,9 +67,11 @@ tags: [storage, paper, cloud]
                     
                     3. Kangaroo: Caching Billions of Tiny Objects on Flash    [2021]
                        https://www.pdl.cmu.edu/PDL-FTP/NVM/McAllister-SOSP21.pdf
+                        1. Logged before
 
                     4. The CacheLib Caching Engine: Design and Experiences at Scale    [2020]
                        https://www.usenix.org/conference/osdi20/presentation/berg
+                        1. Logged before
 
         4. Others
             1. "NOT using the I/O scheduler performs best on NVMe SSDs .. Linux I/O schedulers (BFQ, mq-deadline, kyber) add significant overheads (up to 50%) and hamper scalability [12, 57]."
