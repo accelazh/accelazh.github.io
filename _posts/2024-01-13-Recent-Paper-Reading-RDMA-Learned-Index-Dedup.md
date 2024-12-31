@@ -568,12 +568,16 @@ tags: [storage, paper, cloud]
             1. Failovers are very expensive for RDMA. Think the extra CPU needs to be provisioned for falling over to TCP
             2. Host network and physical network should be converged. Speed of networking is catching up with intra host
             3. Switch buffer has a strong correlation with RDMA performance problems, need more buffer as higher link speed and farther distance
+    
     n. related materials
         1. DCQCN: Congestion Control for Large-Scale RDMA Deployments
            https://conferences.sigcomm.org/sigcomm/2015/pdf/papers/p523.pdf
         2. 论文笔记：微软 Azure 网络演进 - Pavinberg
            https://zhuanlan.zhihu.com/p/624228199
             1. Many papers listed, useful 
+
+        3. Meta：大规模分布式AI训练的RoCE网络（论文） - Andy730
+           https://mp.weixin.qq.com/s/7oLhn51h1NE-XIZn_UOm3g
 
 11. Distributed Transactions at Scale in Amazon DynamoDB    [2023, 0 refs, ATC23]
    https://www.usenix.org/conference/atc23/presentation/idziorek

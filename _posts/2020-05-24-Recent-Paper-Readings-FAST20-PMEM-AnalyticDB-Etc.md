@@ -70,6 +70,40 @@ Recent paper readings. Search "very good", "good", "interesting", "useful" for m
             1. server-driven metadata prefetching: batch multiple object metadata in one request
                namespace flattening: pack file path in to object ID
 
+    -------- Update 20241025 --------
+
+    1. Key techniques
+        1. Double hashing: Dedup system needs fingerprint index (fingerprint=>physical chunk), but in Ceph we use CRUSH algorithm, so little extra metadata needed.
+            1. The OID of a physical chunk is its dedup hash.
+        2. Modern FS supports xattr fields. Ceph uses it to store metadata introduced by dedup
+            1. for metadata object, xattr stores chunk map, which is "src range"=>"physical chunk OID", plus bits for dirty, cached
+            2. for chunk, xattr stores reference counting, and a map of who is referencing me (Figure 8, and Section 5 "Object metadata").
+        3. Deduplication is implemented with offline dedup (post-processing), dedicated deduplication engine, static chunking. With selective deduplication and rate control.
+        4. Caching is very effective (see Figure 10). Newly written chunks (dirty bit set), or hot objects (LRU on recent hits) are stored inline in object at Metadata Pool.
+    2. Performance evaluation
+        1. Sequential read/write performance is reduced by 30% when dedup is on. This is because deduplicated blocks break the sequential access pattern. (See Figure 11)
+        2. Larger chunk size may even save more storage space. Though it dedups less data, it reduces the size of metadata. (See Table 2)
+    3. My questions
+        1. How is reference count managed in an consistent way?
+            1. [23] "false positive reference count". First increment new and then decrement old. So any failure will result in a larger ref count, but never a smaller ref count (DU).
+            2. The larger but incorrect ref count will be corrected by a second dedup scan. The ref count has a map to track who is referencing me, so that it's possible for a second dedup scan to recalculate ref count
+                1. Note, it requires "full object search in the storage pool to count references" (See Ceph TiDedup paper), which is expensive. 
+                2. How exactly does Ceph dedup fix a false positive reference count?
+                    1. Later paper Ceph TiDedup says "To check reference mismatches in Ceph, the scrub process selects a chunk object, then scans all metadata objects to examine how many metadata objects have the reference of the chunk object"
+                        1. Really? This is too expensive to be feasible "The time complexity of the scrub process is O(#chunk objects×#metadata objects)b"
+            3. The consistency of write updating dedup metadata and ref count is performed by a series of steps (See Section 4.6 Consistency Model). It only needs eventual consistency. A failure in between can result in incorrect but not dangerous view, which is then fixed by the second dedup scan. Note Ceph also supports atomic transaction within a single object.
+
+    n. Related works
+        1. [23] OrderMergeDedup: Efficient, Failure Consistent Deduplication on Flash    [2016, 48 refs, FAST]
+           https://www.usenix.org/conference/fast16/technical-sessions/presentation/chen-zhuan
+            0. Referenced in parent paper as "false positive reference count". I.e., always increment ref count of new block before decrementing ref count of old block. Failure in between only results in delayed GC reclaim, but never data loss. 
+            2. Highlights
+                1. Technique related to "Soft Updates"
+                2. Delay a metadata write in anticipation for near-future merging opportunities
+                n. My questions
+                    1. I didn't see the paper clarify how garbage is reclaimed when it has a false larger ref count.
+
+
 2. File Systems Unfit as Distributed Storage Backends: Lessons from 10 Years of Ceph Evolution    [2019, 1 refs]
    https://www.pdl.cmu.edu/PDL-FTP/Storage/ceph-exp-sosp19.pdf
     1. Answering why Ceph builds BlueStore. pioneer work to build custom FS for cloud storage. good.

@@ -104,7 +104,7 @@ Visions & strategic thinking that help innovation
 
   * Read in a systematically way and __compare__. It's comparing rather than linear reading that reveals intrinsics. Innovation comes from the compare.
 
-  * Following __industry trends__, watch big market __vendor/leader moves__, study __venture capital__ news. This helps find emerging but not proven technologies on the climbing curve.
+  * Following __industry trends__, watch big market __vendor/leader moves__, study __venture capital__ investment news. This helps find emerging but not proven technologies on the climbing curve.
 
   * __Challenge__ how we do things. If the answer is we were doing it in the way we did it before, this is a __bad smell__. Use analytics skill to analyze the rationales behind and the gaps to a changing today, you will always find a source of innovation. This point is also connected with __Review by doing__.
 

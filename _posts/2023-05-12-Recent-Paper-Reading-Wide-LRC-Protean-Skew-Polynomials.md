@@ -537,6 +537,7 @@ Protean, etc.
             4. Is it able to find a MLP that won't increase total Repair bandwidth, but with a smaller Maximum repair load?
             5. For longer EC codecs ((16, 12)), the Heuristic searching time is tens of hours (~60)? That's really long
             6. Section 7.2 "Finding the Approximate MLP" - So, after such lengthy searching, it's still finding an approximate answer?
+            7. ParaRC says it reduces the degraded read time for ~50%. But I didn't see how it happens from Figure 2 or the Motivating Example in slides?
     n. related materials
         1. Clay Codes: Moulding MDS Codes to Yield an MSR Code
            https://www.usenix.org/system/files/conference/fast18/fast18-vajha.pdf

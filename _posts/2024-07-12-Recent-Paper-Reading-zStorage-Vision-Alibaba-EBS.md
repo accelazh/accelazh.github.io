@@ -975,6 +975,9 @@ Search "very good", "good", "very interesting", "interesting", "very useful", "u
                在这个观察下，认为传统文件碎片整理的方法将文件从头到尾扫描整理一把，就没有必要了，其实只需要做适当的整理，保证连续文件的frag size >= 128K就好了。
             2. 其实文献[3]主体研究和方案没有问题，只是在解释frag size变小后，性能退化的原因描述的时候，它只分析到时因为request splitting这一层，就没有继续详细分析（如下图），它大概描述了request splitting造成性能退化的多个原因：（1）io number增加，造成小IO内核拆分合并开销；（2）Make IO smaller；（3）底层盘Channel conflict；。至于这3个原因那个占比更大，其实对文献[3]来说，它并不关心，并不影响它进行碎片整理的优化。
 
+        2. 【论文】我们不怕文件碎片化：对现代SSD性能影响的原因及预防 - Andy730
+           https://mp.weixin.qq.com/s/JsQb6pEQuZloOlVD0h4rQg
+
 6. Amazon MemoryDB: A Fast and Durable Memory-First Cloud Database    [2024, SIGMOD24]
    https://www.amazon.science/publications/amazon-memorydb-a-fast-and-durable-memory-first-cloud-database
     1. Mounting Redis on an internal AWS shared-log service, it greatly simplifies building durability, strong consistency, snapshot, resharding, etc.

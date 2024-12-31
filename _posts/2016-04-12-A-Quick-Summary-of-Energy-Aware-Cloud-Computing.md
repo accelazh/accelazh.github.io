@@ -65,7 +65,7 @@ The major operational expense of a datacenter is power. Energy efficiency is ver
 
 PUE = (Facility power) / (IT Equipment power). It reflects how efficient is the data center facility to transfer external energy to the IT devices. SPUE = server PUE. It is PUE inside the server, i.e. how efficient the server can transfer total input power to its useful electronic computation components.
 
-Geneal steps to improve PUE can be summarized as following [\[10\]]() (page 71).
+General steps to improve PUE can be summarized as following [\[10\]]() (page 71).
 
   * Careful air flow handling:  segregate hot air exhausted by servers from cold air, and keep the path to the cooling coil short so that little energy is spent moving cold or hot air long distances.
 
