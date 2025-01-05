@@ -1,0 +1,23 @@
+------------------------------
+[Video]
+
+1. Dell Technologies Cloud Storage Vision
+   https://www.youtube.com/watch?v=neQnFTE4L3c
+
+2. Kaminario Technology Vision: The Future of Storage and the All Flash Data Center
+   https://www.youtube.com/watch?v=e50A33XY6as
+
+3. Actifio Architecture Overview
+   https://www.youtube.com/watch?v=6Dh0lkMBgsk&list=WL&index=17
+
+4. VastData Visions to storage and datacenter
+   https://vastdata.com/vision/#data-center-section
+
+-------------------------------
+[notes]
+
+1. Data Storage Research Vision 2025 - NSF Visioning Workshop
+   https://www.ece.iastate.edu/~mai/docs/papers/2018_DataStorage2025.pdf
+    1. good
+    2. highlights
+        1. tracks: (1) Storage for Cloud, Edge, and IoT Systems; (2) AI and Storage; (3) Rethinking Storage Systems Design; and (4) Evolution of Storage Systems with Emerging Hardware

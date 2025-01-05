@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+ <head> 
+  <title>GreenDIMM: OS-assisted DRAM Power Management for DRAM with a Sub-array Granularity Power-Down State</title> 
+  <!-- Copyright (c) 2010-2015 The MathJax Consortium -->
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /> 
+  <meta name="viewport" content="width=device-width; initial-scale=1.0;" /> 
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" /> 
+  <link media="screen, print" rel="stylesheet" href="https://dl.acm.org/pubs/lib/css/bootstrap.min.css" />
+  <link media="screen, print" rel="stylesheet" href="https://dl.acm.org/pubs/lib/css/bootstrap-theme.min.css" />
+  <link media="screen, print" rel="stylesheet" href="https://dl.acm.org/pubs/lib/css/main.css" />
+  <script src="https://dl.acm.org/pubs/lib/js/jquery.min.js" type="text/javascript"></script> 
+  <script src="https://dl.acm.org/pubs/lib/js/bootstrap.min.js" type="text/javascript"></script> 
+  <script src="https://dl.acm.org/pubs/lib/js/bibCit.js" type="text/javascript"></script> 
+  <script src="https://dl.acm.org/pubs/lib/js/divTab.js" type="text/javascript"></script> 
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS_CHTML"></script> 
+  <script type="text/x-mathjax-config">MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});</script> 
+ </head> 
+ <body id="main"> 
+  <main> 
+   <section class="front-matter"> 
+    <section> 
+     <header class="title-info"> 
+      <div class="journal-title"> 
+       <h1> <span class="title">GreenDIMM: OS-assisted DRAM Power Management for DRAM with a Sub-array Granularity Power-Down State</span> <br /> <span class="subTitle"></span> </h1> 
+      </div> 
+     </header> 
+     <div class="authorGroup"> 
+      <div class="author"> 
+       <span class="givenName">Seunghak</span> 
+       <span class="surName">Lee</span>, DGIST, 
+       <a href="mailto:slee@dgist.ac.kr">slee@dgist.ac.kr</a> 
+      </div> 
+      <div class="author"> 
+       <span class="givenName">Ki-Dong</span> 
+       <span class="surName">Kang</span>, DGIST, Korea, South ? Republic of Korea, 
+       <a href="mailto:kd_kang@dgist.ac.kr">kd_kang@dgist.ac.kr</a> 
+      </div> 
+      <div class="author"> 
+       <span class="givenName">Hwanjun</span> 
+       <span class="surName">Lee</span>, DGIST, 
+       <a href="mailto:lee.hwanjun@dgist.ac.kr">lee.hwanjun@dgist.ac.kr</a> 
+      </div> 
+      <div class="author"> 
+       <span class="givenName">Hyungwon</span> 
+       <span class="surName">Park</span>, DGIST, 
+       <a href="mailto:hwpark@dgist.ac.kr">hwpark@dgist.ac.kr</a> 
+      </div> 
+      <div class="author"> 
+       <span class="givenName">Younghoon</span> 
+       <span class="surName">Son</span>, Samsung Electronics, 
+       <a href="mailto:yhson96@gmail.com">yhson96@gmail.com</a> 
+      </div> 
+      <div class="author"> 
+       <span class="givenName">Nam Sung</span> 
+       <span class="surName">Kim</span>, UIUC, United States of America, 
+       <a href="mailto:nam.sung.kim@gmail.com">nam.sung.kim@gmail.com</a> 
+      </div> 
+      <div class="author"> 
+       <span class="givenName">Daehoon</span> 
+       <span class="surName">Kim</span>, DGIST, Korea, South ? Republic of Korea, 
+       <a href="mailto:dkim@dgist.ac.kr">dkim@dgist.ac.kr</a> 
+      </div> 
+     </div> 
+     <br /> 
+     <div class="pubInfo"> 
+      <p>DOI: <a href="https://doi.org/10.1145/3466752.3480089" target="_blank">https://doi.org/10.1145/3466752.3480089</a> <br />MICRO '21: <a href="https://doi.org/10.1145/3466752" target="_blank">MICRO-54: 54th Annual IEEE/ACM International Symposium on Microarchitecture</a>, Virtual Event, Greece, October 2021</p> 
+     </div> 
+     <div class="abstract"> 
+      <p><small> Power and energy consumed by DRAM comprising main memory of data-center servers have increased substantially as the capacity and bandwidth of memory increase. Especially, the fraction of DRAM background power in DRAM total power is already high, and it will continue to increase with the decelerating DRAM technology scaling as we will have to plug more DRAM modules in servers or stack more DRAM dies in a DRAM package to provide necessary DRAM capacity in the future. To reduce the background power, we may exploit low average utilization of the DRAM capacity in data-center servers (i.e., 40–60%) for DRAM power management. Nonetheless, the current DRAM power management supports low-power states only at the rank granularity, which becomes ineffective with memory interleaving techniques devised to disperse memory requests across ranks. That is, ranks need to be frequently woken up from low-power states with aggressive power management, which can significantly degrade system performance, or they do not get a chance to enter low-power states with conservative power management.</small> </p> 
+      <p><small>To tackle such limitations of the current DRAM power management, we propose <tt> GreenDIMM</tt>, OS-assisted DRAM power management. Specifically, <tt> GreenDIMM</tt> first takes a memory block in physical address space mapped to a group of DRAM sub-arrays across every channel, rank, and bank as a unit of DRAM power management. This facilitates fine-grained DRAM power management while keeping the benefit of memory interleaving techniques. Second, <tt> GreenDIMM</tt> exploits memory on-/off-lining operations of the modern OS to dynamically remove/add memory blocks from/to the physical address space, depending on the utilization of memory capacity at run-time. Third, <tt> GreenDIMM</tt> implements a deep power-down state at the sub-array granularity to reduce the background power of the off-lined memory blocks. As the off-lined memory blocks are removed from the physical address space, the sub-arrays will not receive any memory request and stay in the power-down state until the memory blocks are explicitly on-lined by the OS. Our evaluation with a commercial server running diverse workloads shows that <tt> GreenDIMM</tt> can reduce DRAM and system power by 36% and 20%, respectively, with ∼ 1% performance degradation.</small></p> 
+     </div> 
+     <div class="CCSconcepts"> 
+      <ccs2012>
+       <small> <span style="font-weight:bold;">CCS Concepts:</span> • <strong>Hardware → Enterprise level and data centers power issues</strong>; • <strong>Hardware → Dynamic memory</strong>; • <strong>Software and its engineering → Memory management</strong>;</small> 
+      </ccs2012> 
+     </div> 
+     <br /> 
+     <div class="classifications"> 
+      <div class="author"> 
+       <span style="font-weight:bold;"><small>Keywords:</small></span> 
+       <span class="keyword"><small>DRAM power management</small>, </span> 
+       <span class="keyword"> <small>memory off-lining</small></span> 
+      </div> 
+      <br /> 
+      <div class="AcmReferenceFormat"> 
+       <p><small> <span style="font-weight:bold;">ACM Reference Format:</span> <br />Seunghak Lee, Ki-Dong Kang, Hwanjun Lee, Hyungwon Park, Younghoon Son, Nam Sung Kim, and Daehoon Kim. 2021. GreenDIMM: OS-assisted DRAM Power Management for DRAM with a Sub-array Granularity Power-Down State. In <em>MICRO-54: 54th Annual IEEE/ACM International Symposium on Microarchitecture (MICRO '21), October 18–22, 2021, Virtual Event, Greece.</em> ACM, New York, NY, USA 12 Pages. <a href="https://doi.org/10.1145/3466752.3480089" class="link-inline force-break" target="_blank">https://doi.org/10.1145/3466752.3480089</a></small></p> 
+      </div> 
+     </div> 
+    </section> 
+   </section> 
+   <section class="body"> 
+    <!--<p><strong>ACM Reference Format:</strong></p> <p>Seunghak Lee, Ki-Dong Kang, Hwanjun Lee, Hyungwon Park, Younghoon Son, Nam Sung Kim, and Daehoon Kim. 2021. GreenDIMM: OS-assisted DRAM Power Management for DRAM with a Sub-array Granularity Power-Down State. In <em>Proceedings of The 54th Annual IEEE/ACM International Symposium on Microarchitecture (MICRO&#x2019;21)).</em> ACM, New York, NY, USA, 12 pages. <a class="link-inline force-break" href="https://doi.org/10.1145/3466752.3480089">https://doi.org/10.1145/3466752.3480089</a> </p>--> 
+    <section id="sec-2"> 
+     <header> 
+      <div class="title-info"> 
+       <h2> <span class="section-number">1</span> INTRODUCTION</h2> 
+      </div> 
+     </header> 
+     <p>In data-center servers, power and energy consumed by main memory, which often consists of many DRAM modules, have grown considerably as the capacity and bandwidth of DRAM has increased&nbsp;[<a class="bib" data-trigger="hover" data-toggle="popover" data-placement="top" href="#BibPLXBIB0033">33</a>]. The past studies show that the fraction of main memory power in total data-center server power is ∼ 40% of the total energy in data-center servers and report that it will steadily increase as applications demand larger main memory capacity with more cores per server and memory-based caching technology&nbsp;[<a class="bib" data-trigger="hover" data-toggle="popover" data-placement="top" href="#BibPLXBIB0020">20</a>, <a class="bib" data-trigger="hover" data-toggle="popover" data-placement="top" href="#BibPLXBIB0028">28</a>, <a class="bib" data-trigger="hover" data-toggle="popover" data-placement="top" href="#BibPLXBIB0032">32</a>]. Especially, as the capacity of main memory increases, the DRAM background power contributes to a large fraction of the total DRAM power. The background power includes refresh power to retain memory states and static power of DRAM peripheral and I/O components. Especially, the refresh power accounts for more than 35% of the total DRAM power&nbsp;[<a class="bib" data-trigger="hover" data-toggle="popover" data-placement="top" href="#BibPLXBIB0024">24</a>] while the average utilization of main memory capacity is 40%–60% in data-center servers&nbsp;[<a class="bib" data-trigger="hover" data-toggle="popover" data-placement="top" href="#BibPLXBIB0025">25</a>, <a class="bib" data-trigger="hover" data-toggle="popover" data-placement="top" href="#BibPLXBIB0030">30</a>].</p> 
+     <p>To reduce the background power, current DRAM architectures such as DDR4 support low-power states: power-down and self-refresh that turns off some of the DRAM components in a rank and DRAM does refresh itself with minimum power consumption, respectively&nbsp;[<a class="bib" data-trigger="hover" data-toggle="popover" data-placement="top" href="#BibPLXBIB0033">33</a>]. When no memory request is sent to a rank for a certain amount of time, the memory controller can make the rank enter a low-power state. However, such low-power states at the rank granularity become ineffective as memory interleaving techniques are often adopted to improve memory-level parallelism (MLP). The memory interleaving techniques disperse data in the contiguous physical address space across different memory channels, ranks, and banks [<a class="bib" data-trigger="hover" data-toggle="popover" data-placement="top" href="#BibPLXBIB0022">22</a>]. Consequently, memory requests of applications even with small memory footprint are sent to multiple ranks, preventing the ranks from entering a low-power state; we observe that an application with &nbsp;64MB of memory footprint (i.e., SPECCPU2006 <tt> libquantum</tt> &nbsp;[<a class="bib" data-trigger="hover" data-toggle="popover" data-placement="top" href="#BibPLXBIB0014">14</a>]) completely eliminates an opportunity to enter a low-power state. Although some prior work proposes DRAM power management at the sub-rank granularity, it does not consider memory interleaving or considerably increases hardware complexity&nbsp;[<a class="bib" data-trigger="hover" data-toggle="popover" data-placement="top" href="#BibPLXBIB0016">16</a>, <a class="bib" data-trigger="hover" data-toggle="popover" data-placement="top" href="#BibPLXBIB0021">21</a>]. Furthermore, a rank in such a low-power state needs to be woken up with an extra latency (e.g., 18 <em>ns</em> and 768 <em>ns</em> for power-down and self-refresh, respectively&nbsp;[<a class="bib" data-trigger="hover" data-toggle="popover" data-placement="top" href="#BibPLXBIB0007">7</a>]) whenever it receives a memory request from a memory controller. Consequently, aggressive power management, which makes ranks frequently enter/exit a low-power state, inevitably hurts the system performance.</p> 
+     <p>To tackle the aforementioned limitations, we propose <tt> GreenDIMM</tt>, OS-assisted power management. Specifically, <tt> GreenDIMM</tt> first proposes to take a memory block in contiguous physical address space mapped to a group of sub-arrays across every channel, rank, and bank as a unit of DRAM power management. This facilitates fine-grained DRAM power management (e.g., 1GB granularity in 64GB main memory or 1.5625% of the total main memory capacity) while preserving the performance benefit of the channel, rank, and bank interleaving techniques. Second, <tt> GreenDIMM</tt> proposes to exploit memory on-/off-lining operations of the modern OS<a class="fn" href="#fn1" id="foot-fn1"><sup>1</sup></a> and dynamically remove/add memory blocks from/to the physical address space, depending on the utilization of memory capacity at run-time. Third, <tt> GreenDIMM</tt> proposes to implement a deep power-down state at the sub-array granularity to reduce the background power of the off-lined memory blocks, building on the same circuit components and controlling mechanisms as bank-granularity partial array self-refresh (PASR) supported by LPDDR and DDR DRAM&nbsp;[<a class="bib" data-trigger="hover" data-toggle="popover" data-placement="top" href="#BibPLXBIB0010">10</a>]. The deep power-down state can practically eliminate the refresh and static power of sub-arrays associated with off-lined memory blocks by stopping refresh and power-gating peripheral and I/O components of the sub-arrays. After <tt> GreenDIMM</tt> off-lines the memory blocks and makes the corresponding sub-arrays enter the deep power-down state, the OS or applications do not send any memory request to the sub-arrays. That is, <tt> GreenDIMM</tt> does not need to wake up the sub-arrays for sudden memory requests to the off-lined memory blocks in the power-down state and pay a penalty for waking up the sub-arrays from the power-down state until it explicitly on-lines the memory blocks. Lastly, <tt> GreenDIMM</tt> proposes to increase the fraction of memory capacity in the deep power-down state while decreasing the performance overhead of on-/off-lining memory blocks at run-time with optimizations. To the best of our knowledge, <tt> GreenDIMM</tt> is the first effective DRAM power management technique exploiting the memory on-/off-lining operations supported by the modern OS.</p> 
+     <p>We evaluate <tt> GreenDIMM</tt> with a commercial server running Microsoft Azure VM&nbsp;[<a class="bib" data-trigger="hover" data-toggle="popover" data-placement="top" href="#BibPLXBIB0006">6</a>], SPECCPU2006&nbsp;[<a class="bib" data-trigger="hover" data-toggle="popover" data-placement="top" href="#BibPLXBIB0014">14</a>], SPECCPU2017&nbsp;[<a class="bib" data-trigger="hover" data-toggle="popover" data-placement="top" href="#BibPLXBIB0004">4</a>], HiBench&nbsp;[<a class="bib" data-trigger="hover" data-toggle="popover" data-placement="top" href="#BibPLXBIB0015">15</a>], and cloudsuite&nbsp;[<a class="bib" data-trigger="hover" data-toggle="popover" data-placement="top" href="#BibPLXBIB0012">12</a>]. The summary of our evaluations is as follows. <tt> GreenDIMM</tt> can reduce DRAM energy consumption by 32%–36% (i.e., system energy consumption by 9%–20%) for DRAM capacity of 256GB to 1TB. <tt> GreenDIMM</tt> with the proposed optimization can reduce DRAM energy consumption by 55% (i.e., the energy consumption of the server by 30%) with more sub-arrays in the deep power-down state for 1TB capacity at the cost of ∼ 1% performance degradation.</p> 
+     <p>The rest of this paper is organized as follows. Section&nbsp;<a class="sec" href="#sec-3">2</a> and Section&nbsp;<a class="sec" href="#sec-8">3</a> explains the background and motivation of <tt> GreenDIMM</tt>, respectively. Section&nbsp;<a class="sec" href="#sec-12">4</a> describes the main idea and overall architecture of <tt> GreenDIMM</tt>. Section&nbsp;<a class="sec" href="#sec-16">5</a> discusses implementation issues of <tt> GreenDIMM</tt>. Section&nbsp;<a class="sec" href="#sec-20">6</a> shows experimental results of <tt> GreenDIMM</tt> with a real machine setup. Section&nbsp;<a class="sec" href="#sec-24">7</a> describes the related work. Section&nbsp;<a class="sec" href="#sec-25">8</a> concludes this paper.</p> 
+    </section> 
+    <section id="sec-3"> 
+     <header> 
+      <div class="title-info"> 
+       <h2> <span class="section-number">2</span> BACKGROUND</h2> 
+      </div> 
+     </header> 
+     <section id="sec-4"> 
+      <header> 
+       <div class="title-info"> 
+        <h3> <span class="section-number">2.1</span> DRAM Architecture</h3> 
+       </div> 
+      </header> 
+      <p>A DRAM-based main memory is organized in a hierarchical manner, consisting of channels, Dual In-line Memory Modules (DIMMs), ranks, and banks. Each DRAM device provides 4-, 8-, or 16-bit I/O (i.e., &times; 4, &times; 8, and &times; 16 DRAM devices), and thus a rank comprises 16, 8, or 4 DRAM devices to provide 64-bit I/O. To provide a large capacity for servers, we typically use DIMMs with &times; 4 or &times; 8 DRAM devices, each with 4Gb or 8Gb. Then, suppose a rank consisting of eight &times; 8 DRAM devices. From a memory controller perspective, a (logical) bank in the rank in fact consists of 8 (physical) banks from 8 DRAM devices accessed with the same bank, row, and column addresses in a lock-step manner. A physical bank consists of multiple sub-arrays&nbsp;[<a class="bib" data-trigger="hover" data-toggle="popover" data-placement="top" href="#BibPLXBIB0029">29</a>, <a class="bib" data-trigger="hover" data-toggle="popover" data-placement="top" href="#BibPLXBIB0034">34</a>], each consists of multiple MATs. For example, a bank of DDR4 &times; 8 4Gb DRAM devices has 64 sub-arrays and a sub-array has 16 MATs, each of which typically comprises 512 rows and 512 columns.</p> 
+     </section> 
+     <section id="sec-5"> 
+      <header> 
+       <div class="title-info"> 
+        <h3> <span class="section-number">2.2</span> DRAM Power Management with Low-Power States</h3> 
+       </div> 
+      </header> 
+      <p>For DRAM power management, the memory controller can dynamically set DRAM power states&nbsp;[<a class="bib" data-trigger="hover" data-toggle="popover" data-placement="top" href="#BibPLXBIB0011">11</a>]. The current DRAM, such as DDR4, supports multiple power states such as power-down and self-refresh that can reduce the background power considerably at the cost of performance. For example, the power-down state disables clock and turns off I/O circuits, consuming only 40%–70% of the power consumed by active state. The self-refresh state additionally turns off power-hungry delay-locked loop (DLL), consuming down to 10% of the power consumed by active state. However, such low-power states require a significant amount of wake-up time (e.g., 18 <em>ns</em> and 768 <em>ns</em> for power-down and self-refresh, respectively&nbsp;[<a class="bib" data-trigger="hover" data-toggle="popover" data-placement="top" href="#BibPLXBIB0007">7</a>]) to turn on the DRAM components and then serve memory requests, considerably increasing the latency of memory accesses.</p> 
+     </section> 
+     <section id="sec-6"> 
+      <header> 
+       <div class="title-info"> 
+        <h3> <span class="section-number">2.3</span> Memory On/Off-lining</h3> 
+       </div> 
+      </header> 
+      <p>The memory on/off-lining is a part of the memory hot-plug technique that allows administrators to install/remove DIMMs physically for the purpose of upgrade/replacement without system downtime&nbsp;[<a class="bib" data-trigger="hover" data-toggle="popover" data-placement="top" href="#BibPLXBIB0017">17</a>, <a class="bib" data-trigger="hover" data-toggle="popover" data-placement="top" href="#BibPLXBIB0023">23</a>]. For the memory off-lining, the kernel changes the state of a region of the physical address space to the off-line state by updating the <tt> sysfs</tt> file. Before the OS off-lines the region, it first clears the page table entries by removing memory pages associated with the region from the list of available memory, the <tt> mem_map</tt> list, and the buddy lists. Subsequently, the OS migrates the pages in the regions to other on-lined regions. Since the OS does not allocate pages in the off-lined regions, the OS-level memory off-lining provides an opportunity to reduce power and energy consumption of the memory systems. For example, the memory controller can set the power state of DRAM associated with off-lined regions to a deep power-down state that turns off the most of components and does not refresh states without worrying about paying a steep performance penalty to wake up the DRAM from the deep power-down state until the OS explicitly on-lines the regions. However, the OS can on/off-line only a region of contiguous physical address space. This limits the effectiveness of memory on/off-lining for current DRAM power management at the rank granularity, as memory interleaving techniques disperse the region across multiple ranks. </p>
+      <figure id="fig1"> 
+       <img src="https://dl.acm.org/cms/attachment/html/10.1145/3466752.3480089/assets/html/images/micro21-49-fig1.jpg" class="img-responsive" alt="Figure 1" /> 
+       <figcaption> 
+        <span class="figure-number">Figure 1:</span> 
+        <span class="figure-title">Memory capacity used by a server for 24 hours.</span> 
+       </figcaption> 
+      </figure> 
+      <p></p> 
+      <div class="table-responsive" id="tab1"> 
+       <div class="table-caption"> 
+        <span class="table-number">Table 1:</span> 
+        <span class="table-title">DRAM power vs. the utilization of memory capacity.</span> 
+       </div> 
+       <table class="table"> 
+        <tbody> 
+         <tr> 
+          <td style="text-align:center;border-right: 2pt solid #000000;">Capacity</td> 
+          <td colspan="5" style="text-align:center;border-right: 2pt solid #000000;border-bottom: 2pt solid #000000;">Utilization of Memory Capacity</td> 
+         </tr> 
+         <tr style="border-bottom: 2pt solid #000000;"> 
+          <td style="text-align:center;border-right: 2pt solid #000000;"></td> 
+          <td style="text-align:center;border-right: 2pt solid #000000;">10%</td> 
+          <td style="text-align:center;border-right: 2pt solid #000000;">25%</td> 
+          <td style="text-align:center;border-right: 2pt solid #000000;">50%</td> 
+          <td style="text-align:center;border-right: 2pt solid #000000;">75%</td> 
+          <td style="text-align:center;border-right: 2pt solid #000000;">100%</td> 
+         </tr> 
+         <tr style="border-bottom: 2pt solid #000000;"> 
+          <td style="text-align:center;border-right: 2pt solid #000000;">256GB</td> 
+          <td style="text-align:center;border-right: 2pt solid #000000;">25.8W</td> 
+          <td style="text-align:center;border-right: 2pt solid #000000;">25.8W</td> 
+          <td style="text-align:center;border-right: 2pt solid #000000;">25.9W</td> 
+          <td style="text-align:center;border-right: 2pt solid #000000;">26.0W</td> 
+          <td style="text-align:center;border-right: 2pt solid #000000;">26.0W</td> 
+         </tr> 
+        </tbody> 
+       </table> 
+      </div> 
+     </section> 
+     <section id="sec-7"> 
+      <header> 
+       <div class="title-info"> 
+        <h3> <span class="section-number">2.4</span> Kernel Samepage Merging</h3> 
+       </div> 
+      </header> 
+      <p>The Linux OS provides a memory de-duplication feature, Kernel Samepage Merging (KSM). KSM was originally developed to be used with kernel-based virtual machine (KVM). It allows us to share the same data at the page granularity between virtual machines (VMs) and thus fit more VMs into limited physical memory space of a server&nbsp;[<a class="bib" data-trigger="hover" data-toggle="popover" data-placement="top" href="#BibPLXBIB0002">2</a>]. It is also useful for any application that generates many instances of the same data. We can enable KSM by compiling the kernel with <tt> config_ksm</tt> option and configure parameters such as the number of scanned pages in a single pass and the time between the passes using the <tt> sysfs</tt> interface. The KSM daemon (<tt> ksmd</tt>) periodically scans those areas of user memory which have been registered with it, looking for pages of identical content which can be replaced by a single write-protected page (which is automatically copied if a process later wants to update its content). Note that KSM only operates on those areas of address space which an application has advised to be likely candidates for merging, by using a system call, <tt> madvise()</tt>. When an application runs, <tt> madvise()</tt> is invoked and sets a flag (i.e., <tt> MADV_MERGEABLE</tt> flag) for mergeable memory regions. Then, <tt> ksmd</tt> periodically merges the mergeable pages by exploiting two trees, <tt> stable tree</tt> and <tt> unstable tree</tt>, for shared pages and non-shared pages, respectively. Specifically, <tt> ksmd</tt> traverses <tt> stable tree</tt> first to find a page with the same contents with the target page, and then traverses <tt> unstable tree</tt> when it fails to find the same page at <tt> stable tree</tt> and the checksum is equal to the old checksum in the previous scanning phase. </p>
+      <figure id="fig2"> 
+       <img src="https://dl.acm.org/cms/attachment/html/10.1145/3466752.3480089/assets/html/images/micro21-49-fig2.jpg" class="img-responsive" alt="Figure 2" /> 
+       <figcaption> 
+        <span class="figure-number">Figure 2:</span> 
+        <span class="figure-title">DRAM idle and busy power.</span> 
+       </figcaption> 
+      </figure> 
+      <figure id="fig3"> 
+       <img src="https://dl.acm.org/cms/attachment/html/10.1145/3466752.3480089/assets/html/images/micro21-49-fig3.jpg" class="img-responsive" alt="Figure 3" /> 
+       <figcaption> 
+        <span class="figure-number">Figure 3:</span> 
+        <span class="figure-title">The impact of memory interleaving on server performance and energy; we run benchmarks with high misses per kilo-instructions (MPKI) from SPECCPU2006 on a commodity server with 64GB DDR4 DRAM (four channels, each with four ranks) with four-way channel and rank interleaving.</span> 
+       </figcaption> 
+      </figure> 
+      <p></p> 
+     </section> 
+    </section> 
+    <section id="sec-8"> 
+     <header> 
+      <div class="title-info"> 
+       <h2> <span class="section-number">3</span> OPPORTUNITY AND CHALLENGE IN DRAM POWER MANAGEMENT</h2> 
+      </div> 
+     </header> 
+     <section id="sec-9"> 
+      <header> 
+       <div class="title-info"> 
+        <h3> <span class="section-number">3.1</span> Utilization of Memory Capacity in Servers</h3> 
+       </div> 
+      </header> 
+      <p>In prior studies&nbsp;[<a class="bib" data-trigger="hover" data-toggle="popover" data-placement="top" href="#BibPLXBIB0025">25</a>, <a class="bib" data-trigger="hover" data-toggle="popover" data-placement="top" href="#BibPLXBIB0030">30</a>], the data-center servers show 40%–60% utilization of the memory capacity on average. That is, the kernel may off-line approximately 50% of memory blocks on average, and thus considerably reduce the power and energy consumed by the main memory if it can place every off-lined memory block into power-down or self-refresh state.</p> 
+      <p>To investigate the utilization of memory capacity in data-center server environments, we measure the utilization of memory capacity for 24 hours after reproducing the execution setup of a server based on the Microsoft Azure VM trace&nbsp;[<a class="bib" data-trigger="hover" data-toggle="popover" data-placement="top" href="#BibPLXBIB0006">6</a>]. Specifically, we first establish a virtualized system with KVM hypervisor on a server with a 16-core Intel Xeon processor and 256GB of memory consisting of eight 2R &times; 4 32GB DDR4 DIMMs. Second, we randomly choose 100 different types of VMs from the Microsoft Azure VM trace, each of which has a different number of vCPUs, memory size, and lifetime. Lastly, we schedule/consolidate VMs on the server every five minutes while ensuring that the consolidation ratio of vCPUs is less than or equal to two and the total memory capacity used by VMs does not exceed the maximum memory capacity (i.e., 256GB), as virtualized clouds typically do.</p> 
+      <p>Figure&nbsp;<a class="fig" href="#fig1">1</a> shows the percentage of memory capacity used by VMs running on the server for 24 hours. It shows that the average memory capacity used by the scheduled VMs running on the server is 48% of the total memory capacity, while varying from 7% to 92% for 24 hours. This agrees with prior studies&nbsp;[<a class="bib" data-trigger="hover" data-toggle="popover" data-placement="top" href="#BibPLXBIB0025">25</a>, <a class="bib" data-trigger="hover" data-toggle="popover" data-placement="top" href="#BibPLXBIB0030">30</a>] observing 40%–60% utilization of memory capacity on average and 90% usage at peak time [<a class="bib" data-trigger="hover" data-toggle="popover" data-placement="top" href="#BibPLXBIB0025">25</a>]. As discussed in Section&nbsp;<a class="sec" href="#sec-7">2.4</a>, KSM can further reduce the memory capacity used by VMs. Thus, we also measure the memory capacity used by the VMs after we enable KSM; the KVM hypervisor supports KSM for VMs without requiring any modification of source code. Figure&nbsp;<a class="fig" href="#fig1">1</a> (‘w/ ksm’) shows that KSM can reduce the memory capacity used by the VMs by 4%–90% (24% on average). Consequently, KSM can allow the kernel to off-line 76% of the memory capacity on average.</p> 
+     </section> 
+     <section id="sec-10"> 
+      <header> 
+       <div class="title-info"> 
+        <h3> <span class="section-number">3.2</span> DRAM Power in Server Environments</h3> 
+       </div> 
+      </header> 
+      <p>To obtain the breakdown of DRAM and server power, we first measure the power of the server (16-core processor with 64GB–256GB memory) using a HPM-100A power meter. We also measure the power consumed by the DRAM and processor using Running Average Power Limit (RAPL) [<a class="bib" data-trigger="hover" data-toggle="popover" data-placement="top" href="#BibPLXBIB0008">8</a>]. In Figure&nbsp;<a class="fig" href="#fig2">2</a>, we show DRAM busy and idle power consumption as we increase the memory capacity. For the DRAM busy power consumption, we run 16 copies of a memory-intensive application (i.e., <tt> mcf</tt>) on the processor. This shows that the DRAM consumes a considerable amount of power even when it is idle. For example, 256GB DRAM consumes 18 and 26 Watts for idle and busy power, respectively. That is, the refresh and static power account for 70% of the total DRAM power. Moreover, as the memory capacity increases, both the total DRAM power and the fraction of DRAM background and static power steadily increase. For example, while the DRAM power increases from 9 to 91 Watts as the DRAM capacity increases from 64GB to 1TB, the percentage of background DRAM power increases from 44% to 78%. Meanwhile, in Table&nbsp;<a class="tbl" href="#tab1">1</a>, we show that the DRAM power consumption is relatively constant, although we change the utilization of the memory capacity. This is because not only sub-array peripheral and I/O components consume static power, but also sub-arrays associated with the unused capacity still need to be refreshed periodically without any power management for unused capacity.</p> 
+     </section> 
+     <section id="sec-11"> 
+      <header> 
+       <div class="title-info"> 
+        <h3> <span class="section-number">3.3</span> Limitation of Current DRAM Power Management</h3> 
+       </div> 
+      </header> 
+      <p>A memory interleaving technique is often adopted by most commercial processors because it can significantly improve the performance of memory-intensive applications. For example, Figure&nbsp;3a shows that it improves the performance of <tt> lbm</tt> by 3.8 &times;. Nonetheless, it makes the current DRAM power management ineffective. This is because a memory interleaving technique disperses data in contiguous physical address space across ranks, while the DRAM power management supports the low-power states at the rank granularity&nbsp;[<a class="bib" data-trigger="hover" data-toggle="popover" data-placement="top" href="#BibPLXBIB0031">31</a>]. That is, no rank can stay in idle state long enough to enter a low-power state. This is confirmed by Figure&nbsp;3b (“w/ interleaving”) where we measure the number of cycles that each rank spends in self-refresh state and plot the average of cycles from all the ranks. Although the memory capacity used by these memory-intensive benchmark programs is as small as 1.2GB out of 64GB (i.e., ∼ 2% of the total memory capacity), we observe that no rank ever enters self-refresh state<a class="fn" href="#fn2" id="foot-fn2"><sup>2</sup></a>. Another DRAM power management technique is exploiting PASR which stops refresh of idle banks. Our experiment using <tt> Ramulator</tt>[<a class="bib" data-trigger="hover" data-toggle="popover" data-placement="top" href="#BibPLXBIB0019">19</a>] running the same memory-intensive benchmarks also shows that no bank has a chance to enter a low-power state. That is, the current DRAM power management techniques relying on a low-power state at the rank or bank granularity (e.g., <tt> RAMZzz</tt>&nbsp;[<a class="bib" data-trigger="hover" data-toggle="popover" data-placement="top" href="#BibPLXBIB0033">33</a>]) are not effective when a memory interleaving technique is deployed. In contrast, disabling the memory interleaving technique gives opportunities for the ranks to stay in a low-power state (e.g., 54% of execution cycles on average in Figure&nbsp;3b (“w/o interleaving”)), which allows the server to reduce energy consumption by 26% on average in Figure&nbsp;3c . </p>
+      <figure id="fig4"> 
+       <img src="https://dl.acm.org/cms/attachment/html/10.1145/3466752.3480089/assets/html/images/micro21-49-fig4.jpg" class="img-responsive" alt="Figure 4" /> 
+       <figcaption> 
+        <span class="figure-number">Figure 4:</span> 
+        <span class="figure-title">The overall architecture of </span> 
+       </figcaption> 
+      </figure> 
+      <p></p> 
+     </section> 
+    </section> 
+    <section id="sec-12"> 
+     <header> 
+      <div class="title-info"> 
+       <h2> <span class="section-number">4</span> OS-ASSISTED DRAM POWER MANAGEMENT</h2> 
+      </div> 
+     </header> 
+     <p>To tackle the limitation of current rank-granularity DRAM power management, we propose an OS-assisted DRAM power management, <tt> GreenDIMM</tt>. Figure&nbsp;<a class="fig" href="#fig4">4</a> describes the overall architecture of <tt> GreenDIMM</tt>. More specifically, <tt> GreenDIMM</tt> consists of three components. <tt> GreenDIMM</tt> takes a memory block in contiguous physical address space mapped to a group of DRAM sub-arrays across every channel, rank, and bank (1 in Figure&nbsp;<a class="fig" href="#fig4">4</a>) with the same sub-array address (2 in Figure&nbsp;<a class="fig" href="#fig4">4</a>). As the most significant bits of a physical address are used to index a group of sub-arrays, <tt> GreenDIMM</tt> not only provides fine-grained DRAM power management but also keeps the performance benefit of memory interleaving techniques (Section&nbsp;<a class="sec" href="#sec-13">4.1</a>). <tt> GreenDIMM</tt> exploits memory on/off-lining operations of the modern OS to dynamically remove/add memory blocks from/to the physical address space (3 in Figure&nbsp;<a class="fig" href="#fig4">4</a>), depending on the utilization of memory capacity at run-time (Section&nbsp;<a class="sec" href="#sec-14">4.2</a>). <tt> GreenDIMM</tt> implements a deep power-down state at the sub-array granularity (4 in Figure&nbsp;<a class="fig" href="#fig4">4</a>) to reduce the background power of the off-lined memory blocks (Section&nbsp;<a class="sec" href="#sec-15">4.3</a>). The deep power-down state turns off the most of the peripheral and I/O components and does not refresh memory cells in sub-arrays mapped to off-lined memory blocks. This practically eliminates the background power consumed by the off-lined memory blocks. Meanwhile, as the off-lined memory blocks are removed from the physical address space, the sub-arrays will not receive any memory requests and stay in the power-down state until the memory blocks are explicitly on-lined by the OS. Thus, <tt> GreenDIMM</tt> can considerably reduce power and energy consumed by unused memory space, which is significant even in highly consolidated data-center environments, with a negligible performance penalty. The rest of this section describes each component in detail.</p> 
+     <section id="sec-13"> 
+      <header> 
+       <div class="title-info"> 
+        <h3> <span class="section-number">4.1</span> Interleaving-Agnostic DRAM Power Management</h3> 
+       </div> 
+      </header> 
+      <p>Modern processors typically use memory interleaving techniques that disperse data in contiguous physical address space across channels, ranks, and banks, hashing a part of physical address bits to choose a channel, rank, and bank addresses. As discussed in Section&nbsp;<a class="sec" href="#sec-11">3.3</a>, memory interleaving techniques better exploit memory-level parallelism and thus improve the performance of memory-intensive applications. As it is important to preserve the performance benefit of the memory interleaving techniques, <tt> GreenDIMM</tt> proposes an interleaving-agnostic DRAM power management technique. </p>
+      <figure id="fig5"> 
+       <img src="https://dl.acm.org/cms/attachment/html/10.1145/3466752.3480089/assets/html/images/micro21-49-fig5.jpg" class="img-responsive" alt="Figure 5" /> 
+       <figcaption> 
+        <span class="figure-number">Figure 5:</span> 
+        <span class="figure-title">Address mapping (a) for a 64GB main memory consisting of 4 channels, each with a 4-rank &times; 8 DIMM adn (b) within a DDR4 &times; 8 4Gb DRAM device. The sub-array in the grey-color box is the minimum unit of DRAM power management.</span> 
+       </figcaption> 
+      </figure> 
+      <p></p> 
+      <p>Specifically, <tt> GreenDIMM</tt> exploits the fact that the most significant <em>N</em> bits of the physical address are used to index a row in a bank and the most significant <em>M</em> bits of the row address are taken to index a sub-array in the bank (i.e., a group of sub-arrays across DRAM devices in a rank). For example, consider 64GB main memory consisting of 4 channels, each with a 2-rank &times; 8 DIMM, which leads to memory interleaving depicted in Figure&nbsp;<a class="fig" href="#fig5">5</a>. A rank comprises eight 4Gb DRAM devices and thus provides 4GB with 16 256MB (logical) banks. In Figure&nbsp;<a class="fig" href="#fig5">5</a>, each (physical) bank has two types of row address decoders, a global and local row decoders. When decoding the row address, the global decoder chooses a sub-array, and the local decoder chooses a row in the sub-array. In an 4Gb &times; 8 DRAM device, the number of bits for the row address is 15 (= <em>N</em>) and the number of sub-arrays is 64 in a bank as illustrated in Figure&nbsp;<a class="fig" href="#fig5">5</a>. That is, the global decoder uses 6 bits (= <em>M</em>) to choose a 4Mb sub-array (i.e., 4MB across 8 DRAM devices in a rank), and uses the remaining 9 bits to choose a particular row among 512 rows in the sub-array.</p> 
+      <p>Exploiting the fact described in previous paragraph, <tt> GreenDIMM</tt> proposes a group of sub-arrays across every channel, rank, and bank ((1 in Figure&nbsp;<a class="fig" href="#fig4">4</a>)) with the same row address range (2 in Figure&nbsp;<a class="fig" href="#fig4">4</a>) as a minimum unit of DRAM power management. In Figure&nbsp;<a class="fig" href="#fig5">5</a>, as the 64GB main memory has 16 ranks, each with 16 banks, the minimum unit becomes 1024MB (= 4MB &times; 16 banks &times; 16 ranks), 1.5625% of the total capacity; the percentage does not change with smaller or larger total capacity. This granularity of DRAM power management is fine enough to maximize the chance of reducing the background power of unused memory space while keeping the benefit of interleaving across channels, ranks and banks. The unit of DRAM power management can vary with grouping of more sub-arrays (e.g., two or four adjacent sub-arrays in a bank), and we will further discuss its impact on power/energy reduction and performance in Section&nbsp;<a class="sec" href="#sec-17">5.1</a>.</p> 
+     </section> 
+     <section id="sec-14"> 
+      <header> 
+       <div class="title-info"> 
+        <h3> <span class="section-number">4.2</span> DRAM Power Management Based on Memory On/Off-lining</h3> 
+       </div> 
+      </header> 
+      <p> <tt>GreenDIMM</tt> implements DRAM power management daemon that leverages the memory on/off-lining operations supported by Linux (3 in Figure&nbsp;<a class="fig" href="#fig4">4</a>). Specifically, <tt> memory_usage_monitor()</tt> of <tt> Green- DIMM</tt> periodically obtains the current utilization of the memory capacity from <tt> /proc/meminfo</tt> [<a class="bib" data-trigger="hover" data-toggle="popover" data-placement="top" href="#BibPLXBIB0013">13</a>] in Linux and then records the memory utilization (e.g., every 1 second); we observe that the period less than 1s increases the monitoring overhead while not helping off-line more memory blocks. If the amount of on-lined but unused memory (or free memory) is greater than a threshold, <tt> off_thr</tt> (e.g., 10% + <em>α</em> of the total memory capacity), <tt> memory_usage_monitor()</tt> sends a request to <tt> block_selector()</tt> of <tt> GreenDIMM</tt> to choose free memory blocks to be off-lined. We observe that the system performance dramatically degrades when the threshold is less than 10% because pages are frequently swapped between the main memory and the storage. <tt> block_selector()</tt>, which we implemented, searches the list of memory blocks and picks <em>movable</em> memory blocks. Among the <em>movable</em> blocks, <tt> GreenDIMM</tt> chooses to off-line blocks only with unused pages. Consequently, off-lining does not migrate data and their physical addresses are unlikely to be cached in TLB. Note that there are <em>unmovable</em> memory blocks that are used by the kernel or devices (cf. Section&nbsp;<a class="sec" href="#sec-18">5.2</a>).</p> 
+      <p>Then, <tt> block_selector()</tt> calls <tt> offline_pages()</tt> of Linux with the starting physical page number (PPN) and the number of pages to off-line the selected memory blocks from the physical address space. After <tt> GreenDIMM</tt> completes the memory off-lining, it updates control registers in the memory controller, based on the starting physical address and the number of pages in the off-lined memory block. This makes sub-arrays associated with the off-lined memory blocks enter the deep power-down state. We describe the mechanism and overhead in Section&nbsp;<a class="sec" href="#sec-15">4.3</a>.</p> 
+      <p>When <tt> memory_usage_monitor()</tt> observes that the amount of free memory is lower than a threshold, <tt> on_thr</tt>, it begins to on-line memory blocks. On-lining an off-lined memory block goes through the off-lining steps in the reverse order, except that <tt> Green- DIMM</tt> should wait until the sub-arrays completely exit from the deep power-down state before it calls <tt> online_pages() of Linux</tt>. <tt> GreenDIMM</tt> can determine whether the sub-arrays are ready by polling a memory controller register bit. We provide more information on the exit latency of the deep power-downstate in Section&nbsp;<a class="sec" href="#sec-15">4.3</a>. </p>
+      <figure id="fig6"> 
+       <img src="https://dl.acm.org/cms/attachment/html/10.1145/3466752.3480089/assets/html/images/micro21-49-fig6.jpg" class="img-responsive" alt="Figure 6" /> 
+       <figcaption> 
+        <span class="figure-number">Figure 6:</span> 
+        <span class="figure-title">The off-lined memory capacity as the size of a memory block changes; a memory block maps to one (128MB), two (256MB), and four (512MB) sub-array groups.</span> 
+       </figcaption> 
+      </figure> 
+      <p></p> 
+     </section> 
+     <section id="sec-15"> 
+      <header> 
+       <div class="title-info"> 
+        <h3> <span class="section-number">4.3</span> Sub-array Deep Power-down State</h3> 
+       </div> 
+      </header> 
+      <p> <tt>GreenDIMM</tt>’s deep power-down state at the sub-array granularity requires two steps. First, the memory controller stops refresh of sub-arrays corresponding to the physical address space of the off-lined memory block. Its implementation basically builds on the current memory controller's support for PASR and partial array auto-refresh (PAAR), stopping refresh of one or more banks&nbsp;[<a class="bib" data-trigger="hover" data-toggle="popover" data-placement="top" href="#BibPLXBIB0005">5</a>]. A memory controller supporting PASR has a memory-mapped a bit vector register that enables/disables the refresh of a bank, it will need 16 bits per rank and 128 bits for 4 channels, each with 2 ranks (i.e., memory system configuration in our setup). By contrast, <tt> GreenDIMM</tt> requires fewer bits as it controls a group of sub-arrays across channels, ranks, and banks with a single bit. That is, regardless of the number of channels and ranks, <tt> GreenDIMM</tt> needs only 64 bits as there are always 64 groups of sub-arrays.</p> 
+      <p>Second, the memory controller sets the DRAM mode register [<a class="bib" data-trigger="hover" data-toggle="popover" data-placement="top" href="#BibPLXBIB0001">1</a>] such that the peripheral and I/O circuits of sub-arrays are turned off. Its implementation builds on the current memory controller's support for the power-down state at the rank granularity described in Section&nbsp;<a class="sec" href="#sec-5">2.2</a> together with the bit vector register to enable/disable the refresh of a sub-array. After the DRAM mode register of all every DRAM device in a rank is concurrently updated, each DRAM device turns off the power gates for the peripheral and I/O circuits of the target sub-array.</p> 
+      <p>Note that, a power gate is a switch transistor that connects the external power/ground with the internal power/ground of DRAM circuits, and the power-gating granularity can be as small as a circuit block (e.g., row decoder of a sub-array). Especially, PMOS switch transistors are mainly used for pull-up (between external and internal power) while NMOS switch transistors are used for pull-down (between internal and external ground). As the use of an excessively large switch transistors can increase both the area overhead and the switch's on/off latency, the size of switch transistors are carefully optimized. In general, a long length transistor of 1.2 times or more is used to prevent leakage current and the turn-on resistance of the power switch is designed to be less than 0.1Ω. Our analysis based on a commercial 1xnm 8Gb DRAM design shows that the size of the switch transistors for each subarray is 1500<em>μm</em><sup>2</sup>, accounting for 0.64% of the total DRAM chip size. Even if the control logic is added in each sub-array unit, the area overhead is negligible as it is less than 1% of the total DRAM chip size.</p> 
+      <p>GreenDIMM control circuit in DRAM is almost identical to ones for PASR/PAAR. The only difference is how we group sub-arrays for preventing refresh. PASR/PAAR can be applied to every group of 16 sub-arrays in each bank; 16 instances of the control circuit are required as there are 16 banks in each chip, while GreenDIMM is applied to every group of 16 sub-arrays across 16 banks in a lock-step manner. As such, we expect DRAM cost increase is almost the same as PASR/PAAR, i.e., &nbsp;0.1% of total DRAM die area.</p> 
+      <p>The long exit latency of the traditional self-refresh state (e.g., 768ns) is primarily contributed by turning on the DLL circuit of DRAM devices. In contrast, <tt> GreenDIMM</tt>’s deep power-down state does not turn off the DLL circuit, as it places only a part of DRAM devices. Thus, the exit latency of <tt> GreenDIMM</tt>’s deep power-down state is no longer than that of the power-down state which takes only 18ns to disable the clock and turn off the I/O circuits of the entire DRAM device. </p>
+      <figure id="fig7"> 
+       <img src="https://dl.acm.org/cms/attachment/html/10.1145/3466752.3480089/assets/html/images/micro21-49-fig7.jpg" class="img-responsive" alt="Figure 7" /> 
+       <figcaption> 
+        <span class="figure-number">Figure 7:</span> 
+        <span class="figure-title">Execution time as the size of a memory block change; a memory block maps to one (128MB), two (256MB), and four (512MB) sub-array groups.</span> 
+       </figcaption> 
+      </figure> 
+      <p></p> 
+      <div class="table-responsive" id="tab2"> 
+       <div class="table-caption"> 
+        <span class="table-number">Table 2:</span> 
+        <span class="table-title">The number of on-lined and off-lined memory blocks as the memory block size changes.</span> 
+       </div> 
+       <table class="table"> 
+        <tbody> 
+         <tr style="border-bottom: 2pt solid #000000;"> 
+          <td style="text-align:left;border-right: 2pt solid #000000;">Application</td> 
+          <td style="text-align:center;border-right: 2pt solid #000000;"># of on/off <br />128MB</td> 
+          <td style="text-align:center;border-right: 2pt solid #000000;"># of on/off <br />256MB</td> 
+          <td style="text-align:center;border-right: 2pt solid #000000;"># of on/off <br />512MB</td> 
+         </tr> 
+         <tr style="border-bottom: 2pt solid #000000;"> 
+          <td style="text-align:left;border-right: 2pt solid #000000;">mcf</td> 
+          <td style="text-align:center;border-right: 2pt solid #000000;">6</td> 
+          <td style="text-align:center;border-right: 2pt solid #000000;">2</td> 
+          <td style="text-align:center;border-right: 2pt solid #000000;">1</td> 
+         </tr> 
+         <tr style="border-bottom: 2pt solid #000000;"> 
+          <td style="text-align:left;border-right: 2pt solid #000000;">gcc</td> 
+          <td style="text-align:center;border-right: 2pt solid #000000;">47</td> 
+          <td style="text-align:center;border-right: 2pt solid #000000;">24</td> 
+          <td style="text-align:center;border-right: 2pt solid #000000;">12</td> 
+         </tr> 
+         <tr style="border-bottom: 2pt solid #000000;"> 
+          <td style="text-align:left;border-right: 2pt solid #000000;">soplex</td> 
+          <td style="text-align:center;border-right: 2pt solid #000000;">36</td> 
+          <td style="text-align:center;border-right: 2pt solid #000000;">18</td> 
+          <td style="text-align:center;border-right: 2pt solid #000000;">8</td> 
+         </tr> 
+         <tr style="border-bottom: 2pt solid #000000;"> 
+          <td style="text-align:left;border-right: 2pt solid #000000;">lbm</td> 
+          <td style="text-align:center;border-right: 2pt solid #000000;">30</td> 
+          <td style="text-align:center;border-right: 2pt solid #000000;">15</td> 
+          <td style="text-align:center;border-right: 2pt solid #000000;">6</td> 
+         </tr> 
+         <tr style="border-bottom: 2pt solid #000000;"> 
+          <td style="text-align:left;border-right: 2pt solid #000000;">libquantum</td> 
+          <td style="text-align:center;border-right: 2pt solid #000000;">37</td> 
+          <td style="text-align:center;border-right: 2pt solid #000000;">17</td> 
+          <td style="text-align:center;border-right: 2pt solid #000000;">8</td> 
+         </tr> 
+         <tr style="border-bottom: 2pt solid #000000;"> 
+          <td style="text-align:left;border-right: 2pt solid #000000;">povray</td> 
+          <td style="text-align:center;border-right: 2pt solid #000000;">40</td> 
+          <td style="text-align:center;border-right: 2pt solid #000000;">20</td> 
+          <td style="text-align:center;border-right: 2pt solid #000000;">9</td> 
+         </tr> 
+        </tbody> 
+       </table> 
+      </div> 
+      <div class="table-responsive" id="tab3"> 
+       <div class="table-caption"> 
+        <span class="table-number">Table 3:</span> 
+        <span class="table-title">The average latency of off-lining, on-lining, and off-lining failure while running mcf.</span> 
+       </div> 
+       <table class="table"> 
+        <tbody> 
+         <tr style="border-bottom: 2pt solid #000000;"> 
+          <td style="text-align:left;border-right: 2pt solid #000000;">Event</td> 
+          <td style="text-align:center;border-right: 2pt solid #000000;">Avg. Latency (ms)</td> 
+         </tr> 
+         <tr style="border-bottom: 2pt solid #000000;"> 
+          <td style="text-align:left;border-right: 2pt solid #000000;">off-lining</td> 
+          <td style="text-align:center;border-right: 2pt solid #000000;">1.58 ms</td> 
+         </tr> 
+         <tr style="border-bottom: 2pt solid #000000;"> 
+          <td style="text-align:left;border-right: 2pt solid #000000;">on-lining</td> 
+          <td style="text-align:center;border-right: 2pt solid #000000;">3.44 ms</td> 
+         </tr> 
+         <tr style="border-bottom: 2pt solid #000000;"> 
+          <td style="text-align:left;border-right: 2pt solid #000000;">failure (EAGAIN)</td> 
+          <td style="text-align:center;border-right: 2pt solid #000000;">4.37 ms</td> 
+         </tr> 
+         <tr style="border-bottom: 2pt solid #000000;"> 
+          <td style="text-align:left;border-right: 2pt solid #000000;">failure (EBUSY)</td> 
+          <td style="text-align:center;border-right: 2pt solid #000000;">6 <em>μ</em>s</td> 
+         </tr> 
+        </tbody> 
+       </table> 
+      </div> 
+     </section> 
+    </section> 
+    <section id="sec-16"> 
+     <header> 
+      <div class="title-info"> 
+       <h2> <span class="section-number">5</span> IMPLEMENTATION CHALLENGES</h2> 
+      </div> 
+     </header> 
+     <section id="sec-17"> 
+      <header> 
+       <div class="title-info"> 
+        <h3> <span class="section-number">5.1</span> Size of On/Off-lined Memory Blocks</h3> 
+       </div> 
+      </header> 
+      <p>As described in Section&nbsp;<a class="sec" href="#sec-12">4</a>, <tt> GreenDIMM</tt> monitors the current utilization of memory capacity and determines on-line/off-line memory blocks periodically. The size of a memory block, which is the unit of memory on/off-lining, affects the off-lined capacity of <tt> GreenDIMM</tt> and the applications’ performance. The default size of a memory block for on/off-lining is 128MB in Linux and the size of a memory block is configurable through <tt> /sys/devices/system/memory/block_size_bytes</tt>. For example, as the size of a memory block increases, <tt> GreenDIMM</tt> can off-line less capacity since the amount of free memory except for reserved free memory with <tt> off_thr</tt> (10% of total capacity) must be larger than the block size to off-line a block. In addition, the size of a memory block determines the number of on/off-lining including page table updates and page migrations, affecting performance.</p> 
+      <p>Figure&nbsp;<a class="fig" href="#fig6">6</a> plots the off-lined capacity by <tt> GreenDIMM</tt> as the size of a memory block change. We use 128MB, 256MB, and 512MB as the size of a memory block, each of which is the size when a memory block is mapped to one, two, and four sub-array groups in our experimental setup; note that we can manipulate the size of a memory block based on the capacity of a sub-array group. For example, with 512MB memory blocks, four sub-array groups enter to deep power-down state when the kernel off-lines a memory block. Not surprisingly, <tt> GreenDIMM</tt> off-lines more blocks with the smaller block size. For example, while running <tt> gcc</tt>, <tt> GreenDIMM</tt> with 128MB memory blocks off-lines 3.125GB while off-lining 2GB with 512MB memory blocks. Since <tt> GreenDIMM</tt> can off-line the memory block only when the amount of free memory that can be turned off is greater than the single block size, <tt> GreenDIMM</tt> is likely to off-line less capacity with the larger block size. Furthermore, as the size of a memory block increases, the off-lining failure occurs more frequently since all pages in the block must be removable; we will discuss the off-lining failure in Section&nbsp;<a class="sec" href="#sec-18">5.2</a>. To observe the performance overhead as the memory block size changes, we plot the increased execution time in Figure&nbsp;<a class="fig" href="#fig7">7</a>. While all cases show performance degradation less than 3%, the performance overheads slightly increase as the size of a memory block decreases. For example, <tt> GreenDIMM</tt> degrades the performance of <tt> mcf</tt> by 2.9% with 128MB blocks while degrading the performance of <tt> mcf</tt> by 2.2% with 512MB blocks.</p> 
+      <p>The reason for more performance overheads with the smaller size of the memory block is that the number of on-lining/off-lining increases as the size of the block decreases as represented in Table&nbsp;<a class="tbl" href="#tab2">2</a>. For example, with <tt> gcc</tt>, the number of off-lining/on-lining is reduced from 47 to 12, as the size of memory block increases (i.e., from 128MB to 512MB). Since on-lining and off-lining require extra operations for enabling/disabling memory blocks in the physical address space, more on-linings/off-linings lead to more performance degradation.</p> 
+      <p>Although <tt> GreenDIMM</tt> shows the different performance overheads and off-lined capacity with varying sizes of the block, we observe that the difference in the performance overheads is not much while the difference in the off-lined capacity is considerable for some applications. We use the size of a memory block that fits in a sub-array group (i.e., 128MB block size) in our evaluation for more power reduction. However, since the block size is configurable and <tt> GreenDIMM</tt> does not require extra features as the size of block changes, <tt> GreenDIMM</tt> can decrease/increase the block size for more power reduction or less performance overheads. </p>
+      <figure id="fig8"> 
+       <img src="https://dl.acm.org/cms/attachment/html/10.1145/3466752.3480089/assets/html/images/micro21-49-fig8.jpg" class="img-responsive" alt="Figure 8" /> 
+       <figcaption> 
+        <span class="figure-number">Figure 8:</span> 
+        <span class="figure-title">The number of off-lining failures with a </span> 
+       </figcaption> 
+      </figure> 
+      <figure id="fig9"> 
+       <img src="https://dl.acm.org/cms/attachment/html/10.1145/3466752.3480089/assets/html/images/micro21-49-fig9.jpg" class="img-responsive" alt="Figure 9" /> 
+       <figcaption> 
+        <span class="figure-number">Figure 9:</span> 
+        <span class="figure-title">DRAM energy consumption.</span> 
+       </figcaption> 
+      </figure> 
+      <p></p> 
+     </section> 
+     <section id="sec-18"> 
+      <header> 
+       <div class="title-info"> 
+        <h3> <span class="section-number">5.2</span> Identifying Removable Memory Blocks for Off-lining</h3> 
+       </div> 
+      </header> 
+      <p> <tt>GreenDIMM</tt> fails to off-line a memory block when any page in the block is used by the kernel or devices since the page is not migratable (i.e., unmovable). Furthermore, repetitive failures can also occur, degrading the performance notably. Although the Linux OS can configure the range of movable memory regions through a booting parameter (e.g., movablecore=8G), the reserved movable regions can also have unmovable pages.</p> 
+      <p>We observe two cases of the off-lining failure, <tt> EBUSY</tt> and <tt> EAGAIN</tt>. <tt> EBUSY</tt> occurs when the kernel fails to isolate the target memory block from the physical address space since some pages in the memory block are unmovable. <tt> EAGAIN</tt> occurs when the kernel cannot use the necessary resource temporarily even though all pages in the block are movable. For example, while off-lining memory blocks, <tt> EAGAIN</tt> occurs when the kernel fails to find other memory regions to migrate pages from the off-lined blocks.</p> 
+      <p>To observe the effects of off-lining failures on the performance, we represent the average latency when on-lining, off-lining, off-lining failure with <tt> EAGAIN</tt>, and off-lining failure with <tt> EBUSY</tt> occur while running <tt> mcf</tt> in Table&nbsp;<a class="tbl" href="#tab3">3</a>; we map a memory block to a sub-array group (i.e., 128MB block size). As shown, the off-lining failure with <tt> EBUSY</tt> only requires 6<em>μ</em>s latency. However, the latency of off-lining failure with <tt> EAGAIN</tt> is even longer than the latency of off-lining success. For example, the failure latency with <tt> EAGAIN</tt> is 4.37ms while the off-lining latency is 1.58ms; in our experiments, the off-lining success occurs only when we attempt to off-line a memory block only with unused pages, requiring no page migration. Since <tt> EAGAIN</tt> occurs after three attempts to migrate pages fail if we choose a memory block that has used pages, it shows about 3x longer latency than the success; note that recent kernel attempts page migration infinitely until it succeeds, which can degrade the performance substantially.</p> 
+      <p>To reduce the number of off-lining failures, <tt> GreenDIMM</tt> uses a variable (i.e., <tt> removable</tt>) offered by the Linux kernel through <tt> sysfs</tt>, which represents whether the memory block contains unmovable pages or not; <tt> removable</tt> is true when all pages in the block are movable. Since the value of <tt> removable</tt> becomes zero when the memory block has unmovable pages, if <tt> GreenDIMM</tt> chooses a block to off-line among blocks with <tt> removable</tt> set to one, the number of off-lining failures will be alleviated.</p> 
+      <p>Figure&nbsp;<a class="fig" href="#fig8">8</a> shows the comparison of the number of off-lining failures between when <tt> GreenDIMM</tt> chooses blocks to off-line randomly and when <tt> GreenDIMM</tt> chooses blocks with <tt> removable</tt> set to 1 first. As plotted, applications showing frequent changes in the memory footprint, such as <tt> gcc</tt> and <tt> soplex</tt>, show more off-lining failures than applications showing smaller changes in the memory footprint, such as <tt> mcf</tt>, <tt> lbm</tt>, <tt> libquantum</tt>, and <tt> povray</tt>. Furthermore, we observe that the portion of <tt> EAGAIN</tt> increases as the number of off-lining failures increases. Consequently, as the number of off-lining failures increases, the performance can be degraded substantially; note that failures with <tt> EAGAIN</tt> show much longer latency than failures with <tt> EBUSY</tt>. However, if <tt> GreenDIMM</tt> checks the <tt> removable</tt> for each block when it chooses blocks to off-line, <tt> GreenDIMM</tt> reduces the number of off-lining failures by about 50%, mitigating delays due to the off-lining failures. </p>
+      <figure id="fig10"> 
+       <img src="https://dl.acm.org/cms/attachment/html/10.1145/3466752.3480089/assets/html/images/micro21-49-fig10.jpg" class="img-responsive" alt="Figure 10" /> 
+       <figcaption> 
+        <span class="figure-number">Figure 10:</span> 
+        <span class="figure-title">System energy consumption.</span> 
+       </figcaption> 
+      </figure> 
+      <p></p> 
+     </section> 
+     <section id="sec-19"> 
+      <header> 
+       <div class="title-info"> 
+        <h3> <span class="section-number">5.3</span> Memory Off-lining with Kernel Samepage Merging</h3> 
+       </div> 
+      </header> 
+      <p>As discussed in Section&nbsp;<a class="sec" href="#sec-9">3.1</a>, KSM, which reduces the memory footprint of applications, helps <tt> GreenDIMM</tt> to reduce the energy consumption by allowing <tt> GreenDIMM</tt> to off-line further memory blocks. To quickly react to the changes in the utilization of the memory capacity by the KSM, <tt> GreenDIMM</tt> monitors the current utilization of the memory capacity and attempts to off-line memory blocks as soon as the KSM daemon completes merging pages regardless of <tt> GreenDIMM</tt>’s monitoring period. We will discuss the effects of such simple optimization for the KSM in Section&nbsp;<a class="sec" href="#sec-23">6.3</a>.</p> 
+      <p>Although the KSM daemon reduces the memory footprint further, it incurs extra performance overheads while consuming computing resources for scanning and merging pages. Furthermore, copy-on-write operations occur when shared pages are modified. However, KSM's parameters related to performance overheads are configurable, such as the number of pages to be scanned and the scanning period. In this work, we use 1000 and 50ms as the number of pages to be scanned and the scanning period, respectively. With the configuration, the KSM daemon only consumes 10% of a core to scan, merge, and manage the pages while showing the considerable reduction in the memory footprint; we can also change the parameter values to reduce the memory footprint further at the cost of performance.</p> 
+     </section> 
+    </section> 
+    <section id="sec-20"> 
+     <header> 
+      <div class="title-info"> 
+       <h2> <span class="section-number">6</span> EVALUATION</h2> 
+      </div> 
+     </header> 
+     <section id="sec-21"> 
+      <header> 
+       <div class="title-info"> 
+        <h3> <span class="section-number">6.1</span> Experimental Methodology</h3> 
+       </div> 
+      </header> 
+      <p>To evaluate <tt> GreenDIMM</tt>, we run applications from <tt> SPECCPU2006</tt>&nbsp;[<a class="bib" data-trigger="hover" data-toggle="popover" data-placement="top" href="#BibPLXBIB0014">14</a>] and <tt> SPECCPU2017</tt>&nbsp;[<a class="bib" data-trigger="hover" data-toggle="popover" data-placement="top" href="#BibPLXBIB0004">4</a>]. We evaluate <tt> GreenDIMM</tt> with data-center workloads from <tt> HiBench</tt>&nbsp;[<a class="bib" data-trigger="hover" data-toggle="popover" data-placement="top" href="#BibPLXBIB0015">15</a>], <tt> cloudsuite</tt> [<a class="bib" data-trigger="hover" data-toggle="popover" data-placement="top" href="#BibPLXBIB0012">12</a>]. Furthermore, we also evaluate <tt> GreenDIMM</tt> in the virtualized server environments using Microsoft Azure VM trace&nbsp;[<a class="bib" data-trigger="hover" data-toggle="popover" data-placement="top" href="#BibPLXBIB0006">6</a>]; we establish a hypervisor-based virtualized system on the real machine using KVM hypervisor.</p> 
+      <p>We implement the software manager of <tt> GreenDIMM</tt> that on/off-lines memory blocks based on the current utilization of the memory capacity and estimate the effects of the on-lining/off-lining on DRAM power reduction using CACTI&nbsp;[<a class="bib" data-trigger="hover" data-toggle="popover" data-placement="top" href="#BibPLXBIB0003">3</a>]. We measure the power of the real machine using hardware performance counters and power meters as we do in Section&nbsp;<a class="sec" href="#sec-9">3.1</a>. We compare <tt> GreenDIMM</tt> with the conventional techniques and prior studies that manage the background power by the channel, rank, and bank-granularity, such as self-refresh, <tt> RAMZzz</tt>&nbsp;[<a class="bib" data-trigger="hover" data-toggle="popover" data-placement="top" href="#BibPLXBIB0033">33</a>], and <tt> PASR</tt>&nbsp;[<a class="bib" data-trigger="hover" data-toggle="popover" data-placement="top" href="#BibPLXBIB0010">10</a>], respectively. Lastly, to observe the synergy when <tt> GreenDIMM</tt> with KSM as mentioned in Section&nbsp;<a class="sec" href="#sec-9">3.1</a>, we conduct experiments after enabling KSM with the Azure VM trace.</p> 
+      <p>We use eight 4Gb 2R x8 DDR4-2133 8GB DIMMs (total 64GB) with four channels, each of which has two DIMM slots for running SPECCPU applications and data-center workloads. For running the Azure VM trace, we use eight 8Gb 2R x4 DDR4-2133 32GB DIMMs (total 256GB). We configure the size of a memory block to fit in a group of sub-arrays as discussed in Section&nbsp;<a class="sec" href="#sec-17">5.1</a>. We off-line a sub-array only when neighboring sub-arrays are off-lined, assuming that two consecutive sub-arrays share a sense amplifier in the middle [<a class="bib" data-trigger="hover" data-toggle="popover" data-placement="top" href="#BibPLXBIB0026">26</a>]. We also assume spare rows from separate repair arrays [<a class="bib" data-trigger="hover" data-toggle="popover" data-placement="top" href="#BibPLXBIB0018">18</a>], which typically occupy less than 2% of total DRAM rows, are always turned on. </p>
+      <figure id="fig11"> 
+       <img src="https://dl.acm.org/cms/attachment/html/10.1145/3466752.3480089/assets/html/images/micro21-49-fig11.jpg" class="img-responsive" alt="Figure 11" /> 
+       <figcaption> 
+        <span class="figure-number">Figure 11:</span> 
+        <span class="figure-title">Increased execution time by </span> 
+       </figcaption> 
+      </figure> 
+      <figure id="fig12"> 
+       <img src="https://dl.acm.org/cms/attachment/html/10.1145/3466752.3480089/assets/html/images/micro21-49-fig12.jpg" class="img-responsive" alt="Figure 12" /> 
+       <figcaption> 
+        <span class="figure-number">Figure 12:</span> 
+        <span class="figure-title">The number of off-lined blocks with VM trace.</span> 
+       </figcaption> 
+      </figure> 
+      <p></p> 
+     </section> 
+     <section id="sec-22"> 
+      <header> 
+       <div class="title-info"> 
+        <h3> <span class="section-number">6.2</span> Energy Reduction</h3> 
+       </div> 
+      </header> 
+      <p>We measure energy consumption with interleaving and without interleaving. We denote them as <tt> w/ intlv</tt> and <tt> w/o intlv</tt>. We compare <tt> GreenDIMM</tt> with <tt> RAMZzz</tt> and <tt> PASR</tt> rank-granularity and bank-granularity power management, respectively. <tt> RAMZzz</tt> monitors the memory access pattern, and migrates data from cold rank to hot rank to reserve the more idle ranks, and promotes/demotes the power state of the cold ranks for the background power. <tt> PASR</tt> allows each idle bank to enter the deep power-down state in mobile DRAM for the background power reduction. For comparison with <tt> RAMZzz</tt> and <tt> PASR</tt>, we model power reduction by them based on the number of idle ranks/banks.</p> 
+      <p>Figure&nbsp;<a class="fig" href="#fig9">9</a> shows DRAM energy consumption. We normalize all results to the results of <tt> w/o intlv srf_only</tt>, which means that only self-refresh is used for background power management without memory interleaving. As plotted, the memory interleaving increases DRAM energy considerably for CPU-intensive, but not memory-intensive workloads even with rank-/bank-granularity power management, such as <tt> RAMZzz</tt> and <tt> PASR</tt>. For example, memory interleaving increases DRAM energy by 40% and 44% for <tt> 403.gcc</tt> and <tt> 500.perlbench</tt>, respectively, when only self-refresh is used. This is because the memory interleaving prevents ranks/banks from entering low power states even with applications showing a small memory footprint.</p> 
+      <p>However, <tt> GreenDIMM</tt> reduces DRAM energy consumption effectively for all workloads even though memory interleaving is enabled. <tt> GreenDIMM</tt> reduces the energy consumption for <tt> 403.gcc</tt> that even shows the minimum reduction by 9% compared with <tt> w/ intlv srf_only</tt>. Compared with the results of <tt> RAMZzz</tt> and <tt> PASR</tt>, <tt> GreenDIMM</tt> shows more reduction by 49%p (percent point) when the interleaving is enabled. On the other hand, for memory-intensive workloads, the memory interleaving reduces the DRAM energy considerably. For example, for <tt> 470.lbm</tt>, the memory interleaving reduces the DRAM energy consumption by 38% for self-refresh only cases. This is because the memory interleaving reduces the execution time of memory-intensive applications (e.g., <tt> 462.libqauntum</tt>, <tt> 470.lbm</tt>, and <tt> ml_linear</tt>) substantially even though it prevents ranks/banks from entering low power states while running applications. However, <tt> GreenDIMM</tt> reduces the background power regardless of memory interleaving even while the memory-intensive application is running, leading to energy reduction further. <tt> GreenDIMM</tt> reduces DRAM power for SPECCPU applications and data-center workloads by 38% and 60% on average.</p> 
+      <p>Figure <a class="fig" href="#fig10">10</a> shows system energy consumption. We also normalize all results to results of <tt> w/o intlv srf_only</tt>. As plotted, <tt> RAMZzz</tt>, <tt> PASR</tt>, and <tt> GreenDIMM</tt> reduce the system energy effectively w/o memory interleaving. However, only <tt> GreenDIMM</tt> reduces the system energy consumption with memory interleaving, since channel/rank/bank memory interleaving disturbs the channel-, rank-, and bank- granularity power management as aforementioned before.</p> 
+      <p>The memory interleaving also increases the system energy consumption for non-memory-intensive workloads. For example, in the case of <tt> 403.gcc</tt>, memory interleaving increases the system energy consumption by 10% while increasing DRAM energy consumption by 1.4 &times; as plotted in Figure 9a . For memory-intensive workloads, <tt> 462.libquantum</tt>, <tt> 470.lbm</tt>, <tt> 519.lbm</tt>, and <tt> ml_linear</tt>, memory interleaving reduces the system energy by 47%, 45%, 45%, and 54%, respectively, even though the interleaving prevents ranks/banks to enter low power states. However, <tt> GreenDIMM</tt> reduces system energy reduction regardless of memory interleaving. For SPECCPU applications and data-center workloads, <tt> GreenDIMM</tt> reduces system energy by 26% and 30% on average.</p> 
+      <p>Lastly, we investigate the performance overheads in terms of the execution time and tail response latency (i.e., 95<sup><em>th</em></sup> and 99<sup><em>th</em></sup> percentile latency) by on-/off-lining memory blocks of <tt> GreenDIMM</tt> for power management. We observe that <tt> GreenDIMM</tt> consumes 0.34%/0.16% of a single core's cycles for on-lining/off-lining every 1s only when on-lining/off-lining occurs <tt> GreenDIMM</tt> on-lines/off-lines 0.05/0.47 blocks every 1s on average. Consequently, <tt> GreenDIMM</tt> does not incur considerable performance degradation as plotted in Figure&nbsp;<a class="fig" href="#fig11">11</a>. For example, <tt> 403.gcc</tt> and <tt> 502.gcc</tt> show the most performance degradation by less than 3% while other workloads show the degradation by less than 2%. Furthermore, we do not observe notable degradation in tail response latency of latency-critical applications by <tt> GreenDIMM</tt>, such as <tt> data-caching</tt>, <tt> data-serving</tt>, and <tt> web-serving</tt>. For those applications, <tt> GreenDIMM</tt> shows much less number of on/off-lining as the applications show a constant memory footprint. </p>
+      <figure id="fig13"> 
+       <img src="https://dl.acm.org/cms/attachment/html/10.1145/3466752.3480089/assets/html/images/micro21-49-fig13.jpg" class="img-responsive" alt="Figure 13" /> 
+       <figcaption> 
+        <span class="figure-number">Figure 13:</span> 
+        <span class="figure-title">DRAM and system power consumption as the memory capacity increases.</span> 
+       </figcaption> 
+      </figure> 
+      <p></p> 
+     </section> 
+     <section id="sec-23"> 
+      <header> 
+       <div class="title-info"> 
+        <h3> <span class="section-number">6.3</span> Power Reduction in VM Server Environment</h3> 
+       </div> 
+      </header> 
+      <p>As discussed in Section&nbsp;<a class="sec" href="#sec-9">3.1</a>, the server environments have many opportunities to reduce DRAM power with low average memory utilization. Although rank-granularity low power states fail to reduce the DRAM power, sub-array granularity power management by <tt> GreenDIMM</tt> reduces the DRAM power considerably with the low memory utilization.</p> 
+      <p>Figure&nbsp;<a class="fig" href="#fig12">12</a> shows the number of off-lined blocks. With the VM trace, <tt> GreenDIMM</tt> off-lines 116 blocks (45% of total capacity) on average out of 256 blocks; <tt> GreenDIMM</tt> off-lines 230 (90% of total capacity) and 4 (1.5% of total capacity) memory blocks when the utilization of memory capacity is minimum and maximum, respectively; we use 1GB as the size of memory block for 256GB memory size. Assuming the sub-array groups mapped to the off-lined memory blocks enter deep power-down state, <tt> GreenDIMM</tt> reduces the DRAM background power by 46%. Furthermore, with KSM, <tt> GreenDIMM</tt> off-lines 61 more memory blocks and reduces the DRAM background power by 70%.</p> 
+      <p>Figure&nbsp;<a class="fig" href="#fig13">13</a> shows the estimated DRAM power and system power consumption with <tt> GreenDIMM</tt>. Based on the measured power with 256GB memory, we estimate the DRAM power and system power as the memory capacity increases using a simple linear model. With 256GB memory capacity, <tt> GreenDIMM</tt> reduces the DRAM power and system power by 32% and 9% on average, respectively. With KSM, <tt> GreenDIMM</tt> reduces the DRAM power and system power by 48% and 13%, respectively. <tt> GreenDIMM</tt> reduces more power as the memory capacity increases since the memory with larger capacity consumes more background power. As plotted in Figure&nbsp;<a class="fig" href="#fig13">13</a>, <tt> GreenDIMM</tt> reduces 36% and 20% of DRAM power and system power, respectively, with 1TB memory capacity. With KSM, <tt> GreenDIMM</tt> reduces 55% and 30% of DRAM power and system power, respectively, with 1TB memory capacity. These results demonstrate that the background power of DRAM is one of the major contributors to the total system power, and <tt> GreenDIMM</tt> can reduce the system power considerably by reducing DRAM background power, especially with large capacity.</p> 
+      <p>Note that <tt> GreenDIMM</tt> will not reduce power consumption of memory in servers running storage and in-memory database applications that consume most of or all the memory space (e.g., page cache for storage servers).</p> 
+     </section> 
+    </section> 
+    <section id="sec-24"> 
+     <header> 
+      <div class="title-info"> 
+       <h2> <span class="section-number">7</span> RELATED WORK</h2> 
+      </div> 
+     </header> 
+     <p>There have been many hardware/software studies for DRAM power management&nbsp;[<a class="bib" data-trigger="hover" data-toggle="popover" data-placement="top" href="#BibPLXBIB0009">9</a>, <a class="bib" data-trigger="hover" data-toggle="popover" data-placement="top" href="#BibPLXBIB0010">10</a>, <a class="bib" data-trigger="hover" data-toggle="popover" data-placement="top" href="#BibPLXBIB0016">16</a>, <a class="bib" data-trigger="hover" data-toggle="popover" data-placement="top" href="#BibPLXBIB0021">21</a>, <a class="bib" data-trigger="hover" data-toggle="popover" data-placement="top" href="#BibPLXBIB0027">27</a>, <a class="bib" data-trigger="hover" data-toggle="popover" data-placement="top" href="#BibPLXBIB0033">33</a>, <a class="bib" data-trigger="hover" data-toggle="popover" data-placement="top" href="#BibPLXBIB0035">35</a>]. <tt> RAMZzz</tt>&nbsp;[<a class="bib" data-trigger="hover" data-toggle="popover" data-placement="top" href="#BibPLXBIB0033">33</a>] proposes rank-aware power management that groups pages showing analogous locality and place them into the same rank. <tt> RAMZzz</tt> classifies ranks into the hot rank and cold rank, each of which means the frequently accessed rank and rarely accessed rank, respectively. Then, <tt> RAMZzz</tt> migrates pages in the cold ranks to the hot ranks, and makes the cold ranks enter the low power state (e.g., self-refresh). <tt> RAMZzz</tt> requires monitoring accesses of all pages, increasing performance overhead considerably, while not considering the memory interleaving. <tt> PASR</tt> [<a class="bib" data-trigger="hover" data-toggle="popover" data-placement="top" href="#BibPLXBIB0010">10</a>] is the refresh policy to reduce the background power consumption for Mobile DRAM. <tt> PASR</tt> allows some banks in a rank to enter self-refresh state and the other banks to enter deep power-down state, reducing the background power considerably. However, <tt> PASR</tt> also cannot be adopted to modern systems employing memory interleaving.</p> 
+     <p> <tt>ESKIMO</tt>&nbsp;[<a class="bib" data-trigger="hover" data-toggle="popover" data-placement="top" href="#BibPLXBIB0016">16</a>] proposes a DRAM power management that selectively refreshes allocated pages by tracking allocation/de-allocation of pages. <tt> ESKIMO</tt> also reduces power for unused pages as <tt> GreenDIMM</tt>, but <tt> ESKIMO</tt> focuses on the refresh power reduction while <tt> GreenDIMM</tt> mostly eliminates the background power by implementing deep power-down state at the sub-array granularity without tracking allocation/de-allocation of pages. <tt> PADRAM</tt>&nbsp;[<a class="bib" data-trigger="hover" data-toggle="popover" data-placement="top" href="#BibPLXBIB0021">21</a>] proposes power-aware page allocation that allows chips to enter low power states more often. When allocating pages, <tt> PADRAM</tt> first allocates the pages mapped to chips that do not stay at the low power states. However, <tt> PADRAM</tt> also does not consider the memory interleaving. Zhou et al.&nbsp;[<a class="bib" data-trigger="hover" data-toggle="popover" data-placement="top" href="#BibPLXBIB0035">35</a>] propose a utility-based memory allocation policy to reduce the DRAM power. They track Miss Ratio Curve (MRC) for applications at run-time, and identify idle regions and allow them to enter low power states. Malladi et al.&nbsp;[<a class="bib" data-trigger="hover" data-toggle="popover" data-placement="top" href="#BibPLXBIB0027">27</a>] propose a mechanism that reduces the background power by eliminating or mitigating long-latency DLL wake-ups by shifting circuitry from the DRAM to the controller. After improving the wake-up latency, they reduce the power consumption by aggressively entering power-down states even during the short idle period. Delaluz et al.&nbsp;[<a class="bib" data-trigger="hover" data-toggle="popover" data-placement="top" href="#BibPLXBIB0009">9</a>] propose a data migration policy that reduces energy by dynamically placing arrays with temporal affinity into the same set of banks. While assuming bank granularity low power states, they reduce energy by reserving more idle banks.</p> 
+    </section> 
+    <section id="sec-25"> 
+     <header> 
+      <div class="title-info"> 
+       <h2> <span class="section-number">8</span> CONCLUSION</h2> 
+      </div> 
+     </header> 
+     <p>We propose <tt> GreenDIMM</tt> that is OS-assisted DRAM power management with a sub-array granularity power-down state. <tt> GreenDIMM</tt> uses a DRAM sub-array group across every channel, rank, and bank as a power management unit, and maps a memory block in the physical address space to the sub-array group. Then, <tt> GreenDIMM</tt> exploits memory on-/off-lining to off-line unused capacity of memory, allowing the sub-array group mapped to the off-lined blocks to enter deep power-down state. For the sub-arrays mapped to the off-lined blocks, <tt> GreenDIMM</tt> implements deep power-down state at the sub-array granularity. Consequently, <tt> GreenDIMM</tt> reduces the background power with the software memory on-lining/off-lining policy based on the current utilization of the memory capacity. Our evaluation with a commercial server running diverse workloads including data-center workloads shows that <tt> GreenDIMM</tt> reduces DRAM and system power by 36% and 20%, respectively. Furthermore, <tt> GreenDIMM</tt> reduces DRAM and system power by 36% and 20%, respectively, in VM server environments. We also investigate synergistic potentials in power reduction with KSM. With the KSM, our experimental results show that <tt> GreenDIMM</tt> can reduce DRAM and system power by 55% and 30%, respectively.</p> 
+    </section> 
+   </section> 
+   <section class="back-matter"> 
+    <section id="sec-26"> 
+     <header> 
+      <div class="title-info"> 
+       <h2>ACKNOWLEDGMENTS</h2> 
+      </div> 
+     </header> 
+     <p>This work was partly supported by Samsung Electronics, National Research Foundation of Korea (NRF) grants funded by the Korean government (MSIT) (NRF-2020R1C1C1013315, NRF-2018R1A5A1060031), Samsung Research Funding Incubation Center of Samsung Electronics under Project Number SRFC-IT1902-03, Institute of Information &amp; communications Technology Planning &amp; Evaluation (IITP) grant funded by the Korea government (MSIT) (No.2014-3-00065, Resilient Cyber-Physical Systems Research), and National Science Foundation grant (CNS-1705047). Daehoon Kim is the corresponding author.</p> 
+    </section> 
+    <section id="ref-001"> 
+     <header> 
+      <div class="title-info"> 
+       <h2 class="page-brake-head">REFERENCES</h2> 
+      </div> 
+     </header> 
+     <ul class="bibUl"> 
+      <li id="BibPLXBIB0001" label="[1]">Sep 2012. (Accessed: April 2021). Main Memory: DDR4 &amp; DDR5 SDRAM. <a class="link-inline force-break" href="https://www.jedec.org/category/technology-focus-area/main-memory-ddr3-ddr4-sdram">https://www.jedec.org/category/technology-focus-area/main-memory-ddr3-ddr4-sdram</a>.</li> 
+      <li id="BibPLXBIB0002" label="[2]">Andrea Arcangeli, Izik Eidus, and Chris Wright. 2009. Increasing memory density by using KSM. In <em>Proceedings of the Ottawa Linux Symposium (OLS)</em>. 19–28.</li> 
+      <li id="BibPLXBIB0003" label="[3]">Rajeev Balasubramonian, Andrew&nbsp;B Kahng, Naveen Muralimanohar, Ali Shafiee, and Vaishnav Srinivas. 2017. CACTI 7: New tools for interconnect exploration in innovative off-chip memories. <em><em>ACM Transactions on Architecture and Code Optimization (TACO)</em></em> 14, 2(2017), 1–25.</li> 
+      <li id="BibPLXBIB0004" label="[4]">James Bucek, Klaus-Dieter Lange, and J&oacute;akim v. Kistowski. 2018. SPEC CPU2017: Next-generation compute benchmark. In <em>Companion of the 2018 ACM/SPEC International Conference on Performance Engineering (ICPE)</em>. 41–42.</li> 
+      <li id="BibPLXBIB0005" label="[5]">Maxime Coquelin. Jan 2012. (Accessed: April 2021). PASR: Partial Array Self-Refresh Framework. LWN. <a class="link-inline force-break" href="https://lwn.net/Articles/478049/">https://lwn.net/Articles/478049/</a>.</li> 
+      <li id="BibPLXBIB0006" label="[6]">Eli Cortez, Anand Bonde, Alexandre Muzio, Mark Russinovich, Marcus Fontoura, and Ricardo Bianchini. 2017. Resource central: Understanding and predicting workloads for improved resource management in large cloud platforms. In <em>Proceedings of the 26th Symposium on Operating Systems Principles (SOSP)</em>. 153–167.</li> 
+      <li id="BibPLXBIB0007" label="[7]">Howard David, Chris Fallin, Eugene Gorbatov, Ulf&nbsp;R Hanebutte, and Onur Mutlu. 2011. Memory power management via dynamic voltage/frequency scaling. In <em>Proceedings of the 8th ACM international conference on Autonomic computing (ICAC)</em>. 31–40.</li> 
+      <li id="BibPLXBIB0008" label="[8]">Howard David, Eugene Gorbatov, Ulf&nbsp;R Hanebutte, Rahul Khanna, and Christian Le. 2010. RAPL: Memory power estimation and capping. In <em>2010 ACM/IEEE International Symposium on Low-Power Electronics and Design (ISLPED)</em>. 189–194.</li> 
+      <li id="BibPLXBIB0009" label="[9]">Victor De&nbsp;La&nbsp;Luz, Mahmut Kandemir, and Ibrahim Kolcu. 2002. Automatic data migration for reducing energy consumption in multi-bank memory systems. In <em>IEEE Design Automation Conference (DAC)</em>. 213–218.</li> 
+      <li id="BibPLXBIB0010" label="[10]">Elpida Elpida. 2005. Partial Array Self Refresh (PASR). <a class="link-inline force-break" href="https://media-www.micron.com/-/media/client/global/documents/products/technical-note/dram/e0597e10.pdf?rev=07992f36c55f4e7e8b0c9aaafcda90dd">https://media-www.micron.com/-/media/client/global/documents/products/technical-note/dram/e0597e10.pdf?rev=07992f36c55f4e7e8b0c9aaafcda90dd</a>.</li> 
+      <li id="BibPLXBIB0011" label="[11]">Xiaobo Fan, Carla Ellis, and Alvin Lebeck. 2001. Memory controller policies for DRAM power management. In <em>International Symposium on Low Power Electronics and Design (ISLPED)</em>. 129–134.</li> 
+      <li id="BibPLXBIB0012" label="[12]">Michael Ferdman, Almutaz Adileh, Onur Kocberber, Stavros Volos, Mohammad Alisafaee, Djordje Jevdjic, Cansu Kaynak, Adrian&nbsp;Daniel Popescu, Anastasia Ailamaki, and Babak Falsafi. 2012. Clearing the clouds: a study of emerging scale-out workloads on modern hardware. In <em>ACM International Conference on Architectural Support for Programming Languages and Operating Systems (ASPLOS)</em>. 37–48.</li> 
+      <li id="BibPLXBIB0013" label="[13]">Dave Hansen. Apr 2003. (Accessed: April 2021). meminfo documentation. LWN. <a class="link-inline force-break" href="https://lwn.net/Articles/28309/">https://lwn.net/Articles/28309/</a>.</li> 
+      <li id="BibPLXBIB0014" label="[14]">John&nbsp;L Henning. 2006. SPEC CPU2006 benchmark descriptions. <em><em>ACM SIGARCH Computer Architecture News</em></em>(2006), 1–17.</li> 
+      <li id="BibPLXBIB0015" label="[15]">Shengsheng Huang, Jie Huang, Jinquan Dai, Tao Xie, and Bo Huang. 2010. The HiBench benchmark suite: Characterization of the MapReduce-based data analysis. In <em>2010 IEEE 26th International Conference on Data Engineering Workshops (ICDEW)</em>. IEEE, 41–51.</li> 
+      <li id="BibPLXBIB0016" label="[16]">Ciji Isen and Lizy John. 2009. ESKIMO - Energy Savings using Semantic Knowledge of Inconsequential Memory Occupancy for DRAM subsystem. In <em>IEEE/ACM International Symposium on Microarchitecture (MICRO)</em>. 337–346.</li> 
+      <li id="BibPLXBIB0017" label="[17]">Yasuaki Ishimatsu. May 29th, 2013. Memory Hotplug. <a class="link-inline force-break" href="https://www.fujitsu.com/jp/documents/products/software/os/linux/catalog/LinuxConJapan2013-Ishimatsu.pdf">https://www.fujitsu.com/jp/documents/products/software/os/linux/catalog/LinuxConJapan2013-Ishimatsu.pdf</a>.</li> 
+      <li id="BibPLXBIB0018" label="[18]">Brent Keeth, R&nbsp;Jacob Baker, Brian Johnson, and Feng Lin. 2007. <em>DRAM circuit design: fundamental and high-speed topics</em>. Vol.&nbsp;13. John Wiley &amp; Sons.</li> 
+      <li id="BibPLXBIB0019" label="[19]">Yoongu Kim, Weikun Yang, and Onur Mutlu. 2015. Ramulator: A fast and extensible DRAM simulator. <em><em>IEEE Computer architecture letters</em></em> 15, 1 (2015), 45–49.</li> 
+      <li id="BibPLXBIB0020" label="[20]">Karthik Kumar, Kshitij Doshi, Martin Dimitrov, and Yung-Hsiang Lu. 2011. Memory energy management for an enterprise decision support system. In <em>IEEE/ACM International Symposium on Low Power Electronics and Design (ISLPED)</em>. 277–282.</li> 
+      <li id="BibPLXBIB0021" label="[21]">Alvin&nbsp;R Lebeck, Xiaobo Fan, Heng Zeng, and Carla Ellis. 2012. Power aware page allocation. In <em>ACM International Conference on Architectural Support for Programming Languages and Operating Systems (ASPLOS)</em>. 105–116.</li> 
+      <li id="BibPLXBIB0022" label="[22]">Wei-Fen Lin, Steven&nbsp;K Reinhardt, and Doug Burger. 2001. Reducing DRAM latencies with an integrated memory hierarchy design. In <em>Proceedings HPCA Seventh International Symposium on High-Performance Computer Architecture (HPCA)</em>. 301–312.</li> 
+      <li id="BibPLXBIB0023" label="[23]">Haikun Liu, Hai Jin, Xiaofei Liao, Wei Deng, Bingsheng He, and Cheng-zhong Xu. 2014. Hotplug or ballooning: A comparative study on dynamic memory management techniques for virtual machines. <em><em>IEEE Transactions on parallel and distributed systems (TPDS)</em></em> (2014), 1350–1363.</li> 
+      <li id="BibPLXBIB0024" label="[24]">Jamie Liu, Ben Jaiyen, Richard Veras, and Onur Mutlu. 2012. RAIDR: Retention-aware intelligent DRAM refresh. In <em>ACM/IEEE International Symposium on Computer Architecture (ISCA)</em>. 1–12.</li> 
+      <li id="BibPLXBIB0025" label="[25]">Chengzhi Lu, Kejiang Ye, Guoyao Xu, Cheng-Zhong Xu, and Tongxin Bai. 2017. Imbalance in the cloud: An analysis on alibaba cluster trace. In <em>2017 IEEE International Conference on Big Data (Big Data)</em>. 2884–2892.</li> 
+      <li id="BibPLXBIB0026" label="[26]">Haocong Luo, Taha Shahroodi, Hasan Hassan, Minesh Patel, Abdullah&nbsp;Giray Yaglikci, Lois Orosa, Jisung Park, and Onur Mutlu. 2020. CLR-DRAM: A Low-Cost DRAM Architecture Enabling Dynamic Capacity-Latency Trade-Off. (2020), 666–679.</li> 
+      <li id="BibPLXBIB0027" label="[27]">Krishna&nbsp;T Malladi, Ian Shaeffer, Liji Gopalakrishnan, David Lo, Benjamin&nbsp;C Lee, and Mark Horowitz. 2012. Rethinking DRAM power modes for energy proportionality. In <em>IEEE/ACM International Symposium on Microarchitecture (MICRO)</em>. 131–142.</li> 
+      <li id="BibPLXBIB0028" label="[28]">David Meisner, Brian&nbsp;T Gold, and Thomas&nbsp;F Wenisch. 2009. PowerNap: eliminating server idle power. In <em>ACM International Conference on Architectural Support for Programming Languages and Operating Systems (ASPLOS)</em>. 205–216.</li> 
+      <li id="BibPLXBIB0029" label="[29]">Mike O'Connor, Niladrish Chatterjee, Donghyuk Lee, John Wilson, Aditya Agrawal, Stephen&nbsp;W Keckler, and William&nbsp;J Dally. 2017. Fine-grained DRAM: energy-efficient DRAM for extreme bandwidth systems. In <em>IEEE/ACM International Symposium on Microarchitecture (MICRO)</em>. 41–54.</li> 
+      <li id="BibPLXBIB0030" label="[30]">Muhammad Tirmazi, Adam Barker, Nan Deng, Md&nbsp;E Haque, Zhijing&nbsp;Gene Qin, Steven Hand, Mor Harchol-Balter, and John Wilkes. 2020. Borg: the next generation. In <em>Proceedings of the Fifteenth European Conference on Computer Systems (EuroSys)</em>. 1–14.</li> 
+      <li id="BibPLXBIB0031" label="[31]">Konstantinos Tovletoglou, Lev Mukhanov, Dimitrios&nbsp;S Nikolopoulos, and Georgios Karakonstantis. 2020. HaRMony: Heterogeneous-Reliability Memory and QoS-Aware Energy Management on Virtualized Servers. In <em>ACM International Conference on Architectural Support for Programming Languages and Operating Systems (ASPLOS)</em>. 575–590.</li> 
+      <li id="BibPLXBIB0032" label="[32]">Malcolm Ware, Karthick Rajamani, Michael Floyd, Bishop Brock, Juan&nbsp;C Rubio, Freeman Rawson, and John&nbsp;B Carter. 2010. Architecting for power management: The IBM&reg; POWER7™ approach. In <em>IEEE International Symposium on High-Performance Computer Architecture (HPCA)</em>. 1–11.</li> 
+      <li id="BibPLXBIB0033" label="[33]">Donghong Wu, Bingsheng He, Xueyan Tang, Jianliang Xu, and Minyi Guo. 2012. RAMZzz: Rank-aware DRAM power management with dynamic migrations and demotions. In <em>International Conference on High Performance Computing, Networking, Storage and Analysis (SC)</em>. 32:1–32:11.</li> 
+      <li id="BibPLXBIB0034" label="[34]">Tao Zhang, Ke Chen, Cong Xu, Guangyu Sun, Tao Wang, and Yuan Xie. 2014. Half-DRAM: A high-bandwidth and low-power DRAM architecture from the rethinking of fine-grained activation. In <em>ACM/IEEE International Symposium on Computer Architecture (ISCA)</em>. 349–360.</li> 
+      <li id="BibPLXBIB0035" label="[35]">Pin Zhou, Vivek Pandey, Jagadeesan Sundaresan, Anand Raghuraman, Yuanyuan Zhou, and Sanjeev Kumar. 2004. Dynamic tracking of page miss ratio curve for memory management. In <em>ACM International Conference on Architectural Support for Programming Languages and Operating Systems (ASPLOS)</em>. 177–188.</li> 
+     </ul> 
+    </section> 
+   </section> 
+   <section id="foot-001" class="footnote"> 
+    <header> 
+     <div class="title-info"> 
+      <h2>FOOTNOTE</h2> 
+     </div> 
+    </header> 
+    <p id="fn1"> <a href="#foot-fn1"><sup>1</sup></a>They are originally developed to support memory hot-plug that allows a (failing) DRAM module to be unplugged from a server and replaced with a another DRAM module at run-time.</p> 
+    <p id="fn2"> <a href="#foot-fn2"><sup>2</sup></a>RAPL does not support the measurement of cycles that ranks spend in power-down state but our indirect measurement suggests that ranks do not enter the power-down state, either.</p> 
+    <div class="bibStrip"> 
+     <p>Permission to make digital or hard copies of all or part of this work for personal or classroom use is granted without fee provided that copies are not made or distributed for profit or commercial advantage and that copies bear this notice and the full citation on the first page. Copyrights for components of this work owned by others than ACM must be honored. Abstracting with credit is permitted. To copy otherwise, or republish, to post on servers or to redistribute to lists, requires prior specific permission and/or a fee. Request permissions from <a href="mailto:permissions@acm.org">permissions@acm.org</a>.</p> 
+     <p><em>MICRO '21, October 18–22, 2021, Virtual Event, Greece</em></p> 
+     <p>&copy; 2021 Association for Computing Machinery.<br /> ACM ISBN 978-1-4503-8557-2/21/10…$15.00.<br />DOI: <a class="link-inline force-break" target="_blank" href="https://doi.org/10.1145/3466752.3480089">https://doi.org/10.1145/3466752.3480089</a> </p> 
+    </div> 
+   </section> 
+  </main>   
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'8f80cd118e3feb84',t:'MTczNTIxMzI3OS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script><script defer src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon='{"rayId":"8f80cd118e3feb84","serverTiming":{"name":{"cfExtPri":true,"cfL4":true,"cfSpeedBrain":true,"cfCacheStatus":true}},"version":"2024.10.5","token":"b7f168b3cd354a55a4dd51b513830799"}' crossorigin="anonymous"></script>
+</body>
+</html>

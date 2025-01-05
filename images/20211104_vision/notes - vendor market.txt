@@ -1,0 +1,547 @@
+1. Scale
+    1. Scaleout
+    2. Large object
+        1. Query
+            1. S3 Select / SQL
+                1. "the application issues SQL select commands and potentially gets only a small subset of that data"
+
+2. Provisioning
+    1. Scale
+    2. Elastic
+    3. Response time
+    4. multitenancy and QoS
+
+2. Management
+    1. Auth, group, domain, RBAC
+    2. Quota
+    3. Pools, policies
+    4. File/object lock
+
+3. Snapshot, object versioning
+    1. time travel
+    2. seconds level snapshot
+    3. immutable snapshot
+
+4. object tagging, search, query
+
+3. Interoperability
+    1. Support as many protocols as it can
+    2. connect to FS, cloud, etc
+    3. global namespace
+
+5. Security
+    1. Lock, WORM
+    2. Antivirus
+    3. immutable architecture
+    4. proactive defence
+    5. ransomware
+    6. encryption
+
+6. replication
+    1. granularity, file, directory, object, pool
+    2. site, WAN/VPN
+    3. recovery
+
+7. connecting to the cloud
+
+7.5. COGS
+    1. compression
+    2. dedup
+    3. EC
+    4. Tiering
+    5. AIops, cloud cost management/insight
+    6. hybrid cloud, global namespace
+
+7.6. operability
+    1. AIops
+
+8. Backup
+    1. Ransomware
+       1. An immuatable distributed filesystem
+       2. proactive defense
+       3. File/object lock
+
+8.5. customer support
+    1. SLA
+    2. time to mitigation
+    3. time to RCA
+    4. customer notification/toast
+
+8.6. Ecosystem
+    1. OSs, management tools, cloud partners
+
+
+9. Cyberstorage 
+   https://www.racktopsystems.com/racktop-systems-named-sample-vendor-for-cyberstorage-in-gartner-report-hype-cycle-for-storage-and-data-protection-technologies-2021/
+
+
+10. Sources
+    1. 发现报告 Weichat App
+    2. Analytics report
+        1. critical capabilities report
+        2. market segment leader and capability report
+        3. Google 'gartner file system and object storage "licensed for distribution"'
+            1. Or, search vendor paid report due to the vendor is ranked top this year
+    3. Technology tornado model
+    4. Startup investment
+    5. User manual of top products
+
+--------------------
+
+1. Market growth
+    1. Cumulative improvement.
+        1. management efficiency
+    2. Disruptive innovation
+        1. Replacing existing old technology
+        2. New space by new technology
+    3. Entering neighbor market
+    4. Technology brought in by neighbor market
+        1. E.g. AIops in storage
+    5. Natural growth of market
+       1. Natural growth of technology
+       2. Natural growth of production efficiency / GDP
+
+2. Market segments
+    1. SMB vs Large Enterprise, Specialized
+    2. Use cases / Scenarios: OLTP, Virtualization, Containers, App, VDI
+        1. Also, HPC, AI
+        2. Lift and shift
+        3. Collaboration
+    3. Deployment model: SaaS, on-premises, hybrid, managed datacenter, consulting
+    4. serving types: block, object, filesystem
+
+3. My market topics structure
+    1. Market segment listing
+        1. see bullet 2
+        2. And, market spending study
+            1. // TODO
+            2. And, market size study
+    2. Key capabilities
+        1. see "Critical Capabilities for Primary Storage"
+        2. see "GigaOm雷达：分布式云文件存储报告 - Andy730"
+        3. Common category of key capabilities
+        4. Specialized category of key capabilities to the given storage/filesystem area
+    3. Supporting technologies
+        1. see the above two. see my overall articles
+
+4. My article structure
+    1. Market study
+    2. Hardware study
+    3. Technology overview
+        1. the three layer picture with technology in middle, and innovation trends hitting market, hardware, and gartner tornado model of lifecycles, and neighbor markets 
+    4. Hypothesis and issue tree framework
+    5. tips - connect - vision
+    6. Where we will be in the next 3~5~10 years?
+
+5. Future
+    1. Hardware breakthrough and projection
+    2. 
+
+// TODO Business acumen course
+
+
+
+---------------------
+
+1. Critical Capabilities for Primary Storage
+   https://www.gartner.com/doc/reprints?id=1-2F1DKRMR&ct=230919&st=sb
+    0. good summary.
+        1. Table 1: Weighting for Critical Capabilities in Use Cases
+            1. very good
+    1. Product/Service Class Definition
+    2. Critical Capabilities Definition
+        1. Performance
+        2. Storage Efficiency
+        3. RAS (Reliability, availability and serviceability)
+        4. Scalability
+        5. Ecosystem
+        6. Multitenancy and Security
+        7. Operations Management
+    3. Use Cases
+        1. Online Transaction Processing
+        2. Virtualization
+        3. Containers
+        4. Application Consolidation
+        5. Hybrid Cloud IT Operations
+        6. Virtual Desktop Infrastructure
+    n. related materials
+        1. 2023主存储关键能力报告原文分享，软件定义存储得到分析师认可 - 西瓜哥 高端存储知识
+           https://mp.weixin.qq.com/s/O5j1nNt3cqQT6RmG7wEy_g
+
+2. GigaOm雷达：分布式云文件存储报告 - Andy730
+   https://mp.weixin.qq.com/s/aYkEv2VQywKEJKu8FFrMWg
+    0. very good tables for systems atop cloud 
+    1. Filesystems
+        1. Key criteria
+            1. Global namespace
+            2. Hybrid & Multicloud support
+            3. Integration with Object Storage
+            4. Data management
+            5. Analytics
+            6. Cyber Resiliency
+            7. Edge deployment
+        2. Evaluation metrics
+            1. Architecture
+            2. Scalability
+            3. Flexibility
+            4. Efficiency
+            5. Performance
+            6. Ease of Use
+            7. Security approach
+        3. Emerging technologies
+            1. Data classification
+            2. Data privacy compliance support
+            3. Data sovereignty requirements support
+    n. related materials
+        1. GigaOm Radar for High-Performance Cloud File Storage 2023
+           https://gigaom.com/reprint/gigaom-radar-for-high-performance-cloud-file-storage-238122-hammerspace/
+            1. very good
+            2. Vendor insights
+                1. Amazon
+                    1. Strengths: Amazon offers an extensive set of cloud file storage solutions that can address the needs of a broad spectrum of personas and use cases, providing great flexibility and compatibility with popular file system options through its FSx service while also delivering a cloud-native experience with EFS and hybrid cloud options with Amazon File Cache.
+                    2. Challenges: Amazon’s extensive portfolio requires organizations to properly understand the company’s offerings and the alignment of services to specific use cases. The rich ecosystem is also complex, with analytics and management capabilities. The platform can deliver outstanding value, but it requires a thorough understanding of its full potential.
+                2. Google
+                    1. Strengths: Google Cloud file storage capabilities are improving, partly thanks to the availability of Google Cloud NetApp Volumes. Filestore is an exciting solution for organizations that rely heavily on GCP. It provides a native experience with high throughput and sustained performance for latency-sensitive workloads.
+                    2. Challenges: Google Filestore has improved, but it still has limitations in scalability and customization. Users needing highly scalable storage should consider other options.
+                3. Hammerspace
+                    0. good innovative solution. a single global namespace atop all cloud vendors
+                    1. Strengths: Hammerspace’s Parallel Global File System offers a very balanced set of capabilities with replication and hybrid and multicloud capabilities through the power of metadata.
+                    2. Challenges: Built-in, proactive ransomware detection capabilities are currently missing.
+                4. Microsoft Azure
+                    1. Strengths: Microsoft offers a broad portfolio with multiple options, protocols, use cases, and performance tiers that allow organizations to consume cloud file storage in a cost-efficient manner. It also offers enterprise-grade multicloud capabilities with its first-party Azure NetApp Files solution.
+                    2. Challenges: There are no global namespace management capabilities to abstract the underlying file share complexity for the end user. There are also limitations based on the different share types, although Microsoft is working on increasing maximum volume sizes. The various offerings can appear very complex and therefore intimidating for smaller organizations.
+                5. NetApp
+                    0. Interesting. NetApp ONTAP integrated with almost every cloud vendors natively
+                    1. Strengths: Available as a first-party offering on all three major hyperscalers, NetApp offers an unrivaled set of enterprise-grade capabilities that enable seamless data mobility and a consistent, simplified operational experience. Cyber resiliency, data management, and data protection capabilities increase the overall value of the platform to offer an industry-leading cloud file storage experience.
+                    2. Challenges: Despite notable improvements, the NetApp portfolio still remains complex to newcomers, though using BlueXP as an entry point is an effective way to remediate this perception issue.
+
+        2. GigAom: Key Criteria for Evaluating Cloud File Storage Solutions
+           https://gigaom.com/report/key-criteria-for-evaluating-cloud-file-storage-solutions/
+            1. 
+
+3. Magic Quadrant for Enterprise Backup and Recovery Software Solutions 2023
+   https://www.gartner.com/doc/reprints?id=1-2D04HE66&ct=230322&st=sb
+    0. good.
+    1. Key capabilities for backup
+        1. Must-have capabilities of a backup and recovery solution include:
+            1. Backup and recovery of data located in on-premises data center infrastructure, including operating systems, files, databases, virtual machines and applications
+            2. Backup and recovery of data located in public cloud infrastructure, including multicloud and hybrid cloud, architectures, and environments such as infrastructure as a service (IaaS), platform as a service (PaaS) and SaaS
+            3. Create multiple point-in-time copies of the backup to support resiliency, disaster recovery and other use cases
+            4. Assignment of multiple backup and retention policies that align with the organization's recovery point-and-time objectives
+            5. Report success and failure of backup/recovery tasks
+        2. Standard capabilities of a backup and recovery solution include:
+            1. Tier backup data to multiple targets, including public cloud, backup and recovery provider, and object storage
+            2. Integration with immutable backup storage target(s) or backup and recovery vendor's own immutable storage
+            3. Orchestrate disaster and ransomware recovery testing and processes
+            4. Centralized console for management of distributed backup solution infrastructure
+        3. Optional capabilities that can be provided by the solution include:
+            1. Expand backup data use cases to support data discovery, compliance, copy data management, test/development and e-discovery
+            2. Protect other workloads, including containers, object storage, edge/remote branch office sites and endpoints
+            3. Vendor-developed or integrated ransomware data anomaly and malware detection
+            4. Immutable data vaults and/or isolated recovery environments
+            5. Bare-metal recovery
+
+4. Gartner Magic Quadrant for Primary Storage 2023
+   https://www.gartner.com/doc/reprints?id=1-2EVI4TV3&ct=230901&st=sb
+    0. good.
+    1. typical usecases
+        1. Mission- and business-critical database workloads
+        2. Application consolidation
+        3. Support for virtualization and virtual desktop infrastructure environments
+        4. Persistent storage and data protection for container environments
+        5. Hybrid cloud IT operations that span on-premises, colocation, edge and public cloud infrastructure
+    2. Key capabilities for primary storage
+        1. Core Capabilities
+            1. Host interface protocols that are block-based, such as Fibre Channel; iSCSI; Serial Attached SCSI (SAS); file-based, such as Network File System and Server Message Block; or a combination of block and file protocols.
+            2. Data services to pool capacity across storage media devices (HDD or Flash) and present LUNs to business applications.
+            3. Data services that conserve capacity utilization, deliver high levels of efficiencies and resilience, protect against data loss and ransomware, and enable recovery via local and remote replication.
+            4. Block-based STaaS offering that is available as service-provider-managed in partnership with the end-user client as an IT-managed offering.
+            5. AIOps software that includes operational monitoring for prescriptive health, customer support, and support for proactive capacity management, nondisruptive workload simulation, data placement and migration, storage asset utilization cost optimization, performance optimization, and both full and cross-stack and fleetwide telemetry observability, alerting and reporting.
+            6. An SDS product architecture that separates the vendor’s storage hardware from the storage operating software. The SDS product supports on-premises storage, and/or one or multiple public
+            cloud platform(s) that is accessible via a marketplace. It integrates with cloud provider’s server, storage and networking hardware, and deploys the same storage operating system as found in its on-premises appliance solution. It is also integrated with vendor AIOps functionality.
+            7. Nondisruptive migration of data from current array to future array with a 100% data availability guarantee.
+            8. Cyber storage protection and resilience, including support for ransomware detection, data protection and recovery capabilities.
+        2. Optional Capabilities
+            1. SSAs with nonvolatile memory express over fabrics (NVMe-oF) as a host interface to provide support for both Fibre Channel and Ethernet connectivity.
+            2. Advanced AIOps real-time event streaming capabilities in support of monitored SLA threshold conditions that require automated, system-level (for example: nonhuman intervention) actions to critical IT operational situations, such as storage asset management, cyber liability resilience, and productivity.
+            3. A multi-infrastructure domain and a hybrid-platform-wide, central control plane with multitenant, multivendor AIOps for ITOps-as-a-service capabilities, in support of advanced IT operating model SLA outcomes.
+            4. Multiprotocol, disaggregated storage-compute architecture that supports nondisruptive, asymmetrical elastic scaling of capacity and compute, independent of each other, by maintaining performance through the addition of storage nodes from a small number of compute and storage nodes to dozens.
+            5. Hybrid infrastructure platform offerings that integrate, manage, and support centralized IT data services infrastructure solutions, including but not limited to backup as a service, disaster recovery as a service, ransomware recovery or protection as a service, and database as a service.
+            6. Published carbon emissions, as measured by total kilograms of CO2 per terabyte per year, of a fully loaded system, as measured in at least two major geographies.
+            7. Special-purpose SSD or captive NVMe SSD drive for enhanced performance, endurance, management and data services.
+            8. An array form factor that can be scale-out and based on SSDs or HDDs, or a combination of the two.
+
+    n. related materials
+        1. Top Trends in Enterprise Data Storage 2023
+           https://mp.weixin.qq.com/s?__biz=Mzg3MDY0OTQ0NA==&mid=2247490328&idx=1&sn=c467bcc73b5308c43c1d4ce38ee7e6cb
+           https://www.gartner.com/doc/reprints?id=1-2EJRFDVV&ct=230725&st=sb&utm_campaign=Gartner%20research%201%20and%202&utm_medium=email&_hsmi=267528108&_hsenc=p2ANqtz-_Qw1kV5sF9mzPFzp7aeu5TrB-JS50a4oKIMiy16PJ6dAA1fNsE8TFgdSuZ-s6VKDHd1xaobDLHEyW9g-NJ3v55kzpFCg&utm_content=267528108&utm_source=hs_automation
+            1. Top trends 2023
+                1. Universal storage trends
+                    1. Storage-as-a-Service, STaaS
+                    2. CyberStorage
+                    3. QLC flash
+                2. Enabling Business Insights
+                    1. Single platform for File and Object Storage
+                    2. Data storage management services
+                    3. Hybrid cloud file data storage
+                3. Capitalizing on Flash and Container Storage
+                    1. NVMe over fabric, NVMoF
+                    2. Container native storage
+                    3. Captive NVMe SSD
+
+
+
+5. Gartner Magic Quadrant for Distributed File Systems and Object Storage 2022
+   https://www.gartner.com/doc/reprints?id=1-2BG8L8TW&ct=221019&st=sb
+    1. Key capabilities for Distributed file systems
+        1. Core capabilities
+            1. Distributed file systems storage uses a single parallel file system to cluster multiple storage nodes together, presenting a single namespace and storage pool to provide high bandwidth for multiple hosts in parallel.
+            2. Object storage refers to devices and software that house data in structures called “objects,” and serve clients via RESTful HTTP APIs such as Amazon Simple Storage Service (S3).
+            3. Data and metadata are distributed over multiple nodes in the cluster to handle availability, resilience and data protection in a self-healing manner and to provide high throughput and capacity linearly.
+        2. Optional capabilities
+            1. Cyber resilience or cyberstorage functionality enables active technologies to identify, protect, detect, respond to and recover from ransomware attacks on unstructured data storage solutions.
+            2. Hybrid cloud integration that will leverage public cloud infrastructure and platform services can enable data mobility, resilience and operational efficiency for on-premises unstructured data platforms.
+            3. Artificial intelligence (AI)-driven operations capabilities are leveraging machine learning to enable prescriptive health management, improved customer support and support of proactive capacity management, nondisruptive workload simulation, placement and migration/tiering, and performance optimization.
+            4. A unified platform for file and object storage provides common unstructured data services with multiprotocol access.
+
+4. Magic Quadrant for Cloud Infrastructure and Platform Services 2022
+   https://www.gartner.com/doc/reprints?id=1-2AOZQAQL&ct=220728&st=sb&refid=013d21b3-f736-4423-b567-54a3a7c609f7
+    1. See the evaluation criteria. They are the important pieces. 
+    n. related materials
+        1. Gartner Solution Scorecard for Cloud Service IaaS+PaaS
+            Alibaba: https://www.gartner.com/doc/reprints?id=1-288OG5JN&ct=211126&st=sb
+            AWS: https://www.gartner.com/doc/reprints?id=1-27GFQN50&ct=210916&st=sb
+            Oracle News: https://www.oracle.com/emea/news/announcement/blog/oci-scores-in-gartner-solution-scorecard-for-iaas-and-paas-2021-11-18/
+            1. Very good. as you click open details toolstip, it shows global cloud landscape, and how each cloud vendor builds feature
+            2. highlights
+                1. Gartner ScoreCard (Very good as you go to scorecard details)
+                    1. Solution: required, preferred, optional
+                    2. Resilience
+                        1. categories: Datacenter geo, AZs, monitoring & metrics, dashboards personalized, VM non-interrupt in ops, VM failure recovery.
+                                      AZ isolations. Disaster recovery. Cross region consistency
+                        2. AliCloud has SLO, in explict numbers, but Azure not
+                        3. Azure lacks in AZ isolation, and multi-AZ availability.
+                        4. Oracle provides "Full regional consistency"
+                            0. OK .. this each region has same feature offered, not data in sync replication
+                            1. Oracle async cross-region volume replication
+                               https://blogs.oracle.com/cloud-infrastructure/post/cross-region-block-storage-volume-replication
+                               https://docs.oracle.com/en-us/iaas/Content/Block/Concepts/volumereplication.htm
+                            2. Oracle Cloud Maximum Availability Architecture
+                               https://www.oracle.com/a/tech/docs/cloud-maa-overview.pdf
+                                1. 两地三中心架构
+                                2. some Data Guard level is selling zero RPO even cross geo regions?
+                                    1. some Oracle low latency interconnect backbone, can ensure sync replication cross region?
+                                       https://docs.oracle.com/en-us/iaas/Content/General/Concepts/regions.htm
+                    3. Compute
+                        1. Categories: rapid launch, massive launch, launch large, VMs, migration; exclusive host, baremetal, private image catalog; containers / K8S; hooks, autoscaling, second level billing; trusted enclaves
+                    3.2. Storage
+                        1. Categories: data migration appliance. block storage, object storage, file storage. snapshot, cross-region replication, permission, performance targets; large volume, archive storage, backup, encryption
+                                       policy-driven approach to snapshot life cycle management; cross region file share; cloud storage gateway; 
+                    3.3. Network
+                        1. Categorize: VPC, VPN gateway, Loadbalancer, static IP, DNS, perf SLO & monitor;
+                                       VPC across region, traffic mirroring, 
+         
+                    5. Security
+                        1. Categories: Key/Certificate management, audits, retire sanitization, Trusted boost;
+                                       federated identity, SSO, multifactor authentication (MFA), RBAC, resource groups; firewall, DDOS mitigation/scrubbin;
+                                       thread monitoring, compliance, vulnerability assessment; Endpoint protection, encryption SDK, Sensitive data discovery
+                    6. Software Infa Services
+                        1. Categories: Relational database, replication, Datawarehouse, FaaS, NoSQL;
+                         DB migration, in-memory caching, API gateway, search indexing, messaging, CDN
+                                       Micro-service Service Mesh, Globally distributed DB, GraphDB; end-user identity, emailing
+                    7. Digital Business Infrastructure
+                        1. Categories: CI / CD, Bigdata analytics, Streaming, ML-optimized VM, ML training/inference, HPC, DB-optimized NVMe VMs
+                                    Edge Stack, Time-series DB, ETL, data catalog, Blockchain
+                    8. Operations and Governance
+                        1. Categories: Self-service, cost, audit, templates, policies, metadata tagging
+                                       Demo serivces, CMDB, Automation, Batch, Mobile App, AIOps
+                    9. Vendor Management and Audit
+                        1. Categories: SLA, health dashoard, documentation, event management, support ticket, training & certification, managed service providers (MSPs), mitigation track record, global offering, Reference architectures, Marketplace (with > 500 ISVs)
+                                        DC energy efficiency, FedRAMP, US DoD, HIPAA, CJIS, Law enforcement request/transparency report
+                2. AWS strength and weakness
+                    1. Strengths
+                        1. Large-scale capacity and scalability offerings
+                        2. Extensive portfolio of flexible service offerings
+                        3. Core focus on digital businesses
+                        4. Proven suitability for the traditional enterprise
+                        5. Broad and deep ecosystem
+                    2. Weakness
+                        1. Building blocks, not solutions
+                        2. Choice overload
+                        3. Limited architectural transparency
+                        4. Oriented toward distributed cloud, not hybrid cloud
+                        5. Limited traditional disaster recovery (DR) capabilities
+                            1. i.e. AWS has not many regions in some countries, that cannot offer distant but still in-country DR sites
+                    3. neutral
+                        1. AWS is built around the assumption that organizations want to be agile and innovative
+                        2. AWS’s release velocity is not only fast, but also unpredictable
+                3. AliCloud
+                    1. Strong China top 1. Higher score than Google Cloud. Apsara Stack AI
+                    2. suffers from the lacking part is global offering, inconsistent china/global offering, limited ecosystem for multicloud customers
+                    3. Sometimes there are multiple services with what seem to be very similar feature sets, but each service has nuances that make it more optimal for particular use cases.
+                    4. Be mindful of the dearth of English-language documentation
+                4. summarized key abilities of Azure
+                    1. Mission critical KPIs
+                        1. run long time without failure
+                        2. deterministic and consistent performance
+                        3. high availability self and for customer apps
+                    2. dynamic and scale the workload
+                    3. Linux support, K8S support
+                    4. storage attached, e.g. SAN and NAS, NFS, HDFS
+                    5. Disaster recovery, Snapshot in time
+                    6. Migration tools into Azure, TCO cost management
+                    7. Run Azure on-premise customer datacenter, connect services to Azure
+                    8. Security, confidential, zero trust, enclave
+                    9. HPC, AI, Analytics workload
+                    10. working with 3rd party vendors
+            n. related materials
+                1. 云头条 News: https://mp.weixin.qq.com/s?__biz=MzI4OTc4MzI5OA==&mid=2247547807&idx=1&sn=4f8f9cd09a1eacbe7cab9188f2d17b64&chksm=ec2b90f2db5c19e4c59490cbb8e4864a497a486d546b330d29ace18963ff6f0cebc48b715b90
+                2. 特大号 News: https://mp.weixin.qq.com/s?__biz=MzI3MzAzNDAyMQ==&mid=2657720192&idx=1&sn=6338af93cb7abdad96f82fcc04295294&chksm=f0b449cac7c3c0dc9bbc4fa83a0c5f2a784e392b81335b104a5fd086f44de04c66059c38b8f2
+                    1. 计算，存储，网络
+                    2. 弹性
+                    3. 安全
+                    4. 软件开发，数字化，运营
+                    5. 供应商
+                3. Zhihu: https://www.zhihu.com/question/504904337
+
+5. 6家存储系统公司的客户反馈（最喜欢的/最不喜欢的）
+   https://mp.weixin.qq.com/s?__biz=Mzg3MDY0OTQ0NA==&mid=2247490321&idx=1&sn=45cd7ac08aaba1100f40f74c9989d58e
+    1. very good materials to tell what functionalities do customers need
+    2. Highlights
+        1. Ease of management, operation, upgrade
+            1. Rich monitoring and alerting
+            2. Small/easy deployment for the today's small scale
+                1. deployment complexity/scale fits customer needed scale, flexible
+            3. Interoperability across different protocols
+            4. Save my time of managing it
+                1. No manual hands on needed
+            5. documentation, user manual
+            6. simpler licensing policies
+            7. logging, visualized UI, reporting
+            8. upgrading without interruption, upgrading ease of management
+            9. Snapshot, Quota
+            10. speed of ingesting existing data into the new cluster
+        2. Strong performance, latency, throughput
+            1. Stable, availability, data correctness
+            2. Data tiering
+            3. Data recovery
+            4. Unlimited scale, e.g. file number, file size
+            5. $/TB, $/IOPS
+            6. geo-replication
+        3. Customer support
+            1. Professional pre-sales, after-sale supports on technical problems
+            2. Customer support with high quality, and very timely response
+        4. Compliance
+            1. Data security and compliance risks
+            2. Which location to store data
+
+
+
+----------------------------------------------------------------------------------------------------------------------
+
+
+
+17. rethinking the driving factors for storage evolving trends and dynamics, vision in 1 ~ 3 years
+    1. hardware
+                    1. new type of hardware, e.g. 3D-XPoint, SSD, SMR, ZNS, NVMoF
+                    2. growing capacity of hardware, e.g. TB memory, 1 machine 100+ HDD, manycore, RDMA
+                    3. changing proportion of hardware, e.g. colocating compute/storage vs disaggregated design Snowflake, faster networking / faster storage device vs not-catching up CPU
+                    4. smart hardware, e.g. FPGA, Computational Storage, AWS Nitro, Azure Catapult
+                    5. GPU, DPU, IPU
+
+    2. growing scale of data capacity and IOPS
+                    1. distributed scale-out storage, Ceph, now everything
+                    2. distributed filesystem, CephFS, EMC Isilon, Azure HDFS/DataLake
+                    3. cloud opening 1000+ datacenters worldwide, interconnect, geo-distribution
+                    4. performance deterministic, SLA
+
+    3. COGS saving
+                    1. ErasureCoding, performance optimization, Kernel Passthrough
+                    2. Data deduplication
+                    3. Data tiering, migrating, caching, etc
+                    4. underlying data representation, data format, physical layout
+
+    4. Reliability
+                    1. Data backup, Copy data management
+
+    5. related technology
+                    1. container, cloud
+                    2. TLA+, formal verification
+                    3. consistent hashing, distributed transactions, append-only LSM tree, ART / Mass-tree indexes
+
+    6. User interface changing, new business models
+                    1. SQL, no SQL, new SQL
+                    2. OLAP, OLTP, HTAP
+                    3. in-memory storage, all flash, NVMe storage
+                    4. Cloud, Hybrid Cloud, Cloud offloading, Hyper-converged, IoT, Edge computing, Blockchain
+                    5. many pushing from new changing consumer, e.g. the active Database community, VM & virtualization, NFS, page & block storage, archiving, data backup, AI & machine learning & deep learning, GPU, Datalake & enterprise data mgmt and analysis, software defined DC/storage, containerization, etc
+                    5. stream processing, transactional streaming, evolving table, RDD, XOR linage
+                    6. video processing. online realtime podcasting
+                    
+    6.5. Co-design with surrounding
+                    1. Co-design with database some years, and then decouple design some years
+                    2. Co-design the custom hardware some years, and then decouple with whitebox commodity hardware some years
+                    3. Open-Channel SSD, ZNS GC, SMR GC
+
+    7. security
+                    1. Zero trust, confidential computing
+                    2. Ransomware, Immutable Storage
+
+    8. Data management
+                    1. Operational model changing, Orchestration
+                    2. on-premise and hybrid cloud management and COGS improvement, metrics and analytics COGS saving
+                    3. data migration, shipping, Edge, caching, Tiering
+
+----
+    
+    vision in 1 ~ 3 years
+      1. in general, the vision is more a wording for startups, where leader needs insight in one or a few directions but with predictions, depth, and belief
+         to understand overall trends, the wording "trends" already have a lot of study, which can be easily searched on google.
+                    for the daily work, the vision is more like a breakdown, to more specifically know what our team should do in the following 1 ~ 3 years, and where are our SWOT - Weakness/bottleneck, Strength, Opportunities, Risks
+      2. what are the bottlenecks/directions in our xstream team in the following 1~3 years
+                      1. scale-out the metadata, the data, the operation management. balance and migration.
+                      2. reduce COGS, improve performance, more sellable IOPS/capacity, less amplification.
+                      3. deterministic performance, better request SLA. improving customer request resolving time and satisfaction.
+                      4. data reliability and corruption. security hardening.
+                     5. fitting working with new type of hardware layout, new generation, new SKU, Rack count, geo-distribution, etc
+                      6. shipping new technology, e.g. storage device, e.g. CPU feature, into our system.
+                      7. internal technical debts, better design and refactor, adding metrics, measures, making visible and systematic
+    3. what is the storage at world industry position?
+    4. what is the storage at our competitor position? AWS/Google, SAN/NFS vendors, Data backup vendors / Data management
+    5. what kind of team, guys, and how we work and organize, will be, after 3~5 years?
+
+4.6. "Vision" - industrial invest info collection framework 
+    1. related: http://accelazh.github.io/technology/Roadmap-to-Technical-Leadership - "Build Information Flow"
+        2. Storage Field Day - Window of Industrial invest - Captured MinIO, VastData
+            1. I need window to know how storage field in industry invest, acquisition on new technologies
+               compared to paper / academics, industrial memory flow reveals true technology trends and visions
+            2. Use key startup, acquisitions I found to reverse track which web sources can feedback me the industrial invest flow
+                1. VastData - youtube search - locate Storage Feild Day / Tech Field Day. Similar for MinIO
+                   https://www.youtube.com/results?search_query=vastdata+storage+field+day
+                   https://www.youtube.com/results?search_query=minio
+                                1. Currently I think Storage Field Day is the best source
+                2. Blocks & Files site
+                   https://blocksandfiles.com/2021/04/06/vast-data-software-subscriptions-pivot/
+                     "VAST Data raised $100m at a $1.2bn valuation"
+                   Computer weekly
+                   https://www.computerweekly.com/news/252502669/Vast-Data-will-offer-containerised-storage-software-but-not-yet
+                3. just search "storage startups and investments acquisition news"
+                   Usually category "Startups" in news website will show lots of investment / value raise messages
+                    1. CRN - The 10 Hottest Data Storage Startups Of 2019 (So Far)
+                       https://www.crn.com/slide-shows/storage/the-10-hottest-data-storage-startups-of-2019-so-far-/1
+                        1. Storage Services
+                           https://www.crn.com/tag/Storage%20Services/?itc=related-tps
+                           CLOUD STORAGE
+                           https://www.crn.com/tag/Cloud%20Storage/?itc=related-tps
+                        2. This site summarizes investments and top XX storage startups
+                            1. The 10 Hottest Data Storage Startups Of 2019 (So Far) - VastData
+                               https://www.crn.com/slide-shows/storage/the-10-hottest-data-storage-startups-of-2019-so-far-/11
+                    2. Crunchbase news - "Cockroach Labs Raises $160M At $2B Valuation"
+                       https://news.crunchbase.com/news/cockroach-labs-raises-160m/
+                4. SlideShare - Featured slides
+                   https://www.slideshare.net/   1
+                5. 451 research - 2021 Trends in Tech
+                  https://pages.marketintelligence.spglobal.com/MI-PC-WS-CRTA-TMT-451Research-Trends-in-Tech-2021.html?utm_source=451
+                6. Tech crunch
+                  https://techcrunch.com/2022/05/03/edge-delta-rakes-in-63m-for-its-distributed-approach-to-data-observability/
+

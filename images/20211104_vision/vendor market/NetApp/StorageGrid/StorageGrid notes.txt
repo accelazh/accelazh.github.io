@@ -1,0 +1,2 @@
+1. NetApp StorageGRID - Object Storage for What's Next
+   https://www.youtube.com/watch?v=uO3ZnyFpo6k&t=2031s

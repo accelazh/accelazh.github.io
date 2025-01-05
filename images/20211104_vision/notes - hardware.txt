@@ -1,0 +1,522 @@
+1. Price
+    1. Price of purchase
+    2. Price of owning - energy efficiency
+    3. Decrease w.r.t. scale
+    4. Device limitation, max bandwidth
+    5. Wear out
+
+2. Device
+    1. Storage
+        1. HDD
+        2. SSD
+        3. TAPE
+    2. Memory
+    3. CPU
+        1. CPU
+        2. DPU
+        3. AI chips
+    4. Network
+        1. Cost per bit
+
+3. Device growth
+    1. Capacity vs Throughput vs Latency
+        1. Capacity is usually constrained by bottom-end device: HDD, SSD, Memory.
+            1. HDD, SSD are decreasing exponentially. SSD is faster. They may intersect
+            2. The $/GB of DRAM is decreasing exponentially. But recent years it becomes flat.
+        
+        2. Throughput/IOPS is usually constrained by bottleneck device.
+            1. HDD IOPS is bound to rotation speed. Which means it won't change much as long as the disk physical shape is there. Except tech improvement that increases large IO throughput by transfer rate.
+                1. Roughly ~100MB/sec throughput, latency ~10ms.
+                2. https://goughlui.com/the-hard-disk-corner/hard-drive-performance-over-the-years/
+                   https://diskprices.com/
+                3. Wait .. the throughput/GB is decreasing, from this goughlui.com article.
+                    2010 - 300GB, 2020 - 10 TB. 10 years 10x capacity, but 2x throughput.
+                    So throughput/GB is  
+            
+            2. SSD IOPS grows quickly even the single disk capacity isn't changing much over the years (256GB~1TB). SSD IOPS growth is related to interface improvements (NVMe/PCIe/NVMoF) and media improvements (SLC/MLC/TLC/QLC) interface improvements (density, 3D NAND).
+                1. Assume 20GB/sec SSD throughput today. Fundamentally SSD IOPS should be bound to flash units then to the disk capacity.
+                2. Over the years, SSD throughput growth is exponential, now reaching several GBs/sec
+                   https://arxiv.org/ftp/arxiv/papers/2003/2003.11332.pdf
+                3. SSD throughput put growth is exponential over the years, near linear, reaching ~13GB/sec at 2023. The bottleneck is instead PCIe Gen5 bandwidth. By each disk model, the vendor sells different capacity SSDs, but disk throughput is the same.
+                   https://databasearchitects.blogspot.com/2024/02/ssds-have-become-ridiculously-fast.html
+                    1. Using 13GB/sec at 20TB disk, with 2x throughput per 4 years.
+                4. Figure 3. SSD throughput is roughly ~0.1 of networking (2GB/sec vs 100Gbps), and roughly ~0.06 of DRAM (2GB/sec vs 30GB/sec). And such trend keeps stable.
+                   So we can tell
+                       1) DRAM bandwidth, network bandwidth, SSD throughput mostly grow linearly or exponentially and their relation no change overall. 
+                       2) A host can attach about 10 SSD disks, then DRAM and network will saturate. CPU is already falling behind.
+                   https://www.researchgate.net/figure/EVOLUTION-OF-MASS-STORAGE-SSD-AND-HDD-THROUGHPUT-RELATIVE-TO-NETWORK-AND-MEMORY-BASED_fig1_340173231
+                   https://arxiv.org/ftp/arxiv/papers/2003/2003.11332.pdf
+
+            3. DRAM bandwidth is still increasing today, but already slowed down. Roughly linear.
+                1. Roughly ~30GB/sec.
+                   https://arxiv.org/pdf/2012.03112.pdf
+                2. https://datatracker.ietf.org/meeting/117/materials/slides-117-anrw-sessa-keynote-its-the-end-of-dram-as-we-know-it-02
+                3. DDR data transfer rate - DDR4 25.6 GB/s, proportional to the frequency. 
+                   https://www.transcend-info.com/Support/FAQ-292
+                   Growth is slightly faster than linear, took ~12 years to increase 24GB/sec.
+                   https://www.theregister.com/2009/05/26/rambus_pitches_xdr2/
+                    4. Let's use this number from https://en.wikipedia.org/wiki/DDR_SDRAM, 2x throughput per 6 years
+
+            4. Network throughput grows exponentially. Doubles per 2 years. Today 100Gbps is common, 200Gbps is being deployed, 400Gbps is emerging.
+                https://www.prnewswire.com/news-releases/doubling-of-data-center-ethernet-switch-bandwidth-every-two-years-continued-in-2022-reports-crehan-research-301793556.html
+            
+            5. PCIe bus throughput grows exponentially. Doubles every 3 years. 
+            https://en.wikipedia.org/wiki/PCI_Express 
+               Today using PCIe Gen5 16x, it's ~64GB/s.
+
+                PCIe latency is about ~100ns. PCIe frequency ~100MHz.
+                https://www.cl.cam.ac.uk/research/srg/netos/projects/pcie-bench/neugebauer2018understanding-slides.pdf
+                https://www.quora.com/What-is-the-latency-of-a-PCIe-connection
+                https://massedcompute.com/faq-answers/?question=What%20are%20the%20key%20differences%20between%20NVLink%20and%20PCIe%20in%20terms%20of%20bandwidth%20and%20latency?
+
+        3. Latency is usually by the sum of all devices
+            1. Compared to Capacity and Throughput, Latency won't decrease proportionally over the years. It's almost constant. Which makes latency a much more valuable resource.
+                1. HDD ~10ms
+                2. SSD ~1us
+                3. DRAM ~100ns
+                4. Datacenter network ~10us
+                5. PCIe ~100ns.
+                6. HBM, comparable to DRAM
+                7. NVLink 100ns, comparable to PCIe
+
+        4. CPU performance
+            1. measure by Cores * Frequency * IPC
+                1. 4 cores home version to 80 cores manycore server CPUs
+                2. Frequency is mostly 2G to 3G HZ. 
+                3. IPC is increasing over the years, but slow and little, don't expect to exceed 2x.
+                   https://www.researchgate.net/figure/Instructions-clock-cycle-for-each-core-of-Intel-Xeon-CPUs-compared-with-FLOPs-clock-cycle_fig6_319072296
+                   https://www.anandtech.com/show/9482/intel-broadwell-pt2-overclocking-ipc/3
+                    1. Note, but core count exploded
+            2. Performance
+                1. Single threaded - performance increasing is very slowly
+                2. My questions
+                    1. So with the exponential growing of HDD/SSD capacity, do I need to pay proportionally more money for CPU as CPU performance is little growing? Or storage vendors should move to custom chips.
+                3. The performance/$ grows by ~16% per year, 10x per 16 years. 
+                   https://aiimpacts.org/2019-recent-trends-in-geekbench-score-per-cpu-price/
+                    1. We can measure CPU performance by Linux kernel compile time, normalized to single core. 
+                       https://openbenchmarking.org/test/pts/build-linux-kernel-1.16.0
+                4. CPU price by model doesn't drop actually over the years.
+                   https://pcpartpicker.com/trends/price/cpu/
+            3. CPU performance renewed
+                1. The performance/$ grows by ~16% per year, 10x per 16 years. 
+                   https://aiimpacts.org/2019-recent-trends-in-geekbench-score-per-cpu-price/
+                2. CPU price by model doesn't drop actually over the years.
+                   https://pcpartpicker.com/trends/price/cpu/
+
+
+        5. Price compares
+            1. Networking
+                1. In 200Gbps/400Gbps, the $/Gbps is dropping to ~2$/Gbps at year 2022.
+                   The dropping speed is exponential. The price drop of $/Gbps is roughly 2x per 5 years.
+                   https://www.nextplatform.com/2021/08/30/more-than-anything-else-cost-per-bit-drives-datacenter-ethernet/
+                    1. Per 100Gbps NIC of a server, you need 100% provisioning on T0, 100% on T1, 50% on T2. This sums up to 3.5x per 100Gbps bandwidth equipped.
+                2. additional price drops statistics
+                   https://www.researchgate.net/figure/Cost-trends-of-Ethernet-switches-and-optical-modules-from-2010-to-2023-the-values-for_fig2_350300055
+            
+            2. PCIe
+                1. Motherboard PCIe Gen5 for server on AWS. Pay ~200$. Get 16x Gen5 = 64GB/s. It translates to ~3.125 $/GBps, note this includes motherboard itself.
+                   Given the PCIe bandwidth growth is exponential, I assume the $/GBps drops also exponential
+
+                2. Motherboard price has growth in recent 10 years, but only 2x. We can ignore it, just assuming is due to currency inflation 
+                   https://www.quora.com/How-has-the-cost-of-CPUs-on-motherboards-changed-over-time-Is-there-a-significant-difference-in-their-usage
+
+            3. HDD/SSD
+                1. HDD $/TB price is stable in the recent years, at ~20 $/TB.
+                    1. But look into closer, from 2015 to 2020, the price decreased from $50/TB to $20/TB. So it's 5 years 2x decrease. 
+
+                   SSD $/TB price has been dropping in recent years, getting relatively stable now, at ~10x of HDD, at ~200 $/TB
+                   https://blocksandfiles.com/2020/08/24/10x-enterprise-ssd-price-premium-over-nearline-disk-drives/
+                   https://zhuanlan.zhihu.com/p/700524651, https://vldb.org/pvldb/vol16/p2090-haas.pdf
+                    1. But using the chat from https://databasearchitects.blogspot.com/2024/02/ssds-have-become-ridiculously-fast.html. GB/$ is increasing at speed of 1.5x per 4 years, or 3x per 7 years. Note this article is newer published at 2023.
+                       Use 90% drop of $/GB per YoY. Matching with https://www.tomshardware.com/pc-components/ssds/ssd-prices-could-drop-up-to-10-percent-ahead-of-the-new-year-trendforce-predicts-an-increase-in-production-and-weaker-demand
+                
+                2. Given a 10TB HDD disk, HDD will give you 100MB/sec throughput vs 200$ => 2000 $/GBps price
+                   Given a 20TB SSD disk, SSD will give you 13GB/sec throughput vs 4000$ => 307 $/GBps price
+                   https://databasearchitects.blogspot.com/2024/02/ssds-have-become-ridiculously-fast.html
+                    1. So, w.r.t. the throughput price, SSD is even cheaper. And SSD's will continue to drop, while HDD's is stalling.
+                       And networking throughput price is ridiculously cheap.
+                    2. But note, take Kioxia CM7-R as example, vendors usually offer different TBs SKU of the same SSD product, while the throughput is more related to which PCIe it's using.
+                       Suppose it's an 2TB SSD, then the price becomes 13GB/sec throughput vs 400$ => 31 $/GBps price
+            
+            4. DRAM
+                1. Price is getting stable in recent years, at ~9 $/GB.
+                   https://aiimpacts.org/trends-in-dram-price-per-gigabyte/
+                2. Buy from Amazon, memory stick costs ~1 $/GB
+                   https://www.google.com/search?q=amazon+buy+memory+stick+ram
+                3. Bandwidth cost: 1 $/GB * 16 / 25GBps = 0.64 $/GBps
+            
+            5. CPU
+                1. CPU performance/$ grows by ~16% per year, i.e. $/performance drops by ~16% per year.
+                   https://aiimpacts.org/2019-recent-trends-in-geekbench-score-per-cpu-price/
+                   Note, the price of per CPU model doesn't change much over the years. 
+                   https://aiimpacts.org/2019-recent-trends-in-geekbench-score-per-cpu-price/
+                2. Assuming today the a 4GHZ 36 core CPU costs $3500, IPC is 100. So price per instruction/sec is ~0.243 $/G_Instruction_PerSec
+                   https://www.newegg.com/intel-xeon-w9-3475x-lga-4677/p/N82E16819118448?item=N82E16819118448
+                   https://www.researchgate.net/figure/Instructions-clock-cycle-for-each-core-of-Intel-Xeon-CPUs-compared-with-FLOPs-clock-cycle_fig6_319072296
+                   https://www.reddit.com/r/Amd/comments/5v11tm/ipc_performance_of_intel_and_amd_cpus_2004_to/
+                3. How much throughput a CPU core can handle? Suppose per 4KB read/write needs 1000 instructions, note serialization is heavy. IPC is 1.
+                   Then, a 4GHZ core can process 4G/1000 * 1 * 4KB = 16GB/sec. Round it to several GB/sec throughput. This roughly matches with below
+                   https://openbenchmarking.org/test/pts/ipc-benchmark&eval=a29a620e89e1cb4ff15d5d31d24eaae1cc059b0e
+                   Pay $3500 get 36 cores then you get price is ~6 $/GBbs. This is much more expensive than networking, and not seemingly to grow in future. And you App definitely won't get all the efficiency.
+            
+            6. CXL
+                1. CXL 1.1 and 2.0 use the PCIe 5.0 electrical for their physical layer. I assume CXL is in comparable price and throughput/latency in compare with PCIe Gen5.
+                   https://www.rambus.com/blogs/compute-express-link/
+            
+            7. HBM - High bandwidth memory
+                1. HBM bandwidth is ~1.5 TB/sec, storage 36GB. It's commonly used in GPU. Compared to DRAM, HBM employs large interface bit width, reaching e.g. 1024-bit. and the memory is stacked.
+                   https://www.embedded.com/high-bandwidth-memory-hbm-options-for-demanding-compute/
+                2. I would assume HBM has comparable or slightly faster latency with DRAM/DDR, ~100ns.
+                   https://www.researchgate.net/figure/Bandwidth-and-latency-of-DRAM-and-HBM-and-the-impact-of-latency-on-application_fig2_329551516
+                3. "1 GB of HBM costs twice as much as 1 GB of DDR5"
+                   https://www.reddit.com/r/chipdesign/comments/166thgi/hbm_cost_and_cpu_memory_cost_comparison/
+                   "Roughly ... HBM is about 5x the price of GDDR which is about 3x the price of standard DDR, at the same density (e.g. 8Gbit)." - chosen.
+                   https://dramexchange.com/
+                    1. Then, storage cost: Then 15 * 1 $/GB  = 15 $/GB
+                             bandwidth cost: 36GB * 15 $/GB / 1TB/sec = 0.54 $/GBps
+                    2. Surprisingly, HBM's bandwidth cost is lower than DRAM.
+
+                4. HBM bandwidth growth, following HBM1~4, 10x bandwidth growth in 10 years.
+                   https://en.wikipedia.org/wiki/High_Bandwidth_Memory
+                5. Per price, mostly constant in recent years, and we can use DRAM price as the base. 15x DRAM price. 
+            
+            8. NVLink
+                1. 2022 H100 ~900GB/sec throughput, slightly faster than linear growth, 800GB/sec by 7 years. Bandwidth is GPU-to-GPU.
+                 https://www.nvidia.com/en-us/data-center/nvlink/  (2015 - 2017)
+                    1. Use https://en.wikipedia.org/wiki/NVLink. NVLink 4.0 today is 900GB/s throughput. Growth by 1.5x per 2 years.
+
+                2. NVLink latency is ~20ns, while PCIe latency is ~100ns.
+                     https://arxiv.org/pdf/1903.04611.pdf  (Fig. 1)
+                    1. Looks like this different compare standards. Raw latency of NVLink should be comparable with PCIe. Let's say 100ns. If NVMe SSD latency is 1us, PCIe must be faster.
+                       https://massedcompute.com/faq-answers/?question=What%20are%20the%20key%20differences%20between%20NVLink%20and%20PCIe%20in%20terms%20of%20bandwidth%20and%20latency?
+                   Github benchmark shows NVLink latency is ~2.3us P2P
+                     https://gist.github.com/joshlk/bbb1aca6e70b11d251886baee6423dcb
+                2. Per price, must be used with NVIDIA cards. An H100 chard costs $44K. 44K $/900GB/sec = 48 $/GBps. 
+                     https://www.amazon.com/Tesla-NVIDIA-Learning-Compute-Graphics/dp/B0C3XH4QSJ
+
+            9. DPU
+                1. Nvidia BlueField DPU
+                    1. intro: https://hc33.hotchips.org/assets/program/conference/day1/HC2021.NVIDIA.IdanBurstein.v08.norecording.pdf
+
+    2. Then, what's valuable to the software layer
+        1. Manage the devices.
+            1. Implement complex business features.
+            2. Ecosystems.
+            3. Inter-operations. Compatibility.
+               Hardware have brands, but software can unify them all.
+            4. Unified namespace.
+            5. Filesystem, queries, databases.
+            6. Globalization, geo regions. Hardware can only be local, but software can be global.
+        2. Scaleout into distributed systems. 
+            1. Virtualization, scheduling, failure recovery ... The Cloud.
+            2. Disaster recovery, replication distribution recovery.
+        3. Latency
+            1. Reduce the overhead of software, compared to raw hardware.
+            2. Raw hardware is usually much faster. IO is fast today.
+               Then latency the precious resource falls into software as the bottleneck.
+        4. Overhead in proportional to resource amount
+            1. Per request overhead
+            2. Per GB overhead
+        5. Intelligent, power saving
+    
+    3. Customer demand
+        1. Capacity
+            1. Big Data 3V (volume, velocity and variety) marks Capacity is the top needs.
+            2. Most data is cold, which is proportional to history.
+               And hot data amount is limited, which is proportional to the only active business window * transaction frequency.
+        2. Throughput
+            1. Video and image streaming, AI processing. They should be the driving needs.
+        3. IOPS
+            1. Transaction processing, DB queries. They should be the driving needs. 
+        3. Latency
+            1. Most users should be fine as long as latency dropped to below certain threshold.
+            2. Except, quantum trade. 
+            3. Another tension is the growing complexity of software vs the need to maintain low latency.
+
+
+
+
+
+
+
+
+
+1. Power consumption, cost of ownership
+    1. HDD / SSD
+        1. SSD 20 watt, HDD 6.5 watt at full write load.
+           https://blocksandfiles.com/2023/08/08/scality-disk-drives-ssds-electricity/
+           But by the same workload, SSD may be idle but HDD keeps busy; SSD throughput is ~20x of HDD. 
+           So, standardized to same 100MB/sec throughput, we should get SSD 1 watt, HDD 6.5 watt. 
+           https://superuser.com/questions/589709/power-consumption-ssd-vs-hdd
+           I assume the power consumption over years for HDD/SSD didn't change. THe reference materials [34][35] at year 2010, 2011 didn't show much diff
+           https://en.wikipedia.org/wiki/Solid-state_drive#cite_note-8V1wD-34
+    
+    2. DRAM
+        1   "256GB DRAM consumes 18 and 26 Watts for idle and busy power, respectively"
+           Let's use 26 watt/256GB.
+           https://dl.acm.org/doi/fullHtml/10.1145/3466752.3480089
+            1. (26 - 18) watt maps to bandwidth power consumption. How many DDR channels?
+                1. "We use eight 4Gb 2R x8 DDR4-2133 8GB DIMMs (total 64GB) with four channels, each of which has two DIMM slots for running SPECCPU applications and data-center workloads. For running the Azure VM trace, we use eight 8Gb 2R x4 DDR4-2133 32GB DIMMs (total 256GB)."
+                2. Let's assume for DDR4 with 4 channels.
+
+        2. the power watts change over years is slowly decreasing, basically proportional to DRAM voltage^2 decrease.
+           https://www.seas.upenn.edu/~leebcc/teachdir/ece299_fall10/Vogelsang10_dram.pdf - Formula (2)
+           https://www.graniteriverlabs.com/zh-tw/technical-blog/ddr-overview
+            1. using the number from 2014 to 2019, let's assume the decrease is 15% per 5 years.
+        3. others
+           https://dl.acm.org/doi/fullHtml/10.1145/3466752.3480089
+           https://superuser.com/questions/1391079/estimation-on-power-consumption-for-dram-modules-on-desktop-mainboard
+           https://www.infoq.com/articles/power-consumption-servers/
+           https://www.researchgate.net/figure/Component-wise-energy-consumption-of-a-server-23-24_fig5_355862079
+           https://www.quora.com/How-much-wattage-does-T-Force-DDR4-RAM-require
+    
+    3. PCIe
+        1. Ignored. Usually people talk about how much watts a PCIe slot can provide
+        2. Let's assume 10% of the total server power consumption as the margin value. Motherboard consumes 10%.
+           https://www.researchgate.net/figure/Component-wise-energy-consumption-of-a-server-23-24_fig5_355862079
+    
+    4. CPU
+        1. 400 Watts. And doubles per 10 years. 
+           https://wccftech.com/gigabyte-server-power-consumption-roadmap-points-600w-cpus-700w-gpus-by-2025/
+        2. Use performance-per-watt to measure is better. ~2x per every 4 years.
+           https://www.karlrupp.net/2013/06/cpu-gpu-and-mic-hardware-characteristics-over-time/
+        
+        3. Per CPU, use "AMD EPYC 7702P 64-Core" as reference.
+            1. price: https://www.amazon.com/AMD-EPYC-7702P-GHz-Cores/dp/B09SLWWN3W
+               $1600
+                1. TDP power 200 Watt - https://www.servershop24.de/en/amd-epyc-7702p-cpu/a-133680/
+            
+            2. NIC throughput: https://openbenchmarking.org/test/pts/ipc-benchmark&eval=a29a620e89e1cb4ff15d5d31d24eaae1cc059b0e
+               https://openbenchmarking.org/vs/Processor/AMD+EPYC+7702P+64-Core
+                1. Problem: the benchmark only has 4K messages at biggest size, throughput only 5.4GBps
+                2. https://www.researchgate.net/figure/CPU-utilization-for-the-web-benchmark-4MB-L2-Cache_fig10_228357905
+                    1. Only 10Gbps (little b) even it's a 10GHz CPU?
+                
+                3. https://www.accton.com/Technology-Brief/intel-dpdk-performance-on-the-sau5081i-server/
+                    1. Intel(R) Xeon(R) CPU E5-2620 v3 @ 2.40GHz - 2 processor 24 cores, with DPDK to 40Gbps.
+                       Without DPDK to 20Gbps. Little b. Packet size to 1518B.
+                    2. https://openbenchmarking.org/vs/Processor/AMD+EPYC+7702P+64-Core,2+x+Intel+Xeon+E5-2620+v3
+                        1. E5-2620 2P vs EPYC 7702 - kernel compile - 97sec / 26sec
+                        2. Derived network throughput  40/8 * 97/26 = 19GBps
+                            1. Matching my other 20GBps calculations.
+
+            3. Kernel compile: https://www.servethehome.com/amd-epyc-7702p-review-redefining-possible-at-64c-per-socket/2/
+
+    5. Networking
+        1. Server NIC
+            1. Isn't varying much towards the network switches
+        2. Network switches
+            1. Using 100 Gbps NIC. Bandwidth-per-watt GBps/W is about 1GBps/Watt. Roughly it's doubling per 5 years.
+               https://chatgpt.com/share/676e8a82-bbf4-800f-8859-b34f22f95fee
+            2. Other references
+                https://www.researchgate.net/figure/Detailed-power-consumption-values-of-Ethernet-switches-components_tbl1_272819245
+                https://medium.com/@sylvieliu66/24-port-poe-switch-power-consumption-400w-vs-600w-2be3c0931b98
+                https://www.cisco.com/c/en/us/products/collateral/switches/nexus-9000-series-switches/nexus-9300-gx-series-switches-ds.html
+
+    5. CXL
+        1. Ignored. Today's it's still aligned with PCIe.
+    
+    6. HBM
+        1. HBM bandwidth per watts is ~3x more efficient than DRAM.
+            1. Assume DRAM is 25GB/sec => (26-18) watt, then HBM is 0.1067 watt / GB/sec. Given 1.5TB/sec transfer rate, the HBM consumes ~160 watt.
+            2. No, don't need that complex, just use what on the chart, use 35 GB/s per watt.
+           https://www.anandtech.com/show/9266/amd-hbm-deep-dive/4
+            1. The above article didn't include refresh and static power on DRAM. It only counts watt in bandwidth. Maybe on GPU chip the HBM size is still small compared to DRAM.
+
+        2. Per power consumption change in future projection, assume the same with DRAM
+           https://people.inf.ethz.ch/omutlu/pub/HBM-undervolting_date21.pdf
+    
+    7. NVLink
+        1. It's usually combined with GPU
+           https://massedcompute.com/faq-answers/?question=What%20are%20the%20power%20consumption%20implications%20of%20using%20NVLink%20versus%20other%20high-speed%20interconnects%20in%20a%20real-time%20analytics%20application?
+    
+    8. GPU
+        1. FLOP/s per dollar - 2x every 2.5 years. 
+           A100 312 TFLOPS FP16, 80GB HBM, 2TB/s bandwidth. 400W.
+           GTX 4080, 16GB HBM, 48 TFLOPS FP16, 716 GB/s bandwidth, 1200 USD. 320W.
+           https://epoch.ai/blog/trends-in-gpu-price-performance
+           https://lambdalabs.com/blog/nvidia-a100-gpu-deep-learning-benchmarks-and-architectural-overview?srsltid=AfmBOoqh1Spj-txULhl0GTfLiqVJ2A_G-Sv3mCNiPC5UC2fnpuWI9o9s
+           https://modal.com/blog/nvidia-a100-price-article
+           https://www.techpowerup.com/gpu-specs/geforce-rtx-4080.c3888
+        2. "FLOP/s per watt doubles around every three to four years". Use doubles by 3.5 years.
+           https://epoch.ai/blog/trends-in-gpu-price-performance
+        3. A100 price
+            1. "The current market prices for the Nvidia A100 vary from $8,000 to $10,000 for the 40GB PCIe model to $18,000 to $20,000 for a 80GB SXM model."
+            https://modal.com/blog/nvidia-a100-price-article
+
+    n. Notes
+        1. Per power, also need to consider power density at rack level and whether such power can be delivered to it.
+
+2. Cooling
+    1. Datacenter PUE. PUE includes cooling.
+       https://www.infoq.com/articles/power-consumption-servers/
+        1. A 500W server costs less than 3000 USD to buy. In a datacenter with PUE = 2.0, it needs 1KW to run (including cooling). 1KW in 1 year adds up to 8760kWh. With 11.5 cent per kWh, it sums to 1000 USD per year. After 3 years, you pay more money in power than buying the server itself. 
+    2. Datacenter PUE trends in recent years
+        1. Stable at 1.5x.
+           https://journal.uptimeinstitute.com/global-pues-are-they-going-anywhere/
+        2. Google report - Stable at 1.09x
+           https://www.google.com/about/datacenters/efficiency/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+4. Driving technologies to improve device bandwidth
+    1. HDD
+        1. Density.
+        2. SMR.
+        3. MAMR, HAMR.
+    2. SSD
+        1. Host interface protocols: PCIe, NVMe. Fabric protocols: NVMoF
+        2. Flash architecture: 3D NAND.
+        3. Flash density.
+        4. Media: SLC, TLC, QLC, PLC.
+        5. High PCIe bandwidth per PCIe Gen. SSD is attached to PCIe.
+    3. Memory
+        1. DRAM architecture, DDR2, DDR5
+        2. DRAM clock speed, w.r.t. DDR generations
+        3. Density, and improved packaging e.g. 3D stacking
+    4. Networking
+        1. Ethernet standards by generation, from 10Gbps to 400Gbps
+        2. PCIe bandwidth doubles per generation
+        3. Optical switches, Silion Photonics
+        4. Network offloading from CPU to ASIC chips
+        5. RDMA adoption
+    5. CPU
+        1. Multi-core, Manycore
+        2. Transistor density. More transistors, smaller core.
+        3. Micro-architecture design improvement, IPC
+        4. ISA, Vector Processing, SIMD
+        5. Integration of specialized accelerators.
+    6. PCIe
+        1. Driven by generation, Gen3, Gen5, Gen6.
+            1. PCIe clock frequency didn't change across Gens, it's always 100MHz.
+        2. Doubles data transfer rate per lane
+            1. Though clock frequency is the same per Gen, data transfer rate increases by improved encoding efficiency and synchronization efficiency. More data can be transferred per clock tick.
+        3. And also supports more lanes. Or say higher lane width.
+
+5. Key observations
+    1. DRAM bandwidth can also become a bottleneck. It cannot match SSD and networking. It stopped improving.
+       Parallelism may help, but latency is ~100ns anyway, and a server can install say 16 memory bars, not hundreds.
+       Throughput/GB DRAM is still too low anyway. 30GBps throughput vs 256GB memory bar.
+        1. Memory bandwidth is double consumed. Not only CPU, but also NIC and SSD consume memory bandwidth with DMA. This further make memory bandwidth a potential bottleneck.
+        2. We know CPU-memory wall exists. If today CPU cannot even catch up with SSD and NIC, memory must be even slower.
+        3. Yet, GPU is even demanding higher memory bandwidth. A typical design even refrain from putting workload in host memory. Instead, pin them at GPU memory.
+    2. Networking price and PCIe price keep dropping exponentially.
+        1. Comparing interconnect between networking vs PCIe: PCIe and networking now have comparable price. PCIe has higher bandwidth, lower latency. But networking interconnect is easier to scale out. The link bandwidth can be shared across cluster. PCIe however seems have scale up limit, and the resource usage is constrained in a single host and CPU.
+        2. Assuming CXL has comparable throughput and price vs PCIe. Note what determines the cluster layout is interconnect (think about disaggregation and geo regions). A prediction is future cluster will evolve into two categories, 1) large scale cloud storage 2) smaller scale HPC-GPU computing. (2) will have storage, but if extreme throughput and latency is demanded, compute must be collocated with storage in the same cluster. Think about can we provide 1TB/sec throughput for a training App or for a per node level (attached tens of SSDs).
+            1. How should Cloud sell both (1) and (2) in a proper model? Maybe merge (2) into HPC pool like today. And if Compute means VM, then VM co-located storage cluster is a need. Sell them by HPC-VM type and HPC-storage type.
+    3. CPU is already a bottleneck compared SSD and networking. And it almost stopped improving.
+       So for AI app to match the price of GPU and high bandwidth needs, you need to 1) Bypass CPU 2) Bypass DRAM or scaleout it
+    
+    4. EBOD box to box point to point data transfer will be a future needed protocol
+    
+    5. DRAM/PMEM/SCM is still needed for write staging.
+    6. High performance doesn't always mean high end. It also means lower $/GBps which means lower COGS for the same level of service.
+    7. SSD throughput vs network (0.1), SSD throughput vs DRAM (0.06) have relatively no change over recent years. But the base is growing exponentially. CPU is falling behind.  
+       https://arxiv.org/ftp/arxiv/papers/2003/2003.11332.pdf
+    8. Per throughput price, SSD is even cheaper than HDD. And, networking prices ridiculously cheap.
+    9. You need to mix SSD/HDD to be able to achieve different throughput/GB ratio you want. This implies tiering is a must needs.
+        1. Even a slow HDD pool can benefit from staging SSDs.
+
+
+6. How to summarize the price table?
+    1. You can't even pay to buy latency, except totally change the media or tech generation
+    2. Throughput: $/GBps, typical throughput SKU, past trends, future projection
+    3. Storage: $/TB, typical TB SKU, past trends, future projection
+    4. Ratio of throughput vs storage per each unit device bought
+    5. Cost of ownership: power watts and cooling
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Article: Compare pricing with Azure Storage public clouds
+
+Article: 
+    1. Why ignore IOPS (see HDD line). And disk throughput should add note about it's large IO size. 
+       HDD ignoring the SMR, HAMR new technologies, decreasing throughput/GB. 
+       10 years 10x capacity, but 2x throughput increase.
+       Projection YoY is predicted future prediction. Less than 100% means decreasing.
+    2. For each other devices, adds the projection "doubles per XX year" wording in article. In table we omit it.
+    3. You need professional market research team to identify accurate pricing, and finer grain into bands, and vendor purchasing deals. Simple pricing can be obtained form Amazon.
+       The values here are not accurate but just to give you the rough scale.
+    4. SSD considered NVMe SSDs. And the latency is essentially bound to raw flash media so mostly remain constant in future. 
+       SSD throughput put growth is exponential over the years. The bottleneck is instead PCIe Gen5 bandwidth. 
+       NVMe SSD, ZNS SSD are leading to recent technology advancement to lower price and very high throughput. Write endurance is still a problem, given even higher throughput.
+    
+    5. DRAM DDR new generation per every about 6 years, and doubles the bandwidth. Reducing the voltage reduces the power consumption. Price can be obtained from Amazon. Using DDR4 for data transfer rate in table. Modern servers usually have dual-channel or quad-channel memory configuration.  the power watts change over years is slowly decreasing, basically proportional to DRAM voltage^2 decrease. Power consumption needs to separate refresh/static power and bandwidth transfer power.
+    
+    6. HBM is commonly used in GPU. Compared to DRAM, HBM employs large interface bit width, reaching e.g. 1024-bit. and the memory is stacked. Roughly ... HBM is about 5x the price of GDDR which is about 3x the price of standard DDR, at the same density (e.g. 8Gbit). HBM is recent new tech, using DRAM to model its refresh/static power, and bandwidth transfer power is much more efficient than DRAM. 
+
+    7.  Network throughput grows exponentially. Today 100Gbps is common, 200Gbps is being deployed, 400Gbps is emerging. Networking speed quick growth and price drop is today's major even in datacenter and it's reshaping the storage architecture.
+    
+    8. PCIe bandwidth grows exponentially with PCIe Gen and link multiplication. Motherboard PCIe Gen5 for server on AWS. Considering PCIe price, motherboard price over the years mostly remain same. Search motherboard on amazon to get a picture of PCIe price. Using PCIe Gen 5.0 for compare, which is commonly found on most motherboard. 
+
+    9. Per CXL, there isn't much concrete products revealed as I found. I'm assuming it's implemented simplify with today's PCIe. 
+
+    19. Per NVLink, using NVLink Gen4.0 for compare, note the popular A100 is still Gen3.0. NVLink latency and bandwidth is usually compared with PCIe, but its bandwidth is already much faster and exponentially growing. It can hardly know its independent price because NVLink is sold in binding with Nvidia GPUs.
+
+    20. Per CPU/GPU statistics, using Linux kernel compile time for CPU, and TFLOPS for GPU. Using Kernel compile rank media in the table, and GPU A100. CPU bandwidth can be proxyed by DRAM throughput, GPU bandwidth can be proxyed with PCIe, HBM, NVLink throughput.
+    21. Words about datacenter cooling and server margin, and power density to deliver.
+    
+Article: What are the driving force under each hardware development?
+Article: Discuss the cooling and power
+
+Article: What is the true value of software, and latency reduction, manage the scale, complex business logic, operation interchangeability.
+
+Article: Reference material to https://accelazh.github.io/images/can-openstack-beat-aws-in-price-2017-cheetsheet.png
+
+Article No guarantee wording. Market research wording. Procurement purchasement wording.
+Years to double compare table
+
+Article: Why this section
+    1. Hardware. Supporting pillar. Constant exponential growth which is much more significant than any software layer optimization.
+    2. Basis for innovation and shape future storage architecture
+    3. Vision and Strategy evaluation and number backed and future projections
+    4. And explore what's the true purpose of software layer.
+
+HDD: [1][2][3]
+SSD: [4][5][22][23]
+DRAM: [6][7][8][24][27]
+HBM: [9][10][11][28][29]
+
+Ethernet: [12][17][24]
+PCIe: [13][14][15]
+CXL: [30]
+NVLink: [16]
+
+CPU: [18][19][25][26]
+GPU: [20][21][31]
