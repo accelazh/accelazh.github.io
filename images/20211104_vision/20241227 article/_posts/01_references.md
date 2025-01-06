@@ -93,4 +93,25 @@
 
 [36] Fortune Cloud Storage Market Size, Share & Industry Analysis : https://www.fortunebusinessinsights.com/cloud-storage-market-102773
 
-[37] Margins by Sector (US) https://pages.stern.nyu.edu/~adamodar/New_Home_Page/datafile/margin.html
+[37] Margins by Sector (US) : https://pages.stern.nyu.edu/~adamodar/New_Home_Page/datafile/margin.html
+
+[38] MSFT (Microsoft) Preferred Stock : https://www.gurufocus.com/term/preferred-stock/MSFT
+
+[39] Stock Analysis MSFT stock analysis : https://stockanalysis.com/stocks/msft/statistics/
+
+[40] Trading Economics United States 30 Year Bond Yield : https://tradingeconomics.com/united-states/3-month-bill-yield
+
+[41] Investing.com Microsoft corp historical dividends : https://in.investing.com/equities/microsoft-corp-dividends
+
+[42] Jacob 从3年后的EPS看，现在的微软是否值得介入 : https://mp.weixin.qq.com/s/IU03qeV53bcK75U-sfRMGg
+
+[43] Wikipedia Beta系数 : https://zh.wikipedia.org/wiki/Beta%E7%B3%BB%E6%95%B0
+
+[44] Equity Risk Premium (ERP) : https://www.wallstreetprep.com/knowledge/equity-risk-premium/
+
+[45] Capital Asset Pricing Model (CAPM) : https://www.wallstreetprep.com/knowledge/capm-capital-asset-pricing-model/
+
+[46] Investing.com S&P 500 : https://in.investing.com/indices/us-spx-500
+
+[47] TradingView US companies with the highest dividend yields : https://www.tradingview.com/markets/stocks-usa/market-movers-high-dividend/
+
