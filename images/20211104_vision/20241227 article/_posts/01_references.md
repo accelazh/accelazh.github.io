@@ -115,3 +115,4 @@
 
 [47] TradingView US companies with the highest dividend yields : https://www.tradingview.com/markets/stocks-usa/market-movers-high-dividend/
 
+[48] Microsoft Cloud strength fuels third quarter results : https://news.microsoft.com/2024/04/25/microsoft-cloud-strength-fuels-third-quarter-results-3/
