@@ -106,7 +106,7 @@
 
         5. Price compares
             1. Networking
-                1. In 200Gbps/400Gbps, the $/Gbps is dropping to ~2$/Gbps at year 2022.
+                1. In 200Gbps/400Gbps, the $/Gbps is dropping to ~2$/Gbps (NOT GBps) at year 2022.
                    The dropping speed is exponential. The price drop of $/Gbps is roughly 2x per 5 years.
                    https://www.nextplatform.com/2021/08/30/more-than-anything-else-cost-per-bit-drives-datacenter-ethernet/
                     1. Per 100Gbps NIC of a server, you need 100% provisioning on T0, 100% on T1, 50% on T2. This sums up to 3.5x per 100Gbps bandwidth equipped.
