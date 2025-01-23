@@ -1,4 +1,6 @@
 
+## 引用
+
 [1] Hard Drive Performance Over the Years : https://goughlui.com/the-hard-disk-corner/hard-drive-performance-over-the-years/
 
 [2] Disk Prices: https://diskprices.com/
@@ -116,3 +118,6 @@
 [47] TradingView US companies with the highest dividend yields : https://www.tradingview.com/markets/stocks-usa/market-movers-high-dividend/
 
 [48] Microsoft Cloud strength fuels third quarter results : https://news.microsoft.com/2024/04/25/microsoft-cloud-strength-fuels-third-quarter-results-3/
+
+[49] Gartner Magic Quadrant for Primary Storage Platforms 2024 : https://www.purestorage.com/resources/gartner-magic-quadrant-primary-storage.html
+
