@@ -1,12 +1,10 @@
 ## 俯瞰存储市场
 
-商业策略分析通常可以分解为客户、产品、公司（自身）、竞争对手层面，进一步深入（下图）。客户、产品、竞争对手可归结为“市场”格局。
+商业策略分析通常可以分解为客户、产品、公司（自身）、竞争对手层面，进一步深入（下图）。客户、产品、竞争对手可归结为“市场”格局。本章将调研存储系统的市场，列举市场的主要分区、产品特性、参与者。之后章节将进一步深入。
 
 在不断变化的市场格局中，我们处于什么位置？3~5 年、或 10 年之后，市场版图又会如何变化？理解市场是 Vision 与 Strategy 的基础。围绕市场，可以逐步揭示其结构和发展空间，什么是价值，需求，演化周期，以及背后的驱动因素。
 
-本章将调研存储系统的市场，列举市场的主要分区、产品特性、参与者。之后章节将进一步深入。
-
-// TODO Chart of issue tree framework：https://chatgpt.com/c/67923a6a-9f04-800f-88c0-67fd20e45446
+![Business Situation](../images/vision-market-business-situation.png "Business Situation")
 
 ### 分类
 
@@ -18,7 +16,7 @@
 
   * C. 按存储介质分类，存储可分类为 __SSD、HDD、磁带__ 系统。SSD 存储昂贵、高性能，常用于文件系统和块存储。HDD 存储廉价、通用，常用于对象存储，或存储冷数据。磁带存储一般用于归档存储。此外，还有全 __内存__ 的存储，一般用作缓存或分析型数据库。
 
-上述对存储市场的分类是经典且常用的，也为本章讲解方便。但事实上，存储市场中的产品更为有机，为渗透对方市场、获得竞争优势，它们互相交缠。例如：
+上述对存储市场的分类是经典且常用的，也为本章讲解方便。但事实上，存储市场中的产品更为有机，为渗透对方市场、获得竞争优势，它们 __互相交缠__。例如：
 
   * A. 云存储也售卖贴近客户的本地部署的 Edge 存储，如 AWS S3 Express。主存储也提供云端部署和云端卸载的版本，如 NetApp ONTAP。备份和归档也是云存储的一大卖点，如 AWS Glacier。
 
@@ -26,9 +24,11 @@
 
   * C. SSD 存储常常将冷数据卸载到 HDD 存储，以节省 SSD 的昂贵成本。HDD 存储常常将 SSD 作为缓存，或 Write Staging。内存被用作各种存储介质的缓存和索引，而内存存储系统也往往支持将冷数据或日志写到 SSD。
 
-此外，为了简洁，本章省略了一些次要的分类。
+此外，为了简洁，本章省略了一些次要的分类。例如，
 
-  * 例如按用户企业规模，可将市场分类为 SMB、大型企业、特殊领域。
+  * 按用户企业规模，可将市场分类为 SMB、大型企业、特殊领域。
+
+  * 企业存储也常按 DAS、SAN、NAS 分类。这个分类与对象、块、文件存储部分重合。
 
   * 除磁带外，归档存储还可使用 DNA 技术，如今正在快速发展。
 
@@ -36,23 +36,138 @@
 
   * 向量数据库是在 AI 背景下的新兴数据库类型，而传统数据库也往往集成向量支持。
 
-// TODO Categorization chart： visio
+![Storage Market Categorization](../images/vision-market-storage-categorization.png "Storage Market Categorization")
 
 ### A. 云存储
 
-// TODO 市场规模、增长率
+关于预测市场未来的方向，咨询公司的分析报告是良好的信息来源。尽管报告付费，但通常有 __额外来源__：
+
+  * 头部公司通常愿意提供免费的公开版本，作为公司的自我宣传。
+
+  * 博客、报道尽管不是第一手资料，但也能反映主要内容。一些博主有专门渠道。
+
+  * 在 Google 搜索前加入 `filetype:pdf`，可有效找到资料。
+
+  * 在 Google 搜索后加入 `"Licensed for Distribution"`，可找到 Gartner 公开的文档。
+
+  * 切换英文、中文搜索可以找到不同内容。中文社区可能保存一些文档。
+
+  * 此外，阅读主导产品的用户手册也可了解领域的主要功能和评估指标。
+
+Fortune 预测全球云存储市场规模在 \$161B 左右，约 21% 年增长率 [46]。相比之下，全球数据存储市场规模在 \$218 左右，约 17% 年增长率 [[60]](.)。可以看到：
+
+  * 云存储市场有 __极好的增长率__。结合 _[理解股价](.)_ 章节可以看到，该增长率十分有利于支撑股价，而不太需要从挤压竞争对手或削减成本方面下手。
+
+  * 在十年之后，__数据存储将完全被云存储取代__。这是由于云存储规模占比已经较高，且增长率快于数据存储整体。至少从预测来说如此。
+
+![Fortune storage market size forecast](../images/vision-market-fortune-storage-market-size.png "Fortune storage market size forecast")
+
+从 Gartner 的云基础设施的魔力象限中 [[61]](.)（2024），可以找到市场的头部参与者：
+
+  * __Amazon AWS__：持久的领导者。AWS 在全球拥有大规模的基础设施、良好的可靠性和生态系统。AWS 是寻求可扩展性和安全性的企业的首选。然而，其复杂的服务对于新用户来说可能有挑战。
+
+  * __Microsoft Azure__：领导者。Azure 得力于混合云能力、与微软产品的深度集成，以及与 AI 领导者 OpenAI 的合作。Azure 的行业特定解决方案，以及协同战略，对企业有引力。然而，Azure 面临扩容挑战，也受到安全方面的批评。
+
+  * __Google GCP__：领导者。在 AI/ML 创新领域领先，Vertex AI 平台备受好评，云原生技术独树一帜。在环境可持续、AI 服务方面，GCP 对数据为核心的组织很有吸引力。然而，GCP 不足于企业支持和传统工作负载迁移。
+
+  * __Oracle OCI__：领导者。OCI 强于提供灵活的多云和主权云方案，吸引需要强大集成功能的企业。其在 AI 基础设施的投资、与 NVIDIA 的合作，巩固了市场地位。然而，OCI 的生成式 AI 服务和弹性架构仍不足。
+
+  * __Alibaba Cloud__：挑战者。作为亚太区的主力，阿里云在国内市场的电子商务、AI 服务方面领先。尽管拥有出色的合作伙伴生态，阿里云在全球拓展方面受限于地缘政治和基础设施。
+
+  * __IBM Cloud__：特定领域。IBM 借助混合云和面向企业解决方案的优势，与 Red Hat OpenShift 无缝集成。其解决方案对受监管行业有吸引力。但不足于产品组合分散，以及 Edge 战略不完善。
+
+  * __Huawei Cloud__：特定领域参与者。华为是新兴市场的关键参与者，优势于电信领域的集成云解决方案。在 AI/ML 研究方面出色，并在高需求的企业环境中取得成功。然而，地缘政治紧张局势和制裁限制了其全球扩张。
+
+  * __Tencent Cloud__：特定领域参与者。对可扩展和分布式应用优化，在社交网络集成方面独具优势。然而，其全球合作伙伴生态为有限，并且在成熟度上与全球同行存在差距。
+
+![Gartner Magic Quadrant for Cloud Platforms 2024](../images/vision-market-gartner-mq-cloud-platform-2024.png "Gartner Magic Quadrant for Cloud Platforms 2024")
+
+云存储应该提供哪些 __主要功能__？Gartner 的云基础设施计分卡 [[62]](.)（2021）比较了各大公有云厂商，从中可以看到栏目列表，见下图。可以看到 AWS 的强劲实力。
+
+![Gartner Cloud Platforms Storage Scorecard 2021](../images/vision-market-gartner-cloud-storage-scorecard.png "Gartner Cloud Platforms Storage Scorecard 2021")
+
+另一方面，可将云存储看作逐步将传统存储的功能搬到云上，用主存储对标云存储。从这个角度来看，云存储应该具备哪些功能？哪些是主存储已有，而云存储未来可能发展的方向？有哪些衡量存储的关键指标？见下一节主存储。
 
 ### A. 主存储
 
+本文将主存储对应于云下本地部署的企业存储，服务关键数据，这是存储由来已久的传统领域。其增长率大致对应存储市场的大盘，由 [[60]](.) 及其配图可见，年增长率在 17% 左右，正逐步被云存储取代。当然，实际上主存储已经与云深度结合。
+
+从 Gartner 的主存储魔力象限中 [[59]](.)（2024），可以找到该市场的头部参与者：
+
+  * __Pure Storage__：持久的领导者。通过 Pure1，向用户提供主动 SLA，有利 IT 运维。融合的控制面无需外部云通信和 AIOps 的以来。DirectFlash Module 直接操作裸闪存，推动硬件、SLA、数据管理的创新。但是，Pure Storage 在美国外的用户多元化方面落后，生命周期管理计划增加了阵列的资产和支持成本，不支持计算、存储分离。
+
+  * __NetApp__：领导者。NetApp 提供 Ransomeware 恢复保证，不可变快照。通过 Keystone 策略和 Equinix Metal 服务简化 IT 运维。BlueXP 控制面提供 Sustainability 监控管理能耗和碳排放。但是，NetApp 不为块存储提供有竞争力的 Ransomeware 检测保证，系列产品不支持更大的 60TB/75TB SSD 盘，不支持计算、存储分离。
+
+  * __IBM__：领导者。IBM 消费计划提供产品生命周期、升级的统一定价，提供能耗效率的保证。Flash Grid 分区、迁移，持续优化负载，跨平台。但是，IBM 不提供容量优化型 QLC 阵列，不在块存储上提供文件服务，本地闪存部署不支持性能、容量分离。
+
+  * __HPE__：领导者。HPE 的 Alletra 服务器允许用户独立扩展容量和性能，以节省成本。GreenLake 可以在本地和 AWS 相同地部署，混合管理。负载模拟可为用户提供整全局的关于性能和容量的负载放置建议。但是，HPE 供应商在 Sustainability 和 Ransomeware 方面落后，不支持更大的 60TB/75TB SSD 盘，产品-负载组合存在混淆。
+
+  * __Dell Technologies__：领导者。收购 EMC 后，Dell 拥有灵活的全线存储产品，APEX 提供跨本地和云的多云管理和编排。PowerMax 和 PowerStore 提供行业领先的 5:1 数据缩减和 SLA，与 Data Domain 数据备份整合。但是，Dell 不提供适用中端、高端的统一存储操作系统，这带来管理复杂度。
+
+  * __华为__：挑战者。华为的多层 Ransomeware 防护优秀，采用网络协作。闪存阵列提供三年的 100% 可靠性和 5:1 容量缩减保证。NVMe SSD FlashLink 支持高磁盘容量，由 ASIC 引擎加速。但是，华为在北美地区受限，不提供对 AWS、Azure、GCP 的多云扩展方案，客户集中于少数垂直领域而增加风险，多款存储产品许可过于复杂。
+
+  * __Infinidat__：挑战者。Infinidat 在高端全球企业市场享有口碑，提供高质量的服务。SSA Express 能够将多个较小的闪存阵列整合成更经济的单台 InfiniBox 混合阵列。在遭受网络攻击后，可从不可变快照中恢复数据。但是，Infinidat 缺乏中端产品，InfuzeOS 云版本限制为单节点架构，SSD 仅支持 15TB 硬盘。
+
+  * __Hitachi Vantara__：挑战者。Hitachi 允许用户在安装后五年内升级到下一代解决方案，以减少碳排放。EverFlex 简化用户订阅的流程，基于实际使用付费。EverFlex Control 将功能模块化，允许用户根据平台定制需求。但是，Hitachi 在 Ransomeware 检测上落后，不提供计算存储的分离扩展，用于备份的 QLC SSD 方面落后。
+
+  * __IEIT SYSTEMS__：特定领域参与者。IEIT 拥有独特背板和四控制器设计，自主负载均衡，可扩展至 48 控制器。提供在线反 Ransomeware 功能，通过快照回滚。Infinistor AIOps 工具提供性能工作负载规划和模拟。但是，IEIT 在中国市场之外不为人知，在全球多云扩展方面落后，独立软件供应商（ISV）生态方面落后。
+
+  * __Zadara__：特定领域参与者。Zadara 提供全球化的高技能的托管服务，基于低成本的对象存储和 Disaggregated 的 Key-Value 架构，利用灵活的生命周期管理来减少硬件浪费，多租户环境中的硬件可被动态重组。但是，Zadara 提供的 SLA 有限如 Ransomeware 保护，商业规模和覆盖范围较小，第三方集成和 ISV 依赖于托管服务商。
+
+![Gartner Magic Quadrant for Primary Storage 2024](../images/vision-market-gartner-mq-primary-storage-2024.png "Gartner Magic Quadrant for Primary Storage 2024")
+
+主存储应该具备哪些功能？结合上文的魔力象限报告 [[59]](.)，Gartner 主存储关键能力报告 [[64]](.)（2023），企业存储主流趋势报告 [[66]](.)（2023），可以看到：
+
+  * __Consumption-based 售卖模式__：与传统购买整套存储软硬件不同，而是类似云服务，按实际消耗量付费。相应地，SLA 按照用户端的指标重新定义，如 99.99% 可用性。Gartner 预测 2028 年将有 33% 企业投资采用 Consumption-based 模式，从 2024 年的 15% 迅速增长。关联概念：Storage as a Service（STaaS）。
+
+  * __Cyber liability__：针对 Ransomeware 的检测和保护正成为企业标配，例如文件锁、不可变快照、网络监测、主动行为分析、Zero Trust 等功能 [[65]](.)。Gartner 预测 2028 年将有 2/3 企业采用 Cyber liability，从 2024 年的 5% 迅速增长。
+
+  * __软件定义存储（Software-defined Storage，SDS）__：SDS 将用户从厂商专有硬件中解放，提供跨平台的、更灵活的管理方案，利用第三方基础设施，降低运维成本。另一方面，SDS 允许分离部署计算和存储资源、独立弹性地扩展，改善经济效益。__AIOps__ 功能变得重要，常与 SDS 结合。利用公有云的 __混合云__ 功能变得常见，该功能也常归于 SDS 名下。
+
+  * __高级 AIOps__：例如实时事件流，主动的容量管理和负载均衡，持续优化成本和生产力，响应关键运维情形如 Cyber Resiliency 配合全局监控、报警、报告、支持。
+
+  * __SSD / 闪存阵列__ 增长迅速。Gartner 预测 2028 年有 85% 的主存储是闪存阵列，从 2023 年的 63% 逐步增长，而闪存价格可能下降 40%。__QLC Flash__ 正普及，带来 60TB/75TB 的超大 SSD 盘，具有更好的能耗、空间、制冷效率。
+
+  * __单平台支持文件和对象__（Single Platform for File and Object）。针对非结构化数据，同一存储平台同时支持文件和对象。融合的系统节约成本，Multiprotocol 使管理简化。文件和对象本身有相似性，图片、视频、AI 语料文件的使用方式近似对象，而对象加上元数据和层级路径后类似文件。
+
+  * __混合云文件数据服务__（Hybrid Cloud File Data Services）。混合云为企业提供跨越 Edge、云、数据中心的统一访问和管理，命名空间一致，无需拷贝。企业能够在 Edge 对数据作低延迟访问、大批量的 Ingestion，在数据中心作复杂处理，在公有云存放冷数据和备份。可以看到传统存储产品纷纷上云，公有云纷纷开发 Edge 部署。
+
+  * __数据管理服务__（Data Storage Management Services）。类似数据湖，数据管理服务读取元数据或文件内容，对数据进行分类（Classification）、洞察、优化。它跨越多协议，包括文件、对象，NFS、SMB、S3，跨越不同数据服务如 Box、Dropbox、Google、Microsoft 365。安全、权限、Data Governance、数据保护、Retention 也在议题中。在非结构数据快速增长的背景下，企业需要从数据中提取价值，并按重要性管理。
+
+  * 其它常见特性，例如：__Multiprotocol__ 支持多种访问协议。__碳排放__ 的持续测量、报告、能耗控制。__定制的 NVMe SSD 产品__，以加强性能、耐用。__无干扰的迁移服务__，从当前阵列到下一阵列，其间保证 100% 的数据可用性。__NVMoF__ NVMe over Fabric 是 NVMe 原生的 SAN 网络。__Container Native Storage__ 为容器和 Kubernetes 提供原生存储挂载。__Captive NVMe SSD__ 为 SSD 配备智能处理芯片，类似智能网卡，可将部分计算任务下推。
+
+  * 主存储需要支持的 __关键用户场景__：OLTP 在线事务处理，虚拟化，容器，应用整合（Application Consolidation），混合云，虚拟桌面基础设施（VDI）。
+
+  * 主存储的 __关键能力指标__：性能，存储效率，RAS（Reliability, availability and serviceability），Scalability，Ecosystem，Multitenancy and Security，Operations Management。
+
+
+// TODO Listen to customer feedback, the link: https://mp.weixin.qq.com/s?__biz=Mzg3MDY0OTQ0NA==&mid=2247490321&idx=1&sn=45cd7ac08aaba1100f40f74c9989d58e
+
+// TODO 招标文件，Listen to customer：https://mp.weixin.qq.com/s?__biz=MzI4OTc4MzI5OA==&mid=2247544948&idx=6&sn=e89031d33a1b7f753095164b022ae80d&chksm=ec2b9b19db5c120fd39a521a1d5014dc866fb7aff39cb741c2df54e22562722a1008067f3b87
+
+// TODO Tech radio tornado
+https://www.smartx.com/blog/2022/08/gartner-hype-cycle-storage/
+
+
+
+
+
 ### A. 备份归档存储
+
+// TODO 市场规模，增长率
+// TODO Core capabilities
+
+### B. 文件存储
+
+// TODO Where is VAST DATA? https://www.vastdata.com/press-releases/leader-in-the-2024-gartner-magic-quadrant
 
 ### B. 对象存储
 
 ### B. 块存储
 
-### B. 文件存储
-
 ### B. 数据库
+
+// TODO 强调会略过内容
 
 ### C. SSD 存储
 
@@ -61,18 +176,6 @@
 ### C. 磁带存储
 
 ### C. 内存存储
-
-D. SMB
-
-D. 大企业
-
-D. 特殊领域
-
-
-vector 数据库
-DNA
-cyber storage
-
 
 
 

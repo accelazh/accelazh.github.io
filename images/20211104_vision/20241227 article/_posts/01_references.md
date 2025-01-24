@@ -83,41 +83,54 @@
 
 [40] Declarative IO - Cluster Storage Systems Need Declarative I/O Interfaces : https://youtube.com/watch?v=TGWKZnJeNmA&si=AC6gaUtfnPjIt_vB
 
-[31] CPU open IPC_benchmark : https://openbenchmarking.org/test/pts/ipc-benchmark&eval=a29a620e89e1cb4ff15d5d31d24eaae1cc059b0e
+[41] CPU open IPC_benchmark : https://openbenchmarking.org/test/pts/ipc-benchmark&eval=a29a620e89e1cb4ff15d5d31d24eaae1cc059b0e
 
-[32] zStorage 分布式存储技术：总结2023，展望2024 : https://mp.weixin.qq.com/s/uXH8rkeJL_JMbKT3H9ZuCQ
+[42] zStorage 分布式存储技术：总结2023，展望2024 : https://mp.weixin.qq.com/s/uXH8rkeJL_JMbKT3H9ZuCQ
 
-[33] Vast Data white paper : https://www.vastdata.com/whitepaper/#TheDisaggregatedSharedEverythingArchitecture
+[43] Vast Data white paper : https://www.vastdata.com/whitepaper/#TheDisaggregatedSharedEverythingArchitecture
 
-[34] NVMe Over Fabrics Architectures for Disaggregated Storage : https://www.snia.org/sites/default/files/ESF/Security-of-Data-on-NVMe-over-Fabrics-Final.pdf#page=25
+[44] NVMe Over Fabrics Architectures for Disaggregated Storage : https://www.snia.org/sites/default/files/ESF/Security-of-Data-on-NVMe-over-Fabrics-Final.pdf#page=25
 
-[35] Network Attached Storage and NFS-eSSD : https://msstconference.org/MSST-history/2023/FlynnPresentation2.pdf#page=7
+[45] Network Attached Storage and NFS-eSSD : https://msstconference.org/MSST-history/2023/FlynnPresentation2.pdf#page=7
 
-[36] Fortune Cloud Storage Market Size, Share & Industry Analysis : https://www.fortunebusinessinsights.com/cloud-storage-market-102773
+[46] Fortune Cloud Storage Market Size, Share & Industry Analysis : https://www.fortunebusinessinsights.com/cloud-storage-market-102773
 
-[37] Margins by Sector (US) : https://pages.stern.nyu.edu/~adamodar/New_Home_Page/datafile/margin.html
+[47] Margins by Sector (US) : https://pages.stern.nyu.edu/~adamodar/New_Home_Page/datafile/margin.html
 
-[38] MSFT (Microsoft) Preferred Stock : https://www.gurufocus.com/term/preferred-stock/MSFT
+[48] MSFT (Microsoft) Preferred Stock : https://www.gurufocus.com/term/preferred-stock/MSFT
 
-[39] Stock Analysis MSFT stock analysis : https://stockanalysis.com/stocks/msft/statistics/
+[49] Stock Analysis MSFT stock analysis : https://stockanalysis.com/stocks/msft/statistics/
 
-[40] Trading Economics United States 30 Year Bond Yield : https://tradingeconomics.com/united-states/3-month-bill-yield
+[50] Trading Economics United States 30 Year Bond Yield : https://tradingeconomics.com/united-states/3-month-bill-yield
 
-[41] Investing.com Microsoft corp historical dividends : https://in.investing.com/equities/microsoft-corp-dividends
+[51] Investing.com Microsoft corp historical dividends : https://in.investing.com/equities/microsoft-corp-dividends
 
-[42] Jacob 从3年后的EPS看，现在的微软是否值得介入 : https://mp.weixin.qq.com/s/IU03qeV53bcK75U-sfRMGg
+[52] Jacob 从3年后的EPS看，现在的微软是否值得介入 : https://mp.weixin.qq.com/s/IU03qeV53bcK75U-sfRMGg
 
-[43] Wikipedia Beta系数 : https://zh.wikipedia.org/wiki/Beta%E7%B3%BB%E6%95%B0
+[53] Wikipedia Beta系数 : https://zh.wikipedia.org/wiki/Beta%E7%B3%BB%E6%95%B0
 
-[44] Equity Risk Premium (ERP) : https://www.wallstreetprep.com/knowledge/equity-risk-premium/
+[54] Equity Risk Premium (ERP) : https://www.wallstreetprep.com/knowledge/equity-risk-premium/
 
-[45] Capital Asset Pricing Model (CAPM) : https://www.wallstreetprep.com/knowledge/capm-capital-asset-pricing-model/
+[55] Capital Asset Pricing Model (CAPM) : https://www.wallstreetprep.com/knowledge/capm-capital-asset-pricing-model/
 
-[46] Investing.com S&P 500 : https://in.investing.com/indices/us-spx-500
+[56] Investing.com S&P 500 : https://in.investing.com/indices/us-spx-500
 
-[47] TradingView US companies with the highest dividend yields : https://www.tradingview.com/markets/stocks-usa/market-movers-high-dividend/
+[57] TradingView US companies with the highest dividend yields : https://www.tradingview.com/markets/stocks-usa/market-movers-high-dividend/
 
-[48] Microsoft Cloud strength fuels third quarter results : https://news.microsoft.com/2024/04/25/microsoft-cloud-strength-fuels-third-quarter-results-3/
+[58] Microsoft Cloud strength fuels third quarter results : https://news.microsoft.com/2024/04/25/microsoft-cloud-strength-fuels-third-quarter-results-3/
 
-[49] Gartner Magic Quadrant for Primary Storage Platforms 2024 : https://www.purestorage.com/resources/gartner-magic-quadrant-primary-storage.html
+[59] Gartner Magic Quadrant for Primary Storage Platforms 2024 : https://www.purestorage.com/resources/gartner-magic-quadrant-primary-storage.html
 
+[60] Fortune Data Storage Market Size, Share & Industry Analysis : https://www.fortunebusinessinsights.com/data-storage-market-102991
+
+[61] Key Insights for Gartner Magic Quadrant 2024 for Strategic Cloud Platforms : https://alnafitha.com/blog/key-insights-from-gartner-magic-quadrant-2024-for-cloud/
+
+[62] Gartner Cloud Integrated IaaS and PaaS Solution Scorecard Comparison 2021 : https://clouddecisions.gartner.com/a/scorecard/#/iaas-alibaba-vs-aws-vs-google-vs-ibm-vs-azure-vs-oracle
+
+[63] Quora What is it like to work at SpaceX? : https://www.quora.com/What-is-it-like-to-work-at-SpaceX
+
+[64] Gartner Critical Capabilities for Primary Storage 2023 : https://mp.weixin.qq.com/s/O5j1nNt3cqQT6RmG7wEy_g
+
+[65] RackTop The Buyer's Guide to Cyberstorage Features : https://www.racktopsystems.com/the-buyers-guide-to-cyberstorage-features/
+
+[66] Gartner Top Trends in Enterprise Data Storage 2023 : https://www.purestorage.com/resources/type-a/gartner-top-trends-enterprise-data-storage-2023.html
