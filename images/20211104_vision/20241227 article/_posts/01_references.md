@@ -134,3 +134,24 @@
 [65] RackTop The Buyer's Guide to Cyberstorage Features : https://www.racktopsystems.com/the-buyers-guide-to-cyberstorage-features/
 
 [66] Gartner Top Trends in Enterprise Data Storage 2023 : https://www.purestorage.com/resources/type-a/gartner-top-trends-enterprise-data-storage-2023.html
+
+[67] 6家存储系统公司的客户反馈 : https://mp.weixin.qq.com/s/Ri6pdeJ5-82pHBaGz-wlKw
+
+[68] 湖南省省级电子政务外网统一云平台资源补充项目 : https://mp.weixin.qq.com/s/S4-2XbFDp6qB-8S01qSEEw
+
+[69] 西瓜哥 Gartner Hype Cycle for Storage Technologies 2024 : https://mp.weixin.qq.com/s/Ct5bq_QsF7Tu_r6bvqUSFg
+
+[70] SmartX Hype Cycle for Storage and Data Protection Technologies, 2022 : https://www.smartx.com/blog/2022/08/gartner-hype-cycle-storage/
+
+[71] 深度数据云 Gartner Hype Cycle for Data Management, 2023 : https://zhuanlan.zhihu.com/p/656920047
+
+[72] MarketResearchFuture Data Backup And Recovery Market Overview : https://www.marketresearchfuture.com/reports/data-backup-recovery-market-29073
+
+[73] GrandViewResearch Enterprise Information Archiving Market Size : https://www.grandviewresearch.com/industry-analysis/enterprise-information-archiving-market-report
+
+[74] Gartner Magic Quadrant for Enterprise Backup and Recovery Software Solutions : https://www.zen.com.my/wp-content/uploads/2024/01/Backup-Vendor-Magic-Quadrant-2023-1-1.pdf
+
+[75] Veeam, Rubrik Lead in Enterprise Backup/Recovery Report : https://virtualizationreview.com/articles/2024/08/09/veeam-rubrik-lead-in-enterprise-backup-recovery-market-report.aspx
+
+
+
