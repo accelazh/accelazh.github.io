@@ -153,5 +153,13 @@
 
 [75] Veeam, Rubrik Lead in Enterprise Backup/Recovery Report : https://virtualizationreview.com/articles/2024/08/09/veeam-rubrik-lead-in-enterprise-backup-recovery-market-report.aspx
 
+[76] Disaster Recovery with Cloud Recovery Assurance : https://www.appranix.com/resources/blogs/2023/07/disaster-recovery-with-cloud-recovery-assurance.html
 
+[77] Gartner Magic Quadrant for File and Object Storage Platforms 2024 : https://www.purestorage.com/resources/gartner-magic-quadrant-file-object-storage-platforms.html
+
+[78] VMR Global Distributed File Systems and Object Storage Solutions Market By Type : https://www.verifiedmarketreports.com/product/distributed-file-systems-and-object-storage-solutions-market/
+
+[79] MarketResearchIntelligent Global Cloud Object Storage Market Size : https://www.marketresearchintellect.com/ko/product/global-cloud-object-storage-market-size-forecast/
+
+[80] Nasui Types & Volume of Files in the Enterprise : https://youtu.be/8FHihZvyFFM?si=KbiVDWqHfStLMiZU&t=330
 

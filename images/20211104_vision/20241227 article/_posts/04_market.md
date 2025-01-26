@@ -50,11 +50,11 @@
 
   * 在 Google 搜索后加入 `"Licensed for Distribution"`，可找到 Gartner 公开的文档。
 
-  * 切换英文、中文搜索引擎可以找到不同内容。中文社区可能保存一些文档。
+  * 切换英文、中文搜索引擎、Scribd，可以找到不同内容。中文社区可能保存一些文档。
 
   * 此外，阅读主导产品的用户手册也可了解领域的主要功能和评估指标。
 
-Fortune 预测全球云存储市场规模在 \$161B 左右，约 21% 年增长率 [46]。相比之下，全球数据存储市场规模在 \$218 左右，约 17% 年增长率 [[60]](.)。可以看到：
+Fortune 预测全球云存储市场规模在 \$161B 左右，约 21.7% 年增长率 [[46]](.)。相比之下，全球数据存储市场规模在 \$218 左右，约 17.1% 年增长率 [[60]](.)。可以看到：
 
   * 云存储市场有 __极好的增长率__。结合 _[理解股价](.)_ 章节可以看到，该增长率十分有利于支撑股价，而不太需要从挤压竞争对手或削减成本方面下手。
 
@@ -86,7 +86,7 @@ Fortune 预测全球云存储市场规模在 \$161B 左右，约 21% 年增长�
 
 ![Gartner Cloud Platforms Storage Scorecard 2021](../images/vision-market-gartner-cloud-storage-scorecard.png "Gartner Cloud Platforms Storage Scorecard 2021")
 
-另一方面，可将云存储看作逐步将传统存储的功能搬到云上，用主存储对标云存储。从这个角度来看，云存储应该具备哪些功能？哪些是主存储已有，而云存储未来可能发展的方向？有哪些衡量存储的关键指标？见下一节主存储。
+另一方面，可将云存储看作逐步将传统存储的功能搬到云上，__用主存储对标云存储__。从这个角度来看，云存储应该具备哪些功能？哪些是主存储已有，而云存储未来可能发展的方向？有哪些衡量存储的关键指标？见下一节主存储。
 
 ### A. 主存储
 
@@ -120,7 +120,7 @@ Fortune 预测全球云存储市场规模在 \$161B 左右，约 21% 年增长�
 
   * __Consumption-based 售卖模式__：与传统购买整套存储软硬件不同，而是类似云服务，按实际消耗量付费。相应地，SLA 按照用户端的指标重新定义，如 99.99% 可用性。Gartner 预测 2028 年将有 33% 企业投资采用 Consumption-based 模式，从 2024 年的 15% 迅速增长。关联概念：Storage as a Service（STaaS）。
 
-  * __Cyber liability__：针对 Ransomware 的检测和保护正成为企业标配，例如文件锁、不可变快照、网络监测、主动行为分析、Zero Trust 等功能 [[65]](.)。关联 Cyberstorage。Gartner 预测 2028 年将有 2/3 企业采用 Cyber liability，从 2024 年的 5% 迅速增长。
+  * __Cyber liability__：针对 Ransomware 的检测和保护正成为企业标配，例如文件锁、不可变存储、网络监测、主动行为分析、Zero Trust 等功能 [[65]](.)。关联 Cyberstorage。Gartner 预测 2028 年将有 2/3 企业采用 Cyber liability，从 2024 年的 5% 迅速增长。
 
   * __软件定义存储（Software-defined Storage，SDS）__：SDS 将用户从厂商专有硬件中解放，提供跨平台的、更灵活的管理方案，利用第三方基础设施，降低运维成本。另一方面，SDS 允许分离部署计算和存储资源、独立弹性地扩展，改善经济效益。__AIOps__ 功能变得重要，常与 SDS 结合。利用公有云的 __混合云__ 功能变得常见，该功能也常归于 SDS 名下。
 
@@ -182,42 +182,124 @@ Fortune 预测全球云存储市场规模在 \$161B 左右，约 21% 年增长�
 
 下一个问题是，备份和归档存储的主要市场参与者是谁？从 Gartner 的企业备份和恢复软件方案魔力象限中 [[74]](.)（2023）[[75]](.)（2024），可以找到该市场的头部参与者：
 
+  * __Commonvault__：领导者。BaaS 覆盖广泛，包括 SaaS 应用、多云、本地部署，支持 Oracle OCI。Backup & Recovery 互操作性良好。Commonvault 将企业级功能带入有竞争力的价格。但是，Commonvault 的本地部署方面的创新落后于云端，部分用户反映体验不佳，HTML5 用户界面相比本地应用缺失功能。
+
+  * __Rubrik__：领导者。Rubrik 在产品定价组合方面创新，例如为 Microsoft 365 提供有基于容量的用户 tiers。Rubrik 在 Ransomware 保护方面出色，例如机器学习、在备份数据中检查异常。Rubrik 的扩展能力和出色客服持续吸引大型企业。但是，Rubrik 需平衡在安全和备份的投资，SaaS 应用覆盖有限，可选云存储有限，主要在 Azure Storage。
+
+  * __Veeam__：领导者。Veeam 拥有忠实的用户和 Veeam Community。Veeam 支持混合云和所有主要公有云。Veeam 在全球拥有大量合作伙伴。但是，Veeam 对 BaaS、SaaS、Ransomware 的市场需求反应缓慢，软件过于复杂，实现安全的平台部署需要仔细设计和配置。
+
+  * __Cohesity__：领导者。Helios 是基于 SaaS 的集中控制面，为所用备份产品提供统一、直观的管理体验。DataProtect 和 FortKnox 允许用户选择多个公有云存储位置。Cohesity 积极与不同领域的供应商组成数据安全联盟（Data Security Alliance）。但是，Cohesity 的新投资引入第三方技术依赖，Backup as a Service（BaaS）能力不足，地理覆盖有限。
+
+  * __Veritas__：领导者。Veritas 提供全面的备份产品，例如云和 scale-out & scale-up。NetBackup 和 Alta 服务支持云原生，在公有云运行 Kubernetes。服务和合作伙伴覆盖全球。但是，Veritas 的部分云产品仍处于早期，专注大企业而对中小企业不够友好，缺少 SaaS 应用支持（Microsoft Azure AD, Azure DevOps, Microsoft Dynamics 365 and GitHub）。
+
+  * __Dell Technologies__：领导者。PowerProtect 提供数据保护和 Ransomware 保护，支持本地和云端部署。其允许用户结合多个 Appliance 的平衡容量。它提供跨多个公有云的一致管理，可在 Marketplace 获取。但是，Dell 缺少 SaaS 控制面，不支持选择其它备份存储方案，高级 Ransomware 分析需要专用环境。
+
+  * 其它：挑战者、远见者、特定领域参与者。略，详见 [[74]](.) 报告原文。
+
 ![Gartner Magic Quadrant for Enterprise Backup and Recovery 2024](../images/vision-market-gartner-mq-backup-2024.png "Gartner Magic Quadrant for Enterprise Backup and Recovery 2024")
 
-// TODO 参与者、地位。
-// TODO core capabilities
-// TODO 未来技术
+接下来的问题是，备份和归档产品所需的主要功能是什么？从 [[74]](.) 可以看到一系列 Core Capabilities 和 Focus Areas：
 
+  * __备份和恢复数据__：才此基础上，支持本地数据中心和公有云。支持 Point-in-time 备份、支持业务连续、容灾等场景。配置多种备份和 Retention 策略，并与公司政策对齐。Tier 冷热备份数据到不同地点，如公有云、第三方供应商、对象存储。全局去重、数据缩减。
 
+  * __Cyberstorage__：备份数据到不可变存储中，Immutable Data Vault。检测和防御 Ransomware。支持灾难、攻击的恢复测试和演习。为容器、对象存储、Edge 等不同目标提供保护，保护应覆盖本地、云、混合云。快速可靠的恢复，恢复书库、虚拟机、文件系统、Bare-metal 机器，恢复不同的 Point-in-time。
 
+  * __控制面__：集中的控制面，在不同产品见统一，在本地、混合云端统一。管理分布式的备份和恢复任务，管理测试和演习。管理公司合规，数据保护和 Retention 政策。与常见其它 SaaS 产品、BaaS 产品的整合。控制面应是基于 SaaS 的，类似云，而不是让用户自己管理安装升级。
 
-[[69]](.)
+  * __Cloud-native__：备份软件自身可以云原生部署，例如 Kunernetes。数据保护覆盖云原生负载，例如 DBaaS, IaaS and PaaS。与公有云服务结合，支持存放数据到云，支持在云端调度任务。备份产品以接近云的 BaaS 方式提供服务。按实际使用量付费（Consumption-based），而不是让强迫用户购买整台 Appliance。
+
+  * __GenAI & ML__：支持生成式 AI，例如在任务管理、故障排查、客服支持中。支持机器学习，例如用于 Ransomware 检测，自动数据分类（Classification）。
+
+最后的问题是，备份和归档技术未来的发展方向为何？可以从 Gartner 的 Hype Cycle 中获悉 [[69]](.)（2024），见下图。可以看到：
+
+  * __数据归档__、__归档专用 Appliance__、__数据分类__ 已经被验证。__Cyberstorage__、__生成式 AI__、__云恢复（CIRAS）__ [[76]](.)、__备份数据重用分析__ 等正在兴起。
+
 ![Gartner hype cycle backup and data protection technologies 2024](../images/vision-market-gartner-hype-cycle-backup-and-data-protection-2024.png "Gartner hype cycle backup and data protection technologies 2024")
-
 
 ### B. 文件存储
 
+首先，文件存储拥有多大的市场规模、多快的增长率？VMR 的报告 [[78]](.) 指出，
+
+  * 分布式文件系统 & 对象存储在 2023 年拥有约 \$26.6B 的市场规模，__年均增长率约 16%__。这个增长率大致和主存储相仿。略慢于云存储整体。
+
+  * 许多报告中，__文件系统和对象存储被合并统计__。确实，这两种存储的用户场景相通，并且近年发展中也在吸收彼此特性。见本文 “[互相交缠](.)” 段落。
+
+  * 另外，Market Research Intelligent 报告 [[79]](.) 中给出了对象存储单独的市场规模。对照可发现，对象存储 2023 年市场规模仅 \$9.91B ，__增长率远不及文件存储__，只有约 5.3% 。
+
+![VMR Global Distributed File Systems and Object Storage Solutions Market By Type](../images/vision-market-vmr-file-object-market-size.png "VMR Global Distributed File Systems and Object Storage Solutions Market By Type")
+
+Gartner 的文件和对象存储平台魔力象限中 [77](.)（2024），可以看到该市场的主要参与者。注意，文件系统和对象存储仍然被被合并统计。注意，这里主要针对存储厂商，类似主存储，而不是公有云（公有云见 “[云存储](.)” 一节）。
+
+  * __Dell Technologies__：领导者。收购 EMC 后，Dell 拥有最广泛的软硬件产品组合，包括非结构化数据和特定用途产品。Dell 拥有全球供应链和供应商。Dell 与 Nvidia 紧密合作并投资 AI 项目。但是，PowerScale 缺乏全局命名空间和 Edge 缓存，与拥有不同架构的现代闪存存储竞争加剧，依赖 ISV 解决关键需求。
+
+  * __Pure Storage__：领导者。FlashBlade 采用 NVMe QLC SSD，拥有行业最高密度、最低 TB 功耗，价格相比 HDD 混合阵列具有竞争力。Evergreen//One 和 Pure1 的 AIOps 功能和监控确保用户 SLA 。FlashBlade 与 Equinix Metal 合作，将本地基础设施扩展到全球。但是，Evergreen//Forever 方案显著增加了资本支出，Ransomware 检测能力有限，混合云支持有限，如 AWS、Azure、GCP 中以虚拟机、容器部署。
+
+  * __VAST Data__：领导者。VAST 的战略合作、营销大量增加大客户。VAST 使用 QLC 闪存、先进的数据缩减算法、高密度机架。终端用户认可其出色的客户服务，如知识、售前、架构，订购、部署。但是，VAST 缺乏品牌集成的 Appliance 因而难以吸引保守型全球企业，高频软件更新带来不稳定，缺少企业及功能如同步复制、Stretched Cluster、Geodistributed Erasure Coding、Active Cyber Defense，混合云吸引力有限。
+
+  * __IBM__：领导者。IBM 在 HPC 市场处于领导地位，与 AI 结合。文件和对象提供全局命名空间，跨越数据中心、云或 Edge、非 IBM 存储。IBM 持续增强 Ceph 存储，受开源用户青睐，统一文件、块、对象存储。但是，IBM 产品组合复杂，云支持不足，文件存储倾向 HPC 而通用场景不足。
+
+  * __Qumulo__：领导者。Qumulo 在 Azure 上提供 SaaS 的简便和云弹性。其软件在本地和云端部署提供一致的功能和性能。Qumulo 的全局命名空间提供跨越本地和多个云的访问。但是，Qumulo 缺乏 Ransomware 检测能力，不提供自己的硬件设备而依赖第三方，全球覆盖有限。
+
+  * __华为__：挑战者。OceanStor Pacific 提供统一平台文件、块、对象的统一存储。从 AI 性能到数据管理，华为拥有专有硬件技术，包括芯片和闪存。客户支持和服务收到高度评价。但是，美国制裁和地缘政治限制全球扩张，对其它公有云如 AWS、Azure、GCP 的支持有限，不提供灵活的 SDS 方案。
+
+  * __Nutanix__：远见者，远见程度超越所有领导者。NUS 平台可 Consolidate 各类用户存储负载，在混合云下集中管理。NUS 简化实施、运维、监控、扩展的管理。客户支持服务在可靠和响应方面受到认可。但是，超融合（Hyperconverged）平台不受只想购买存储的用户认可，文件和对象在混合云部署中认可有限，不支持 RDMA 访问 NFS 因而不适合低延迟场景。
+
+  * __WEKA__：远见者。并行文件系统适用最苛刻的大规模 HPC 和 AI 负载。Converged 模式允许文件系统和应用运行于同一服务器上，并提高 GPU 利用率。混合云在各公有云、Oracle OCI 中广泛可用，但是，备份和归档方案不具备成本效益，S3 和对象支持有限，缺少 Ransomware 保护、AIOps、同步复制、数据效率保证、地理分布对象存储。
+
+  * __Scality__：远见者。Scality 的 RING 架构支持 EB 级部署，独立扩展性能和容量。Scality 追求纯软件方案，能够运行在广泛的标准硬件上，无论 Edge 还是数据中心。RING 数据保护支持地理分布，跨多个可用区，零 RPO/RTO，极高 Availability 和 Durability。但是，作为 SDS 方案，其依赖外部供应商，不具备交付 Turnkey Appliance 的能力；文件由对象存储集成 POSIX 实现，因而不适用 HPC。
+
+  * 其它：特定领域参与者。略，详见 [[77]](.) 报告原文。
+
+![Gartner Magic Quadrant for File and Object Storage Platforms 2024](../images/vision-market-gartner-mq-file-object-2024.png "Gartner Magic Quadrant for File and Object Storage Platforms 2024")
+
+文件和对象存储系统应该具有哪些主要功能？从 Gartner 魔力象限报告中可以看到一系列 Core Capabilities 和 Top Priorities，如下列出。另一方面，可以发现它们与主存储、备份和归档存储的主要功能 __皆相通相似__。
+
+  * __统一命名空间__：文件跨本地数据中心、Edge、多个公有云统一管理和访问。支持地理分布、复制保护。支持 __混合云__、S3，以及多种文件访问协议。__统一存储__，文件、块、对象由统一平台服务。单一平台处理高性能和数据湖。
+
+  * __AIOps__：支持 AIOps、简化、统一的管理配置，自动化。拥有出色的客户服务，在知识和架构方案等方面。__数据管理__，如元数据分类、成本优化、数据迁移、分析、安全。数据生命周期管理。元数据索引、文件和对象 Labeling/Tagging 。软件定义存储 SDS。
+
+  * __Cyberstorage__：提供 Ransomware 的检测和保护，在攻击中保持业务连续性。响应和恢复数据。当然，传统的数据加密、认证等安全功能必不可少。
+
+  * __成本和性能__：采用具有容量、能耗优势的 QLC 闪存。提高机架存储密度。去重、压缩、纠删码等数据缩减技术，以及数据效率保证。使用闪存或 SSD 加速文件访问，提供缓存，并对闪存作数据缩减。RDMA 访问降低延迟，Edge 存储降低延迟。支持线性扩展，支持分离扩展性能和容量，妥善处理性能和容量的 Burst。__STaaS__ 模式 Consumption-based 付费。管理能耗和碳排放。
+
+  * __不同用户场景__：通用文件系统、数据库、对象（或按对象的方式使用文件）、HPC 及 AI，是不同的用户场景，在功能和性能上各有取舍。或者见下面来自 Nasuni 的企业文件-数据量图 [[80]](.) 。
+
+![Nasuni Types & Volume of Files in the Enterprise](../images/vision-market-nasuni-file-types-enterprise.png "Nasuni Types & Volume of Files in the Enterprise")
+
+文件也是主存储功能之一，关于未来发展趋势、Hype Cycle，不再重复。参见 “[主存储](.)” 一节。
+
+### B. 对象存储
+
+// TODO 合并到云存储，Gartner 文件存储
+// TODO 试试看有没有专门文档
 
 // TODO 市场规模，增长率
 // TODO Core capabilities
 
-// TODO Where is VAST DATA? https://www.vastdata.com/press-releases/leader-in-the-2024-gartner-magic-quadrant
-
-// TODO file workload distribution Screenshot: https://youtu.be/8FHihZvyFFM?si=KbiVDWqHfStLMiZU&t=330
-
-### B. 对象存储
-
 ### B. 块存储
+
+// TODO market size still has charts
+
+// TODO 主存储提供块存储服务，合并到主存储，另一边是云存储。
+
+// TODO 统一存储文件、块、对象
 
 ### B. 数据库
 
+// TODO market size still has charts
 // TODO 强调会略过内容
+
+// TODO 数据库存储数据但一般不属于“存储”市场。
+// TODO 数据库非常庞大多样，值得另一篇文章。
+// TODO 数据湖横跨数据库与存储两者属性。
 
 [[71]](.)
 ![Gartner hype cycle backup and data management 2023](../images/vision-market-gartner-hype-cycle-data-management-2023.png "Gartner hype cycle backup and data management 2023")
 
 
 ### C. SSD 存储
+
+// TODO 闪存常见于 主存储、文件、块存储。
 
 ### C. HDD 存储
 
@@ -579,3 +661,7 @@ get you a more complex product and more market shares.
 
 
 
+
+
+// TODO 为什么说腾讯22年前的这份神级PPT是立项汇报的天花板？ - 卫夕的文章 - 知乎
+https://zhuanlan.zhihu.com/p/684222828
