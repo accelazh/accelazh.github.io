@@ -1,8 +1,8 @@
 ## 俯瞰存储市场
 
-商业策略分析通常可以分解为客户、产品、公司（自身）、竞争对手层面，进一步深入（下图）。客户、产品、竞争对手可归结为“市场”格局。本章将调研存储系统的市场，列举市场的主要分区、产品功能、参与者。之后章节将进一步深入。
+商业策略分析通常可以分解为客户、产品、公司、竞争对手层面，进一步深入（下图）。客户、产品、竞争对手可归结为“市场”格局（Landscape）。本章将纵览存储系统的市场，列举市场的主要分区、产品功能、参与者。之后章节将进一步深入。
 
-在不断变化的市场格局中，我们处于什么位置？3~5 年、或 10 年之后，市场版图又会如何变化？理解市场是 Vision 与 Strategy 的基础。围绕市场，可以逐步揭示其结构和发展空间，什么是价值，需求，演化周期，以及背后的驱动因素。
+在不断变化的市场格局中，我们处于什么位置？3~5 年、或 10 年之后，市场版图又会如何变化，我们应在何处？理解市场是 Vision 与 Strategy 的基础。围绕市场，可以逐步揭示其结构和发展空间，什么是价值，需求，演化周期，以及背后的驱动因素。
 
 ![Business Situation](../images/vision-market-business-situation.png "Business Situation")
 
@@ -10,19 +10,19 @@
 
 第一个问题是如何将存储市场分类？本章使用如下分类来组织内容。后面各小节标题前的字母对应分类组。
 
-  * A. 经典的分类是 __云存储和主存储__。云存储来自公有云。主存储（Primary Storage）[[49]](.) 一词多由 Gartner 使用，指部署在客户本地数据中心，服务关键数据的存储系统，通常为传统存储厂商。主存储也被称作“企业存储”（Enterprise Storage）。企业本地使用的另一大类存储是 __备份和归档__ 系统。
+  * A. 经典的分类是 __云存储__ 和 __主存储__。云存储来自公有云。主存储（Primary Storage）[[49]](.) 一词多由 Gartner 使用，指部署在客户本地，服务关键数据的存储系统，通常为传统存储厂商。主存储也被称作“企业存储”（Enterprise Storage）。另外，企业本地使用的另一大类存储是 __备份和归档__ 系统。
 
-  * B. 按使用接口，存储可分类为 __对象、块、文件__ 系统。对象存储服务由 Key 查询的不可变 BLOB，通常为图片、视频、虚拟机镜像、备份镜像等。块存储通常由虚拟机使用，作为其磁盘挂载。文件存储由来已久，存储目录和文件，可由用户直接使用，常见的是 HDFS、NFS 等。此外 __数据库__ 也可看作存储。
+  * B. 按使用接口，存储可分类为 __对象、块、文件__ 系统。对象存储服务由 Key 查询的不可变 BLOB，通常为图片、视频、虚拟机镜像、备份镜像等。块存储通常由虚拟机使用，作为其磁盘挂载。文件存储由来已久，存储目录和文件，可由用户直接使用，常见的是 HDFS、NFS、SMB 等。此外 __数据库__ 也可看作存储。
 
   * C. 按存储介质分类，存储可分类为 __SSD、HDD、磁带__ 系统。SSD 存储昂贵、高性能，常用于文件系统和块存储。HDD 存储廉价、通用，常用于对象存储，或存储冷数据。磁带存储一般用于归档存储。此外，还有全 __内存__ 的存储，一般用作缓存或分析型数据库。
 
 上述对存储市场的分类是经典且常用的，也为本章讲解方便。但事实上，存储市场中的产品更为有机，为渗透对方市场、获得竞争优势，它们 __互相交缠__。例如：
 
-  * A. 云存储也售卖贴近客户的本地部署的 Edge 存储，如 AWS S3 Express。主存储也提供云端部署和云端卸载的版本，如 NetApp ONTAP。备份和归档也是云存储的一大卖点，如 AWS Glacier。
+  * A. __云存储__ 也售卖贴近客户的本地部署的 Edge 存储，如 AWS S3 Express。__主存储__ 也提供云端部署和云端卸载的版本，如 NetApp ONTAP。__备份和归档__ 也是云存储的一大卖点，如 AWS Glacier。
 
-  * B. 对象存储正变得越来越像文件系统，如按文件系统的 AWS S3 Mountpoint，如支持对象上的元数据和搜索，支持层级的对象路径。数据库有 Key-Value 接口的产品如 RocksDB，而 SQL 数据库也往往支持非结构化数据，类似存储对象。块存储不单用于虚拟机磁盘，也可为数据库提供 Page 存储。另外，各种存储系统的底层也可统一到共享日志系统，如 Azure Storage，Log is Database 设计。
+  * B. __对象存储__ 正变得越来越像文件系统，如按文件系统的 AWS S3 Mountpoint，如支持对象上的元数据和搜索，支持层级的对象路径。__数据库__ 有 Key-Value 接口的产品如 RocksDB，而 SQL 数据库也往往支持非结构化数据，类似对象存储。__块存储__ 不单用于虚拟机磁盘，也可为数据库提供 Page 存储。另外，各种存储系统的底层也可统一到 __共享日志存储__，如 Azure Storage，Apple FoundationDB、Log is Database 设计。
 
-  * C. SSD 存储常常将冷数据卸载到 HDD 存储，以节省 SSD 的昂贵成本。HDD 存储常常将 SSD 作为缓存，或 Write Staging。内存被用作各种存储介质的缓存和索引，而内存存储系统也往往支持将冷数据或日志写到 SSD。
+  * C. __SSD 存储__ 常常将冷数据卸载到 HDD 存储，以节省 SSD 的昂贵成本。__HDD 存储__ 常常将 SSD 作为缓存，或 Write Staging。__内存__ 被用作各种存储介质的缓存和索引，而内存存储系统也往往支持将冷数据或日志写到 SSD。
 
 此外，为了简洁，本章省略了一些次要的分类。例如，
 
@@ -58,7 +58,7 @@ Fortune 预测全球云存储市场规模在 \$161B 左右，约 21.7% 年增长
 
   * 云存储市场有 __极好的增长率__。结合 _[理解股价](.)_ 章节可以看到，该增长率十分有利于支撑股价，而不太需要从挤压竞争对手或削减成本方面下手。
 
-  * 在十年之后，__数据存储将完全被云存储取代__。这是由于云存储规模占比已经较高，且增长率快于数据存储整体。至少从预测来说如此。
+  * 十年之后，数据存储有趋势完全 __被云存储取代__。这是由于云存储规模占比已经较高，且增长率快于数据存储整体。至少从预测来说如此。
 
 ![Fortune storage market size forecast](../images/vision-market-fortune-storage-market-size.png "Fortune storage market size forecast")
 
@@ -90,7 +90,7 @@ Fortune 预测全球云存储市场规模在 \$161B 左右，约 21.7% 年增长
 
 ### A. 主存储
 
-本文将主存储对应于云下本地部署的企业存储，服务关键数据，这是存储由来已久的传统领域。其增长率大致对应存储市场的大盘，由 [[60]](.) 及其配图可见，年增长率在 17% 左右，正逐步被云存储取代。当然，实际上主存储已经与云深度结合。
+本文将主存储对应于云下本地部署的企业存储，服务关键数据，这是存储由来已久的传统领域。其增长率大致对应存储市场的大盘，由 [[60]](.) 及其配图可见（上一节），年增长率在 17% 左右，正逐步被云存储侵蚀。当然，实际上主存储已经与云深度结合。
 
 从 Gartner 的主存储魔力象限中 [[59]](.)（2024），可以找到该市场的头部参与者：
 
@@ -136,19 +136,23 @@ Fortune 预测全球云存储市场规模在 \$161B 左右，约 21.7% 年增长
 
   * 其它常见特性，例如：__Multiprotocol__ 支持多种访问协议。__碳排放__ 的持续测量、报告、能耗控制。__无干扰的迁移服务__，从当前阵列到下一阵列，其间保证 100% 的数据可用性。__NVMoF__ NVMe over Fabric 是 NVMe 原生的 SAN 网络。__Container Native Storage__ 为容器和 Kubernetes 提供原生存储挂载。__Captive NVMe SSD__，类似 Direct Attached 盘，为专用场景定制，强化性能、耐用（Endurance）。
 
+![Gartner Top Enterprise Storage Trends for 2023](../images/vision-market-primary-storage-top-trends-2023.png "Top Enterprise Storage Trends for 2023")
+
+另外，
+
   * 主存储需要支持的 __关键用户场景__：OLTP 在线事务处理，虚拟化，容器，应用整合（Application Consolidation），混合云，虚拟桌面基础设施（VDI）。
 
   * 主存储的 __关键能力指标__：性能，存储效率，RAS（Reliability, availability and serviceability），Scalability，Ecosystem，Multitenancy and Security，Operations Management。
 
 ![Gartner Critical Capabilities for Primary Storage 2023](../images/vision-market-primary-storage-core-capabilities-2023.png "Gartner Critical Capabilities for Primary Storage 2023")
 
-![Gartner Top Enterprise Storage Trends for 2023](../images/vision-market-primary-storage-top-trends-2023.png "Top Enterprise Storage Trends for 2023")
-
 了解主存储所需功能的另一渠道是用户的反馈。[[67]](.) 列出了用户访谈中关于某个存储产品喜欢或不喜欢的反馈。[[68]](.) 列出了一份常见的用户招标文件。从中可以看到一些容易忽视的方面：
 
   * __易用性__。例如配置简单、管理便利，在用户心中占有重要地位，不亚于性能、成本因素。对于企业用户，权限管理，与其它常用系统、协议的集成也很重要，例如文件共享、Active Directory。客户服务和支持能换来真金白银。
 
   * __资源效率__。用户本地数据中心部署的存储常常面临闲置资源，或者部分资源耗尽而另一部分资源闲置的问题。扩容是常见需求，而又需要与老系统集成兼容。类似云的负载迁移、平衡、持续优化很有用处。Disaggregated 分离扩展、购买资源，避免捆绑，可为用户带来经济效益。
+
+  * 截图只包括部分客户反馈，全文见 [[67]](.) [[68]](.) 原文。
 
 ![Customer interview Like and Dislike FlashBlade](../images/vision-market-primary-storage-customer-interview-flashblade.png "Customer interview Like and Dislike FlashBlade")
 
@@ -158,7 +162,7 @@ Fortune 预测全球云存储市场规模在 \$161B 左右，约 21.7% 年增长
 
   * __对象存储__、__分布式文件系统__、__超融合__ 已被验证。__DNA 存储__、__Edge 存储__、__Cyberstorage__、__Computational Storage__、__容器存储和备份__ 正在兴起。
 
-  * __Distributed Hybrid Infrastructure (DHI)__ 和 __软件定义存储（SDS）__ 是即将带来变革的技术。DHI 为用户本地数据中心提供与云级别的解决方案，如 Consumption-based 模式、弹性、资源效率，并与外部的公有云、Edge 云无缝连接（Hybrid Cloud）。
+  * __Distributed Hybrid Infrastructure (DHI)__ 和 __软件定义存储（SDS）__ 是即将带来变革的技术。DHI 为用户本地数据中心提供云级别的解决方案，如 Consumption-based 模式、弹性、资源效率，并与外部的公有云、Edge 云无缝连接（Hybrid Cloud）。
 
   * Hype Cycle of Storage and Data Protection 类似。Hybrid Cloud Storage 类似 DHI。Immutable Data Value 归于 Cyberstorage。Enterprise Information Archiving 归于归档存储，后者也是被验证的技术，在下一节讲述。
 
@@ -172,13 +176,21 @@ Fortune 预测全球云存储市场规模在 \$161B 左右，约 21.7% 年增长
 
 第一个问题是，备份和归档存储拥有多大的市场规模、多快的增长率？
 
-  * Market Research Future 预测 __企业备份存储__ 在 2024 年拥有约 \$27.6B 的市场规模，此后以约 11.2% 的年增长率增长。市场增长主要由数据量增长、数据保护、Ransomware 保护的需求驱动。
+  * Market Research Future 预测 [[72]](.) __企业备份存储__ 在 2024 年拥有约 \$27.6B 的市场规模，此后以约 11.2% 的年增长率增长。市场增长主要由数据量增长、数据保护、Ransomware 保护的需求驱动。
 
 ![MarketResearchFuture Data Backup And Recovery Market Size](../images/vision-market-mrf-backup-market-size.png "MarketResearchFuture Data Backup And Recovery Market Size")
 
-  * 作为企业备份存储的一部分，__归档存储__ 所占份额较小，但增长更快。Grand View Research 预测其在 2024 年拥有约 \$8.5B 的市场规模，此后以约 14.1% 的年增长率增长。市场增长主要由数据量增长、更严格的合规需求、数据管理和安全驱动。
+  * 作为企业备份存储的一部分，__归档存储__ 所占份额较小，但增长更快。Grand View Research 预测 [[73]](.) 其在 2024 年拥有约 \$8.6B 的市场规模，此后以约 14.1% 的年增长率增长。市场增长主要由数据量增长、更严格的合规需求、数据管理和安全驱动。
 
 ![GrandViewResearch Enterprise Information Archiving Market Size](../images/vision-market-gvr-archival-storage-market-size.png "GrandViewResearch Enterprise Information Archiving Market Size")
+
+
+
+// TODO continue to review
+// TODO 云对象存储市场规模为 9.91 亿美元，预计到 2031 年将达到 18.336 亿美元 —— 修正：不是B而是亿。并且，这个数值太小了，需要其它来源。
+
+
+
 
 下一个问题是，备份和归档存储的主要市场参与者是谁？从 Gartner 的企业备份和恢复软件方案魔力象限中 [[74]](.)（2023）[[75]](.)（2024），可以找到该市场的头部参与者：
 
@@ -224,7 +236,9 @@ Fortune 预测全球云存储市场规模在 \$161B 左右，约 21.7% 年增长
 
   * 许多报告中，__文件系统和对象存储被合并统计__。确实，这两种存储的用户场景相通，并且近年发展中也在吸收彼此特性。见本文 “[互相交缠](.)” 段落。
 
-  * 另外，Market Research Intelligent 报告 [[79]](.) 中给出了对象存储单独的市场规模。对照可发现，对象存储 2023 年市场规模仅 \$9.91B ，__增长率远不及文件存储__，只有约 5.3% 。
+  * 另外，Market Research Intelligent 报告 [[79]](.) 中给出了（云）对象存储单独的市场规模（对象存储主要是云）。对照可发现，对象存储 2023 年市场规模仅 \$9.91B ，__增长率远不及文件存储__，只有约 8.0% 。
+
+  * VMR 的另一报告 [[81]](.) 中给出了 __块存储__ 的市场规模，可供对比。2023 年拥有约 \$12.8B，约 16.5% 年增长率。块存储市场规模的增长率比对象存储更快，与文件合并对象相仿。
 
 ![VMR Global Distributed File Systems and Object Storage Solutions Market By Type](../images/vision-market-vmr-file-object-market-size.png "VMR Global Distributed File Systems and Object Storage Solutions Market By Type")
 
@@ -270,398 +284,76 @@ Gartner 的文件和对象存储平台魔力象限中 [77](.)（2024），可以
 
 ### B. 对象存储
 
-// TODO 合并到云存储，Gartner 文件存储
-// TODO 试试看有没有专门文档
+对象存储和文件存储经常被合并统计，其功能相通，例如 Gartner 的文件和对象存储平台魔力象限中 [77](.)。上一节 “[文件存储](.)” 已经包含对象存储，本节不再复述。
 
-// TODO 市场规模，增长率
-// TODO Core capabilities
+另一方面，对象存储的经典场景是云存储，见前文 “[云存储](.)” 一节，本节不再复述。云存储所需功能也可与存储厂商对标而得，见 “[文件存储](.)” 一节。
 
 ### B. 块存储
 
-// TODO market size still has charts
+VMR 的报告 [[81]](.) 中给出了块存储的市场规模和增长率，在 “[文件存储](.)” 一节中已经包含在图中。
 
-// TODO 主存储提供块存储服务，合并到主存储，另一边是云存储。
+块存储是主存储的核心功能之一，通常合并到主存储中统计，“[主存储](.)” 一节已经包含，不再复述。现代平台常常是统一存储，同时提供文件、块、对象服务。
 
-// TODO 统一存储文件、块、对象
+另一方面，块存储是云存储的经典场景之一，见前文 “[云存储](.)” 一节，不再复述。
 
 ### B. 数据库
 
-// TODO market size still has charts
-// TODO 强调会略过内容
+数据库的市场规模和增长率如何？从 Grand View Research 的预测可以看到：
 
-// TODO 数据库存储数据但一般不属于“存储”市场。
-// TODO 数据库非常庞大多样，值得另一篇文章。
-// TODO 数据湖横跨数据库与存储两者属性。
+  * __数据库__ 在 2023 年拥有约 \$100.8B 的市场规模，年增长率 13.1% [[82]](.) 。其中，__全球云数据库__ 在 2022 年拥有约 \$15.05B 的市场规模，年增长率 16.3% [[83]](.) 。
 
-[[71]](.)
+  * 与前文 "__[云存储](.)__” 一节对比，可以发现：1）数据库的主要市场在非云。2）云数据比非云增长更快，但远不及云存储（21.7%）。3）云存储市场比数据库大得多。
+
+![GrandViewResearch Database Market Size](../images/vision-market-gvr-database-market-size.png "GrandViewResearch Database Market Size")
+
+综合前文各节的市场规模和增长率，这里可以绘制 __各种存储类型并进行比较__，可以看到：
+
+  * __云存储__ 拥有最大的市场规模和最快的增长率（21.7%），拥有良好的投资价值。其次是 __非云的数据库__ 市场，规模较大，增长率不高（13.1%）。
+
+  * __文件存储__、__块存储__、__云数据库__ 市场规模较小，但增长率不错（16%~17%）。而 __对象存储__ 较冷，市场规模小，增长率低（8.0%）。
+
+  * 备份和归档存储中，__归档存储__（14.1%）增长快于 __备份存储__（11.21%）。
+
+![Storage market size compare](../images/vision-market-compare-storage-market-size.png "Storage market size compare")
+
+虽然数据库存储数据，但在市场划分上， 数据库一般不被分作“存储”市场。存储通常指文件、块、对象，而数据库运行在文件、块存储上。数据库拥有庞大复杂的内容，值得另一篇文章，而数据湖跨越数据库和存储两者属性（结构和非结构化数据）。
+
+本文围绕存储，因而不再深入数据库。下面仅列出：
+
+  * Gartner 云数据库魔力象限（2024）[[84]](.) 。
+
+![Gartner Magic Quadrant for Cloud Database Management Systems](../images/vision-market-gartner-mq-cloud-database-2024.png "Gartner Magic Quadrant for Cloud Database Management Systems")
+
+  * Gartner 数据管理技术 Hype Cycle（2023）[[71]](.) 。
+
 ![Gartner hype cycle backup and data management 2023](../images/vision-market-gartner-hype-cycle-data-management-2023.png "Gartner hype cycle backup and data management 2023")
-
 
 ### C. SSD 存储
 
-// TODO 闪存常见于 主存储、文件、块存储。
+Market Research Future 预测 [[85]](.)，企业闪存存储在 2025 年拥有约 \$67.17B 的市场规模，年增长率约 9.89% 。
+
+![MarketResearchFuture Enterprise Flash Storage Market Size](../images/vision-market-mrf-enterprise-flash-storage-market-size.png "MarketResearchFuture Enterprise Flash Storage Market Size")
+
+闪存存储常用于主存储、文件存储、块存储，它们是分析报告中更常见的分类方式，在前文章节中已经讲述，本节不再复述。相比 SSD，闪存是存储介质，SSD 通常指加上控制器、封装好的存储盘。
 
 ### C. HDD 存储
 
+Market Research Future 预测 [[87]](.)，HDD 市场规模在 2024 年有约 \$62.43B，年增长率约 6.1% 。注意，这是磁盘而不是存储的市场。HDD 市场面临衰退，主因是被 SSD 取代。
+
+![MarketResearchFuture Global Hard Disk Market Size](../images/vision-market-mrf-hdd-market-size.png "MarketResearchFuture Global Hard Disk Market Size")
+
+HDD 存储常用于主存储、混合（闪存）阵列，对象存储，备份系统。后者是分析报告中更常见的分类方式，而不是以 SSD/HDD 归类，存储也常常不是使用单一介质。它们在前文章节中已经讲述，本节不再复述。
+
 ### C. 磁带存储
+
+Market Research Future 预测 [[86]](.)，磁带存储在 20202425 年拥有约 \$3.5B 的市场规模，年增长率约 5.82% 。相比 SSD 和 HDD，磁带的市场规模很小、增长率低。
+
+![MarketResearchFuture Tape Storage Market Size](../images/vision-market-mrf-tape-storage-market-size.png "MarketResearchFuture Tape Storage Market Size")
+
+磁带常用于归档存储。后者在前文章节中已经讲述，本节不再复述。
 
 ### C. 内存存储
 
+内存存储一般用于数据库或缓存。存储通常不会是纯内存的，因为难以保证数据持久性，尤其在数据中心断电时。内存在存储系统中一般用于服务元数据或索引，并不独立于其它存储类别之外。
 
 
-
-
-------------------------------------------
-
-// TODO 用 Issue tree framework 开始，市场分析包括哪些部分：市场、参与者、产品
-// TODO 市场本身、规模、增长率。市场分区。vs 市场主要参与者。vs 产品。
-
-云存储、主存储、Backup
-文件、块存储、对象存储、数据库
-
-
-// TODO 主要功能列表，Critical capabilities
-    1. + Documentation. + Customer support.
-// TODO Evaluation matrix
-
-// TODO 公有云、私有云分界
-// TODO 利用gartner作导航
-// TODO 列举主要vendor和其特点
-// TODO 市场分析帮助vision和strategy认识我们在市场所处的位置
-
-// TODO 市场、竞争对手
-// TODO 什么是价值
-// TODO 需求和驱动
-// TODO 优势
-
-
-
-
-
-
-
-
-externally, how we handle the scale. how we handle the competitors? how is the storage and cloud technology trends after 10 years?
-think how we will be doing after 3 years 5 years 10 years.
-what's the industry doing from 10 years past? compared to now to 10 years after?
-
-Understand storage competitor & eco. Multiple lanes: 1) Cloud AWS/Google 2) Classic commercial SAN/NFS vendors 3) Data back/management vendors 4) Opensource community.
-Externally, position of the world storage industry and academy
-
-市场->产品->我们的位置->发展空间->什么是价值->需求变化->演化周期->驱动因素
-
-
-文章-市场：分解为市场结构规律，创新，市场分区，政策问题，主要vendor，各分区主要产品和特点、Gartner比较，产品，什么是价值，需求驱动，发展空间，我们的位置
-
-市场分析
-    ….
-Search “How come the gap of Azure vs AWS market share”
-    关于市场发展规律，市场结构、创新突破的分析
-
-产品
-    ….
-Distinctive advantage – Search “Distinctive advantage” see analysis
-Search “什么是真正有价值的资产”
-
-发展空间
-    Search “发展的另一驱动是市场需求”
-发展的驱动力是什么，什么驱动需求？
-不同维度，分章节
-        技术
-        需求、消费者
-        硬件
-        市场老化、融合、换代
-
-我们的位置
-Where we are in the market
-    Comparative tracks, vendor landscape
-    Market, producer, consumer, us.
-
-What's value
-    The analysis of what's our key value other than tech
-    What should be our invest
-    各种反直觉结论的列表
-
-创新和商业模式演化周期 -> 通过市场分析+竞争对手，定制5年业务发展天花板，和路线。
-
-Driving factors behind -> market, customer, technology parts
-Technology spectrum in storage industry landscape -> breakdown of the market and technology parts
-
-Hardware price calculation
-    Lanscape and growth strategy
-
-
-
-
-市场    // Search “Breakdown storage product abilities into axes”。 Search “市场中Efficiency的变更”
-    竞争对手
-    垄断性 – 天然市场结构
-    市场整体大小，增长率
-    能否transform相邻的、现存市场
-    1+1 > 2模式，模块循环feedback促进效应
-    市场天花板
-        什么时候进入高速增长期
-        什么时候进入低速增长期
-        天花板在哪里
-        市场需求的产品以及类型
-            Gartner score card 以及 收集的赛道 和产品特性
-        增长模式：线性，指数，递减
-
-
-
-2023年企业级存储主要发展趋势- https://mp.weixin.qq.com/s?__biz=Mzg3MDY0OTQ0NA==&mid=2247490328&idx=1&sn=c467bcc73b5308c43c1d4ce38ee7e6cb
-
-
-
-
-
-5. possible direction to drill down vision. Breakdown storage product abilities into axes. Project how they can reach in market demand vs technology support, and what are the possible things we can do in the next years.
-•	Project market demand
-•	Project technology support
-o	Hardware trends
-o	Software abilities
-•	Project competitors
-•	Where are we
-•	Where we will be in the next 3~5 years
-
-1. market demand
-    1. The best way is you have customers, you do market research, you buy analytics reports.
-    2. I don't have that. I need to use the past and current status to project.
-
-2. disruptive innovations
-    1. I have to ignore that. Because all analysis are linear that based on projection from the past. disruptive innovations are hard to predict.
-2. but disruptive innovations are important. we can study the seed investments, startups, new tech adoption/propagation trends, etc to find
-3. A list of future promising technologies that we can take into picture and build another projection based on it.
-
-市场占有替代过程，商业功能替代
-新技术、新场景催生的新可能
-新市场的成熟化：数据收集->数据大量存储->数据查询。
-市场中Efficiency的变更：一个人管理一台电脑，到一个人管理1PB数据，到一个人管理一个数据中心
-Competitor analysis: our position, predict the missing feature, predict the gap of non-functional properties.
-
-Internal software maintenance cost. Software is viewed as a middle layer to expose hardware ability to customer. So
-•	The true value of software layer is to provide functionalities. To manage the hardware resources.
-o	Functionality is a key competitor in 2B software.
-	把企业应用的复杂性分解为数据、权限、流程、算法、集成、报表等六个维度 (https://mp.weixin.qq.com/s/OXCBORheAx99o3fS-ZfUdg)
-
-
-
-
-6. Our storage product architecture designs are based on assumption like below. What if the assumptions changed?
-1) Networking speed is much faster than storage and CPU.
-2) HDD favors sequential access. SSD also mostly favors sequential access.
-    3) Commodity hardware can scale out to match performance of commercial hardware.
-
-7. How likely is cloud storage becoming a pipe provider, just like what happened to Telecom vs Apps.
-    E.g. Snowflake, Hammerspace use Cloud to build their service from much lower cost than traditional vendors when entering the market.
-
-8. Distinctive advantage, doesn’t show up at how disciplined your engineers are to be involution with each other. But at
-1) Distinctive way to organize engineering pipeline. E.g. SpaceX vs traditional rocket manufacturing. E.g. Chrome updating model vs MS office/OS update. E.g. Chrome plugin store vs Edge.
-2) Technology with large scale and complex engineering accumulation that made impossible possible. E.g. AWS cloud. E.g. Apple phone.
-3) Quality control, delivery control. Just to run faster than other competitors.
-4) Connections and trust with customers, partners, governments.
-5) Business model that deems to have advantage and made possible eventually. E.g. Alibaba Taobao selling vs traditional retails.
-    6) Large amount of production data, many heavy users already been using the system for core usecases for many years. Especially for storage, filesystem, database vendors
-
-
-
-
-
-9. 发展的另一驱动是市场需求
-    Paradigm shift式的需求
-        例如，苹果智能手机
-                             例如，Cloud-native DB 取代机房部署DB，Scale-out DB取代固定机器数DB。
-    安全、隐私、合规等的需要
-        例如，GDPR合规，隐私数据删除
-        例如，数据主权，跨区存储
-        例如，Ransomware保护
-    渐进式发展
-        更丰富的功能
-            例如，云数据库支持分钟级time travel
-            例如，对象存储支持更多功能，与数据库接近
-                                            例如，DynamoDB支持transaction，曾经式KV。
-                                            例如，单节点数据库如今都向Scaleout SQL发展。NoSQL逐渐被NewSQL取代。Aurora Serverless.
-                                            例如，数仓变得支持数据可变和版本。变得支持机器学习和特征工程
-                                                // TODO Give a dimension decomposition to all possible feature sets.
-                                             Many comes from finer and smaller and smaller customer profile. Then get more and more functionality support. It’s like a fraction tentacles, reaching to wider and finer, then
-
-
-
-
-get you a more complex product and more market shares.
-        多产品、多平台的融合
-                                  例如，对象存储支持文件系统接口
-                                  例如，产品跨界，扩展版图
-        更快、更稳定、更大
-         例如，云数据库支持Scale out
-                                  E.g., I want OLAP to be realtime. I want metrics monitoring to support SQL query.
-                                  Edge cloud, edge zone,
-                                  Hardware path bypassing CPU.
-            全球化
-            数据迁移
-            统一命名空间
-            统一事务
-            跨区容灾
-
-                             Hardware plane
-                                 Disaggregation the function unit -> No CPU / ASIC acceleration -> Commercial design vs Commodity design
-        软件层的性能提升
-                SSD placement, NVMe FDP, NVMe stream.
-                Erasure coding
-                DPDK, SPDK, kernel bypassing.
-
-
-个人发展、资产的评估纬度，列举矩阵    // 搜百科查资产评估。 - 所以Vision的分析框架主要是follow资本家视角来进行的？真资本主义…… 敢于献身不利资产的人、甚至是大部分人，是真的勇士。
-    1. 是否支持复利，增长是线性，还是指数
-    2. 是否可迁移，例如公司内人际关系不宜在跳槽时迁移
-    3. 是否自然垄断，规模效应、政策、传播
-    4. 是否需要持续维护成本
-5. 是否持续折旧
-    6. 广泛的联系类型的资产具有稳定性，最好是N对1的垄断型
-
-
-
-什么是真正有价值的资产    // TODO 使用矩阵分析
-    技术
-    技术体系
-    工程
-    执行力
-客户关系
-        声望 Reputation
-        信任，长期的客户积累，成功案例
-    政府关系
-    企业文化
-    品牌
-    人员组合
-工作场所评价
-              实体联结数、稳定性
-    Scale 规模效应
-垄断
-        平台聚集客户，更多客户更聚集
-        能源产业、规模效益
-        关系、trust，独占客户的新人空间，
-        金融信任
-        占有大量渠道
-        社交聚集
-        政策性垄断
-        独有专利技术，如ChatGPT
-  不幸的是，社会仇恨、冲突和对抗思潮，也是也满足良好资产的特性
-        基于仇恨和国际冲突，在达到门槛后，有巨大的获利空间。战争是可持续的和可profitable的。人们为了保卫他人生命而激发的灼烈情感带来的杀戮方面的消费，远超基于生存需要、欲望、娱乐而来的消费。
-粉丝群也是资产
-      这解释类为什么宁可直播，也不愿进厂
-
-
-
-    元素分解
-        企业层面
-            市场
-            对手
-            企业
-               产品
-               员工
-               组织
-        个人层面
-               技术
-               关系
-
-    价值资产需要
-        难替代性
-            技术 vs 关系
-        溢价
-            即使对手有同样强大的产品，我们仍可以卖出更高价格
-            即使被对手完全泄密，我们仍可以卖出更高价格
-        时间稳定
-            不应迅速过时，不应迅速被取代
-
-当众多市场实体，企业、个人，将组合向价值资产靠拢
-    资产粘性上升，垄断价值高端，编织关系
-    流动性下降
-    市场老化
-     新入场者将处于劣势，选择
-         卷
-         开辟新的，不成熟的市场
-         在旧市场进行革命
-         退出躺平
-        新人倾向进入未老化市场，高流动
-
-      老人
-                   If assuming the industry evolving is following a climbing cycles model, then learning from the past history is extremely important. For example, from scaleout storage, we are even going to back to multi-head box design or even fully connected super-computer. That’s going back from scaleout commodity hardware to old commercial hardware history, in a ~20 year cycle. The old people are extremely important when we try to learn from past experience. We don’t even need the old people to have competent skills, just copying from the history is extremely valuable.
-
-
-
-
-17. rethinking the driving factors for storage evolving trends and dynamics, vision in 1 ~ 3 years
-    1. hardware
-                    1. new type of hardware, e.g. 3D-XPoint, SSD, SMR, ZNS, NVMoF
-                    2. growing capacity of hardware, e.g. TB memory, 1 machine 100+ HDD, manycore, RDMA
-                    3. changing propotion of hardware, e.g. colocating compute/storage vs disaggregated design Snowflake, faster networking / faster storage device vs not-catching up CPU
-                    4. smart hardware, e.g. FPGA, Computational Storage, AWS Nitro, Azure Catapult
-                    5. GPU, DPU, IPU
-
-    2. growing scale of data capacity and IOPS
-                    1. distributed scale-out storage, Ceph, now everything
-                    2. distributed filesystem, CephFS, EMC Isilon, Azure HDFS/DataLake
-                    3. cloud opening 1000+ datacenters worldwide, interconnect, geo-distribution
-                    4. performance deterministic, SLA
-
-    3. COGS saving
-                    1. ErasureCoding, performance optimization, Kernel Passthrough
-                    2. Data deduplication
-                    3. Data tiering, migrating, caching, etc
-                    4. underlying data representation, data format, physical layout
-
-    4. Reliability
-                    1. Data backup, Copy data management
-
-    5. related technology
-                    1. container, cloud
-                    2. TLA+, formal verification
-                    3. consistent hashing, distributed transactions, append-only LSM tree, ART / Mass-tree indexes
-
-    6. User interface changing, new business models
-                    1. SQL, no SQL, new SQL
-                    2. OLAP, OLTP, HTAP
-                    3. in-memory storage, all flash, NVMe storage
-                    4. Cloud, Hybrid Cloud, Cloud offloading, Hyper-converged, IoT, Edge computing, Blockchain
-                    5. many pushing from new changing consumer, e.g. the active Database community, VM & virtualization, NFS, page & block storage, archiving, data backup, AI & machine learning & deep learning, GPU, Datalake & enterprise data mgmt and analysis, software defined DC/stoage, containerization, etc
-                    5. stream processing, transactional streaming, evolving table, RDD, XOR linage
-                    6. video processing. online realtime podcasting
-
-    6.5. Co-design with surrounding
-                    1. Co-design with database some years, and then decouple design some years
-                    2. Co-design the custom hardware some years, and then decouple with whitebox commodity hardware some years
-                    3. Open-Channel SSD, ZNS GC, SMR GC
-
-    7. security
-                    1. Zero trust, confediential computing
-                    2. Ransomware, Immutable Storage
-
-    8. Data management
-                    1. Operational model changing, Orchestration
-                    2. on-premise and hybrid cloud management and COGS improvement, metrics and analytics COGS saving
-                    3. data migration, shipping, Edge, caching, Tiering
-
-
-
-    vision in 1 ~ 3 years
-      1. in general, the vision is more a wording for startups, where leader needs insight in one or a few directions but with predictions, depth, and belief
-         to understand overall trends, the wording "trends" already have a lot of study, which can be easily searched on google.
-                    for the daily work, the vision is more like a breakdown, to more specifically know what our team should do in the following 1 ~ 3 years, and where are our SWOT - Weakness/bottleneck, Strength, Opportunities, Risks
-      2. what are the bottlenecks/directions in our xstream team in the following 1~3 years
-                      1. scale-out the metadata, the data, the operation management. balance and migration.
-                      2. reduce COGS, improve performance, more sellable IOPS/capacity, less amplification.
-                      3. deterministic performance, better request SLA. improving customer request resolving time and satisfaction.
-                      4. data reliability and corruption. security hardening.
-                     5. fitting working with new type of hardware layout, new generation, new SKU, Rack count, geo-distribution, etc
-                      6. shipping new technology, e.g. storage device, e.g. CPU feature, into our system.
-                      7. internal technical debts, better design and refactor, adding metrics, measures, making visible and systematic
-    3. what is the storage at world industry position?
-    4. what is the storage at our competitor position? AWS/Google, SAN/NFS vendors, Data backup vendors / Data management
-    5. what kind of team, guys, and how we work and organize, will be, after 3~5 years?
-
-
-
-
-
-// TODO 为什么说腾讯22年前的这份神级PPT是立项汇报的天花板？ - 卫夕的文章 - 知乎
-https://zhuanlan.zhihu.com/p/684222828

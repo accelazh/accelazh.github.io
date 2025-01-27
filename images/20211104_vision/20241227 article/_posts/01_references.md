@@ -163,3 +163,19 @@
 
 [80] Nasui Types & Volume of Files in the Enterprise : https://youtu.be/8FHihZvyFFM?si=KbiVDWqHfStLMiZU&t=330
 
+[81] VMR Global Block Storage Software Market By Type : https://www.verifiedmarketreports.com/product/block-storage-software-market/
+
+[82] GrandViewResearch Database Management System Market Size : https://www.grandviewresearch.com/industry-analysis/database-management-systems-dbms-market
+
+[83] GrandViewResearch Cloud Database And DBaaS Market Size : https://www.grandviewresearch.com/industry-analysis/cloud-database-dbaas-market-report
+
+[84] Gartner Magic Quadrant for Cloud Database Management Systems 2024 : https://www.databricks.com/resources/analyst-paper/databricks-named-leader-by-gartner
+
+[85] MarketResearchFuture Enterprise Flash Storage Market Overview : https://www.marketresearchfuture.com/reports/enterprise-flash-storage-market-31294
+
+[86] MarketResearchFuture Tape Storage Market Overview : https://www.marketresearchfuture.com/reports/tape-storage-market-33976
+
+[87] MarketResearchFuture Global Hard Disk Market Overview : https://www.marketresearchfuture.com/reports/hard-disk-market-8306
+
+
+
