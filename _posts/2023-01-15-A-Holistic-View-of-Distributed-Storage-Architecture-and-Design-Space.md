@@ -117,6 +117,7 @@ __Table of Contents__
   * [More topics](.)
 * [Conclusion](.)
 
+![Overview of Landscape of Distributed Storage](/images/arch-design-landscape-overview.png "Overview of Landscape of Distributed Storage")
 
 # Software architecture - A philosophy perspective
 

@@ -159,7 +159,7 @@
 
 [78] VMR Global Distributed File Systems and Object Storage Solutions Market By Type : https://www.verifiedmarketreports.com/product/distributed-file-systems-and-object-storage-solutions-market/
 
-[79] MarketResearchIntelligent Global Cloud Object Storage Market Size : https://www.marketresearchintellect.com/ko/product/global-cloud-object-storage-market-size-forecast/
+[79] MarketResearchFuture Global Cloud Object Storage Market Size : https://www.marketresearchfuture.com/reports/cloud-object-storage-market-4202
 
 [80] Nasui Types & Volume of Files in the Enterprise : https://youtu.be/8FHihZvyFFM?si=KbiVDWqHfStLMiZU&t=330
 
@@ -176,6 +176,14 @@
 [86] MarketResearchFuture Tape Storage Market Overview : https://www.marketresearchfuture.com/reports/tape-storage-market-33976
 
 [87] MarketResearchFuture Global Hard Disk Market Overview : https://www.marketresearchfuture.com/reports/hard-disk-market-8306
+
+[88] MBA智库 波特五力分析模型 : https://wiki.mbalib.com/wiki/%E6%B3%A2%E7%89%B9%E4%BA%94%E5%8A%9B%E5%88%86%E6%9E%90%E6%A8%A1%E5%9E%8B
+
+[89] Zartbot DPU及网络处理器的历史 : https://mp.weixin.qq.com/s/BZOvVrg3GtTurMe2Q6ZIcg
+
+[90] Andy730 颠覆性创新？存储界已有所耳闻 : https://mp.weixin.qq.com/s/NFQYEwrYCwKvTjpQdLkcQA
+
+
 
 
 

@@ -1,361 +1,145 @@
-## 存储市场的分析
+## 关于市场的分析
 
+上一章遍历了存储市场的主要分区、其中的主要参与者、各自的产品、产品的核心需求、未来可能的方向。这一章将继续深入。围绕市场，可以揭示其结构和发展空间、驱动因素、核心价值。通过对规律的把握，能够帮助 Vision 与 Strategy 的分析，规划未来 3~5 年、甚至 10 年之后，我们应处于的位置。
 
+### 市场的结构
 
+基本的市场分析包括市场分区、市场规模、用户场景、竞争格局（Competitive Landscape）、产品和功能等，在上一章已经讲述。对于存储市场，有更多维度需要考虑。首先，市场的“天然结构”是什么？其决定产品的上限和增长模式。
 
+#### 客户组成
 
+考虑开发新产品、功能， 其对应的市场由哪些客户组成？
 
+典型地，__SMB、大型企业、专业领域__。作为客户类型，SMB（中小企业）、大型企业对产品的需求、营销策略显著不同。尽管大型企业能提供丰厚的销售利润，但 SMB __议价能力__（Buyer Power）的要求更低，避免带来大量定制需求。
 
+如今，__政府采购__ 应被添加作一大客户类型。在此之上，购买方 __垄断程度__ 应作为市场的结构的关键考量之一。
 
+这个话题进一步引导向 __Porter 五力分析__ [[88]](.)：竞争者、供应商议价能力（Supplier Power）、购买者议价能力（Buyer Power），替代品威胁、新进入者威胁。
 
+另一个分类是，__低端、中端、高端__，覆盖不同偏好、规模的客户。低端走量、标准化。高端服务大型企业、定制需求，或特殊专业领域。
 
+#### 市场的天然结构
 
+有些市场天然具有 __规模效应__，例如水电、云计算。竞争最终导向参与者兼并，留存少数企业，而存活者享受营收和利润率的双重上升。
 
+而另一些市场具有 __反规模效应__，例如教培、咨询、猎聘、投资。市场允许新小参与者不断加入，大型参与者导致分裂，而成熟的个人、团队倾向单干。
 
+与此相配的市场维度是 __增长模式__。规模效应下，互联网产品的用户数量可以指数增长 。高 COGS 、人力成本占固定比例时，如制造、运维服务、外包定制，产品趋于线性增长。反规模效应下，产品增长甚至会递减，另一种递减是市场衰退。
 
+#### 市场的天花板
 
+在一轮市场生命周期（见下节）中，市场规模最终能够增长到多高？这和市场的天然结构相关。一个参考是 O(P)：调查每一个人，有 P 概率使用该产品。
 
+__O(1) 规模的行业少见且珍贵__，例如社交 App 和支付应用，每人都用。而好莱坞电影虽然知名，却未必每人都看过。O(1) 的行业上限极高，渗透力强。反之，则天花板有限，往往走高端路线提高单价。
 
+某种意义上，__Enable Everyone / Empower Everyone__ 的经济效益是增加 O(1) 级行业的数量，扩大 O(P<1) 行业的覆盖。
 
+#### 对相邻市场的渗透
 
+新兴、高速发展的技术不仅能够革新自身行业，往往也对临近行业进行渗透，进一步扩大市场和销售范围。
 
+例如，云计算发起自售卖计算、存储资源，但逐渐取代了企业的本地运维。对象存储原本用于存储图片、视频，但统一存储平台（Unified Storage）有能力兼管文件、块服务。互联网平台对各行业的渗透显而易见。
 
+除增长模式外，__渗透能力__ 是衡量市场潜力的另一维度。另一种说法是，__1+1>2__，多种产品形成逐步加强的循环反馈（__闭环__）。
 
+反过来，__易被渗透__ 的市场是不利的，往往需要配套投资相邻市场，利用产品组合构筑护城河。
 
-// TODO Evaluation matrix
-// TODO 市场分析帮助vision和strategy认识我们在市场所处的位置
-// TODO 什么是价值
-// TODO 需求和驱动
-// TODO 优势
+#### “推论”
 
-externally, how we handle the scale. how we handle the competitors? how is the storage and cloud technology trends after 10 years?
-think how we will be doing after 3 years 5 years 10 years.
-what's the industry doing from 10 years past? compared to now to 10 years after?
+从个人 __职业发展__ 角度考虑，所加入的市场分区也起重要作用。当产品具有规模效应时，企业倾向保留少量、尖端的人力，不吝惜给与高薪酬，因为成本不在此处。__人力是成本还是 Multiplier__？
 
-Understand storage competitor & eco. Multiple lanes: 1) Cloud AWS/Google 2) Classic commercial SAN/NFS vendors 3) Data back/management vendors 4) Opensource community.
-Externally, position of the world storage industry and academy
+当产品具有线性增长模式时，薪酬往往不高，但好在工作数量较多。__市场天然利润率预期工资水平__。见 _[理解股价](.)_ 章节。
 
-市场->产品->我们的位置->发展空间->什么是价值->需求变化->演化周期->驱动因素
+大规模 __裁员__ 往往意味着市场处于递减、衰退阶段，此市场对职业发展非常不利，“被赶走” 至少避免主动处于不利市场。
 
+### 市场的生命周期
 
-文章-市场：分解为市场结构规律，创新，市场分区，政策问题，主要vendor，各分区主要产品和特点、Gartner比较，产品，什么是价值，需求驱动，发展空间，我们的位置
+从市场结构继续，下一个关键的维度是市场的生命周期。未来数年后，我们的团队和产品将处于什么位置？市场结构解释增长和上限，而市场生命周期预测其阶段。基于此制定策略，并为下一周期铺路。
 
-市场分析
-    ….
-Search “How come the gap of Azure vs AWS market share”
-    关于市场发展规律，市场结构、创新突破的分析
+#### 市场的阶段
 
-产品
-    ….
-Distinctive advantage – Search “Distinctive advantage” see analysis
-Search “什么是真正有价值的资产”
+市场阶段可以 __划分__ 为导入期（Introduction Stage）、成长期（Growth Stage）、成熟期（Maturity Stage）、衰退期（Decline Stage）。
 
-发展空间
-    Search “发展的另一驱动是市场需求”
-发展的驱动力是什么，什么驱动需求？
-不同维度，分章节
-        技术
-        需求、消费者
-        硬件
-        市场老化、融合、换代
+新技术在导入期潜伏于小众爱好者，先进但增长缓慢。在成长期快速爆发，指数增长。在成熟期激烈竞争和兼并，比拼质量和客户留存。在衰退期被逐渐取代，营收、利润率双降。
 
-我们的位置
-Where we are in the market
-    Comparative tracks, vendor landscape
-    Market, producer, consumer, us.
+更重要的是，通过市场分析预测 __什么时候__ 该市场进入成长期、衰退期等阶段，以计划策略转向。
 
-What's value
-    The analysis of what's our key value other than tech
-    What should be our invest
-    各种反直觉结论的列表
+#### 新市场的来源
 
-创新和商业模式演化周期 -> 通过市场分析+竞争对手，定制5年业务发展天花板，和路线。
+新的市场往往来自 __规模增长__、__新技术__、__商业模式变化__、__客户需求__。
 
-Driving factors behind -> market, customer, technology parts
-Technology spectrum in storage industry landscape -> breakdown of the market and technology parts
+相比其它市场，存储市场的一个特点是  __天然的规模增长__，不断且高速。在此之上，应对规模增长催生各式创新。例如，分布式文件系统（软件）、QLC Flash（硬件）、软件定义存储（SDS）（运维管理）。
 
-Hardware price calculation
-    Lanscape and growth strategy
+商业模式和客户需求相辅相成。例如，居家办公 / 远程办公的潮流，催生 Zero Trust 等需求。以及 STaaS（Storage as a Service，存储即服务），客户希望按实际使用付费，而不是 upfront 购买机器。
 
+另一客户需求来源是 __政策合规__。例如 GDPR、数据主权，以及日渐普及的地理跨区。GDPR 强迫增加业务成本，也就增加了客户支出，从而增加市场规模；并催生新技术以满足隐私管理、数据归档的需求。特别地，政策可以被头部参与者主动推动。
 
+### 颠覆式创新
 
+本节仍属于 __市场的生命周期__，但因重要性独立。这可以说是最重要的概念。科技行业中，颠覆式创新（Disruptive Innovation）是市场更新的 __源动力__。
 
-市场    // Search “Breakdown storage product abilities into axes”。 Search “市场中Efficiency的变更”
-    竞争对手
-    垄断性 – 天然市场结构
-    市场整体大小，增长率
-    能否transform相邻的、现存市场
-    1+1 > 2模式，模块循环feedback促进效应
-    市场天花板
-        什么时候进入高速增长期
-        什么时候进入低速增长期
-        天花板在哪里
-        市场需求的产品以及类型
-            Gartner score card 以及 收集的赛道 和产品特性
-        增长模式：线性，指数，递减
+#### 渐进式创新
 
+在未跳出单一市场生命周期前，企业增长一般依赖 __渐进式创新__。但随着复杂性积累，边际收益（Marginal Gain）降低，阻力增加。市场增长放缓，竞争加剧，陷入“__内卷__”。
 
+另一方面可以看到，无论是渐进式创新还是颠覆式创新，企业的日常工作离不开创新。渐进式创新本身并不简单，其需要经验和洞察，以找到有效的“百尺竿头更进一步”，并带领团队成功实施。
 
-2023年企业级存储主要发展趋势- https://mp.weixin.qq.com/s?__biz=Mzg3MDY0OTQ0NA==&mid=2247490328&idx=1&sn=c467bcc73b5308c43c1d4ce38ee7e6cb
+#### 颠覆式创新
 
+颠覆式创新带来新的技术和新的范式，__新一轮市场周期__ 由此开始。
 
+新技术在导入期潜伏于低端市场，往往不被原市场的成熟参与者发现。新技术进入成长期后，快速夺取大量用户，而原市场被迫进入衰退期。对于被替代的原市场参与者，此时 __规模大成为负面因素__（见 _[理解股价](.)_ 章节），往往难以自由应对。最终，新技术夺取高端市场的桂冠，完成市场替代。旧新交替，重复循环，行业在一轮轮叠浪式的周期中发展 [[90]](.) 。
 
+![Disruptive Innovation Growth](../images/vision-market-disruptive-innovation-growth.png "Disruptive Innovation Growth")
 
+颠覆式创新有很多例子。例如，云计算渗透企业存储、数据库、运维市场，NewSQL 将分布式带入数据库，统一存储（Unified Storage）引入 SDS 并实现分布式文件系统。下图中有更多例子 [[90]](.) 。
 
-5. possible direction to drill down vision. Breakdown storage product abilities into axes. Project how they can reach in market demand vs technology support, and what are the possible things we can do in the next years.
-•	Project market demand
-•	Project technology support
-o	Hardware trends
-o	Software abilities
-•	Project competitors
-•	Where are we
-•	Where we will be in the next 3~5 years
+![Disruptive Innovation Growth](../images/vision-market-disruptive-innovation-examples.png "Disruptive Innovation Growth")
 
-1. market demand
-    1. The best way is you have customers, you do market research, you buy analytics reports.
-    2. I don't have that. I need to use the past and current status to project.
+#### 颠覆式创新的特性
 
-2. disruptive innovations
-    1. I have to ignore that. Because all analysis are linear that based on projection from the past. disruptive innovations are hard to predict.
-2. but disruptive innovations are important. we can study the seed investments, startups, new tech adoption/propagation trends, etc to find
-3. A list of future promising technologies that we can take into picture and build another projection based on it.
-
-市场占有替代过程，商业功能替代
-新技术、新场景催生的新可能
-新市场的成熟化：数据收集->数据大量存储->数据查询。
-市场中Efficiency的变更：一个人管理一台电脑，到一个人管理1PB数据，到一个人管理一个数据中心
-Competitor analysis: our position, predict the missing feature, predict the gap of non-functional properties.
-
-Internal software maintenance cost. Software is viewed as a middle layer to expose hardware ability to customer. So
-•	The true value of software layer is to provide functionalities. To manage the hardware resources.
-o	Functionality is a key competitor in 2B software.
-	把企业应用的复杂性分解为数据、权限、流程、算法、集成、报表等六个维度 (https://mp.weixin.qq.com/s/OXCBORheAx99o3fS-ZfUdg)
-
-
-
-
-6. Our storage product architecture designs are based on assumption like below. What if the assumptions changed?
-1) Networking speed is much faster than storage and CPU.
-2) HDD favors sequential access. SSD also mostly favors sequential access.
-    3) Commodity hardware can scale out to match performance of commercial hardware.
-
-7. How likely is cloud storage becoming a pipe provider, just like what happened to Telecom vs Apps.
-    E.g. Snowflake, Hammerspace use Cloud to build their service from much lower cost than traditional vendors when entering the market.
-
-8. Distinctive advantage, doesn’t show up at how disciplined your engineers are to be involution with each other. But at
-1) Distinctive way to organize engineering pipeline. E.g. SpaceX vs traditional rocket manufacturing. E.g. Chrome updating model vs MS office/OS update. E.g. Chrome plugin store vs Edge.
-2) Technology with large scale and complex engineering accumulation that made impossible possible. E.g. AWS cloud. E.g. Apple phone.
-3) Quality control, delivery control. Just to run faster than other competitors.
-4) Connections and trust with customers, partners, governments.
-5) Business model that deems to have advantage and made possible eventually. E.g. Alibaba Taobao selling vs traditional retails.
-    6) Large amount of production data, many heavy users already been using the system for core usecases for many years. Especially for storage, filesystem, database vendors
-
-
-
-
-
-9. 发展的另一驱动是市场需求
-    Paradigm shift式的需求
-        例如，苹果智能手机
-                             例如，Cloud-native DB 取代机房部署DB，Scale-out DB取代固定机器数DB。
-    安全、隐私、合规等的需要
-        例如，GDPR合规，隐私数据删除
-        例如，数据主权，跨区存储
-        例如，Ransomware保护
-    渐进式发展
-        更丰富的功能
-            例如，云数据库支持分钟级time travel
-            例如，对象存储支持更多功能，与数据库接近
-                                            例如，DynamoDB支持transaction，曾经式KV。
-                                            例如，单节点数据库如今都向Scaleout SQL发展。NoSQL逐渐被NewSQL取代。Aurora Serverless.
-                                            例如，数仓变得支持数据可变和版本。变得支持机器学习和特征工程
-                                                // TODO Give a dimension decomposition to all possible feature sets.
-                                             Many comes from finer and smaller and smaller customer profile. Then get more and more functionality support. It’s like a fraction tentacles, reaching to wider and finer, then
-
-
-
-
-get you a more complex product and more market shares.
-        多产品、多平台的融合
-                                  例如，对象存储支持文件系统接口
-                                  例如，产品跨界，扩展版图
-        更快、更稳定、更大
-         例如，云数据库支持Scale out
-                                  E.g., I want OLAP to be realtime. I want metrics monitoring to support SQL query.
-                                  Edge cloud, edge zone,
-                                  Hardware path bypassing CPU.
-            全球化
-            数据迁移
-            统一命名空间
-            统一事务
-            跨区容灾
-
-                             Hardware plane
-                                 Disaggregation the function unit -> No CPU / ASIC acceleration -> Commercial design vs Commodity design
-        软件层的性能提升
-                SSD placement, NVMe FDP, NVMe stream.
-                Erasure coding
-                DPDK, SPDK, kernel bypassing.
-
-
-个人发展、资产的评估纬度，列举矩阵    // 搜百科查资产评估。 - 所以Vision的分析框架主要是follow资本家视角来进行的？真资本主义…… 敢于献身不利资产的人、甚至是大部分人，是真的勇士。
-    1. 是否支持复利，增长是线性，还是指数
-    2. 是否可迁移，例如公司内人际关系不宜在跳槽时迁移
-    3. 是否自然垄断，规模效应、政策、传播
-    4. 是否需要持续维护成本
-5. 是否持续折旧
-    6. 广泛的联系类型的资产具有稳定性，最好是N对1的垄断型
-
-
-
-什么是真正有价值的资产    // TODO 使用矩阵分析
-    技术
-    技术体系
-    工程
-    执行力
-客户关系
-        声望 Reputation
-        信任，长期的客户积累，成功案例
-    政府关系
-    企业文化
-    品牌
-    人员组合
-工作场所评价
-              实体联结数、稳定性
-    Scale 规模效应
-垄断
-        平台聚集客户，更多客户更聚集
-        能源产业、规模效益
-        关系、trust，独占客户的新人空间，
-        金融信任
-        占有大量渠道
-        社交聚集
-        政策性垄断
-        独有专利技术，如ChatGPT
-  不幸的是，社会仇恨、冲突和对抗思潮，也是也满足良好资产的特性
-        基于仇恨和国际冲突，在达到门槛后，有巨大的获利空间。战争是可持续的和可profitable的。人们为了保卫他人生命而激发的灼烈情感带来的杀戮方面的消费，远超基于生存需要、欲望、娱乐而来的消费。
-粉丝群也是资产
-      这解释类为什么宁可直播，也不愿进厂
-
-
-
-    元素分解
-        企业层面
-            市场
-            对手
-            企业
-               产品
-               员工
-               组织
-        个人层面
-               技术
-               关系
-
-    价值资产需要
-        难替代性
-            技术 vs 关系
-        溢价
-            即使对手有同样强大的产品，我们仍可以卖出更高价格
-            即使被对手完全泄密，我们仍可以卖出更高价格
-        时间稳定
-            不应迅速过时，不应迅速被取代
-
-当众多市场实体，企业、个人，将组合向价值资产靠拢
-    资产粘性上升，垄断价值高端，编织关系
-    流动性下降
-    市场老化
-     新入场者将处于劣势，选择
-         卷
-         开辟新的，不成熟的市场
-         在旧市场进行革命
-         退出躺平
-        新人倾向进入未老化市场，高流动
-
-      老人
-                   If assuming the industry evolving is following a climbing cycles model, then learning from the past history is extremely important. For example, from scaleout storage, we are even going to back to multi-head box design or even fully connected super-computer. That’s going back from scaleout commodity hardware to old commercial hardware history, in a ~20 year cycle. The old people are extremely important when we try to learn from past experience. We don’t even need the old people to have competent skills, just copying from the history is extremely valuable.
-
-
-
-
-17. rethinking the driving factors for storage evolving trends and dynamics, vision in 1 ~ 3 years
-    1. hardware
-                    1. new type of hardware, e.g. 3D-XPoint, SSD, SMR, ZNS, NVMoF
-                    2. growing capacity of hardware, e.g. TB memory, 1 machine 100+ HDD, manycore, RDMA
-                    3. changing propotion of hardware, e.g. colocating compute/storage vs disaggregated design Snowflake, faster networking / faster storage device vs not-catching up CPU
-                    4. smart hardware, e.g. FPGA, Computational Storage, AWS Nitro, Azure Catapult
-                    5. GPU, DPU, IPU
-
-    2. growing scale of data capacity and IOPS
-                    1. distributed scale-out storage, Ceph, now everything
-                    2. distributed filesystem, CephFS, EMC Isilon, Azure HDFS/DataLake
-                    3. cloud opening 1000+ datacenters worldwide, interconnect, geo-distribution
-                    4. performance deterministic, SLA
-
-    3. COGS saving
-                    1. ErasureCoding, performance optimization, Kernel Passthrough
-                    2. Data deduplication
-                    3. Data tiering, migrating, caching, etc
-                    4. underlying data representation, data format, physical layout
-
-    4. Reliability
-                    1. Data backup, Copy data management
-
-    5. related technology
-                    1. container, cloud
-                    2. TLA+, formal verification
-                    3. consistent hashing, distributed transactions, append-only LSM tree, ART / Mass-tree indexes
-
-    6. User interface changing, new business models
-                    1. SQL, no SQL, new SQL
-                    2. OLAP, OLTP, HTAP
-                    3. in-memory storage, all flash, NVMe storage
-                    4. Cloud, Hybrid Cloud, Cloud offloading, Hyper-converged, IoT, Edge computing, Blockchain
-                    5. many pushing from new changing consumer, e.g. the active Database community, VM & virtualization, NFS, page & block storage, archiving, data backup, AI & machine learning & deep learning, GPU, Datalake & enterprise data mgmt and analysis, software defined DC/stoage, containerization, etc
-                    5. stream processing, transactional streaming, evolving table, RDD, XOR linage
-                    6. video processing. online realtime podcasting
-
-    6.5. Co-design with surrounding
-                    1. Co-design with database some years, and then decouple design some years
-                    2. Co-design the custom hardware some years, and then decouple with whitebox commodity hardware some years
-                    3. Open-Channel SSD, ZNS GC, SMR GC
-
-    7. security
-                    1. Zero trust, confediential computing
-                    2. Ransomware, Immutable Storage
-
-    8. Data management
-                    1. Operational model changing, Orchestration
-                    2. on-premise and hybrid cloud management and COGS improvement, metrics and analytics COGS saving
-                    3. data migration, shipping, Edge, caching, Tiering
-
-
-
-    vision in 1 ~ 3 years
-      1. in general, the vision is more a wording for startups, where leader needs insight in one or a few directions but with predictions, depth, and belief
-         to understand overall trends, the wording "trends" already have a lot of study, which can be easily searched on google.
-                    for the daily work, the vision is more like a breakdown, to more specifically know what our team should do in the following 1 ~ 3 years, and where are our SWOT - Weakness/bottleneck, Strength, Opportunities, Risks
-      2. what are the bottlenecks/directions in our xstream team in the following 1~3 years
-                      1. scale-out the metadata, the data, the operation management. balance and migration.
-                      2. reduce COGS, improve performance, more sellable IOPS/capacity, less amplification.
-                      3. deterministic performance, better request SLA. improving customer request resolving time and satisfaction.
-                      4. data reliability and corruption. security hardening.
-                     5. fitting working with new type of hardware layout, new generation, new SKU, Rack count, geo-distribution, etc
-                      6. shipping new technology, e.g. storage device, e.g. CPU feature, into our system.
-                      7. internal technical debts, better design and refactor, adding metrics, measures, making visible and systematic
-    3. what is the storage at world industry position?
-    4. what is the storage at our competitor position? AWS/Google, SAN/NFS vendors, Data backup vendors / Data management
-    5. what kind of team, guys, and how we work and organize, will be, after 3~5 years?
-
-
-
-
-
-// TODO 为什么说腾讯22年前的这份神级PPT是立项汇报的天花板？ - 卫夕的文章 - 知乎
-https://zhuanlan.zhihu.com/p/684222828
-
-// TODO 硬核分享云产品定义
-https://mp.weixin.qq.com/s/8sQINI40GZlXm8l9Wd6n-w
-
-// TODO 下篇：技术 Leader 的思考方式 - 阿里云云栖号的文章 - 知乎
-https://zhuanlan.zhihu.com/p/526571851
+颠覆式创新的 __“发展进步”__ 体现在多个方面。新技术相比旧技术有更高的生产力和效率，达到完全替换后，__市场天花板额外增高__。新技术更具活力，除替换原市场外，__对相邻市场进行渗透__，进一步拓宽市场规模。新技术需要翻新原有产品和上下游配套，导致 __重写代码__，带来新一轮劳动力需求，从“内卷”中解放。
+
+“重写”意味着，颠覆式创新并不抛弃上一市场周期的产物。知识、经验、旧有路线被 __带入下一周期重用__，__螺旋上升__。例如，DPU 是存储领域的新近创新，但 ASIC 在交换机中使用已久 [[89]](.)，而 SDS 之前的存储本就是“专用硬件化”的。长期看，软硬互相 __交替摇摆__。上一周期、上上周期的经验有高重用价值。
+
+近年来，__颠覆式创新在加速，市场周期在缩短__。曾经的传统行业，老技术可以干一辈子。存储、服务器等后端技术，大约可以工作十到二十年。而互联网的快速迭代、前端技术，也许五年就已经面目全非。生成式 AI 的快速发展更惊人，突破成果的发布以月记。加速趋势得益于生产效率的提高，全球协作便利，开源基础设施，金融投资的远见和对企业快速扩张的支持。
+
+#### “推论”
+
+颠覆式创新下的新市场周期，往往“重写”上个周期的产品，重复上上周期的路线，“螺旋上升”。这意味着 __老员工尤其重要__，因为他们经历了上一周期甚至上上周期，其经验和目睹的历史，可在下一市场周期复刻。
+
+另一方面，__新手有特殊价值__。颠覆式创新要求跳出固有范式（Think out of box），新手是难得的屏蔽思维定势和切换视角的机会。向他们咨询，赶在其被团队“污染”之前。而成熟员工往往或多或少已被团队“污染”，沿袭 We always do this before，习惯“成熟”经验和视角，并将“污染”新人。
+
+颠覆式创新加速，市场周期在缩短。这意味着未来的个人 __职业生涯将更短__，可能在五到十年后面临技术换代，原企业裁员，而新一届毕业生更有竞争力，拥有针对新技术的系统完整的训练。而被换代驱逐者也是曾经的 __得利者__。快速换代意味着新人总有大量机会进入市场，超越老人，市场流动不易形成“辈分”。
+
+### 发展空间
+
+#### 需求的来源
+
+// TODO 颠覆式创新难以预测。
+
+#### 驱动因素
+
+
+
+
+### 什么是价值
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
