@@ -24,7 +24,7 @@ The common sense innovation method is brainstorming and idea [addition/subtracti
 
   * Besides free style, brainstorm ideas but with structured categories and heuristics, mine ideas with [MECE](http://www.caseinterviewsecrets.com/), and combination iterations.
 
-  * Besides, sleep and forget. Let those ideas mutate and reform in subconsciousness. When come back and look again, new discoveries emerge.
+  * Besides, sleep and forget. Let those ideas mutate and reform in subconsciousness. Zoom out, and get rid of stereotypes. When come back and look again, new discoveries emerge.
 
 ### Methodologies for Analyzing
 

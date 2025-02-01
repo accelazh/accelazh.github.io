@@ -22,15 +22,15 @@
 
 上述对存储市场的分类是经典且常用的，也为本章讲解方便。但事实上，存储市场中的产品更为有机，为渗透对方市场、获得竞争优势，它们 __互相交缠__。例如：
 
-  * A. __云存储__ 也售卖贴近客户的本地部署的 Edge 存储，如 AWS S3 Express。__主存储__ 也提供云端部署和云端卸载的版本，如 NetApp ONTAP。__备份和归档__ 也是云存储的一大卖点，如 AWS Glacier。
+  * A. __云存储__ 也售卖客户近端部署的 Edge 存储，如 AWS S3 Express。__主存储__ 也提供云端部署和云端卸载（Offloading）的版本，如 NetApp ONTAP。__备份和归档__ 在云存储中尤其具有性价比，如 AWS Glacier。
 
-  * B. __对象存储__ 正变得越来越像文件系统，如按文件系统的 AWS S3 Mountpoint，如支持对象上的元数据和搜索，支持层级的对象路径。__数据库__ 有 Key-Value 接口的产品如 RocksDB，而 SQL 数据库也往往支持非结构化数据，类似对象存储。__块存储__ 不单用于虚拟机磁盘，也可为数据库提供 Page 存储。另外，各种存储系统的底层也可统一到 __共享日志存储__，如 Azure Storage，Apple FoundationDB、Log is Database 设计。
+  * B. __对象存储__ 正变得越来越像文件系统，如模拟文件系统的 AWS S3 Mountpoint，如支持对象上的元数据和搜索，支持层级的对象路径。__数据库__ 有 Key-Value 接口的产品如 RocksDB，而 SQL 数据库也往往支持非结构化数据，类似对象存储。__块存储__ 不单用于虚拟机磁盘，也可为数据库提供 Page 存储。另外，各种存储系统的底层也可统一到 __共享日志存储__，如 Azure Storage，Apple FoundationDB、Log is Database 设计。
 
   * C. __SSD 存储__ 常常将冷数据卸载到 HDD 存储，以节省 SSD 的昂贵成本。__HDD 存储__ 常常将 SSD 作为缓存，或 Write Staging。__内存__ 被用作各种存储介质的缓存和索引，而内存存储系统也往往支持将冷数据或日志写到 SSD。
 
 此外，为了简洁，本章省略了一些次要的分类。例如，
 
-  * 按用户企业规模，可将市场分类为 SMB、大型企业、特殊领域。
+  * 按用户企业规模，可将市场分类为 SMB、大型企业、特殊领域。这个分类基于客户侧。
 
   * 企业存储也常按 DAS、SAN、NAS 分类。这个分类与对象、块、文件存储部分重合。
 
@@ -62,7 +62,7 @@ Fortune 预测全球云存储市场规模在 \$161B 左右，约 21.7% 年增长
 
   * 云存储市场有 __极好的增长率__。结合 _[理解股价](.)_ 章节可以看到，该增长率十分有利于支撑股价，而不太需要从挤压竞争对手或削减成本方面下手。
 
-  * 十年之后，数据存储有趋势完全 __被云存储取代__。这是由于云存储规模占比已经较高，且增长率快于数据存储整体。至少从预测来说如此。
+  * 长期看，数据存储有趋势大部分 __被云存储取代__。这是由于云存储规模占比已经较高，且增长率快于数据存储整体。至少从预测来说如此。
 
 ![Fortune storage market size forecast](../images/vision-market-fortune-storage-market-size.png "Fortune storage market size forecast")
 
@@ -94,7 +94,7 @@ Fortune 预测全球云存储市场规模在 \$161B 左右，约 21.7% 年增长
 
 ### A. 主存储
 
-本文将主存储对应于云下本地部署的企业存储，服务关键数据，这是存储由来已久的传统领域。其增长率大致对应存储市场的大盘，由 [[60]](.) 及其配图可见（上一节），年增长率在 17% 左右，正逐步被云存储侵蚀。当然，实际上主存储已经与云深度结合。
+本文将主存储对应于云下本地部署的企业存储，服务关键数据，这是存储由来已久的传统领域。其增长率大致对应存储市场的大盘，由 [[60]](.) 及其配图可见（上一节），年增长率在 17.1% 左右，正逐步被云存储侵蚀。当然，实际上主存储已经与云深度结合。
 
 从 Gartner 的主存储魔力象限中 [[59]](.)（2024），可以找到该市场的头部参与者：
 
@@ -124,7 +124,7 @@ Fortune 预测全球云存储市场规模在 \$161B 左右，约 21.7% 年增长
 
   * __Consumption-based 售卖模式__：与传统购买整套存储软硬件不同，而是类似云服务，按实际消耗量付费。相应地，SLA 按照用户端的指标重新定义，如 99.99% 可用性。Gartner 预测 2028 年将有 33% 企业投资采用 Consumption-based 模式，从 2024 年的 15% 迅速增长。关联概念：Storage as a Service（STaaS）。
 
-  * __Cyber liability__：针对 Ransomware 的检测和保护正成为企业标配，例如文件锁、不可变存储、网络监测、主动行为分析、Zero Trust 等功能 [[65]](.)。关联 Cyberstorage。Gartner 预测 2028 年将有 2/3 企业采用 Cyber liability，从 2024 年的 5% 迅速增长。
+  * __Cyberstorage__：针对 Ransomware 的检测和保护正成为企业标配，例如文件锁、不可变存储、网络监测、主动行为分析、Zero Trust 等功能 [[65]](.)。Gartner 预测 2028 年将有 2/3 企业采用 Cyber liability，从 2024 年的 5% 迅速增长。
 
   * __软件定义存储（Software-defined Storage，SDS）__：SDS 将用户从厂商专有硬件中解放，提供跨平台的、更灵活的管理方案，利用第三方基础设施，降低运维成本。另一方面，SDS 允许分离部署计算和存储资源、独立弹性地扩展，改善经济效益。__AIOps__ 功能变得重要，常与 SDS 结合。利用公有云的 __混合云__ 功能变得常见，该功能也常归于 SDS 名下。
 
@@ -132,13 +132,13 @@ Fortune 预测全球云存储市场规模在 \$161B 左右，约 21.7% 年增长
 
   * __SSD / 闪存阵列__ 增长迅速。Gartner 预测 2028 年有 85% 的主存储是闪存阵列，从 2023 年的 63% 逐步增长，而闪存价格可能下降 40%。__QLC Flash__ 正普及，带来 60TB/75TB 的超大 SSD 盘，具有更好的能耗、空间、制冷效率。
 
-  * __单平台支持文件和对象__（Single Platform for File and Object）。针对非结构化数据，同一存储平台同时支持文件和对象。融合的系统节约成本，Multiprotocol 使管理简化。文件和对象本身有相似性，图片、视频、AI 语料文件的使用方式近似对象，而对象加上元数据和层级路径后类似文件。
+  * __单平台支持文件和对象__（Single Platform for File and Object）。针对非结构化数据，__统一存储__（Unified Storage）平台同时支持文件和对象。融合的系统节约成本，Multiprotocol 使管理简化。文件和对象本身有相似性，图片、视频、AI 语料文件的使用方式近似对象，而对象加上元数据和层级路径后类似文件。
 
   * __混合云文件数据服务__（Hybrid Cloud File Data Services）。混合云为企业提供跨越 Edge、云、数据中心的统一访问和管理，命名空间一致，无需拷贝。企业能够在 Edge 对数据作低延迟访问、大批量的 Ingestion，在数据中心作复杂处理，在公有云存放冷数据和备份。可以看到传统存储产品纷纷上云，公有云纷纷开发 Edge 部署。
 
   * __数据管理服务__（Data Storage Management Services）。类似数据湖，数据管理服务读取元数据或文件内容，对数据进行分类（Classification）、洞察、优化。它跨越多协议，包括文件、对象，NFS、SMB、S3，跨越不同数据服务如 Box、Dropbox、Google、Microsoft 365。安全、权限、Data Governance、数据保护、Retention 也在议题中。在非结构数据快速增长的背景下，企业需要从数据中提取价值，并按重要性管理。
 
-  * 其它常见特性，例如：__Multiprotocol__ 支持多种访问协议。__碳排放__ 的持续测量、报告、能耗控制。__无干扰的迁移服务__，从当前阵列到下一阵列，其间保证 100% 的数据可用性。__NVMoF__ NVMe over Fabric 是 NVMe 原生的 SAN 网络。__Container Native Storage__ 为容器和 Kubernetes 提供原生存储挂载。__Captive NVMe SSD__，类似 Direct Attached 盘，为专用场景定制，强化性能、耐用（Endurance）。
+  * 其它常见特性，例如：__Multiprotocol__ 支持多种访问协议。__碳排放__ 的持续测量、报告、能耗控制。__无干扰的迁移服务__，从当前阵列到下一阵列，其间保证 100% 的数据可用性。__NVMoF__（NVMe over Fabric）是 NVMe 原生的 SAN 网络。__Container Native Storage__ 为容器和 Kubernetes 提供原生存储挂载。__Captive NVMe SSD__，类似 Direct Attached 盘，为专用场景定制，强化性能、耐用（Endurance）。
 
 ![Gartner Top Enterprise Storage Trends for 2023](../images/vision-market-primary-storage-top-trends-2023.png "Top Enterprise Storage Trends for 2023")
 
@@ -150,13 +150,13 @@ Fortune 预测全球云存储市场规模在 \$161B 左右，约 21.7% 年增长
 
 ![Gartner Critical Capabilities for Primary Storage 2023](../images/vision-market-primary-storage-core-capabilities-2023.png "Gartner Critical Capabilities for Primary Storage 2023")
 
-了解主存储所需功能的另一渠道是用户的反馈。[[67]](.) 列出了用户访谈中关于某个存储产品喜欢或不喜欢的反馈。[[68]](.) 列出了一份常见的用户招标文件。从中可以看到一些容易忽视的方面：
+了解主存储所需功能的另一渠道是用户的反馈。用户如何看待我们的产品？[[67]](.) 列出了用户访谈中关于某个存储产品喜欢或不喜欢的反馈。[[68]](.) 列出了一份常见的用户招标文件。从中可以看到一些容易忽视的方面：
 
   * __易用性__。例如配置简单、管理便利，在用户心中占有重要地位，不亚于性能、成本因素。对于企业用户，权限管理，与其它常用系统、协议的集成也很重要，例如文件共享、Active Directory。客户服务和支持能换来真金白银。
 
   * __资源效率__。用户本地数据中心部署的存储常常面临闲置资源，或者部分资源耗尽而另一部分资源闲置的问题。扩容是常见需求，而又需要与老系统集成兼容。类似云的负载迁移、平衡、持续优化很有用处。Disaggregated 分离扩展、购买资源，避免捆绑，可为用户带来经济效益。
 
-  * 截图只包括部分客户反馈，全文见 [[67]](.) [[68]](.) 原文。
+  * 截图只包括部分用户反馈，全文见 [[67]](.) [[68]](.) 原文。
 
 ![Customer interview Like and Dislike FlashBlade](../images/vision-market-primary-storage-customer-interview-flashblade.png "Customer interview Like and Dislike FlashBlade")
 
@@ -166,15 +166,17 @@ Fortune 预测全球云存储市场规模在 \$161B 左右，约 21.7% 年增长
 
   * __对象存储__、__分布式文件系统__、__超融合__ 已被验证。__DNA 存储__、__Edge 存储__、__Cyberstorage__、__Computational Storage__、__容器存储和备份__ 正在兴起。
 
-  * __Distributed Hybrid Infrastructure (DHI)__ 和 __软件定义存储（SDS）__ 是即将带来变革的技术。DHI 为用户本地数据中心提供云级别的解决方案，如 Consumption-based 模式、弹性、资源效率，并与外部的公有云、Edge 云无缝连接（Hybrid Cloud）。
+  * __Distributed Hybrid Infrastructure (DHI)__ 和 __软件定义存储（SDS）__ 是即将带来变革的技术。DHI 为用户本地数据中心提供云级别的解决方案，如 Consumption-based 模式、弹性、资源效率，并与外部的公有云、Edge 云无缝连接。其关联 __混合云__（Hybrid Cloud）。
 
-  * Hype Cycle of Storage and Data Protection 类似。Hybrid Cloud Storage 类似 DHI。Immutable Data Value 归于 Cyberstorage。Enterprise Information Archiving 归于归档存储，后者也是被验证的技术，在下一节讲述。
+  * Hype Cycle of Storage and Data Protection 图类似。Hybrid Cloud Storage 类似 DHI。Immutable Data Value 归于 Cyberstorage。Enterprise Information Archiving 归于归档存储，后者也是被验证的技术，在下一节讲述。
 
 ![Gartner hype cycle storage technologies 2024](../images/vision-market-gartner-hype-cycle-storage-2024.png "Gartner hype cycle storage technologies 2024")
 
 ![Gartner hype cycle storage technologies priority matrix 2024](../images/vision-market-gartner-hype-cycle-storage-priority-matrix-2024.png "Gartner hype cycle storage technologies priority matrix 2024")
 
 ![Gartner hype cycle storage and data protection technologies 2022](../images/vision-market-gartner-hype-cycle-storage-and-data-protection-2022.png "Gartner hype cycle storage and data protection technologies 2022")
+
+// TODO Continue to review
 
 ### A. 备份和归档存储
 
