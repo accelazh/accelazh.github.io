@@ -176,8 +176,6 @@ Fortune 预测全球云存储市场规模在 \$161B 左右，约 21.7% 年增长
 
 ![Gartner hype cycle storage and data protection technologies 2022](../images/vision-market-gartner-hype-cycle-storage-and-data-protection-2022.png "Gartner hype cycle storage and data protection technologies 2022")
 
-// TODO Continue to review
-
 ### A. 备份和归档存储
 
 第一个问题是，备份和归档存储拥有多大的市场规模、多快的增长率？
@@ -314,6 +312,8 @@ VMR 的报告 [[81]](.) 中给出了块存储的市场规模和增长率，在 �
 
 ![Storage market size compare](../images/vision-market-compare-storage-market-size.png "Storage market size compare")
 
+放大图中较低市场规模的部分：
+
 ![Storage market size compare](../images/vision-market-compare-storage-market-size-zoomed.png "Storage market size compare")
 
 虽然数据库存储数据，但在市场划分上， 数据库一般不被分作“存储”市场。存储通常指文件、块、对象，而数据库运行在文件、块存储上。数据库拥有庞大复杂的内容、持久活力的市场，值得另一篇文章，而数据湖跨越数据库和存储两者属性（结构和非结构化数据）。
@@ -346,7 +346,7 @@ HDD 存储常用于主存储、混合（闪存）阵列，对象存储，备份�
 
 ### C. 磁带存储
 
-Market Research Future 预测 [[86]](.)，磁带存储在 20202425 年拥有约 \$3.5B 的市场规模，年增长率约 5.82% 。相比 SSD 和 HDD，磁带的市场规模很小、增长率低。
+Market Research Future 预测 [[86]](.)，磁带存储在 2024 年拥有约 \$3.5B 的市场规模，年增长率约 5.82% 。相比 SSD 和 HDD，磁带的市场规模很小、增长率低。
 
 ![MarketResearchFuture Tape Storage Market Size](../images/vision-market-mrf-tape-storage-market-size.png "MarketResearchFuture Tape Storage Market Size")
 
@@ -354,4 +354,4 @@ Market Research Future 预测 [[86]](.)，磁带存储在 20202425 年拥有约 
 
 ### C. 内存存储
 
-内存存储一般用于数据库或缓存。存储通常不会是纯内存的，因为难以保证数据持久性，尤其在数据中心断电时。内存在存储系统中一般用于服务元数据或索引，并不独立于其它存储类别之外。因此，本节略过内存存储。
+内存存储一般用于数据库或缓存。存储通常不会是纯内存的，因为难以保证数据持久性，尤其在数据中心断电故障中。内存在存储系统中一般用于服务元数据或索引，并不独立于其它存储类别之外。因此，本节略过内存存储。
