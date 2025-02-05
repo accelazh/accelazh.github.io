@@ -4,7 +4,7 @@
 
 本章讨论存储系统相关的硬件，从数据层面评估，围绕它们的性能、成本、和未来增长。本文之后思考它们对存储系统的影响。
 
-（存储中的软件见：[Accela推箱子 - 存储架构空间 - 全文](https://mp.weixin.qq.com/s/h_TcizzlgELBF1wqmZI-fA) / [https://mp.weixin.qq.com/s/h_TcizzlgELBF1wqmZI-fA](.)）。
+（关于存储中的软件，见 [Accela推箱子 - 存储架构空间 - 全文](https://mp.weixin.qq.com/s/h_TcizzlgELBF1wqmZI-fA) / [https://mp.weixin.qq.com/s/h_TcizzlgELBF1wqmZI-fA](.)）。
 
 ### 数据表
 
