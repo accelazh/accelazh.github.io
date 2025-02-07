@@ -51,7 +51,7 @@ Consultant thinking, analyzing business problems.
         3. some tips
             1. Always do comparison, to historical data, to external competitors
             2. Company specific issue, or industry wide issue?
-            3. Combine both qualitative questions and quantitative questions 
+            3. Combine both qualitative questions and quantitative questions
             4. Segmentation and process-of-elimination
             5. Linear thinker, rationalize each decision choice taken, as be thoughtful
             6. P173 the live case Frameworks in action. This chapter is very good
@@ -61,7 +61,7 @@ Consultant thinking, analyzing business problems.
         3. Presentation slides: each title should give the point (rather than description), the all titles together should tell a complete story - synthesis
 ```
 
-Critical thinking, strategic thinking, decision making. 
+Critical thinking, strategic thinking, decision making.
 
 ```
 3. Taking Critical Thinking course
@@ -76,10 +76,10 @@ Critical thinking, strategic thinking, decision making.
             3. solve from different angels. find another group of people, explain the issue, and see how others define the problem
             4. Always start from having the goal first, rather than moving forward from what we have today by momentum.
                 1. Do define the goal, you need Vision.
-        4. DO SOLVE THE ROOT CAUSE. not only for code, also for the team and process issues 
+        4. DO SOLVE THE ROOT CAUSE. not only for code, also for the team and process issues
     2. Critical Thinking tools
         1. Challenge how business operates
-            1. Business model blowup: How would you double your top metric? What would you do differently if you startover?
+            1. Business model blowup: HOW WOULD YOU DOUBLE YOUR TOP METRIC? WHAT WOULD YOU DO DIFFERENTLY IF YOU STARTOVER?
             2. Revenue blowup: How would you triple profits in five years? Who is better at creating customer value?
             3. Cost blowup: How would you operate with two-thirds fewer people? How would you eliminate your job? What are the wasteful work you do?
         2. Five whys - reveals insights
@@ -96,12 +96,12 @@ Critical thinking, strategic thinking, decision making.
         4. 80/20 rule - focus your effort on meaningful
             1. 20% input generates 80% results
                20% issues drives 80% complains
-               focus your resource on the critical 20% 
+               focus your resource on the critical 20%
         5. How to successfully conduct analysis
             1. High road - don't boil the ocean, use 20/80 rule to skip if it doesn't worth lower level analysis
                 1. What am I proving or disproving? Will it be beneficial? Will it have impact? Does the answer support my recommendation?
-                2. * The "High Road / Low Road" essentially points out how a dev should balance the zoom-in and zoom-out during daily work 
-            2. Low road - only run analysis in the limited scope you need 
+                2. * The "High Road / Low Road" essentially points out how a dev should balance the zoom-in and zoom-out during daily work
+            2. Low road - only run analysis in the limited scope you need
                 1. We can easily doing analyzing data for days or weeks, drilling too wide or too low. Don't do that
                 2. Don't polish the dirt. You shouldn't get the refined the answer, if that refinement isn't going to add value.
                 3. Focus your attention on the analytical problems that matter. Your time and your team's time are precious
@@ -110,16 +110,16 @@ Critical thinking, strategic thinking, decision making.
             3. If problem solved, are there big enough impact to business?
                Also consider the connections of problems, which can reveal insight
                We are trying to figure out where to take business in the next 10 years? Products? Business? Markets? Acquisitions?
-    
+
     3. Practice Critical Thinking
-        1. Method 1: Teach your team to practice Critical Thinking. 
+        1. Method 1: Teach your team to practice Critical Thinking.
                      To blowup the business, to scope the right problem.
                      To create environment and opportunities for team members to practice Critical Thinking
                      To coach people to use Critical Thinking
                      Hold people responsible to use Critical Thinking. Review and send them back if not. Every single day
             1. Ask: Why you necessary to do the analysis? How you did the analysis?
                     I want you to think about this. Come back this afternoon after you rethink
-    
+
     4. Common pitfalls
         1. ask your stakeholder why he/she asks you to solve the problem.
            don't jump into the problem too quickly until you fully understand the problem
@@ -140,10 +140,10 @@ Critical thinking, strategic thinking, decision making.
 4. Taking Strategic Thinking course
    https://www.linkedin.com/learning/strategic-thinking/practicality-get-real-about-your-strategy?autoplay=true&u=3322
     1. Beginning
-        1. Questioning assumptions: why are we doing it that way? Interrogates habits, existing ways. 
+        1. Questioning assumptions: why are we doing it that way? Interrogates habits, existing ways.
         2. Observing
-           1. watch other people, 
-           2. macro-trends, big pictures and trends, 
+           1. watch other people,
+           2. macro-trends, big pictures and trends,
                1. Bad smell: surprised when something happened, which means you ommitted trends/micro-trends
                   You should NOT be surprised
             3. understanding the past
@@ -153,7 +153,7 @@ Critical thinking, strategic thinking, decision making.
         3. Reflecting: to have a breakthrough idea, it doesn't take time, it takes space
         4. Strategic thinking means to think how to WIN THE GAME, not how to do tasks
            It begins with considering multiple parties, interact with stakeholder and competitor moves,
-           rather than shut the door, and lock yourself into your own cares 
+           rather than shut the door, and lock yourself into your own cares
            It's really the mindset that you have the strong will that you define where you goal, you take the actions to win it, and you never let other people lead you
         5. BEGIN WHEN HEAR WE DO/DIDN'T THIS BEFORE
             1. When you hear we always do it this way, or you hear we didn't do that before, it's the time to start strategic thinking
@@ -170,7 +170,7 @@ Critical thinking, strategic thinking, decision making.
            NOT may be I'll have time in another day. Instead, you know it's not gonna happen, Strategic thinking is about taking steps to make it happen.
         3. Free your attention
             1. Shutdown laptop, phone. Close all noise
-               Tune out weekly. Sit with your thoughts, let your mind wander. 
+               Tune out weekly. Sit with your thoughts, let your mind wander.
                Ask the big questions. Use blogging
                Protect your time. Management #1: You control your time.
                Cancel the many meetings. Create a weekly blocker
@@ -198,7 +198,7 @@ Critical thinking, strategic thinking, decision making.
            If you are aware that's coming your way, you can make other concessions that would soften the blow or make the arrangement more palatable
            1. Remember the negotiation courses, BATNA
         3. Create systems for accountability
-           E.g. emails after meeting to recap action steps and agreements. E.g. to frequently reiterating what your timeline is, what marks are on the path. 
+           E.g. emails after meeting to recap action steps and agreements. E.g. to frequently reiterating what your timeline is, what marks are on the path.
            Ensure there is no slippage along the way. You need to bring your team onboard
     6. Measure the strategy execution progress in a changing circumstances
         1. Identify the assumptions. Be quantify what your success should be look like. Verify assumption upfront
@@ -219,7 +219,7 @@ Critical thinking, strategic thinking, decision making.
           1. clear objective, define the timeline, define who will be affected
           2. explore alternatives
       2. define who to involve, and how to involve (make decision, data providing)
-         1. decision making style: autocratic style, participatory style, democratic style, consensus based style 
+         1. decision making style: autocratic style, participatory style, democratic style, consensus based style
             1. driven by urgency and impact size of the decision
          2. stakeholder management
             1. meeting should be for process approval, rather than arguing.
@@ -231,7 +231,7 @@ Critical thinking, strategic thinking, decision making.
                1. Responsible - one person to deliver the project and execute
                2. Accountable - approves the project. make sure stakeholders are involved properly, get the results as expected
                3. Consulted - seek opinions and information. the communication is two way, R needs to provide info first
-               4. Informed - need to keep update to the progress. 
+               4. Informed - need to keep update to the progress.
       3. reduce ambiguity risk
          1. Categories
             1. highly predictable
@@ -284,7 +284,7 @@ Critical thinking, strategic thinking, decision making.
             3. measure and adjust
                1. set clear metrics
                2. resolve sources of uncertainty
-               3. measure and adjust, be willing to say we made an incorrect decision and we need a different path 
+               3. measure and adjust, be willing to say we made an incorrect decision and we need a different path
 ```
 
 Management and coaching.
@@ -316,15 +316,15 @@ Management and coaching.
         2. The hesitate to start a conversation.
         3. Be specific. Show data or example.
         4. Create conversation. Don't only you talk, start by asking questions.
-        5. Help build a plan. 
+        5. Help build a plan.
         6. Separate the performance from the person. Remember people are not the problem. Their behavior or results are what to change.
     6. Coaching for high performance
         1. Keep coaching them. Pay time, pay focus.
         2. Reward the performance. Make sure people know they were doing well or bad.
         3. Expand the expectations. When people reach expectations, set a new higher one.
-    7. Accountability basics while managing 
+    7. Accountability basics while managing
         1. Personal accountability: willingness and ability not only to take responsibility for what you control, but also to recognize how you can influence situations and outcomes around you.
-        2. Ownership. 
+        2. Ownership.
         3. Help people see they can influence, more than they think of. Encourage them to do it.
     8. DELEGATION
         1. Mindset: investment, for their success rather than to free your calendar, trust and allow free to try
@@ -337,7 +337,7 @@ Management and coaching.
             How will I support them so they can succeed.
         4. Actions to delegate:
             1. Don't just tell people what they should do. Make sure people know what they do it, and the value.
-            2. Providing the context. Let people know why you ask him/her to do it. 
+            2. Providing the context. Let people know why you ask him/her to do it.
             3. What is a success, definition. Describe the expectation.
             4. Slow down. Describing all of them to someone new.
             5. Answer questions. But not only to ask what they do ask, but to encourage them to share their minds.
@@ -358,7 +358,7 @@ Management and coaching.
             4. Do email in batches.
             5. Don't call a meeting if you don't know clearly the need and desired outcome.
         8. Managing up a a manager
-            1. Influencing up. 
+            1. Influencing up.
             2. Understand their goals and values. Connect your requests and messages to their goals.
             3. Ask questions and create conversation, rather than self push the messages.
         9. Creating a learning mindset
@@ -375,7 +375,7 @@ Management and coaching.
             2. Get results with high quality whenever they are being reviewed by the next level manager.
         2. Manager works by investment. IC works by work.
         3. The fundamental working style of a manager is parallel multi-threading. This is different from IC developer that desires focused time.
-        4. Control your time. The manager must take control of its own time. It's unlike IC developer that timeslot is pushed by manager. 
+        4. Control your time. The manager must take control of its own time. It's unlike IC developer that timeslot is pushed by manager.
         5. 坦诚，Scaleout和Replicate，正名，Alignment，拉活和选活，thought leader
 
 2. Project Management Simplified - Chris Croft
@@ -468,16 +468,16 @@ Management and coaching.
             2. GROW framework: Goals, Realities (challenges and road blockers), Options (alternatives available to goals), Way forward (choosing the next step, accountability, timing and deadline).
                 1. Goals: What would you like to achieve? Where would you want to go in the road of your career.
                 2. Reality: What are the obstacles in the middle of achieving your goal?
-                3. Options: What are all the possibilities? 
+                3. Options: What are all the possibilities?
                 4. Way forward: What are your next steps? (Accountability)
             3. Step 2: Make coaching over ongoing conversations and agree on basic logistics. Logistics include time your need, how often, and location. Build trust along the way.
             4. Others
                 1. Ask what motivates your employee
                     1. link the purpose with organization's
-                    2. so, another part of Manager's role is: VISION and MOTIVATING 
-        
+                    2. so, another part of Manager's role is: VISION and MOTIVATING
+
         4. Cornerstones of coaching.
-            1. CURIOSITY. Cassidy performance is off. Be open to ask the question why Cassidy's performance is off. 
+            1. CURIOSITY. Cassidy performance is off. Be open to ask the question why Cassidy's performance is off.
                 1. Rather than pressure the pressure, be curious to ask and learn about how people feel and think, build the trust corner stone
                 2. CONVERSATION - it means to interactive, let employee talk and lead.
             2. Let the employee lead. Ask open questions. Employee often knows exactly the things that go off rails. We don't step in the middle of the way. get out of the way.
@@ -494,7 +494,7 @@ Management and coaching.
                     1. CREATE SPACE FOR CONVERSATION. (avoid -> conversation -> collaboration)
                        Let Cassidy lead.
                        Be curious to learn the problem, rather than telling Cassidy to leave the problem at home.
-        
+
         5. Three types of coaching conversations
             1. Vision Conversations: Typically happening at the beginning of the coaching arc. To review people's accomplishments, repeat themes, what inspire them, what they want to learn, and how they see their career unfolding.
                 1. Example - check-in
@@ -534,7 +534,7 @@ Management and coaching.
                    "And, what is the impact of that great idea?"
                    Cassidy: "They all have their problems solved on their own. I barely had to say anything. I can't believe it's that simple."
                 2. Power Tips
-                    1. See Cassidy. "Wait five seconds" 
+                    1. See Cassidy. "Wait five seconds"
 
     3. Coaching skill building
         1. Ask open ended questions which are powerful
@@ -559,7 +559,7 @@ Management and coaching.
                 Cassidy: She'll love it. She's great at it.
                 And, what are your learning from all the things Cassidy?
                 Cassidy: I guess I can skip the whining and go straight to delegating.
-        
+
         4. Taking the next step and build momentum
             1. Pre-brainstorming questions
                 1. What are you frustrated about?
@@ -578,8 +578,8 @@ Management and coaching.
                     2. What action you would like to take to fire the project?
                     3. What would give you the biggest leap?
                     4. What is the one action that will trigger all the rest?
-        
-        5. Managing the accountability 
+
+        5. Managing the accountability
             1. What agreement your employee has made to do? When will they do it? How do you know it's done?
             2. Failing and miss the deadline is the opportunity to learn and growth
             3. Example:
@@ -592,7 +592,7 @@ Management and coaching.
 
         6. Giving future-focused feedback
             1. Momentum: make people encouraged, rather than frustrated, get accomplishment, and positive loop
-            2. Facing disappointment, failures, missed deadlines. Focus on what's possible and improvements. 
+            2. Facing disappointment, failures, missed deadlines. Focus on what's possible and improvements.
             3. Future-focused Questions
                 1. Ask what happened. Schedule time for reflection. Drill in and discover. Once discovered items then it's actionable again.
                 2. Keep the trust level high. Maintain the momentum.
@@ -853,7 +853,7 @@ Management and coaching.
    https://www.linkedin.com/learning/coaching-new-managers/set-your-new-manager-up-for-success
    https://www.linkedin.com/learning/paths/develop-your-coaching-skills-as-a-leader-or-manager
     1. Mindsets - Make manager to be the multiplier
-        1. Manager as a coach. Instead give steps, ask open-ended questions and inspire employee to plan what to do 
+        1. Manager as a coach. Instead give steps, ask open-ended questions and inspire employee to plan what to do
         2. Manager as thought partner. For strategic brainstorming. Challenge assumptions
         3. Advocate. Help your manager to actively support their team members. Make sure their accomplishments are recognized by others
         4. Mirror. Ask new manager to highlight the strength of each their team member.
@@ -881,10 +881,10 @@ Management and coaching.
     4. Map success with a Pivot Plan
         1. Coach new manger through the Pivot Plan
             1. Plant Stage: Strengths, and one year vision
-                1. OK .. so the key ranking from dev to manager to senior manager can be measured by 
+                1. OK .. so the key ranking from dev to manager to senior manager can be measured by
                     1. LENGTH of VISION: Be asked to deliver task, Plan 1 year vision, Plan 3 year to 10 year vision. More Strategic involved.
-                    2. DELIVER INPUT: Take input to deliver task, Need few input but Output more input for others 
-            2. Scan Stage: 
+                    2. DELIVER INPUT: Take input to deliver task, Need few input but Output more input for others
+            2. Scan Stage:
                 1. Three manager levers: People, Process, Purpose
                     1. Questions for "People" part
                         1. Can you coach this person to their max strength?
@@ -943,7 +943,7 @@ Management and coaching.
     2. Connect and engage with a Pivot Plan
         1. Plant Stage: Strength, one year vision.
             1. Strength: What they were thankful on and succeeded on? What were their go-to-person on their previous team?
-            2. Vision: 90 days, 1 year. 
+            2. Vision: 90 days, 1 year.
         2. Scan Stage: People, Skills, Projects
             1. Assign your new hire a buddy.
             2. What are the skills need to bootstrap in the 90 days, or 1 year?
@@ -970,7 +970,7 @@ Management and coaching.
                    "What your gut say"
             3. Mistake: Too much intellectualizing
                 1. Having them get lost in "shoulds" and or what I call the beehive of the brain
-                2. As a Manager, you can bring team members out of their head and into their whole-body intelligence systems 
+                2. As a Manager, you can bring team members out of their head and into their whole-body intelligence systems
 
 12. Develop Your Coaching Skills as a Leader or Manager - Coaching for Results - Lisa Gates
    https://www.linkedin.com/learning/coaching-for-results/strategies-to-improve-coaching-results
@@ -1009,7 +1009,7 @@ Management and coaching.
             2. Coaching role: Your role, Coachee's role. What you provide?
             3. Logistics: When, where, how long, frequency, who is responsible for initiating
             4. Identify stakeholders: Staff, Customer, HR
-    
+
     2. Coaching Strategies: Upping Your Coaching Game
         1. Three types of coachees
             1. Careerist
@@ -1079,7 +1079,7 @@ Management and coaching.
             2. Example - CJ & Ben, useful
                https://www.linkedin.com/learning/coaching-for-results/how-to-coach-a-careerist-16132040?autoSkip=true&autoplay=true&contextUrn=urn%3Ali%3AlyndaLearningPath%3A5c926f1c498e2e8c8a2050ad&resume=false&u=3322
                 1. Dip is expected in coaching, as coachee is being challenged. Help people move from dip to actions
-    
+
     4. Coaching Low Performers
         1. Guidelines
             1. Everyone will have performance challenges during their career including you.
@@ -1100,7 +1100,7 @@ Management and coaching.
             3. Guidelines
                 1. Set a meeting
                 2. Share your observations. Facts, and numbers
-                3. Ask for input for your observations. 
+                3. Ask for input for your observations.
                 4. Ask for reflection on behavior. How it impact the career or team
                 5. Tell them what behavior is expected. Clarity
                 6. Ask open-minded questions to find solutions
@@ -1108,7 +1108,7 @@ Management and coaching.
                 8. Identify the stakeholders, boss, HR
                 9. Define consequences. Be clear and specific
                 10. Create a follow-up structure
-       
+
         4. How to coach a low performer
             1. Example: CJ & Sam - useful. It tells how to use the above steps
                https://www.linkedin.com/learning/coaching-for-results/how-to-coach-a-low-performer-16133827?autoSkip=true&autoplay=true&contextUrn=urn%3Ali%3AlyndaLearningPath%3A5c926f1c498e2e8c8a2050ad&resume=false&u=3322
@@ -1184,7 +1184,7 @@ Management and coaching.
         4. They realize that in order to lead, you have to serve others, in order to get the most out of people
             1. A serving mindset helps you listen
     3. To be good listeners, it needs intentional practice. What's the last time you practiced the skill of listening?
-        1. When do you have your conversation recorded and analyzed? 
+        1. When do you have your conversation recorded and analyzed?
         2. Listening blind spot: Unaware .. You have to first be aware then to fix it
         3. We think at ~3000 words/min, we listen at ~300 words/min, we speak at ~200 words/min.
            People talk more when they feel being heard. Shut up an listen in a sale conversation
@@ -1224,7 +1224,7 @@ Conflict and negotiation.
                     2. Blame: Who is doing depriving
                     3. Claim: What social norm is it breaking
             2. Conflict against social norm
-        
+
         2. Thomas-Kilman Conflict Model - Conflicting styles
             1. 4 Quadrant: Avoid - Compete - Collaborate - Accommodate - Compromise (Conflicting Styles)
                 1. I win or lose, you win or lose. -> double win
@@ -1241,7 +1241,7 @@ Conflict and negotiation.
 
         3. Conflict resolving framework - The Resolution Roadmap
             1. Identify issues and needs
-                1. Think of a situation and ask: Relational? Substantive (About content or process)? Perceptual? 
+                1. Think of a situation and ask: Relational? Substantive (About content or process)? Perceptual?
                     1. Investigate my own needs and behaviors
                         1. What do my actions and behaviors demonstrate about what I want?
                         2. How would I behave if I was really committed to what I want?
@@ -1309,7 +1309,7 @@ Conflict and negotiation.
                     1. Asking questions helps you understand your conflict partner's interests and goals.
                        Paraphrasing helps you double-check your understanding.
                        Mirroring helps you signal to your conflict partner that what they've said is potentially disruptive and subtly invites them to explain themselves or move from competition to collaboration.
-                       And labeling helps you build tactical empathy by reframing the feeling or need of the other person. 
+                       And labeling helps you build tactical empathy by reframing the feeling or need of the other person.
                     2. To let them know you understand them, and help them move to a more movable role
 
 16. Negotiation Foundations - Lisa Gates (Project and Management)
@@ -1334,11 +1334,11 @@ Conflict and negotiation.
         5. Trading things of value
             1. Prepare options
                 -> Small talks and opening -> Ensure attention
-                -> Diagnostic Questions to discover boss's thinking 
-                -> Anchor 
-                -> Frame 
-                -> Labeling/Mirroring/Silence 
-                -> Trading things of value 
+                -> Diagnostic Questions to discover boss's thinking
+                -> Anchor
+                -> Frame
+                -> Labeling/Mirroring/Silence
+                -> Trading things of value
                 -> Agreement
         6. The wrong and right way to negotiate
             1. Example: Joe & Adriana
@@ -1358,10 +1358,10 @@ Conflict and negotiation.
                            Joe finished with a question to make Adriana engaged and in problem solving mode
                         2. Change your approach FROM TRANSACTIONAL TO RELATIONAL. Slow things down, get connected.
                            Make space for objection and pushback
-    
+
     3. Getting ready for a Negotiation
         1. Researching and preparing
-            1. Define what you want. 
+            1. Define what you want.
             2. Research. Find market or stakeholder expectations.
             3. Write an open statement
             4. List potential pushbacks
@@ -1369,7 +1369,7 @@ Conflict and negotiation.
             1. What are your priorities?
             2. What is the benefit to your conversation partner?
             3. What is the cost or impact for your request?
-    
+
     4. Engaging you allies
         1. Understanding how influence works
             1. Six Principles of Influence
@@ -1450,7 +1450,7 @@ Conflict and negotiation.
     1. Everyone needs to negotiate. Good lecture.
     2. Decide to Negotiate
         1. Identify your reasons for avoiding negotiation
-            1. Cultural. Embarrassing. Acting bad. 
+            1. Cultural. Embarrassing. Acting bad.
                 1. You can be negotiating and still be liked
             2. Seem unstructured: You don't know what the other person will do
             3. Everything is negotiable, even "Do I have time today?" Even the course here.
@@ -1475,7 +1475,7 @@ Conflict and negotiation.
                     2. "I don't know" - "I don't have the cost information. We don't break it down that way"
                     3. "I'm not allowed to say" - "It's not our policy to reveal costs"
                     4. "You don't think I'm going to tell you that, do you?"
-                    5. "It depends ..." - 
+                    5. "It depends ..." -
                         "It depends how many you want to buy. Do you have a quantity in mind?"
                         "We have find out ... many complications .. that's expensive .. off we go"
                         1. bounce the question back to them, ask info first
@@ -1598,7 +1598,7 @@ Conflict and negotiation.
         2. Use trading to get a better deal
             1. Start your negotiation with room to maneuver
             2. Trading is far better than Conceding. Trading: "If you can cut the price by 10%, I can pay you up front"
-                1. Conceding also makes the opponent thinks the gap is empty, it's a lie, it's and an INSULT 
+                1. Conceding also makes the opponent thinks the gap is empty, it's a lie, it's and an INSULT
                 2. DO TRADING INSTEAD OF CONCEDING. It's also a matter of respect
             3. Example: Lily and me
                https://www.linkedin.com/learning/negotiation-skills/use-trading-to-get-a-better-deal?autoSkip=true&autoplay=true&resume=false&u=3322
@@ -1609,7 +1609,7 @@ Conflict and negotiation.
         4. Learn from an example of poor negotiation
             1. https://www.linkedin.com/learning/negotiation-skills/learn-from-an-example-of-poor-negotiation?autoSkip=true&autoplay=true&resume=false&u=3322
             2. Negotiation Errors
-                1. Go straight from opening offer to his limit. It sends a confusing signal to the opponent. 
+                1. Go straight from opening offer to his limit. It sends a confusing signal to the opponent.
                 2. Not persisting
                 3. Not being polite
                 4. There are so many tradables to negotiation about the price, but he didn't try and directly hang up
@@ -1636,7 +1636,7 @@ Conflict and negotiation.
             3. If the sale is broken, you can reel them back, saying "It's a shame if we give up at so close .. how about in the middle, $813"
                 1. Splitting the splitting of difference
         3. Watch out for the nibble technique
-            1. The Nibble - The opponent asks for something at the end of a negotiation. 
+            1. The Nibble - The opponent asks for something at the end of a negotiation.
                 1. You must reject it. Don't show weakness. The opponent now knows you want to buy it
                 2. Or, ask for Trade, rather than concession
                 3. About halfway through the negotiation, ask whether there are any extras you need to know about.
@@ -1669,7 +1669,7 @@ Conflict and negotiation.
         4. Find your flow (心流), add more to it, help your emotional control
     3. Managing yourself
         1. Conflict event A,B,C,D,E: activating event, belief, consequences, disrupting thoughts, effect
-        2. Think like an objective bystander 
+        2. Think like an objective bystander
         3. Slowing down reactions: identify the emotion reaction, remove yourself from the situation, give yourself time to recover, challenge your thoughts, choose how you respond
         4. Shifting perspectives, make it your behavior
         5. Tips to broaden your perspectives: Seek out different point of views, ask more questions, Spend time with new people, read books on a variety of topics
@@ -1696,7 +1696,7 @@ Conflict and negotiation.
             1. How others perceive you?
             2. Try to get a range or opinions rather than hang up in one person's opinion.
             3. Refine you approach to relationship, a step each time.
-            4. Repeat the process, you strengths. 
+            4. Repeat the process, you strengths.
             5. Enhance your strength rather creating a new style. It helps trust and authentic.
         3. It's more important how people receive your message than what you have exactly talked
             1. Focus on the key messages
@@ -1724,7 +1724,7 @@ More updates from 20231010. Leadership skills. // TODO
             2. What are your values?
                 1. E.g. integrity, trustworthy, authenticity, faith, determination
         4. Leading others: trust and confidence
-            1. Build trust: open and honest, seek first to understand, trust in others, assume positive intent, 
+            1. Build trust: open and honest, seek first to understand, trust in others, assume positive intent,
             2. Communicate transparently: actively listen and convey understanding, share what you know openly and honestly
             3. Coaching and feedback
         5. Leadership styles: effectively use a variety of styles
@@ -1757,4 +1757,349 @@ More updates from 20231010. Leadership skills. // TODO
            All eventually lead to whether the leader are effectively building the capital to effectively MOTIVATE people
 ```
 
+More updates from 20250206. Business acumen.
 
+```
+1. Developing Business Acumen
+   https://www.linkedin.com/learning/developing-business-acumen
+    1. What exactly is business acumen?
+        1. Business acumen refers to understanding how a business operates and makes decisions.
+        2. It includes knowing the business model, financials, strategy, and operations.
+        3. It also involves understanding how sales, marketing, research and development, and product development are conducted, as well as the implications for people and talent.
+        4. Essentially, it's about understanding why a business performs the way it does and how you and your team can impact its performance.
+    2. Basics
+        1. Understand common terminology
+            1. Business Model
+                1. A plan to generate revenue and profit
+            2. Value Chain
+                1. Input raw materials, add value to it, and sell products output
+            3. Strategy
+                1. A long-term plan of action to compete and reach goal
+            4. Porter's Five Forces
+                1. Market dynamics
+                2. Substitute products
+                3. buyer and supplier power
+                4. barriers to enter the market
+            5. Growth Horizons
+                1. Near-term opportunities
+                2. Mid-term opportunities
+                3. Long-term opportunities
+            6. P&L statement - Financial report (P&L - profit and loss)
+            7. SG&A - Selling, general, and administrative expenses
+                1. SG&A usually are similar with operating expense
+                2. Operating expense - rent, equipment, inventory costs, marketing, payroll, insurance, and funds allocated for research and development
+                    1. R&D is typically considered an operating expense
+                    2. Selling and administrative expenses are in operating expense
+                    3. COGS is not operating expense
+                    4. Example finical report: https://fundsnetservices.com/non-operating-expense
+                3. Non-operating expense - interest payments on debt, restructuring costs, inventory write-offs and payments to settle lawsuits
+                4. Operating income - subtracting operating expense from gross profit
+            8. ROI - return on investment
+            9. Capital Expenditure (CapEx) - Purchases made to generate future value
+                1. typically factories, equipment, software
+            10. Fixed costs vs variable costs
+        2. Know the basics of your business
+            1. Example: A corner pizza place
+                1. Business model
+                2. Customer
+                3. How profit is made
+                4. Input "cost"
+                5. How doe we compete?
+                   what differentiate our products?
+    3. Your business model
+        1. Define your products and services
+            1. Example: light truck manufacturer
+                1. People's problem to solve by you
+                2. Market - customer individual and firms
+                    1. Narrow down into small market, be precise to your particular market
+                        1. E.g. only low end, excluding high end.
+            2. Go speak with sales persons to get more understanding
+        2. Build your offering
+            1. Look into the input and output of your products
+                1. Example: A car company vs a credit card company vs a restaurant
+            2. Get into know your organization
+            3. Manufacturing
+                1. In-house
+                2. Outsourcing
+                3. Partnership
+        3. Price strategy
+            1. A 1% difference on the top line price is worth a 10% profit increase on a business with a 10% gross margin.
+            2. Price model
+                1. One time fee
+                2. Subscription model
+                3. A razor and blade model
+                4. Sell accessories or extras with your core product
+                5. Offering additional services or warranties
+                6. Difference prices for different customers, markets, and features
+            3. Cost-plus pricing model vs value-based pricing model
+                1. Cost-plus: Look at cost first, and the mark it up by desired profit margin.
+                    1. E.g. instructing a course, No matter how many people is in the room, it's a fixed fee
+                2. Value-based: We think through the value we are delivering and we want a portion of that value as the fee
+                    1. Every person in that room will be charged with a fee.
+        4. Growth strategy
+            1. How does business grow?
+                1. E.g. geo-graphics expansion, or selling new products, or selling same products to new customers
+                2. E.g. growing by acquisition and buying other business
+            2. Methodologies
+                1. Look at historical growth, it's a pretty well indicator
+                2. Look at the market plan and find where is the future growth
+            3. Methods
+                1. Acquisition
+                    1. When you are looking for synergies
+                    2. You are also buying a piece of market
+                        1. Sell old product to new market
+                        2. Sell bought product to old market
+                    3. Also, consolidate duplicate departments to reduce cost
+                2. Organic
+                    1. You investigate heavily in sales and marketing, eventually your get scale and grow
+                3. Geo-graphics expansion
+                    1. You make large investment upfront in the new market, and eventually the sales pick up
+                    2. Economic profile - huge upfront that you build supply chain and market presence in the new market
+                4. New products
+                    1. Costly research and development, and market launching, and getting distribution
+                    2. Getting a large growth impact quickly by selling new product to existing base of customers
+
+                5. Examples
+                    1. A major healthcare grows by buying new hospitals in a geography they haven't entered yet. That's a lot of money upfront. They integrate that hospital and reduce the cost. And then they push existing services and existing market capabilities through that new hospital and grow geographic presence.
+                    2. A huge software firm. They do a lot of small acquisitions with new capabilities and then get bolted on to their core platform. Sell it to existing clients, say we have a new module. You're already using our big system, you should buy this module too. Or they can go to the customers from acquisition and say you're already using these modules, how about buying the big system that can support it even more broadly.
+                    3. The instructor's firm looks for organic growth. We have core business. We try to land new clients or penetrate existing clients with other offerings.
+
+    4. Your financials
+        1. Understand profit and loss
+            1. Volume of selling, pricing, discount give
+            2. P&L statement: Revenue -> COGS -> gross profit -> operating expenses (SG&A) -> operating profit -> interest, taxes, depreciation, amortization -> net income
+            3. P&L is critical to understand business
+                1. Also, compare history reports
+                2. LOOK AT MANAGEMENT'S FINANCIAL BRIEF, AND TRY TO TIE THEIR EXPLANATIONS TO THE NUMBERS IN P&L (ANNUAL FINANCIAL REPORT)
+
+        2. Know your performance levers
+            1. Performance levers
+                1. Revenue levers
+                    1. Pricing
+                    2. Volume
+                    3. Discounts
+                2. Costs levers
+                    1. Labor
+                    2. Raw materials
+            2. Immediate cost levers
+                1. Reduce Labor
+                2. Reduce amount of Products delivered
+            3. Immediate revenue levers
+                1. Discounts to sell more
+                2. Price
+                3. Labor
+                4. Volume
+            4. Longterm cost levers
+                1. Technology
+                2. Facilities costs
+                3. Stores, fixtures (shelves, display cases)
+            5. shorter vs midterm vs longterm levers
+                1. Also, in different industries the levers are different, see examples
+                2. You need to understand the levers particularly for your industry
+                3. Also, watch the ripple effect of the levers
+            6. Understanding the levers helps you understand how company decisions are made, and how those decisions impact business
+        3. Access trends
+            1. Trends indicate business performance over time
+            2. General trends
+                1. Sales and profit
+                2. Margin
+                3. Cash accrual
+            3. Operating trends
+                1. Head count
+                2. Spending
+                3. Raw materials
+            4. Competitive trends
+                1. Market share
+                2. Utilization
+                3. Fill rate (Is your product immediately available in inventory for your customers?)
+                4. Cost per account
+            5. Read the annual reports
+                1. pay attention to the trends
+                2. DON'T READ THE SUMMARY, ANALYZE THE INFORMATION FOR YOURSELF
+                    1. See if you can predict how management would explain that trend and what actions they plan on taking to change it.
+                    2. Get you prepared to pull the right levers when you see a trend going in specific direction
+
+    5. Your strategy
+        1. Access the competitive environment
+            1. Porter's Five Forces
+                1. Competitive Rivalry
+                    1. How competitors in your industry behave
+                    2. How many are there?
+                    3. Are they rational or irrational?
+                    4. Do they collaborate or compete fiercely?
+                2. Buyer Power
+                    1. How much power do your customer have over you?
+                    2. E.g. You only have few big customers
+                    3. E.g. You have a very distributed customer base
+                3. Supplier Power
+                    1. Organizations you buy products and services from
+                    2. E.g. Only one raw material supplier available - High supplier power
+                    3. E.g. Buy raw materials from a lot of different companies and it's undifferentiated - littler supplier power
+                4. Threat of New Entry
+                    1. What's the likelihood that a new competitor will entry and compete with you
+                    2. Key point is barriers to entry.
+                    3. E.g. Does it cost a lot of money to entry, build a new factory, create entirely new products - low threat of entrance
+                    4. E.g. Just put up a website and be in business next day - high threat of entrance
+                5. Threat of Substitution
+                    1. What's the likelihood that your product or service can be substituted for something else.
+                    2. E.g. your product is highly differentiated, not easy to get replaced
+
+        2. Define how you'll compete and win
+            1. To win through core competencies
+                1. Ask your business, what are we well at
+                    1. E.g. Time to go to market
+                    2. E.g. Capability to deliver, Turnaround time
+                    3. E.g. cost position
+                    4. E.g. Quality of your products
+                    5. E.g. Your company is more innovative than others
+                    6. E.g. A world-class supply chain
+                    7. E.g. Your brand or features and functionalities of your products
+                    8. E.g. Are you great at life cycle management?
+                    9. E.g. Customer relationship management
+                2. You have to BE ABLE TO EXPLAIN HOW YOUR PRODUCTS AND SERVICES ARE POSITIONED IN THE MARKETPLACE, because that will help customers and competitors know this is what makes us great.
+                    1. By your competitors knowing what you're great at there's less likelihood they're going to compete for the same space.
+                    2. E.g. name Apple, Walmart, Costco, Starbucks, Coca-Cola, Google, CAN YOU TELL WHAT ARE THEIR CORE COMPETENCIES?
+                3. You should create a list of what you think your possible points of differentiation are.
+                    1. What are the core competencies for your business?
+                    2. Once you have that list ASK YOUR COLLEAGUES WHAT THEIR THOUGHTS ARE. See which items on that list get mentioned more than others. More likely than not those are your true core competencies.
+
+        3. Evaluate your initiative pipeline
+            1. What is Initiative Pipeline?
+                1. When organizations make investments in projects or in infrastructure, many times that's in the form of an initiative.
+                2. The sum of all those initiatives makes up your initiative pipeline.
+                3. Understanding what projects are in the pipeline will help you understand how the organization is going to change over time.
+                4. An initiative pipeline helps you track all the investments your business is making
+            2. Investment portfolio unfold the future path of your business
+                1. You can go ask for the initiative list from the folks who run that process
+            3. Find out why you're making the investments you're making
+                1. What's the rationale behind them?
+                2. How does the initiative improve the business?
+                3. How are they tied to the strategy?
+
+            4. Many times when people are making a recommendation to have an initiative approved, they have to write a short abstract that says, "this is how this initiative will improve the business, and this how this initiative is tied to the broader strategy."
+                1. IF YOU LOOK AT AN INITIATIVE AND IT SEEMS LIKE IT'S OFF-STRATEGY, ASK WHY THE ORGANIZATION IS PURSUING IT.
+                2. E.g. sometime, it's a regulatory requirement, or it's a safety issue.
+                3. E.g. the initiative is really off-strategy, which should consider stopping it.
+                4. E.g. I work with one client, that had a large portfolio of projects. They were looking at new products, acquisitions, supply chain improvements, technology upgrades, and opening new facilities. Their strategy wasn't very clear. And some of the initiatives seemed pretty random, especially one acquisition. The thing is, the CEO wanted to pursue that acquisition. After spending some time with the team refining their strategy, and their strategic plan, they had better clarity around where the organization was going. It became clear to the CEO that that one acquisition was way off-strategy. Now, to his credit, he stepped back and said, "This is where the organization is going, that initiative goes in a different direction, and if we make that acquisition, it's off-strategy, so we should stop." He took it off the list.
+                    1. Having that clarity around the DIRECTION for the organization, helped shape that initiative pipeline.
+                    2. When you look at the pipeline for your organization, ask yourself the same set of questions. Why are we pursuing this initiative? And how does it drive our strategy forward.
+
+        4. Set priorities
+            1. How are priories in your organization determined?
+                1. Who manages that process?
+                2. How are new ideas submitted?
+                3. What kind of business case do you need to get the projects approved?
+                    1. Find a project that's in the pipeline. Go speak with the sponsor and ask them what it takes to get that idea on the list and, ultimately, executed.
+
+                4. E.g. I worked with one organization that had a very formal prioritization process. There was a monthly meeting. Each team came into that meeting with their own prioritized list of projects. The projects needed a business case, so every project on the list had a document supporting the rationale for pursuing that initiative. That business case had to be approved by the department head before it even made it on the department's prioritization list. At the monthly meeting, all the different lists from all the departments were brought together. It was determined for the entire division what the top priorities were.
+                    1. If I went in with my list, I had my five ideas on it, well, it may turn out that my number one idea may be third or fourth on the overall prioritization list.
+                    2. But by managing that process rigorously, we knew what initiatives were in the pipeline, and what it took to get them to the top of the list so they would be executed.
+
+                5. E.g. I worked with another organization that had a much less formal process. Each department had their own budget, and every project they wanted to do was self-funded out of their own budget. Priorities were set by the business unit head, and the prioritization responsibilities were often delegated out to individual teams or functional areas. Each team, in turn, had their own budget, but they could ask for more money if they had a bigger project that was outside of the scope of their existing budget.
+
+            2. When you understand the prioritization process,
+                1. from the initial recommendation through execution,
+                2. you'll have a much better sense of how to take your ideas and make them happen.
+
+    6. Your operation
+        1. Know your operations
+            1. Operations
+                1. Cost structure
+                2. Personnel
+                3. Vendors
+                4. Technology
+                5. Budget
+            2. Ask yourself about operation
+                1. how is your operation run
+                2. how is your operation organized
+                3. how does raw material enter your operation
+                4. how do you transport products and materials
+            3. Review P&L statement for operations
+                1. How do your operations impact profitability
+                    1. Fixed cost, variable cost
+
+        2. Consider how you sell and market
+            1. Sales and marketing models
+            2. Sales models
+                1. Directly to buyers or by distributors
+                2. To many low value customers, or to few big customers
+                3. Sitting to customer, vs bid based, vs proposal based
+            2. Marketing models
+                1. Advertising or online adverting
+                2. TV or radio
+                3. Who's your buyer and how you reach them
+
+                4. E.g. marketing brands directly to consumer, though through retailers. The company is able to tell retailers how to market the product and price it, how to set it up on shelves. Because this company owns the relationship with customers, there is no the distributors would be able to cut them out of that relationship.
+
+                5. E.g. sells directly to consumers, there is no sales people. Sales are made directly through mail, television, internet. The only sales people the organization had were for making partnership deals with third parties so that they could then in turn sell our products.
+
+                6. E.g. For my firm, it's a consultative selling model. Most of our sales calls are to senior executives. The purchases are large. And it can take a long time to go from the first conversation to an actual sale. I just had a sale this morning that I've been working on for nine months. My first conversation was with one executive to understand their requirements, then I had to spend more time with other execs to understand their concerns and considerations. And then I had to put together a proposal that we turned over multiple times and we refined until finally we had the right package for this customer and they were able to say "We wanna buy it."
+
+        3. Understand research and development
+            1. R&D Lead Times
+                1. Internet business - short
+                2. Consumer packages products - middle
+                3. Pharmaceuticals - long
+            2. What kind of R&D do your organization do?
+                1. Instead, buying innovation is lucrative and fast.
+                2. R&D for new products, or cost reduction, or changing process
+            3. R&D models depend on business model
+                1. E.g. Pharmaceuticals long and formal
+                    1. How to speed R&D? Solution: buy small companies that sell small molecules that weren't a drug yet
+
+                2. E.g. Consumer package products company. Lots of innovations around formulations, new flavors, new packaging. Also R&D in manufacturing and process.
+                3. A financial services firm. No R&D at all. Instead, innovation was embedded within teams' daily word. If the team had a new idea, they will do market testing, and roll it out.
+
+            4. Clues to figure out what your company's R&D model is
+                1. Read the annual report
+                2. Look for what innovations are being considered by management
+                3. Figure out how did those innovations come to market
+                4. Review recent product launches or enhancements
+                5. Find stakeholders who led successful projects, and ask them
+
+        4. Develop new products
+            1. What's the process to create new product in your organization?
+                1. Who decides what products to launch?
+                2. What market research is done to support those new product launches
+                3. How long does it take to create a new product?
+            2. How do you protect new products after they get into market?
+                1. Patents, copyrights
+                2. Speed to market
+                3. Achieve scale
+                4. Put a brand and build relationship with your customer
+
+                5. E.g. I've seen include a small internet company where new products were created by the team. The team had an idea, they launched it quickly, they tested, and they learned, and then they refined from there. The way they were going to protect these ideas was to try and scale as quickly as possible, be first to market.
+                    1. They weren't going to spend a lot of money and time trying to patent the technology because those patents could be easily defeated and it would take a long time to get them.
+
+                6. E.g. A consumer package products company I worked with looks at product development from the standpoint of doing rigorous market research. They talk to a lot of consumers and understand what their wants and needs are. They then look at their existing product portfolio and figure out where are the holes. Our consumers are saying they want this, we only have this. There's a gap that we should probably fill. They talk with consumers and jointly develop some of these products. They would develop prototypes, test those prototypes, and then scale the winning formulations.
+                    1. Once they got a product to market they did have copyright and patent protection for some of the products where they could get it.
+                7. I worked with a large pharmaceutical company that had long lead times to go from an idea to a new product in the market. They had to invest very heavily in research and development. They did massive clinical trials to prove the efficacy of the new treatment.
+                    1. To protect their new product they had patents that were put in place to protect their intellectual property or IP.
+                    2. They tried to get to scale as quickly as possible and get as many patients as they could on their treatment before competitors got a treatment in the marketplace.
+
+        5. Manage people
+            1. What types of people do you have?
+                1. Hourly
+                2. Salaried
+                3. Contractors
+            2. How are your employees paid?
+                1. How are employees measured by their performance?
+                2. What is your turnover?
+                3. What about training?
+                4. Where do you recruit from?
+                    1. Finding people
+                    2. Bringing them into your organization
+            3. What does your org chart look like?
+                1. Flat vs Hierarchical
+
+            4. E.g. In my organization, we're very flat. All my instructors are contractors. I don't have employees. They're all senior-level staff. All their compensation is commission-based. If they sell something, they make money. If they don't sell anything, they don't make any money. Everyone has an incentive to sell and teach and write content because we deliver training. It leads me to recruit a very specialized type of person. Now, it's harder for me to find these people, however, when I do find them and when they understand the model that we have, I end up with very low turnover. I've had people on my team for over a decade and they're not going anywhere anytime soon.
+            5. E.g. I've worked with a client that had franchise restaurants. They have restaurants all over the country and it's all fast food. Now being franchises, those restaurants are owned by entrepreneurs. The company doesn't own them. Those entrepreneur owners hire front-line hourly people. They're paid based on the hours that they work. Now, these jobs are hard and they're pretty low skill so there's very high turnover and they're constantly hiring and recruiting new people.
+                1. Performance is based on that person's output and their organization charts tend to be very hierarchical.
+                2. So their business model is driving their people strategy and the way they can improve their operations is by improving their turnover, which means they train their people better or they recruit more intelligently.
+
+            5. BUSINESS MODEL DRIVES THEIR PEOPLE STRATEGY. AGAIN, PEOPLE DRIVE OPERATIONS, WHICH DRIVES PERFORMANCE.
+                1. GO AND GET YOUR ORG CHART. LOOK AT THE JOB DESCRIPTIONS FOR PEOPLE AT ALL LEVELS OF THAT ORGANIZATION. GO TO YOUR COMPANY'S WEBSITE AND SEE WHAT ROLES YOU'RE HIRING FOR.
+                2. Study bonus plans and incentive plans for people below you on the org chart as well as above you.
+                3. When you understand how people are paid, it will help you understand why they behave the way they do.
+                4. By being able to tie your people strategy to your business strategy, you'll understand how your people operations drive your operational results.
+```

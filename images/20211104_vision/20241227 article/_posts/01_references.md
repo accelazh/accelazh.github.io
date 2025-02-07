@@ -183,7 +183,14 @@
 
 [90] Andy730 颠覆性创新？存储界已有所耳闻 : https://mp.weixin.qq.com/s/NFQYEwrYCwKvTjpQdLkcQA
 
+[91] LinkedIn Course Critical Thinking by Mike Figliuolo : https://www.linkedin.com/learning/critical-thinking
 
+[92] Profitability Framework and Profit Trees The Complete Guide : https://www.craftingcases.com/profitability-tree-guide/
 
+[93] LinkedIn Course Strategic Thinking by Dorie Clark : https://www.linkedin.com/learning/strategic-thinking
 
+[94] LinkedIn Course Business Acumen by Mike Figliuolo : https://www.linkedin.com/learning/developing-business-acumen
 
+[95] GetAbstract The Unspoken Truths for Career Success : https://www.getabstract.com/en/summary/the-unspoken-truths-for-career-success/46904
+
+[96] LinkedIn Course Management Foundation by Kevin Eikenberry : https://www.linkedin.com/learning/management-foundations-2019
