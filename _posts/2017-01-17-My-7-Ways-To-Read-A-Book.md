@@ -3,7 +3,7 @@ layout: post
 title: "My 7 Ways to Read a Book"
 tagline : "My 7 Ways to Read a Book"
 description: "My 7 Ways to Read a Book"
-category: "reading"
+category: "Experience"
 tags: [reading, book, misc]
 ---
 {% include JB/setup %}

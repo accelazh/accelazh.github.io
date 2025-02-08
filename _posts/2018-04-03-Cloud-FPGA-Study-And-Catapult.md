@@ -3,7 +3,7 @@ layout: post
 title: "Cloud FPGA Study And Catapult"
 tagline : "Cloud FPGA Study And Catapult"
 description: "Cloud FPGA Study And Catapult"
-category: "storage"
+category: "Storage"
 tags: [storage, accelerator, fpga]
 ---
 {% include JB/setup %}

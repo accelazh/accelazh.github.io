@@ -3,7 +3,7 @@ layout: post
 title: "Ceph BlueStore and Double Write Issues"
 tagline : "Ceph BlueStore and Double Write Issues"
 description: "Ceph BlueStore and Double Write Issues"
-category: "ceph"
+category: "Ceph"
 tags: [ceph, storage, bluestore]
 ---
 {% include JB/setup %}

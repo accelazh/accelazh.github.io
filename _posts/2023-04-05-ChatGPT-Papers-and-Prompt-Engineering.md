@@ -3,8 +3,8 @@ layout: post
 title: "ChatGPT papers and Prompt Engineering"
 tagline : "ChatGPT papers and Prompt Engineering"
 description: "ChatGPT papers and Prompt Engineering"
-category: "AI"
-tags: [NLP, GPT, LLM]
+category: "Paper Reading"
+tags: [NLP, GPT, LLM, AI]
 ---
 {% include JB/setup %}
 

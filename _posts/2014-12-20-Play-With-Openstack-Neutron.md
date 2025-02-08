@@ -3,7 +3,7 @@ layout: post
 title: "Play with Openstack Neutron"
 tagline : "Play with Openstack Neutron"
 description: "Play with Openstack Neutron"
-category: "openstack"
+category: "Openstack"
 tags: [openstack, network, neutron]
 ---
 {% include JB/setup %}

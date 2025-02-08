@@ -3,7 +3,7 @@ layout: post
 title: "Recent Paper Reading: zStorage Vision, Alibaba EBS"
 tagline : "Recent Paper Reading: zStorage Vision, Alibaba EBS"
 description: "Recent Paper Reading: zStorage Vision, Alibaba EBS"
-category: "storage"
+category: "Paper Reading"
 tags: [storage, paper, cloud]
 ---
 {% include JB/setup %}

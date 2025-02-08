@@ -3,7 +3,7 @@ layout: post
 title: "Archiving recent article reading notes"
 tagline : "Archiving recent article reading notes"
 description: "Archiving recent article reading notes"
-category: "technology"
+category: "Paper Reading"
 tags: [cloud, storage, paper]
 ---
 {% include JB/setup %}

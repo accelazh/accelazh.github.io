@@ -3,7 +3,7 @@ layout: post
 title: "Experience on Live Production Troubleshooting"
 tagline : "Experience on Live Production Troubleshooting"
 description: "Experience on Live Production Troubleshooting"
-category: "storage"
+category: "Experience"
 tags: [storage, reliability, engineering]
 ---
 {% include JB/setup %}

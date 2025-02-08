@@ -3,7 +3,7 @@ layout: post
 title: "Play with Libvirt/KVM"
 tagline : "Play with Libvirt/KVM"
 description: "Play with Libvirt/KVM"
-category: "virtualization"
+category: "Openstack"
 tags: [virtualization, kvm, libvirt, compute]
 ---
 {% include JB/setup %}

@@ -3,7 +3,7 @@ layout: post
 title: "Recent Articles Reading Notes: SSI, ABase, CurveFS"
 tagline : "Recent Articles Reading Notes: SSI, ABase, CurveFS"
 description: "Recent Articles Reading Notes: SSI, ABase, CurveFS"
-category: "technology"
+category: "Paper Reading"
 tags: [cloud, storage, paper]
 ---
 {% include JB/setup %}

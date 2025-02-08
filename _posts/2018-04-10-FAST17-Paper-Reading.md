@@ -3,7 +3,7 @@ layout: post
 title: "FAST17 Paper Reading"
 tagline : "FAST17 Paper Reading"
 description: "FAST17 Paper Reading"
-category: "storage"
+category: "Paper Reading"
 tags: [storage, fast, paper]
 ---
 {% include JB/setup %}

@@ -3,8 +3,8 @@ layout: post
 title: "A Summary of Distributed Transaction Implementation"
 tagline : "A Summary of Distributed Transaction Implementation"
 description: "A Summary of Distributed Transaction Implementation"
-category: "transaction"
-tags: [cloud, transaction, summary, database]
+category: "Database"
+tags: [cloud, transaction, summary, database, storage]
 ---
 {% include JB/setup %}
 

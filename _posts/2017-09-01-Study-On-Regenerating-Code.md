@@ -3,7 +3,7 @@ layout: post
 title: "Study on Regenerating Code"
 tagline : "Study on Regenerating Code"
 description: "Study on Regenerating Code"
-category: "erasure-coding"
+category: "Erasure Coding"
 tags: [storage, erasure-coding, regenerating code]
 ---
 {% include JB/setup %}

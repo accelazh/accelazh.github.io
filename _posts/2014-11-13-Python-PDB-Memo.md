@@ -3,7 +3,7 @@ layout: post
 title: "Python PDB Memo"
 tagline : "Python PDB Memo"
 description: "Python PDB Memo"
-category: "python"
+category: "Language"
 tags: [python, pdb, debug]
 ---
 {% include JB/setup %}

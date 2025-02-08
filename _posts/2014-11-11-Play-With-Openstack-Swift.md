@@ -3,7 +3,7 @@ layout: post
 title: "Play with Openstack Swift"
 tagline : "Play with Openstack Swift"
 description: "Play with Openstack Swift"
-category: "openstack"
+category: "Openstack"
 tags: [openstack, swift, storage]
 ---
 {% include JB/setup %}

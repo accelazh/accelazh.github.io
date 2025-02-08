@@ -3,7 +3,7 @@ layout: post
 title: "Recent Paper Reading: Erasure Coding on SMR zones and ZNS SSD, etc"
 tagline : "Recent Paper Reading: Erasure Coding on SMR zones and ZNS SSD, etc"
 description: "Recent Paper Reading: Erasure Coding on SMR zones and ZNS SSD, etc"
-category: "storage"
+category: "Paper Reading"
 tags: [storage, paper, erasure-coding]
 ---
 {% include JB/setup %}

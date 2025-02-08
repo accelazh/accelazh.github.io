@@ -3,7 +3,7 @@ layout: post
 title: "Build Linux Kernel and Live Debugging"
 tagline : "Build Linux Kernel and Live Debugging"
 description: "Build Linux Kernel and Live Debugging"
-category: "kernel"
+category: "Linux"
 tags: [linux, debug, kernel]
 ---
 {% include JB/setup %}

@@ -3,7 +3,7 @@ layout: post
 title: "Play with Openstack Glance"
 tagline : "Play with Openstack Glance"
 description: "Play with Openstack Glance"
-category: "openstack"
+category: "Openstack"
 tags: [openstack, glance, image, swift]
 ---
 {% include JB/setup %}

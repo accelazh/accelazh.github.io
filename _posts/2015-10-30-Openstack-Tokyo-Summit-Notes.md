@@ -3,7 +3,7 @@ layout: post
 title: "Openstack Tokyo Summit Notes"
 tagline : "Openstack Tokyo Summit Notes"
 description: "Openstack Tokyo Summit Notes"
-category: "openstack"
+category: "Openstack"
 tags: [openstack, summit, tokyo]
 ---
 {% include JB/setup %}

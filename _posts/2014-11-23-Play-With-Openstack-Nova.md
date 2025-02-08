@@ -3,7 +3,7 @@ layout: post
 title: "Play with Openstack Nova"
 tagline : "Play with Openstack Nova"
 description: "Play with Openstack Nova"
-category: "openstack"
+category: "Openstack"
 tags: [openstack, nova, compute]
 ---
 {% include JB/setup %}

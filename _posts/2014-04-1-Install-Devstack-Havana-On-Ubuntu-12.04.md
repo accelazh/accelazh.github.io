@@ -3,7 +3,7 @@ layout: post
 title: "Install Devstack Havana on Ubuntu 12.04"
 tagline : "Install Devstack Havana on Ubuntu 12.04"
 description: "Install Devstack Havana on Ubuntu 12.04"
-category: "openstack"
+category: "Openstack"
 tags: [cloud, openstack, devstack]
 ---
 {% include JB/setup %}

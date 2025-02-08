@@ -3,7 +3,7 @@ layout: post
 title: "Install RDO Icehouse on CentOS 6.3"
 tagline : "Install RDO Icehouse on CentOS 6.3"
 description: "Install Icehouse RDO on CentOS 6.3"
-category: "openstack"
+category: "Openstack"
 tags: [openstack, rdo, centos]
 ---
 {% include JB/setup %}

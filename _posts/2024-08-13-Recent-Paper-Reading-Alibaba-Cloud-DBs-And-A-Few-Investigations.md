@@ -3,7 +3,7 @@ layout: post
 title: "Recent Paper Reading: Alibaba Cloud DBs, and A Few Investigations"
 tagline : "Recent Paper Reading: Alibaba Cloud DBs, and A Few Investigations"
 description: "Recent Paper Reading: Alibaba Cloud DBs, and A Few Investigations"
-category: "storage"
+category: "Paper Reading"
 tags: [storage, paper, cloud]
 ---
 {% include JB/setup %}

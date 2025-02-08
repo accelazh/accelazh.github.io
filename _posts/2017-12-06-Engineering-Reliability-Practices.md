@@ -3,7 +3,7 @@ layout: post
 title: "Engineering Reliability Practices"
 tagline : "Engineering Reliability Practices"
 description: "Engineering Reliability Practices"
-category: "storage"
+category: "Experience"
 tags: [reliability, engineering, development]
 ---
 {% include JB/setup %}

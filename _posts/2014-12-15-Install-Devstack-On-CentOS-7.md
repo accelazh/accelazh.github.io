@@ -3,7 +3,7 @@ layout: post
 title: "Install Devstack Master Branch on CentOS 7"
 tagline : "Install Devstack Master Branch on CentOS 7"
 description: "Install Devstack Master Branch on CentOS 7"
-category: "openstack"
+category: "Openstack"
 tags: [openstack, devstack, centos]
 ---
 {% include JB/setup %}

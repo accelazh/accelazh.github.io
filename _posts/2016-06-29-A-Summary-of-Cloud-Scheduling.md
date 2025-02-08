@@ -3,7 +3,7 @@ layout: post
 title: "A Summary of Cloud Scheduling"
 tagline : "A Summary of Cloud Scheduling"
 description: "A Summary of Cloud Scheduling"
-category: "cloud"
+category: "Cloud"
 tags: [cloud, scheduling, energy]
 ---
 {% include JB/setup %}

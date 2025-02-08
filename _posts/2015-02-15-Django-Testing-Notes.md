@@ -3,7 +3,7 @@ layout: post
 title: "Django Testing Notes"
 tagline : "Django Testing Notes"
 description: "Django Testing Notes"
-category: "django"
+category: "Language"
 tags: [python, django, testing]
 ---
 {% include JB/setup %}

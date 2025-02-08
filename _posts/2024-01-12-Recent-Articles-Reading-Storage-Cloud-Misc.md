@@ -3,7 +3,7 @@ layout: post
 title: "Recent Articles Reading: Storage, Cloud"
 tagline : "Recent Articles Reading: Storage, Cloud"
 description: "Recent Articles Reading: Storage, Cloud"
-category: "storage"
+category: "Paper Reading"
 tags: [storage, paper, cloud]
 ---
 {% include JB/setup %}

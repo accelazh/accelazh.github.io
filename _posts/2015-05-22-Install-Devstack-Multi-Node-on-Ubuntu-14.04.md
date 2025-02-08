@@ -3,7 +3,7 @@ layout: post
 title: "Install Devstack Multi-node Kilo on Ubuntu 14.04"
 tagline : "Install Devstack Multi-node Kilo on Ubuntu 14.04"
 description: "Install Devstack Multi-node Kilo on Ubuntu 14.04"
-category: "openstack"
+category: "Openstack"
 tags: [openstack, devstack, ubuntu]
 ---
 {% include JB/setup %}

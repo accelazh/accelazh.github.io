@@ -3,7 +3,7 @@ layout: post
 title: "Recent Paper Reading: EC, PMem, B+tree Concurrency, ML for DB"
 tagline : "Recent Paper Reading: EC, PMem, B+tree Concurrency, ML for DB"
 description: "Recent Paper Reading: EC, PMem, B+tree Concurrency, ML for DB"
-category: "storage"
+category: "Paper Reading"
 tags: [storage, paper, database]
 ---
 {% include JB/setup %}

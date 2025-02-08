@@ -3,7 +3,7 @@ layout: post
 title: "Recent Paper Reading: Vector Database, Transaction Serializability, EC"
 tagline : "Recent Paper Reading: Vector Database, Transaction Serializability, EC"
 description: "Recent Paper Reading: Vector Database, Transaction Serializability, EC"
-category: "storage"
+category: "Paper Reading"
 tags: [storage, paper, database]
 ---
 {% include JB/setup %}

@@ -3,7 +3,7 @@ layout: post
 title: "Study on Erasure Coding Technology Spectrum"
 tagline : "Study on Erasure Coding Technology Spectrum"
 description: "Study on Erasure Coding Technology Spectrum"
-category: "erasure-coding"
+category: "Erasure Coding"
 tags: [storage, erasure-coding, coding theory]
 ---
 {% include JB/setup %}

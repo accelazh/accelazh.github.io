@@ -3,7 +3,7 @@ layout: post
 title: "Dig the Math in RDP Optimal Recovery"
 tagline : "Dig the Math in RDP Optimal Recovery"
 description: "Dig the Math in RDP Optimal Recovery"
-category: "storage"
+category: "Erasure Coding"
 tags: [storage, erasure-coding, math]
 ---
 {% include JB/setup %}

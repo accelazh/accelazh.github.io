@@ -3,7 +3,7 @@ layout: post
 title: "Recent Paper Reading: Wide LRC, Protean, Skew Polynomials, etc"
 tagline : "Recent Paper Reading: Wide LRC, Protean, Skew Polynomials, etc"
 description: "Recent Paper Reading: Wide LRC, Protean, Skew Polynomials, etc"
-category: "storage"
+category: "Paper Reading"
 tags: [storage, paper, erasure-coding]
 ---
 {% include JB/setup %}

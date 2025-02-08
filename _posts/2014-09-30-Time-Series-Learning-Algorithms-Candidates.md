@@ -3,7 +3,7 @@ layout: post
 title: "Time-series Learning Algorithms Candidates"
 tagline : "Time-series Learning Algorithms Candidates"
 description: "Time-series Learning Algorithms Candidates"
-category: "datamining"
+category: "AI/ML"
 tags: [datamining, time-series, stream]
 ---
 {% include JB/setup %}

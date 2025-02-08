@@ -3,7 +3,7 @@ layout: post
 title: "Ceph All-in-one Scripts"
 tagline : "Single node ceph build and installation scripts"
 description: "Ceph All-in-one Scripts"
-category: "ceph"
+category: "Ceph"
 tags: [cloud, storage, filesystem, ceph]
 ---
 {% include JB/setup %}

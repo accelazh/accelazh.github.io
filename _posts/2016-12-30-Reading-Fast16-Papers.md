@@ -3,7 +3,7 @@ layout: post
 title: "Reading FAST16 Papers"
 tagline : "Reading FAST16 Papers"
 description: "Reading FAST16 Papers"
-category: "storage"
+category: "Paper Reading"
 tags: [storage, fast16, fast]
 ---
 {% include JB/setup %}

@@ -3,8 +3,8 @@ layout: post
 title: "Methodologies for Skilled Innovation"
 tagline : "Methodologies for Skilled Innovation"
 description: "Methodologies for Skilled Innovation"
-category: "technology"
-tags: [cloud, engineering, innovation]
+category: "Experience"
+tags: [cloud, engineering, innovation, vision]
 ---
 {% include JB/setup %}
 

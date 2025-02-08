@@ -3,7 +3,7 @@ layout: post
 title: "How Opensource Make Money?"
 tagline : "How Opensource Make Money?"
 description: "How Opensource Make Money?"
-category: "opensource"
+category: "Experience"
 tags: [opensource, business, startup]
 ---
 {% include JB/setup %}

@@ -3,7 +3,7 @@ layout: post
 title: "Recent Notes for Paper Reading: Cloud, DB, Storage"
 tagline : "Recent Notes for Paper Reading: Cloud, DB, Storage"
 description: "Recent Notes for Paper Reading: Cloud, DB, Storage"
-category: "storage"
+category: "Paper Reading"
 tags: [storage, paper, database]
 ---
 {% include JB/setup %}

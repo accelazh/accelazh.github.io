@@ -3,7 +3,7 @@ layout: post
 title: "Recent Paper Reading: WAFL Flash, BG3, MegaScale, MAST, etc"
 tagline : "Recent Paper Reading: WAFL Flash, BG3, MegaScale, MAST, etc"
 description: "Recent Paper Reading: WAFL Flash, BG3, MegaScale, MAST, etc"
-category: "storage"
+category: "Paper Reading"
 tags: [storage, paper, cloud]
 ---
 {% include JB/setup %}

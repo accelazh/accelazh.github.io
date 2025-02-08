@@ -3,8 +3,8 @@ layout: post
 title: "A Taxonomy of Public Cloud Bigdata Services"
 tagline : "A Taxonomy of Public Cloud Bigdata Services"
 description: "A Taxonomy of Public Cloud Bigdata Services"
-category: "bigdata"
-tags: [bigdata, public cloud, taxonomy]
+category: "Database"
+tags: [bigdata, public cloud, taxonomy, summary]
 ---
 {% include JB/setup %}
 

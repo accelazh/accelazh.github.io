@@ -3,7 +3,7 @@ layout: post
 title: "In-Memory DB and Recent Paper Reading"
 tagline : "In-Memory DB and Recent Paper Reading"
 description: "In-Memory DB and Recent Paper Reading"
-category: "storage"
+category: "Paper Reading"
 tags: [storage, paper, in-memory DB]
 ---
 {% include JB/setup %}

@@ -3,7 +3,7 @@ layout: post
 title: "Recent Articles Reading: Storage, Chips, Performance, Misc"
 tagline : "Recent Articles Reading: Storage, Chips, Performance, Misc"
 description: "Recent Articles Reading: Storage, Chips, Performance, Misc"
-category: "storage"
+category: "Paper Reading"
 tags: [storage, paper, cloud]
 ---
 {% include JB/setup %}

@@ -3,7 +3,7 @@ layout: post
 title: "Training Notes on Management, Leadership, Strategy"
 tagline : "Training Notes on Management, Leadership, Strategy"
 description: "Training Notes on Management, Leadership, Strategy"
-category: "storage"
+category: "Experience"
 tags: [storage, management, leadership]
 ---
 {% include JB/setup %}

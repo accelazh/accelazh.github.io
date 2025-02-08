@@ -3,7 +3,7 @@ layout: post
 title: "Recent Reading AWS Re:Invent Day 2023"
 tagline : "Recent Reading AWS Re:Invent Day 2023"
 description: "Recent Reading AWS Re:Invent Day 2023"
-category: "storage"
+category: "Paper Reading"
 tags: [storage, paper, cloud]
 ---
 {% include JB/setup %}

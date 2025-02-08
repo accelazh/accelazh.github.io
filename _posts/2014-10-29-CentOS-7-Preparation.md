@@ -3,8 +3,8 @@ layout: post
 title: "CentOS 7 Preparation"
 tagline : "CentOS 7 Preparation"
 description: "CentOS 7 Preparation"
-category: "automation"
-tags: [os, centos]
+category: "Linux"
+tags: [os, centos, automation, linux]
 ---
 {% include JB/setup %}
 

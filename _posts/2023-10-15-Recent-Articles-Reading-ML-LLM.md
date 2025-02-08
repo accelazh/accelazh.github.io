@@ -3,8 +3,8 @@ layout: post
 title: "Recent Articles Reading: Machine Learning and LLM"
 tagline : "Recent Articles Reading: Machine Learning and LLM"
 description: "Recent Articles Reading: Machine Learning and LLM"
-category: "AI"
-tags: [ML, paper, LLM]
+category: "Paper Reading"
+tags: [ML, paper, LLM, AI]
 ---
 {% include JB/setup %}
 

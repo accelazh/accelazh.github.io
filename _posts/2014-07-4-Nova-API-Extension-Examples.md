@@ -3,7 +3,7 @@ layout: post
 title: "Nova API Extension Examples"
 tagline : "Easy for beginning nova extending"
 description: "Rich documented examples of nova api extension"
-category: "openstack"
+category: "Openstack"
 tags: [cloud, openstack, nova, api]
 ---
 {% include JB/setup %}

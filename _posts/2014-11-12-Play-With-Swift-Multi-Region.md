@@ -3,7 +3,7 @@ layout: post
 title: "Play with Swift Multi-region"
 tagline : "Play with Swift Multi-region"
 description: "Play with Swift Multi-region"
-category: "openstack"
+category: "Openstack"
 tags: [openstack, swift, storage, multi-region]
 ---
 {% include JB/setup %}

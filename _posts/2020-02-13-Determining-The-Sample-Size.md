@@ -3,7 +3,7 @@ layout: post
 title: "Determining the Sample Size"
 tagline : "Determining the Sample Size"
 description: "Determining the Sample Size"
-category: "statistics"
+category: "Algorithm"
 tags: [statistics, math, reliability]
 ---
 {% include JB/setup %}

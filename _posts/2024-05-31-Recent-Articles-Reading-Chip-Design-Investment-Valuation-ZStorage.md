@@ -3,7 +3,7 @@ layout: post
 title: "Recent Articles Reading: Chip Design, Investment Valuation, zStorage"
 tagline : "Recent Articles Reading: Chip Design, Investment Valuation, zStorage"
 description: "Recent Articles Reading: Chip Design, Investment Valuation, zStorage"
-category: "storage"
+category: "Paper Reading"
 tags: [storage, paper, cloud]
 ---
 {% include JB/setup %}

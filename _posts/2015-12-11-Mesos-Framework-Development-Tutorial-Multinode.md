@@ -3,7 +3,7 @@ layout: post
 title: "Mesos Framework Development Tutorial Multinode"
 tagline : "Mesos Framework Development Tutorial Multinode"
 description: "Mesos Framework Development Tutorial Multinode"
-category: "mesos"
+category: "Cloud"
 tags: [mesos, scheduler, executor]
 ---
 {% include JB/setup %}

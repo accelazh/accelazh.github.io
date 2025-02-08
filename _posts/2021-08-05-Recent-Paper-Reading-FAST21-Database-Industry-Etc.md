@@ -3,7 +3,7 @@ layout: post
 title: "Recent Paper Reading: FAST21, Database, Industry, Etc"
 tagline : "Recent Paper Reading: FAST21, Database, Industry, Etc"
 description: "Recent Paper Reading: FAST21, Database, Industry, Etc"
-category: "storage"
+category: "Paper Reading"
 tags: [storage, paper, database]
 ---
 {% include JB/setup %}

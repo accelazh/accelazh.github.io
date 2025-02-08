@@ -3,7 +3,7 @@ layout: post
 title: "Evaluate ChatGPT Usage in Daily Work Scenarios"
 tagline : "Evaluate ChatGPT Usage in Daily Work Scenarios"
 description: "Evaluate ChatGPT Usage in Daily Work Scenarios"
-category: "AI"
+category: "AI/ML"
 tags: [NLP, GPT, LLM]
 ---
 {% include JB/setup %}

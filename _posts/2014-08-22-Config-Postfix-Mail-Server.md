@@ -3,7 +3,7 @@ layout: post
 title: "Config Postfix Mail Server"
 tagline : "Config Postfix Mail Server"
 description: "Config Postfix Mail Server"
-category: "mail"
+category: "Linux"
 tags: [mail, postfix]
 ---
 {% include JB/setup %}

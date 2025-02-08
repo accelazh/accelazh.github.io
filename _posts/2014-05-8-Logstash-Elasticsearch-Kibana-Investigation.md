@@ -3,8 +3,8 @@ layout: post
 title: "Logstash Elasticsearch Kibana Investigation"
 tagline : " Get to know LEK"
 description: "Investigation on Elasticsearch stack"
-category: "elasticsearch"
-tags: [cloud, openstack, search, logging]
+category: "Cloud"
+tags: [cloud, openstack, search, logging, elasticsearch]
 ---
 {% include JB/setup %}
 

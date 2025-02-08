@@ -3,7 +3,7 @@ layout: post
 title: "A Summary on SSD & FTL"
 tagline : "A Summary on SSD & FTL"
 description: "A Summary on SSD & FTL"
-category: "SSD"
+category: "Storage"
 tags: [SSD, FTL, summary]
 ---
 {% include JB/setup %}

@@ -3,7 +3,7 @@ layout: post
 title: "A Holistic View of Distributed Storage Architecture and Design Space (Chinese Simplified)"
 tagline : "A Holistic View of Distributed Storage Architecture and Design Space (Chinese Simplified)"
 description: "A Holistic View of Distributed Storage Architecture and Design Space (Chinese Simplified)"
-category: "technology"
+category: "My Book"
 tags: [cloud, storage, architecture]
 ---
 {% include JB/setup %}

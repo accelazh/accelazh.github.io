@@ -3,7 +3,7 @@ layout: post
 title: "Group Theory and Rubiks Cube"
 tagline : "Group Theory and Rubiks Cube"
 description: "Group Theory and Rubiks Cube"
-category: "algorithm"
+category: "Algorithm"
 tags: [group theory, math, algorithm]
 ---
 {% include JB/setup %}

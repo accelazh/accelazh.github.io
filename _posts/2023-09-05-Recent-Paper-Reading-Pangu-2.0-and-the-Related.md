@@ -3,7 +3,7 @@ layout: post
 title: "Recent Paper Reading: Pangu 2.0 Filesystem and the Related"
 tagline : "Recent Paper Reading: Pangu 2.0 Filesystem and the Related"
 description: "Recent Paper Reading: Pangu 2.0 Filesystem and the Related"
-category: "storage"
+category: "Paper Reading"
 tags: [storage, paper, filesystem]
 ---
 {% include JB/setup %}

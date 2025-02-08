@@ -3,7 +3,7 @@ layout: post
 title: "Searching and Evaluating EC Schemas"
 tagline : "Searching and Evaluating EC Schemas"
 description: "Searching and Evaluating EC Schemas"
-category: "erasure-coding"
+category: "Erasure Coding"
 tags: [storage, erasure-coding, reliability]
 ---
 {% include JB/setup %}

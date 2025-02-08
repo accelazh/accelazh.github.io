@@ -3,7 +3,7 @@ layout: post
 title: "Storage Reliability Calculations"
 tagline : "Storage Reliability Calculations"
 description: "Storage Reliability Calculations"
-category: "storage"
+category: "Erasure Coding"
 tags: [storage, reliability, cloud]
 ---
 {% include JB/setup %}

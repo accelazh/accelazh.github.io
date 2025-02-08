@@ -3,7 +3,7 @@ layout: post
 title: "Tail Latency Study"
 tagline : "Tail Latency Study"
 description: "Tail Latency Study"
-category: "storage"
+category: "Storage"
 tags: [storage, latency, cloud]
 ---
 {% include JB/setup %}

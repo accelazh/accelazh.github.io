@@ -3,7 +3,7 @@ layout: post
 title: "Reliability against Bugs and Corruption"
 tagline : "Reliability against Bugs and Corruption"
 description: "Reliability against Bugs and Corruption"
-category: "storage"
+category: "Experience"
 tags: [storage, reliability, bug]
 ---
 {% include JB/setup %}

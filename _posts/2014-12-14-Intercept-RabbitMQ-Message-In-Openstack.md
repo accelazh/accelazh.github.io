@@ -3,7 +3,7 @@ layout: post
 title: "Intercept RabbitMQ Message In Openstack"
 tagline : "Intercept RabbitMQ Message In Openstack"
 description: "Intercept RabbitMQ Message In Openstack"
-category: "messaging"
+category: "Openstack"
 tags: [openstack, messaging, rabbitmq]
 ---
 {% include JB/setup %}

@@ -3,7 +3,7 @@ layout: post
 title: "Cloud Storage Cost Study"
 tagline : "Cloud Storage Cost Study"
 description: "Cloud Storage Cost Study"
-category: "storage"
+category: "Storage"
 tags: [storage, cloud, cost]
 ---
 {% include JB/setup %}

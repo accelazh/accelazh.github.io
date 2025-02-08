@@ -3,7 +3,7 @@ layout: post
 title: "Multi-paxos, Raft, Multi-Raft, Parallel Raft"
 tagline : "Multi-paxos, Raft, Multi-Raft, Parallel Raft"
 description: "Multi-paxos, Raft, Multi-Raft, Parallel Raft"
-category: "storage"
+category: "Storage"
 tags: [storage, paxos, consensus]
 ---
 {% include JB/setup %}

@@ -3,7 +3,7 @@ layout: post
 title: "Backup Past Paper Reading Notes"
 tagline : "Backup Past Paper Reading Notes"
 description: "Backup Past Paper Reading Notes"
-category: "storage"
+category: "Paper Reading"
 tags: [storage, fast, paper]
 ---
 {% include JB/setup %}

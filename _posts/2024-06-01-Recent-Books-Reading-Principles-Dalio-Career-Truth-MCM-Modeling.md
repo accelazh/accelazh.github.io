@@ -3,7 +3,7 @@ layout: post
 title: "Recent Books Reading: Principles Dalio, Career Truth, MCM Modeling"
 tagline : "Recent Books Reading: Principles Dalio, Career Truth, MCM Modeling"
 description: "Recent Books Reading: Principles Dalio, Career Truth, MCM Modeling"
-category: "storage"
+category: "Paper Reading"
 tags: [storage, paper, cloud]
 ---
 {% include JB/setup %}

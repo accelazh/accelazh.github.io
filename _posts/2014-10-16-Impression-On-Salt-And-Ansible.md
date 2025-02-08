@@ -3,8 +3,8 @@ layout: post
 title: "Impression on Salt and Ansible"
 tagline : " First impression on salt and ansible"
 description: "First impression on salt and ansible, with a basic comparasion"
-category: "orchestration"
-tags: [cloud, deploy, orechestration]
+category: "Cloud"
+tags: [cloud, deploy, orchestration]
 ---
 {% include JB/setup %}
 

@@ -3,7 +3,7 @@ layout: post
 title: "Recent Paper Readings FAST20 PMEM AnalyticsDB Etc"
 tagline : "Recent Paper Readings FAST20 PMEM AnalyticsDB Etc"
 description: "Recent Paper Readings FAST20 PMEM AnalyticsDB Etc"
-category: "storage"
+category: "Paper Reading"
 tags: [storage, paper, FAST]
 ---
 {% include JB/setup %}

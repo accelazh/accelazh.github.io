@@ -3,7 +3,7 @@ layout: post
 title: "Recent Articles Reading: Entropy, Stream, Transform, Symmetry, Group Theory"
 tagline : "Recent Articles Reading: Entropy, Stream, Transform, Symmetry, Group Theory"
 description: "Recent Articles Reading: Entropy, Stream, Transform, Symmetry, Group Theory"
-category: "storage"
+category: "Paper Reading"
 tags: [storage, paper, database]
 ---
 {% include JB/setup %}

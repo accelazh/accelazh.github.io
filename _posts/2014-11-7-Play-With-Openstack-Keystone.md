@@ -3,7 +3,7 @@ layout: post
 title: "Play with Openstack Keystone"
 tagline : "Play with Openstack Keystone"
 description: "Play with Openstack Keystone"
-category: "openstack"
+category: "Openstack"
 tags: [openstack, keystone, auth]
 ---
 {% include JB/setup %}

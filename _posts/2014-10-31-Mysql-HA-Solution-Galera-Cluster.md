@@ -3,7 +3,7 @@ layout: post
 title: "Mysql HA Solution Galera Cluster"
 tagline : "Mysql HA Solution Galera Cluster"
 description: "Mysql HA Solution Galera Cluster"
-category: "DB"
+category: "Database"
 tags: [mysql, HA, mariadb, galera]
 ---
 {% include JB/setup %}

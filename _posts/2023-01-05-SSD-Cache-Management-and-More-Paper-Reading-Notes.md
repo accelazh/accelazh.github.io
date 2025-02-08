@@ -3,7 +3,7 @@ layout: post
 title: "SSD Cache Management and More Paper Reading Notes"
 tagline : "SSD Cache Management and More Paper Reading Notes"
 description: "SSD Cache Management and More Paper Reading Notes"
-category: "storage"
+category: "Paper Reading"
 tags: [storage, paper, cache]
 ---
 {% include JB/setup %}

@@ -3,7 +3,7 @@ layout: post
 title: "FAST18 OSDI18 Etc Paper Reading"
 tagline : "FAST18 OSDI18 Etc Paper Reading"
 description: "FAST18 OSDI18 Etc Paper Reading"
-category: "storage"
+category: "Paper Reading"
 tags: [storage, fast, paper]
 ---
 {% include JB/setup %}

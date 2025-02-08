@@ -3,7 +3,7 @@ layout: post
 title: "Recent Articles Reading: AI Storage, Dedup, etc"
 tagline : "Recent Articles Reading: AI Storage, Dedup, etc"
 description: "Recent Articles Reading: AI Storage, Dedup, etc"
-category: "storage"
+category: "Paper Reading"
 tags: [storage, paper, cloud]
 ---
 {% include JB/setup %}

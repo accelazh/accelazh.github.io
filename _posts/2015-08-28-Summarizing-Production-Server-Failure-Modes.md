@@ -3,7 +3,7 @@ layout: post
 title: "Summarizing Production Server Failure Modes"
 tagline : "Summarizing Production Server Failure Modes"
 description: "Summarizing Production Server Failure Modes"
-category: "failure"
+category: "Experience"
 tags: [failure, production, disk]
 ---
 {% include JB/setup %}

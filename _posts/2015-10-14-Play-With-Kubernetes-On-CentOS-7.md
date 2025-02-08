@@ -3,8 +3,8 @@ layout: post
 title: "Play with Kubernetes on CentOS 7"
 tagline : "Play with Kubernetes on CentOS 7"
 description: "Play with Kubernetes on CentOS 7"
-category: "kubernetes"
-tags: [kubernetes, container, paas]
+category: "Cloud"
+tags: [kubernetes, container, paas, linux]
 ---
 {% include JB/setup %}
 

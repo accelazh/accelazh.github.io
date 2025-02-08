@@ -3,7 +3,7 @@ layout: post
 title: "Experience in Working in Large Organization"
 tagline : "Experience in Working in Large Organization"
 description: "Experience in Working in Large Organization"
-category: "storage"
+category: "Experience"
 tags: [storage, management, leadership]
 ---
 {% include JB/setup %}

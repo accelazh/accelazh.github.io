@@ -3,7 +3,7 @@ layout: post
 title: "Install Heat Standalone"
 tagline : "Install Heat Standalone"
 description: "Install Heat Standalone"
-category: "orchestration"
+category: "Openstack"
 tags: [openstack, orchestration, heat]
 ---
 {% include JB/setup %}

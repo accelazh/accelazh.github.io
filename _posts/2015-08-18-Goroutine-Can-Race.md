@@ -3,7 +3,7 @@ layout: post
 title: "Goroutine can Race"
 tagline : "Goroutine can Race"
 description: "Goroutine can Race"
-category: "go"
+category: "Language"
 tags: [go, concurrency, language]
 ---
 {% include JB/setup %}

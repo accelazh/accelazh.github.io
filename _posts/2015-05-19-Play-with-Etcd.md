@@ -3,7 +3,7 @@ layout: post
 title: "Play with Etcd"
 tagline : "Play with Etcd"
 description: "Play with Etcd"
-category: "consensus"
+category: "Cloud"
 tags: [consensus, paxos, etcd]
 ---
 {% include JB/setup %}

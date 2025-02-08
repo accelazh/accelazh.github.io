@@ -3,7 +3,7 @@ layout: post
 title: "Ceph Code Deep Dive"
 tagline : " Ceph Code Deep Dive"
 description: "Ceph Code Deep Dive"
-category: "ceph"
+category: "Ceph"
 tags: [ceph, storage, openstack]
 ---
 {% include JB/setup %}

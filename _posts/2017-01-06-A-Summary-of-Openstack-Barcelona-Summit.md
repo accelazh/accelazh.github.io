@@ -3,8 +3,8 @@ layout: post
 title: "A Summary of Openstack Barcelona Summit"
 tagline : "A Summary of Openstack Barcelona Summit"
 description: "A Summary of Openstack Barcelona Summit"
-category: "Ceph"
-tags: [openstack, summit, summary]
+category: "Openstack"
+tags: [openstack, summit, summary, ceph]
 ---
 {% include JB/setup %}
 

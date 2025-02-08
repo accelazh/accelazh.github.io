@@ -3,7 +3,7 @@ layout: post
 title: "Calculating Markov Model MTTF"
 tagline : "Calculating Markov Model MTTF"
 description: "Calculating Markov Model MTTF"
-category: "reliability"
+category: "Erasure Coding"
 tags: [statistics, math, reliability]
 ---
 {% include JB/setup %}

@@ -1,10 +1,10 @@
 ---
 layout: post
 title: "Play with RabbitMQ"
-tagline : "Config Postfix Mail Server"
-description: "Config Postfix Mail Server"
-category: "messaging"
-tags: [messaging, rabbitmq]
+tagline : "Play with RabbitMQ"
+description: "Play with RabbitMQ"
+category: "Openstack"
+tags: [messaging, rabbitmq, openstack]
 ---
 {% include JB/setup %}
 

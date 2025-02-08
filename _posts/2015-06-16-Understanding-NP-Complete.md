@@ -3,7 +3,7 @@ layout: post
 title: "Understanding NP-Complete"
 tagline : "Understanding NP-Complete"
 description: "Understanding NP-Complete"
-category: "algorithm"
+category: "Algorithm"
 tags: [algorithm, complexity, NP-complete]
 ---
 {% include JB/setup %}

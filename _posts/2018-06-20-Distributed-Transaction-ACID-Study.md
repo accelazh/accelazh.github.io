@@ -3,8 +3,8 @@ layout: post
 title: "Distributed Transaction ACID Study"
 tagline : "Distributed Transaction ACID Study"
 description: "Distributed Transaction ACID Study"
-category: "transaction"
-tags: [transaction, acid, storage]
+category: "Database"
+tags: [transaction, acid, storage, database]
 ---
 {% include JB/setup %}
 

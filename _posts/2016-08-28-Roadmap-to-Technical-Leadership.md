@@ -3,7 +3,7 @@ layout: post
 title: "Roadmap to Technical Leadership"
 tagline : "Roadmap to Technical Leadership"
 description: "Roadmap to Technical Leadership"
-category: "technology"
+category: "Experience"
 tags: [cloud, technology, leadership]
 ---
 {% include JB/setup %}

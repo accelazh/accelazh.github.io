@@ -3,7 +3,7 @@ layout: post
 title: "Storage College Course Study"
 tagline : "Storage College Course Study"
 description: "Storage College Course Study"
-category: "storage"
+category: "Paper Reading"
 tags: [storage, filesystem, cloud]
 ---
 {% include JB/setup %}

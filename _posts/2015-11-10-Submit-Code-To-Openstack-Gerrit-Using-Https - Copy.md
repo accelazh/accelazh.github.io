@@ -3,7 +3,7 @@ layout: post
 title: "Submit Code to Openstack Gerrit Using Https"
 tagline : "Submit Code to Openstack Gerrit Using Https"
 description: "Submit Code to Openstack Gerrit Using Https"
-category: "openstack"
+category: "Openstack"
 tags: [openstack, gerrit, ssh]
 ---
 {% include JB/setup %}

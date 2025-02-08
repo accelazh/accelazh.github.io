@@ -3,8 +3,8 @@ layout: post
 title: "A Quick Summary of Energy-aware Cloud Computing"
 tagline : "A Quick Summary of Energy-aware Cloud Computing"
 description: "A Quick Summary of Energy-aware Cloud Computing"
-category: "cloud"
-tags: [cloud, energy, summary]
+category: "Cloud"
+tags: [cloud, energy, summary, scheduling]
 ---
 {% include JB/setup %}
 

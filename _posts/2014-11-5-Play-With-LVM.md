@@ -3,7 +3,7 @@ layout: post
 title: "Play with LVM"
 tagline : "Play with LVM"
 description: "Play with LVM"
-category: "storage"
+category: "Linux"
 tags: [storage, volume, lvm]
 ---
 {% include JB/setup %}

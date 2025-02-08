@@ -3,7 +3,7 @@ layout: post
 title: "Experience in Feature Development and Rollout Cycle"
 tagline : "Experience in Feature Development and Rollout Cycle"
 description: "Experience in Feature Development and Rollout Cycle"
-category: "storage"
+category: "Experience"
 tags: [engineering, development, rollout]
 ---
 {% include JB/setup %}

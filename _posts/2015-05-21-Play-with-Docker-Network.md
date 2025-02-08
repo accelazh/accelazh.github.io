@@ -3,7 +3,7 @@ layout: post
 title: "Play with Docker Network"
 tagline : "Play with Docker Network"
 description: "Play with Docker Network"
-category: "docker"
+category: "Cloud"
 tags: [docker, network, linux-bridge]
 ---
 {% include JB/setup %}

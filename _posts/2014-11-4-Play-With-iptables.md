@@ -3,7 +3,7 @@ layout: post
 title: "Play with iptables"
 tagline : "Play with iptables"
 description: "Play with iptables"
-category: "network"
+category: "Openstack"
 tags: [network, routing, iptables]
 ---
 {% include JB/setup %}

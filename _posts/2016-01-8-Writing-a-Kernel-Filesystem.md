@@ -3,7 +3,7 @@ layout: post
 title: "Writing a Kernel Filesystem"
 tagline : "Writing a Kernel Filesystem"
 description: "Writing a Kernel Filesystem"
-category: "filesystem"
+category: "Linux"
 tags: [linux, kernel, filesystem]
 ---
 {% include JB/setup %}

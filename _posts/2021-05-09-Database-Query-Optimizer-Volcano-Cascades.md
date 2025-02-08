@@ -3,7 +3,7 @@ layout: post
 title: "Database Query Optimizer Volcano Cascades"
 tagline : "Database Query Optimizer Volcano Cascades"
 description: "Database Query Optimizer Volcano Cascades"
-category: "database"
+category: "Database"
 tags: [database, query-optimizer, search]
 ---
 {% include JB/setup %}

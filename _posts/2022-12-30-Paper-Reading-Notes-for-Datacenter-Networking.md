@@ -3,7 +3,7 @@ layout: post
 title: "Paper Reading Notes for Datacenter Networking"
 tagline : "Paper Reading Notes for Datacenter Networking"
 description: "Paper Reading Notes for Datacenter Networking"
-category: "storage"
+category: "Paper Reading"
 tags: [storage, paper, networking]
 ---
 {% include JB/setup %}

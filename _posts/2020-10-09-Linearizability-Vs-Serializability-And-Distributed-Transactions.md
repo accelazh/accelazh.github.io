@@ -3,8 +3,8 @@ layout: post
 title: "Linearizability vs Serializability, and Distributed Transactions"
 tagline : "Linearizability vs Serializability, and Distributed Transactions"
 description: "Linearizability vs Serializability, and Distributed Transactions"
-category: "storage"
-tags: [storage, consensus, transaction]
+category: "Database"
+tags: [storage, consensus, transaction, database, consistency]
 ---
 {% include JB/setup %}
 

@@ -3,7 +3,7 @@ layout: post
 title: "Recent Paper Reading RDMA, Learned Index, Dedup"
 tagline : "Recent Paper Reading RDMA, Learned Index, Dedup"
 description: "Recent Paper Reading RDMA, Learned Index, Dedup"
-category: "storage"
+category: "Paper Reading"
 tags: [storage, paper, cloud]
 ---
 {% include JB/setup %}

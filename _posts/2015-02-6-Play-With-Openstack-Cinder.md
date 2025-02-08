@@ -3,7 +3,7 @@ layout: post
 title: "Play with Openstack Cinder"
 tagline : "Play with Openstack Cinder"
 description: "Play with Openstack Cinder"
-category: "openstack"
+category: "Openstack"
 tags: [openstack, storage, cinder]
 ---
 {% include JB/setup %}

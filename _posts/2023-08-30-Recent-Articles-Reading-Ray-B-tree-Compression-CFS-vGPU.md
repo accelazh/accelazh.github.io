@@ -3,7 +3,7 @@ layout: post
 title: "Recent Articles Reading: Ray, B-tree Compression, CFS, vGPU"
 tagline : "Recent Articles Reading: Ray, B-tree Compression, CFS, vGPU"
 description: "Recent Articles Reading: Ray, B-tree Compression, CFS, vGPU"
-category: "storage"
+category: "Paper Reading"
 tags: [storage, paper, database]
 ---
 {% include JB/setup %}
