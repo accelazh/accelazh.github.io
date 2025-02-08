@@ -1,11 +1,13 @@
 
-为什么
-方法论
-股价
-市场
-市场的分析
-硬件
-Case Study
+
+
+为什么 - Slogan P.S. 不高兴摸了摸没头脑
+方法论 - Slogan P.S. 把大象装进冰箱需要几步
+股价 - Slogan P.S. 论如何不拖股价的后腿 狗头Doge
+市场 - Slogan P.S. 看，这家新产品又上架了
+市场的分析 - Slogan P.S. 论如何强买强卖，躺着挣钱
+硬件 - Slogan P.S. 硬邦邦，干货满满
+Case Study - Slogan P.S. 论如何暴利
 
 （P.S. 本文未把 Vision & Strategy 直译为中文，因为难免含义有些偏差。Vision 合并了洞察、远见两者的含义。Strategy 更接近商业策略，而没有“战略”中战的含义。其它名词都尽力维持中文。）
 
@@ -15,6 +17,7 @@ Gap analysis, what is a top storage system should be, to compare to what we have
 data life cycle stream study and each with finer grain ec? what's a top world class ec should be?
 
 
+// TODO Translate EN article at blog
 
 
 (封面图片 by SBA73, CC BY-SA 2.0: https://99percentinvisible.org/episode/la-sagrada-familia/。注：本文为个人观点总结，作者工作于微软)
@@ -36,6 +39,9 @@ Also, remember to add reference parts.
 排版：不需要增加bullet间空行，尽管编辑器上看着没有空间
 排版：试图将消除bullet缩进，消除二级bullet
 
+自链URL按照文章来源替换
+修复 Image 链接层级
+添加目录
 
 
 
@@ -95,6 +101,9 @@ Some possible drill down topics
     E.g. How to provided unified namespace for our product as cloud storage?
     E.g. Hybrid cloud, it keeps customer at our side. As a public cloud vendor, how can we do hybrid cloud?
     E.g. Can public cloud's customer support be more competitive and responsive than top heavy working companies?
+    E.g. What cyberstorage feature can public cloud storage offer?
+    E.g. How to deal with the decreasing of HDD IOPS density?
+    E.g. Optimal switch networking. Networking is so important and fundamental to cloud storage architecture, that should we place more power in the industry, e.g. acquisition networking vendor?
 
 
 ## Drilling down analysis
