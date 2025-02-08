@@ -16,7 +16,7 @@ First I start up a centos 7 VM, which is my debug target, and built the kernel. 
 
 Kernel source will be at `~/rpmbuild/BUILD/kernel-*/linux-*/`. Kernel config is copied from existing OS `/boot/config-`uname -r`. Make sure below config options are enabled
 
-  * The debug related options from [my blog](http://accelazh.github.io/kernel/Build-Linux-Kernel-and-Live-Debugging/)
+  * The debug related options from [my blog](http://accelazh.github.io/linux/Build-Linux-Kernel-and-Live-Debugging/)
   * KGDB related options from [ELinux KGDB](http://elinux.org/Kgdb)
   * Optionally Ftrace related options from [this blog](https://www.ibm.com/developerworks/community/blogs/58e72888-6340-46ac-b488-d31aa4058e9c/entry/exploring_the_linux_storage_path_tracing_block_i_o_kernel_events?lang=en)
 
@@ -37,7 +37,7 @@ target remote /dev/ttyS0
 $ gdb -x gdbinit vmlinux
 ```
 
-The debug session should begin now. For complete guide, see [my blog](http://accelazh.github.io/kernel/Build-Linux-Kernel-and-Live-Debugging/) and find "Debug via Serial Port". I tried to setup Eclipse CDT + gdb remote debugging on my debug host VM. But it never worked. So I stick to gdb in shell commandline.
+The debug session should begin now. For complete guide, see [my blog](http://accelazh.github.io/linux/Build-Linux-Kernel-and-Live-Debugging/) and find "Debug via Serial Port". I tried to setup Eclipse CDT + gdb remote debugging on my debug host VM. But it never worked. So I stick to gdb in shell commandline.
 
 ## A Program to Generate IO Writes
 

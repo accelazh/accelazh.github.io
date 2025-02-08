@@ -513,7 +513,7 @@ Database B+tree and concurrency control, outlining typical approaches
     n. related
         1. Hyder - A Transactional Record Manager for Shared Flash    [2011, 181 refs]
            http://web.eecs.umich.edu/~michjc/eecs584/Papers/cidr11_hyder.pdf
-           http://accelazh.github.io/transaction/Distributed-Transaction-ACID-Study
+           http://accelazh.github.io/database/Distributed-Transaction-ACID-Study
             1. paper from Microsoft. using shared log + multiple * single-know-all sql database server.
                transactions broadcast so each node knows everything and can resolve conflicts.
                has some similarity to AWS Aurora Multi-master
