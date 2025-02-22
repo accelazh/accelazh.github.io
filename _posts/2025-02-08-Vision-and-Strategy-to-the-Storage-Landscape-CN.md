@@ -1,8 +1,8 @@
 ---
 layout: post
-title: "Vision and Strategy to The Storage Landscape (Chinese Simplified)"
-tagline : "Vision and Strategy to The Storage Landscape (Chinese Simplified)"
-description: "Vision and Strategy to The Storage Landscape (Chinese Simplified)"
+title: "Vision and Strategy to the Storage Landscape (Chinese Simplified)"
+tagline : "Vision and Strategy to the Storage Landscape (Chinese Simplified)"
+description: "Vision and Strategy to the Storage Landscape (Chinese Simplified)"
 category: "My Book"
 tags: [cloud, storage, vision, strategy, hardware, market]
 ---
@@ -301,7 +301,7 @@ Business Acumen 中一些和本文有关的要点：
 
 可以看到，在高利率牛市下，交易者对公司盈利要求苛刻。如果股价达不到预期，交易者将因机会成本或风险溢价导致亏损，从而卖出股票，降低市盈率和股价。最终的 __股价平衡点__ 在哪里？假设股价不再变化：
 
-  * 继续上文的取值，股价取 $420。其它同上。假定股票配息率不变（26.9%），每股盈余不变（$11.25）。股价降低、市盈率降低，会提高股息收益率，从而平衡机会成本和风险溢价。
+  * 继续上文的取值，股价取 \$420。其它同上。假定股票配息率不变（26.9%），每股盈余不变（\$11.25）。股价降低、市盈率降低，会提高股息收益率，从而平衡机会成本和风险溢价。
 
   * __稳定点的股价__ Share price = (0.0072 * 420) / (0.046 + 0.89 * (0.125 - 0.046)) = 26.0 。此时，市盈率为 2.31，股息收益率为 11.6%。此时，股息收益率正好等于股票的 __股本成本__，11.6%。
 
@@ -1366,7 +1366,7 @@ __活的__ 数据意味着被大量真实客户使用、被维护、并不断地
 
 ### 什么是 EBOX
 
-EBOX 是存储系统的一个有趣的可能的创新方向。它将传统的存储服务器进一步分解为 __硬盘框服务器 EBOX__ 和 仅剩计算功能的存储服务器。两者均可独立优化，在此基础上有一些列技术创新。有一系列来源提到了 EBOX 技术，同时介绍了 EBOX 如何工作：
+EBOX 是存储系统的一个有趣的可能的创新方向。它将传统的存储服务器进一步分解为 __硬盘框服务器 EBOX__ 和 仅剩计算功能的存储服务器。两者均可独立优化，在此基础上有一系列技术创新。有一系列来源提到了 EBOX 技术，同时介绍了 EBOX 如何工作：
 
   * __zStorage__ [[42]](.) : 下层存储使用双控的 EBOF 全闪存硬盘框，上层业务运行在标准服务器节点。所有业务节点共享访问 EBOF 存储节点。Vast Data 自己并不生产 EBOF 硬盘框，委托其它厂商生产，目标是让 EBOF 硬盘框变成像标准服务器一样廉价，发展生态。
 

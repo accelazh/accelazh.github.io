@@ -3,7 +3,7 @@
 
 为什么 - Slogan P.S. 不高兴摸了摸没头脑
 方法论 - Slogan P.S. 把大象装进冰箱需要几步
-股价 - Slogan P.S. 论如何不拖股价的后腿 狗头Doge
+股价 - Slogan P.S. 论如何不拖公司股价的后腿 狗头Doge
 市场 - Slogan P.S. 看，这家新产品又上架了
 市场的分析 - Slogan P.S. 论如何强买强卖，躺着挣钱
 硬件 - Slogan P.S. 硬邦邦，干货满满
@@ -42,6 +42,8 @@ Also, remember to add reference parts.
 自链URL按照文章来源替换
 修复 Image 链接层级
 添加目录
+为 [1] 恢复颜色
+章节链接恢复
 
 
 
@@ -103,7 +105,7 @@ Some possible drill down topics
     E.g. Can public cloud's customer support be more competitive and responsive than top heavy working companies?
     E.g. What cyberstorage feature can public cloud storage offer?
     E.g. How to deal with the decreasing of HDD IOPS density?
-    E.g. Optimal switch networking. Networking is so important and fundamental to cloud storage architecture, that should we place more power in the industry, e.g. acquisition networking vendor?
+    E.g. Optical switch networking. Networking is so important and fundamental to cloud storage architecture, that should we place more power in the industry, e.g. acquisition networking vendor?
 
 
 ## Drilling down analysis
