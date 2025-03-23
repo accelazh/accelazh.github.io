@@ -535,6 +535,10 @@ The Entropy part.
     https://www.youtube.com/watch?v=uO3ZnyFpo6k&t=2031s
     1. Geo-distributed erasure coding. Layered. Interesting
 
+    n. Related materials
+        1. Hitachi Vantara: Geo-distributed Erasure Coding
+           https://docs.hitachivantara.com/r/en-us/content-platform/9.4.x/mk-95hcph001/replicating-tenants-and-namespaces/geographically-distributed-data-protection/about-geo-protection/geo-distributed-erasure-coding-service-processing
+
 59. Building and Operating a Pretty Big Storage System (My Adventures in Amazon S3) | USENIX by Andy Warfield
     https://www.usenix.org/conference/fast23/presentation/warfield
     1. Very good. Many pickups from AWS S3 experience and worth drilling down.

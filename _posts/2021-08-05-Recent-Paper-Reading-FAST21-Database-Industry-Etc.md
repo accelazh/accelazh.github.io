@@ -152,6 +152,7 @@ Industry papers.
                 1. useful, can be used as a reference how to implement distributed transaction
                 2. transaction space is sharded into different proxies and resolvers
                     1. proxies acts as the primary to do single point of commit
+                    2. "A transaction can commit only when all Resolvers admit the transaction"
                 3. sequencer is a single node oracle, but supports faster recovery
                     1. sequencer ensure no gaps between LSNs, by returning previous LSN
                 4. question: as paper says, MVCC window is only 5s? too short if want to query older data

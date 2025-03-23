@@ -538,6 +538,8 @@ Protean, etc.
             5. For longer EC codecs ((16, 12)), the Heuristic searching time is tens of hours (~60)? That's really long
             6. Section 7.2 "Finding the Approximate MLP" - So, after such lengthy searching, it's still finding an approximate answer?
             7. ParaRC says it reduces the degraded read time for ~50%. But I didn't see how it happens from Figure 2 or the Motivating Example in slides?
+            8. Though MLP has worse repair bandwidth, but how is degraded read time much better?
+                1. See Figure 8. Both maximum repair load and repair bandwidth need to be reduced. Compared to raw Clay Code, ParaEC reduce maximum repair load, which makes a node less likely to become a bottleneck. But this doesn't work for a system already with many objects to distribute the load across nodes.
     n. related materials
         1. Clay Codes: Moulding MDS Codes to Yield an MSR Code
            https://www.usenix.org/system/files/conference/fast18/fast18-vajha.pdf
