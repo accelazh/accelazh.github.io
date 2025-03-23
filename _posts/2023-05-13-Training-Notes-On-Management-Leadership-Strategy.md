@@ -1863,7 +1863,13 @@ More updates from 20250206. Business acumen.
                     1. A major healthcare grows by buying new hospitals in a geography they haven't entered yet. That's a lot of money upfront. They integrate that hospital and reduce the cost. And then they push existing services and existing market capabilities through that new hospital and grow geographic presence.
                     2. A huge software firm. They do a lot of small acquisitions with new capabilities and then get bolted on to their core platform. Sell it to existing clients, say we have a new module. You're already using our big system, you should buy this module too. Or they can go to the customers from acquisition and say you're already using these modules, how about buying the big system that can support it even more broadly.
                     3. The instructor's firm looks for organic growth. We have core business. We try to land new clients or penetrate existing clients with other offerings.
-
+            
+            4. My questions / thinkings
+                1. GRWOTH STRATEGY CAN ALSO BE APPLIED TO TEAM GROWTH
+                    1. Team growth doesn't always require innovation. Instead, it's more like enterprise product growth strategy.
+                    2. A typical way for team growth without innovation is, to enter neighbor markets
+                        1. For example, the team is building EC. But next it build capability on capacity management, hot/cold data transition, and auto diagnostics.
+    
     4. Your financials
         1. Understand profit and loss
             1. Volume of selling, pricing, discount give
