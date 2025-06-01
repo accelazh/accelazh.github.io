@@ -779,6 +779,17 @@ tags: [storage, paper, cloud]
                     1. Mooncake分离式架构动机是Prefill和Decode阶段性质不同，Prefill是计算密集，受限算力带宽用不满，Decode是访存密集性，受限带宽算力用不满，所以用同一种硬件部署两阶段往往顾此失彼，不是最有性价比
                     2. 拆分Prefill/Decode之后，LLM推理系统就更像一个分布式内存系统+流处理系统，这就是传统计算机系统研究者最擅长的领域。某大佬和我讲的sys三板斧，batch， cache，调度都可以招呼上。比如，Decode可以进一步拆成Attention和非Attention算子分离调度
 
+                2. Mooncake：将 P / D 分离进行到底 - Chayenne Zhao
+                   https://zhuanlan.zhihu.com/p/1711346141
+                    1. PD 分离的几层境界
+                        1. PD 在单卡上融合，这和 PD 分离南辕北辙
+                        2. PD 分开计算，但是放在一张卡上调度。这是推理框架的 default 实现，目前的 SGLang v 0.3 也采用了这种方案
+                        3. 分离 P D 在同构设备的同构网络中。比如 P D 都在同一个 A800 节点内，不需要在集群层面进行改造
+                        4. 彻底分离 P D 到异构设备的异构网络中
+                    2. Note that
+                        1. 异构设备未必能够降低成本, 但是 networking 成本不可忽略
+                        2. 做 PD 分离对于业务性质有特殊的要求，譬如处理的 context window 和 shared prefix 等等
+
 
         2. 国产大模型第一梯队玩家，为什么pick了CPU？ -  云技术
            https://mp.weixin.qq.com/s/Il22xfBnsYXrA3jo9q81NA
