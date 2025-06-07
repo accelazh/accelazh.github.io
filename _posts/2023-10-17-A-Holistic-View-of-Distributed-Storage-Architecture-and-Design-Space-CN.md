@@ -8,6 +8,8 @@ tags: [cloud, storage, architecture]
 ---
 {% include JB/setup %}
 
+（下文由 AI 翻译生成，原文由英文写成，见 [A Holistic View of Distributed Storage Architecture and Design Space](./A-Holistic-View-of-Distributed-Storage-Architecture-and-Design-Space)。）
+
 本文总结软件架构方面的经验。架构设计本质上由 __哲学__ 驱动，它是生产知识的引擎。从 __组织视角__，可以寻找架构设计的过程和技能为什么如此构建。通用的 __方法论__ 和 __原则__，与哲学层面相联，为高质量的架构设计铺路。架构师需要针对不同 __系统属性__（System Properties）的技术武器库。本文对分布式存储各个领域的 __参考架构__（Reference Architecture）进行分类，从中总结 __架构设计模式__。将它们互联，绘制 __设计空间__（Design Space）的地图。
 
 ### 目录
