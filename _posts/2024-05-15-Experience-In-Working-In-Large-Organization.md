@@ -557,6 +557,13 @@ Interviewing people with nice interviewee experience.
         1. Don't miss this question.
     9. Is there any your featured skill that I missed in interview?
         1. Don't miss this question.
+
+3. Principle level interview focus areas
+    1. Project Experience probe in depth, one coding question on algorithm.
+    2. Distributed/Storage System Design, focus on scalability/availability/perf tuning/read-world trade-offs, etc.
+    3. Leadership & Execution - influence, cross-team collaboration, technical direction, etc.
+        1. Experience of bringing up new projects in a self-motivated way. Principle level cannot expect to just do the work others assigned to you.
+        2. Collaborating cross team and break the barrier. You need to drive the new project into team work.
 ```
 
 Paradigm shift on how to work efficiently and effectively.
