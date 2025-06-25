@@ -693,6 +693,18 @@ tags: [paper, cloud, LLM, AI, ML]
            https://mp.weixin.qq.com/s/WXrgxV3LgYYvRLPTVzLkjw
            https://blog.csdn.net/u013701860/article/details/146063967
 
+        2. In attention formula, why Q and K are not merged into just a product?
+           https://www.reddit.com/r/MachineLearning/comments/184m63q/din_transformer_models_why_is_there_a_query_and/
+            1. To clarify the question, you can see "WeightMatrix_Q * WeightMatrix_K^T" is a whole in calculation
+
+                Q = InputMatrix * WeightMatrix_Q  // Each row of InputMatrix is the embedding vector of an input token
+                K = InputMatrix * WeightMatrix_K
+                V = InputMatrix * WeightMatrix_V
+                Attention = softmax((InputMatrix * WeightMatrix_Q * WeightMatrix_K^T * InputMatrix^T) / sqrt(d_k)) * InputMatrix * WeightMatrix_V
+
+            2. The answer is LoRA. WeightMatrix_Q and WeightMatrix_K are 768 * 2304 sized. But "WeightMatrix_Q * WeightMatrix_K^T" is 
+               https://poloclub.github.io/transformer-explainer/
+
 3. When and Why Are Deep Networks Better than Shallow Ones?    [2017, 280 refs]
    https://ojs.aaai.org/index.php/AAAI/article/view/10913/10772
     1. DeepSeek model consists of 60+ transformer blocks. The question is why stack many transformer blocks rather than using one big transformer block?

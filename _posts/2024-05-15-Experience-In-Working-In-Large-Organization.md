@@ -487,6 +487,17 @@ Motivate and encourage team members for productivity.
     1. Industry leading technologies and designs.
     2. Big project. Major component as sized in a big component.
     3. Things are new, many new problems pending.
+
+7. Eyes from senior management
+    1. Pushing from senior management
+    2. Tight rollout schedule and semester goals
+    3. Frequent schedule update requests
+
+8. The best way to motivate people is to give them challenges problems to solve, rather than tell them tasks to execute. And, reward them with "impact" after solving the problem, e.g. you are reshaping the world, you are part of reshaping the industry, you helped people, you solved big problem, you made major prod numbers. It's not necessarily always to be money rewards.
+
+9. The bets way to encourage people is to lead them to success. Even it is a small accomplishment. Success to success makes a positive feedback loop that is the key source to encourage people. From the view of management, you need to carefully think what tasks you assigned to each team member, to make sure they can get accomplishments they need. 
+
+10. Ownership is the best to motivate team members. Rather than give them tasks, let them decide the planning, let them commitment what should be delivered at which time. Base every planning step with interaction and consensus from the team members. It looks like now your team members have more work to do now, but it turns out they will delivery faster, motivated.
 ```
 
 Interviewing people with nice interviewee experience.
@@ -656,6 +667,17 @@ Doing effective PR review, code review, design review.
     3. Verify the logic that connects every piece in the tree from goal to criteria components to pieces of code.
 
 18. Who is driving the related feature or project, the contact? 
+
+19. In design review step, be EXTREMELY careful as to simplify the design. This absolutely maps to how we can achieve future deliveries. A fancy excessive design can catch you miss task days in future. 
+
+20. Outlines for drafting an architecture doc
+    1. Key outline
+        1. Goals
+        2. Key concepts, assumptions, invariants, constraints
+        3. Key data structures, disk layout, memory layout
+        4. Key interfaces, operations
+        5. Key workflows
+        6. Diagrams
 ```
 
 Visioning into the future.
