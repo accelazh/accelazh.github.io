@@ -22,6 +22,10 @@ First, some typical __failure patterns__:
 
   * Sometime we also met bad hardware nodes that randomly calculate wrong results in memory (e.g. detected by CRC), and may or may not be caught by asserts. If not careful, i.e. the protection chain-of-trust has gaps or call it bugs, such corruption can go into persistent data or metadata. It recalls me of cosmic ray impacting hardware correctness.
 
+  * A block is sent twice then written twice. Or two blocks are written in wrong order because they are received in a mis-ordered way at the writer side. 
+
+  * RSL quorum diverge. Due to code bug, the replicated request was executed differently in two RSL instances. This causes diverge in the quorum. When RSL primary failed over to that instance, unpredictable behavior can happen.
+
 We need a new systematic methodology for reliability against bugs. I think this is still an open industrial gap.
 
 First, let's name __some small design tips__:
@@ -55,6 +59,8 @@ Now, more advanced topics. First, it's the __end-to-end (end2end, e2e) verificat
   * End-to-end methodology can be used in wider scope. E.g. SQL databases may use it to verify indexes match the actual data, independent with how the indexing algorithms are designed.
 
   * On erasure coding, the core ability to verify, is that the code parities can actually do reconstruct reads and data rebuilds as it declares, against different failure patterns and data contents in real production. Call it the "recoverability". The "recoverability" actually has no relation with how erasure coding feature is implemented; it's just the relation of bits. There are methods to end-to-end verify them too.
+
+  * Another technique is __accumulated CRC__. Unlike a typical CRC that protects a block, accumulated CRC protects all the data processed from start to end. This CRC protects against the failure pattern that a block is unexpectedly written twice, or two blocks are written in a mis-ordered way.
 
 Compared to end-to-end verification, we can name the __chain-of-trust verification__ concept. In typical verification, every step of data transform needs to be verified, e.g. memory copy, message sending, writing to disk, transforming to other formats, calculating dependent results, etc.  Memory corruption is not uncommon to see on massive production scale.
 
