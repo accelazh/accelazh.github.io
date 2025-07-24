@@ -705,3 +705,27 @@ Visioning into the future.
     2. What should we do and where we will be in the next 1 years - tier 1 manager scope.
     3. What should we do and where we will be in the next 3 ~ 5 years - architect scope, senior management scope.
 ```
+
+MVP project management
+
+```
+1. Principles - get to production early
+    1. Optimization features should not be included.
+        1. Be careful with what is necessary, and what is an optimization. Optimization may look like a feature in the beginning.
+        1. Likely after go to prod, you will find out the optimization you previously thought is no longer effective. The direction is probably going to change after people get feedback from production, and especially the senior management.
+    2. MVP targets a small volume of prod data.
+        1. So that optimization is not needed. This stripes away many seemingly necessary optimizations.
+    3. Given two overlapping features, only select one.
+    4. Date integrity should be included. Data path is supposed to run.
+
+2. Working on a bit platform change project that introduces new technology in a mature system
+    1. The current system is usually highly optimized. In the beginning, the new system can hardly match the current system's optimization level nor efficiency.
+        1. Unless, the new platform can reuse the existing system. But reuse has a limit, as the existing system gets more and more loaded, it hits the boundary that it needs a rewrite.
+    2. The expectation for delivering such a new system, if unable to reuse, cannot be "improve current system efficiency by XX%". Because the new system just won't be as efficient as the existing system.
+        1. You cannot expect the small team building the new system can implement the comparing level of optimization to the existing system in a reasonable time.
+        2. You cannot wait for all optimizations to be ready to rollout. That would be rolling out a big mountain, high risk, an anti-pattern.
+    3. We should build new system as MVP, push off optimization. Rollout out the MVP first.
+        1. Don't rollout a big mountain. Instead, rollout features by small chunk, to reduce the risk, and also to get feedback and validation from the production that the direction is right.
+    4. The tech growth chart in "颠覆性创新？存储界已有所耳闻" - Andy730
+       https://mp.weixin.qq.com/s/NFQYEwrYCwKvTjpQdLkcQA
+```
