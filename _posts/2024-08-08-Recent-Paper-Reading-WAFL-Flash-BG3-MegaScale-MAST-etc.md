@@ -2342,6 +2342,11 @@ tags: [storage, paper, cloud]
                 2. YScope - CLP: Compress Your Logs. Search Without Decompression.
                    https://yscope.com/
                     1. Website use cases are Uber
+    n. Related materials
+        1. On the Feasibility of Parser-based Log Compression in Large-Scale Cloud Systems    [2021, 0 refs]
+           https://www.usenix.org/conference/fast21/presentation/wei
+
+
 
 16. Horus: Granular In-Network Task Scheduler for Cloud Datacenters    [2024, 1 refs, NSDI24]
     https://www.usenix.org/conference/nsdi24/presentation/yassini

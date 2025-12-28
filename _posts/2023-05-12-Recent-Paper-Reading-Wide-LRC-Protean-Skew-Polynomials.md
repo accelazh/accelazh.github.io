@@ -664,6 +664,23 @@ LRC coding matrix construction.
                 4. The final proof of full rank resides at "This implies that D1,D2,...,Dt are full rank", it's actually leveraging Skewed Polynomial Vandermonde matrix
         10. Appendix D Constructions of MR LRCs where global parities are outside local groups
 
+    3. Updates 20251007
+        1. The key property being leveraged are:
+            1. Moore matrix, leverage it to construct blocks.
+            2. Roots from distinct conjugacy classes give independent columns.
+            3. Moore matrix is a special case of skew polynomial.
+            4. Each local group corresponds to one conjugacy class. So columns cross local groups are independent.
+            5. Inside local group, it is a (skew) Moore matrix. So columns are independent.
+                1. Actually, in Corollary 2.21, the matrix M should me Moore matrix rather than Vandermonde matrix. M is using Frobenius power, not plain power.
+            6. Local group parity matrix, A, is from field F_q0. Global parity matrix, B, is from field F_q0^m. 
+                1. This is a sub-field lifting technique. Moore matrix works with it and ensures column independence.
+                2. In matrix B, the γ^* part is mapping to skew polynomial, where "skew" gives you an extra multiplicand on the left - γ^*.
+        2. Adding more key notes
+            1. 7. Given a group G with a subgroup H, each element g of G has a coset defined by gH = {gh : h \in H}. In the case of G = F_{q^m} and H = F_q, the cosets correspond to the conjugacy classes {gamma^k : k = i mod (q-1)}.  
+            2. gamma is the generator. gamma^k points to cosets. Cosets point to conjugacy classes. Conjugacy classes point to independence.
+            3. Corollary 2.20 and Corollary 2.21 are the main proof. They leverage Lemma 2.19 which proves linear independence, which leverages Theorem 2.17 which is the fundamental about roots of skew polynomials.
+            4. Corollary 2.21 points out the requirement of beta_1 .. beta_r in formula (14) - Treat beta_i as a vector of numbers from F_q0, the vectors must be linearly independent. That's why we build H0 from [13,4,8] parity check matrix, to borrow parity check matrix's linear independence.
+
 4. Partial MDS Codes with Regeneration (PMDS)    [2020, 5 refs, IEEE Transactions on Information Theory]
    https://arxiv.org/pdf/2009.07643.pdf
     1. Good. Combining LRC (Maximally Recoverable) with regenerating code. The regenerating parity be either as a local parity or a global parity.
