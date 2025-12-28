@@ -1,12 +1,14 @@
 ---
 layout: post
-title: "LLM Fundamentals - Visualizing Transformer Internals (Chinese Simplified)"
-tagline : "LLM Fundamentals - Visualizing Transformer Internals (Chinese Simplified)"
-description: "LLM Fundamentals - Visualizing Transformer Internals (Chinese Simplified)"
+title: "LLM Fundamentals - Visualizing Transformer Internals"
+tagline : "LLM Fundamentals - Visualizing Transformer Internals"
+description: "LLM Fundamentals - Visualizing Transformer Internals"
 category: "AI/ML"
 tags: [AI, DeepSeek, Transformer, Attention, MLA, MoE]
 ---
 {% include JB/setup %}
+
+__This is a machine translation of [LLM Fundamentals - Visualizing Transformer Internals CN](/ai/ml/LLM-Fundamentals-Visualizing-Transformer-Internals-CN)__
 
 The iteration of large models (Large Language Model, LLM) technology has been like a technological explosion; techniques that were cutting-edge six months ago have now become the basis of the basics. Polo Club created an animated explainer of the Transformer model, which is very helpful for visualizing and understanding how Transformers work. In addition, the DeepSeek-V3 paper was released like a carnival, detailing every aspect from models to infrastructure, and it was open-sourced — even explaining production-grade MoE implementations.
 
