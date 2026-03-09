@@ -337,6 +337,7 @@ tags: [storage, cloud, AI]
 17. LeetCode 776: Split BST
     https://leetcode.com/problems/split-bst/description/
     https://www.geeksforgeeks.org/dsa/split-a-bst-into-two-balanced-bsts-based-on-a-value-k/
+    https://leetcode.ca/all/776.html
     1. inorder traversal is sorted, it splits the original tree into sorted nodes for subtree1 and subtree2.
        next, construct subtree1 and subtree2 from the sorted nodes. note the constructed tree should be balanced.
     2. My analysis
@@ -363,9 +364,222 @@ tags: [storage, cloud, AI]
           subtree2 will only be inserted with a subtree_right, which is bigger than any existing node in subtree2.
           1. How to efficiently insert such a subtree_left/right and maintain balance-tree property?
             1. We can know, subtree_left/right can be in any shape. Consider a huge AVL rotating operation
+    
     3. Create a balanced BST with a sorted list as input
         1. https://www.geeksforgeeks.org/dsa/sorted-array-to-balanced-bst/ 
             1. The solution needs the array of sorted elements to be pre-existing. It will randomly access the array. Using binary recursive access.
+
+    4. Key insights
+        1. when pushing down the cut element e through the original tree and cutting the tree fragments
+           We will construct the smaller_e_tree and bigger_e_tree. 
+           Maintain the max of smaller_e_tree and the min of bigger_e_tree.
+           You find while you connecting more fragments to smaller_e_tree or bigger_e_tree,
+           the max of smaller_e_tree only grows bigger, the min of bigger_e_tree only grows smaller.
+           This makes constructing the two trees easier.
+
+    5. General algorithm problem solution thoughts / Summary
+        1. Create an example first. Thinking is much easier with visual assists
+        2. Draw observations. 
+            1. Find observations and properties
+            2. 分析 数学特性
+            3. 分析 子结构，递归结构
+            4. 对称性
+            5. 分析 解空间（DP）
+            6. 分析 操作空间
+        3. Outline possible direction to explore
+            1. Full scan
+                1. Brute force
+            2. Search
+                1. Search the input space / 操作空间
+                    1. Reuse shared structure
+                    2. Exploit input space structure, e.g. tree
+                2. Search the result space / 解空间 - DP
+                3. 复用中间结果
+            3. Divide and Concur
+                1. Rather than +1 recursion (bad)
+                2. 分叉递归
+            4. 数据结构辅助
+                1. Typically add a map to track something to solve the problem easier 
+            3. Recursive search
+                1. Backtrace
+            4. DP. 
+                1. And try different DP options.
+                2. 最后反转，从递归搜索转换成顺序递推
+            5. Math
+                1. Math translation to an equivalent problem
+                2. Find math properties and leverage. 
+            6. Breakdown into smaller problems.
+                1. 分解为多个子问题，不同模块，单独解决、优化
+                2. 对问题添加限定，帮助n到n+1的递推有确定关系。类似给dp引入“辅助线”
+                3. 分解不同情况，
+            6. Simplify
+                1. Start from a naive, simplified scenario first.
+                    1. 从简化的问题开始，甚至从1到2开始
+                2. Start from a naive, simplified solution first.
+                3. 精确解如果不行，可以寻求近似解
+                4. 解决完整问题如果不行，可以解决有限制下的问题
+            7. For tree problems
+                1. pre-order, in-order, post-order traversal
+                2. output to a sorted array first, then work on the array
+                3. recursion at the tree structure
+            8. 表驱动
+                1. 甚至预算结构，填充内存
+            9. 逆向回归
+        4. Do validation. 
+            1. Always validate using a different approach to make sure your approach is correct.
+            2. 给自己列出例子
+            3. 并收集 edge case
+        5. Complexity analysis
+            1. Computation complexity, memory complexity.
+                1. Worst cases.
+                2. Avg complexity
+            2. Cache efficiency.
+        6. Optimization
+            1. Any duplicate work to eliminate?
+            2. Are all information entropy from the input exploited?
+            3. Are structure in the problem space exploited?
+            4. Any math properties can be leveraged?
+            5. Any symmetry to be leveraged?
+        7. Mindset
+            1. The algorithm problem is fundamentally operating in a large space with symmetry. 
+               It is defined and constrained by group theory. 
+               By group decomposition, the type of simple groups are limited. 
+            2. 算法问题无法太难，稍难一点就成 NP-Complete 或 NP-Hard 问题了
+               反正真实问题在工业上也没有解，多是拿启发算法+补丁修正、规则+搜索。
+
+    6. Split a BST into two *balanced* BSTs, tree rotation
+       https://www.geeksforgeeks.org/dsa/convert-normal-bst-balanced-bst/
+       https://www.geeksforgeeks.org/dsa/split-a-bst-into-two-balanced-bsts-based-on-a-value-k/
+        1. Key trick
+           Use inorder traversal to output a sorted array of the BST
+           Build a new balanced tree from the sorted array,
+           Build tree by find middle, the recursion left half and right half
+
+    7. Rotating a BST tree to make it balanced
+        1. The biggest problem of analyzing tree is actually it is hard to quickly plot examples on paper and yet to quickly modify it. 
+           Let's use PowerPoint, remember a few shortcuts to make the operation fast in a live test
+        2. The rotation of a tree can be broken down into
+            1. recursively to balance lower level trees first, then go to top root
+                1. alternatively, as an optimization, balance top level first. 
+                   likely the pushdown operation will balance lower levels automatically.
+            2. given a tree to rotate, suppose right sub-tree is bigger. then
+                1. What a right->left rotate will do?
+                    1. right sub-tree's root becomes the new total root
+                       right sub-tree's left pointer is pointed to the original total root
+                       right sub-tree's original left child tree is now orphan
+                    2. the original total root becomes left sub-tree's new root
+                       the left sub-tree's new root's right pointer is empty
+                    3. connect the orphan child tree to left sub-tree's new root's right pointer
+                2. What is the change of tree height?
+                    1. left sub-tree's left child tree height +1
+                    2. right sub-tree's right child tree height -1
+                    3. right sub-tree's left child tree becomes left sub-tree's right child tree. height no change.
+                    4. What is the problem here?
+                        1. Part 1's original height must be N-1. 
+                           Part 2's original height can be N or N+1.
+                           Part 3's original height can be N or N+1.
+                        2. Suppose Part 3 is N+1, Part 2 is N. Then after rotate
+                           Left sub-tree height becomes N+1
+                           Right sub-tree height becomes N-1.
+                           Imbalance again
+                3. So to fix the problem raised in 2.4, before bullet 1 rotate,
+                   we must do left->right rotate first on right sub-tree's left->right child tree. 
+                4. If 3+1 are both needed, call this DOUBLE ROTATE
+                   In simpler case, only 1 is needed, call it SINGLE ROTATE
+
+    8. BBST and tree rotations
+        1. https://www.youtube.com/watch?v=q4fnJZr8ztY
+        2. https://www.youtube.com/watch?v=vRwi_UcZGjU
+        3. Same, AVL tree - double rotation and single rotation
+
+        4. Insert
+            1. BST - insert new node to leaf
+               AVL - insert by BST, then rebalance
+
+        5. Deletion
+            1. BST - find the node and delete, 
+                     prompt the root of either left/right sub-tree, 
+                     pass delete to either left/right sub-tree
+               AVL - delete by BST, then rebalance
+
+    9. Red-black tree
+        1. Definitions
+            1. Every node is either red or black.
+            2. Root is black. 
+            3. All leaves (NIL / null nodes) are black.
+            4. A red node must have black child.
+            5. Every path from a node to its descendant NIL leaves contains the same number of black nodes.
+               I.e. black-height are equal
+            ----
+            6. The "Uncle" node of X means the sibling of X's parent.
+            7. Red-black tree is still BST. It requires left child < me < right child ordering.
+            8. A node should be inserted as red.
+               This is not a definition of red-black tree.
+               But every standard algorithm implements so.
+        
+        2. Implications
+            1. Compared to AVL tree, the equal height "balanced" property is relaxed.
+               Red node is what causes imbalance.
+               Red node can show up at any layer except the root. 
+               Red node cannot be consecutive, which means imbalance at most doubles the layer depth.
+               Which means search complexity is at worst 2*log(n+1)
+            2. A node can change color, and it is a frequent operation
+                1. Color is typically represented as a node's field. 
+                2. Color change is in worst case moving the entire path, i.e. O(log(n))
+            3. The purpose of rule 2 and 3 are to say, root and NIL leaf do not affect tree structure. 
+            4. The purpose of introducing Nil leaf node is to simplify operations. 
+               In this way, every real node has two children.
+            5. Introducing "Uncle" makes expressing AVL rotation much simpler.
+            6. Node pointers in implementation is double linked
+
+        3. Balance operations
+           https://www.youtube.com/watch?v=TlfQOdeFy0Y
+            1. Basics
+                1. Rotation -> Same with AVL, then it goes to recoloring
+                2. Insert: insert is plain BST
+            2. Then, case by case, rotation and recoloring combined
+                1. If parent is red, node new inserted node is always red, 
+                   then recoloring/rotation is needed
+                    1. if the uncle is red, 
+                       recolor both patent and uncle to back, 
+                       recolor grandparent to red,
+                       recursion the recolor upward
+                       no rotation needed
+                    2. if the uncle is black (or NIL),
+                       perform a rotation to correct tree shape
+                       recolor parent to black, and grandparent to red
+                       do a reverse rotation on the grandparent to rebalance the tree
+                2. If parent is black
+                    1. No action needed.
+
+        4. Decision table given by ChatGPT - Good
+           https://chatgpt.com/c/698aa5c8-9b70-839a-96f9-163332bca198
+            A. Parent is black -> Stop
+            B. Parent red, Uncle red   -> Recolor P, U, G → continue upward
+            C. Parent red, Uncle black, inner child   -> Rotate at P -> D
+            D. Parent red, Uncle black, outer child   -> Rotate at G + recolor
+                (G means grandparent)
+                (In B, C, D, we can know G must be black)
+
+            1. Why? All the rules designed here are simply to maintain red-black tree definition with least steps.
+                1. You must NOT recolor the inserted node, keep it in red, 
+                   otherwise it is degraded to insert anything and increase black height naively 
+                2. Try best to not increase the black height while rotate.
+                3. And maintain all paths to have the equal black height
+            
+            2. Detailed illustration
+                1. In B, switching color won't increase black height, so OK to go
+                2. In D, rotating grandparent is nice, because it is black, easy to connect subtree
+                    1. Recolor is by mark P from Black to Red, mark G from Red to black
+                3. In C, after done, the situation becomes D, then do D.
+                    1. Question, in C, why not directly rotate G instead?
+                    2. The problem is recolor step, D after rotate G, there is a *straight* chain of red->black->black. switch it to black->red->black, then both left and right sub-trees will maintain the same black height as before.
+                       But if C directly rotates G, it becomes a red->black->red zig-zag chain. There is no space switch color anymore
+                
+            3. Deeper insight
+                1. ignore the black nodes, only see red nodes, then the rotation is same with AVL tree
+                2. Another way to say it, to the red nodes, "Straighten then Rotate" - Good
+                3. Representation G, P, U, and subtree as a triangle shape. Simplifies visualizing a lot.
 
 18. LeetCode 1312: Minimum Insertion Steps to Make a String Palindrome
     https://leetcode.com/problems/minimum-insertion-steps-to-make-a-string-palindrome/description/
@@ -744,6 +958,68 @@ tags: [storage, cloud, AI]
                  best_day[k] = highest_price_day
         6. custom forward scan algorithm
             1. similar with bullet 5. suppose sold stock at day i, then the buy day should be the lowest within [:i+1]
+
+    4. My analysis P2
+        1. It seems DP can easily fall into O(N^2) algorithm. Bad. So let's try O(N).
+        2. The solution is actually simple, use an aux array to track
+            min_price_day_array[i] = k where min(stock_price[k]) for k in 0..i
+           The array can be built in one forward scan O(N)
+           Then each sell day can O(1) calculate its best buy date
+           Then best buy-sell is one forward scan O(N) to get max 
+
+22.1 LeetCode 714 Best time to buy and sell stock with a transaction fee
+     https://labuladong.online/zh/algo/dynamic-programming/stock-problem-summary/
+    1. Observation
+        1. non overlapping stock holding, then it becomes a partition problem
+        2. only max holding 1 stock, the problem is much simplified
+    2. My solution 1 - DP with extra state
+        1. Incremental from day 1 to day N
+           Track state, my current profit, my stock status {holding day k stock | non holding any}
+           day n can derive day n+1, day n+1 depends on try each state of day n 
+           total time complexity N * (profit cardinality * holding day cardinality)
+            1. Possible optimization: pruning
+                1. How to ? // TODO 
+    3. My solution 2: divide and concur
+        1. the problem is mapped into inserting m barriers into N slots
+           each insertion combo maps to a unique stock buy/sell policy
+        2. Given the best buy/sell policy at day 0..i, i..N, and the barrier of clear all stock at day i, 
+           we can try each i and then derive the best buy/sell policy at 0..N
+           max_profit(0..N) = max_profit(0..i) + max_profit(i..N) | for i in i..N-1
+                              or max_profit(1..N) 
+                              or max_profit(0..N-1)
+           Use an 2D array to incremental derive in DP algorithm
+
+22.2 LeetCode 309 Best Time to Buy and Sell Stock with Cooldown
+     https://labuladong.online/zh/algo/dynamic-programming/stock-problem-summary/
+        1. Skip. Use same state machine method like 22.3
+
+22.3 LeetCode 123 Best Time to Buy and Sell Stock III
+     Find the maximum profit you can achieve. You may complete at most two transactions. Non-overlapping transaction.
+     https://labuladong.online/zh/algo/dynamic-programming/stock-problem-summary/
+        1. Solution 1: State machine method with DP
+            1. Increment from day 0 to day N
+               maintain states: stock transaction 1, stock transaction 2, current profit
+               DP incremental step formula: try every state * each legal operation at day n, go to day n+1
+            2. Pruning
+                1. if state 1 has the same stock state but less profit than state 2, drop state 1
+                2. if state 1 has "less flexible" stock state and less profit, drop state 1
+                   "less flexible means it has locked more stock, less potential to change, thus less flexibility in future
+                   always transaction with stock 1 first.
+            3. State optimization
+                1. Stock transaction is a one-direction state change. Two stocks is same.
+                   Then use a one-slot number to track stock state change.
+                   All we need to track is simply then {state machine state, current profit}
+                   All move we need to consider is {advance state, or don't advance} 
+
+22.4. LeetCode 188. Best Time to Buy and Sell Stock IV
+      Extending the problem in 22.3: Extending it to max k transactions, still non-overlapping
+      https://labuladong.online/zh/algo/dynamic-programming/stock-problem-summary/
+        1. Same state machine solution as in 22.3
+        2. The solution in https://labuladong.online/zh/algo/dynamic-programming/stock-problem-summary/
+            1. dp[i][k][0] = max(dp[i-1][k][0], dp[i-1][k][1] + prices[i])
+               dp[i][k][1] = max(dp[i-1][k][1], dp[i-1][k-1][0] - prices[i])
+            2. It using i as incremental day, using [k][0 or 1] as the state tracking
+
 
 23. Book: GetAbstract: You’re the Boss - Become the Manager You Want to Be (and Others Need) - Sabina Nawaz
     https://www.getabstract.com/en/summary/youre-the-boss/50036
