@@ -381,6 +381,7 @@ tags: [storage, paper, cloud, erasure-coding, regenerating code]
            https://www.microsoft.com/en-us/research/publication/locally-decodable-codes/
            https://www.microsoft.com/en-us/research/wp-content/uploads/2016/02/LDC_now.pdf 
             1. Good introduction to Locally Decodable Codes
+            2. Sergey Yekhanin’s actual Ph.D. thesis - Locally Decodable Codes and Private Information Retrieval Schemes
         
         2. VAST DATA whitepaper
            https://www.vastdata.com/whitepaper/#VASTDataLocallyDecodableCodes
